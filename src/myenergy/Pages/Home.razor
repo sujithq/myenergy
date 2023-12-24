@@ -1,7 +1,99 @@
 ﻿@page "/"
 
-<PageTitle>Blazor Bootstrap - WebAssembly Standalone App (.NET 8) - Starter Template</PageTitle>
+@* 2023 *@
+<BarChart @ref="barCharts[0]" Class="mb-4" />
+<hr />
+@* 2024 *@
+<BarChart @ref="barCharts[1]" Class="mb-4" />
 
-<h1>Hello, world!</h1>
 
-Welcome to your new Blazor Bootstrap - WebAssembly Standalone App (.NET 8).
+@code {
+    private static List<int> years = new List<int> { 2023, 2024 };
+
+    private BarChart?[] barCharts = new BarChart?[years.Count];
+
+    private static Dictionary<int, (List<double> production, List<double> usage, List<double> injection)> data2 = new Dictionary<int, (List<double> production, List<double> usage, List<double> injection)>{
+        {
+            2023, (
+                new List<double> { 0, 0, 0, 0, 384.2, 1157.1, 905.7, 849.1, 793.2, 464.9, 204.9, 78.1 }
+                , new List<double> { 620.637, 429.25, 509.59, 733.684, 427.764, 108.757, 135.597, 147.666, 186.336, 497.902, 632.022, 421.632 }
+                , new List<double> { 0, 0, 0, 0, 294.226, 864.399, 719.251, 663.007, 612.489, 305.215, 130.78, 25.625 }
+            )
+        },{
+            2024, (
+                new List<double> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+                , new List<double> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+                , new List<double> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+            )
+        }
+     };
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            for (int i = 0; i < years.Count(); i++)
+            {
+                await RenderSolarPanelsAsync(i);
+            }
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    private async Task RenderSolarPanelsAsync(int yearIndex)
+    {
+
+        var selectedYear = years[yearIndex];
+        var data = new ChartData
+            {
+                Labels = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" },
+                Datasets = new List<IChartDataset>()
+                {
+                    new BarChartDataset()
+                    {
+                        Label = "Productie",
+                        Data = data2[selectedYear].production,
+                        BackgroundColor = new List<string>{ "rgb(88, 80, 141)" },
+                        CategoryPercentage = 0.8,
+                        BarPercentage = 1,
+                    },
+                    new BarChartDataset()
+                    {
+                        Label = "Afname",
+                        Data = data2[selectedYear].usage,
+                        BackgroundColor = new List<string> { "rgb(255, 160, 0)" },
+                        CategoryPercentage = 0.8,
+                        BarPercentage = 1,
+                    },
+                    new BarChartDataset()
+                    {
+                        Label = "Injectie",
+                        Data = data2[selectedYear].injection,
+                        BackgroundColor = new List<string> { "rgb(255, 240, 0)" },
+                        CategoryPercentage = 0.8,
+                        BarPercentage = 1,
+                    }
+                }
+            };
+
+        var options = new BarChartOptions();
+
+        options.Interaction.Mode = InteractionMode.Index;
+
+        options.Plugins!.Title!.Text = $"Solar Panels ({selectedYear})";
+        options.Plugins.Title.Display = true;
+        options.Plugins.Title.Font!.Size = 20;
+
+        options.Responsive = true;
+
+        options.Scales.X!.Title!.Text = "Months";
+        options.Scales.X.Title.Display = true;
+
+        options.Scales.Y!.Title!.Text = "kWh";
+        options.Scales.Y.Title.Display = true;
+
+        await barCharts[yearIndex]!.InitializeAsync(data, options);
+    }
+}
