@@ -34,8 +34,8 @@ jobs:
     - name: Publish .NET Core Project
       run: dotnet publish src/myenergy/myenergy.csproj -c Release -o release --nologo
     
-    # changes the base-tag in index.html from '/' to 'cert-renewal' to match GitHub Pages repository subdirectory
-    - name: Change base-tag in index.html from / to cert-renewal
+    # changes the base-tag in index.html from '/' to 'myenergy' to match GitHub Pages repository subdirectory
+    - name: Change base-tag in index.html from / to myenergy
       run: sed -i 's/<base href="\/" \/>/<base href="\/myenergy\/" \/>/g' release/wwwroot/index.html
     
     # copy index.html to 404.html to serve the same file when a file is not found
@@ -49,6 +49,6 @@ jobs:
     - name: Commit wwwroot to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4
       with:
-        # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: gh-pages
         FOLDER: release/wwwroot
