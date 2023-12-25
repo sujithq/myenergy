@@ -1,16 +1,26 @@
 ﻿@page "/"
 
-@* 2023 *@
-<BarChart @ref="barCharts[0]" Class="mb-4" />
-<hr />
-@* 2024 *@
-<BarChart @ref="barCharts[1]" Class="mb-4" />
-
+<select class="select-element" @bind="selectedYearIndex" @bind:after="CalculateGrandTotal">
+    @foreach (var topping in years.Select((Year, Id) => (Year, Id)))
+    {
+        if (topping.Id == selectedYearIndex)
+        {
+            <option value="@topping.Id" selected>@topping.Year</option>
+        }
+        else
+        {
+            <option value="@topping.Id">@topping.Year</option>
+        }
+        @* <option value="@topping.Id">@topping.Year</option> *@
+    }
+</select>
+<br>
+<BarChart @ref="barChart" Class="mb-4" />
 
 @code {
     private static List<int> years = new List<int> { 2023, 2024 };
 
-    private BarChart?[] barCharts = new BarChart?[years.Count];
+    private BarChart? barChart;
 
     private static Dictionary<int, (List<double> production, List<double> usage, List<double> injection)> data2 = new Dictionary<int, (List<double> production, List<double> usage, List<double> injection)>{
         {
@@ -33,16 +43,13 @@
     {
         if (firstRender)
         {
-            for (int i = 0; i < years.Count(); i++)
-            {
-                await RenderSolarPanelsAsync(i);
-            }
+            await RenderSolarPanelsAsync(0, firstRender);
         }
 
         await base.OnAfterRenderAsync(firstRender);
     }
 
-    private async Task RenderSolarPanelsAsync(int yearIndex)
+    private async Task RenderSolarPanelsAsync(int yearIndex, bool init)
     {
 
         var selectedYear = years[yearIndex];
@@ -78,22 +85,36 @@
                 }
             };
 
-        var options = new BarChartOptions();
-
-        options.Interaction.Mode = InteractionMode.Index;
 
         options.Plugins!.Title!.Text = $"Solar Panels ({selectedYear})";
-        options.Plugins.Title.Display = true;
-        options.Plugins.Title.Font!.Size = 20;
 
-        options.Responsive = true;
+        if (init)
+        {
+            options.Interaction.Mode = InteractionMode.Index;
+            options.Plugins.Title.Display = true;
+            options.Plugins.Title.Font!.Size = 20;
 
-        options.Scales.X!.Title!.Text = "Months";
-        options.Scales.X.Title.Display = true;
+            options.Responsive = true;
 
-        options.Scales.Y!.Title!.Text = "kWh";
-        options.Scales.Y.Title.Display = true;
+            options.Scales.X!.Title!.Text = "Months";
+            options.Scales.X.Title.Display = true;
 
-        await barCharts[yearIndex]!.InitializeAsync(data, options);
+            options.Scales.Y!.Title!.Text = "kWh";
+            options.Scales.Y.Title.Display = true;
+
+            await barChart!.InitializeAsync(data, options);
+        }
+
+        else
+            await barChart!.UpdateAsync(data, options);
+    }
+
+    int selectedYearIndex = years.FindIndex(0, 1, f => f == DateTime.Now.Year);
+
+    BarChartOptions options = new BarChartOptions();
+
+    private async Task CalculateGrandTotal()
+    {
+        await RenderSolarPanelsAsync(selectedYearIndex, false);
     }
 }
