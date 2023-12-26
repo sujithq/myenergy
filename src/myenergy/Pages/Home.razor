@@ -15,10 +15,23 @@
         }
     }
 </select>
-<label>Total Production: @totalP</label>
-<label>Total Net Injection: @totalNi</label>
-<label>Total Net Usage: @totalNu</label>
-<label>Total Usage: @totalU</label>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Total Production: @totalP</th>
+            <th>Total Net Injection: @totalNi</th>
+            <th>Total Net Usage: @totalNu</th>
+            <th>Total Usage: @totalU</th>
+        </tr>
+    </thead>
+</table>
+
+
+
+
+
+
 
 <BarChart @ref="barChartMonth" Class="mb-4" />
 <br>
