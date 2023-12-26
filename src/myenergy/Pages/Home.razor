@@ -897,10 +897,10 @@
             $"Solar Panels ({selectedYear})", init, barChartMonth!
         );
 
-        totalP = dataMonthly[selectedYear].production.Sum();
-        totalNi = dataMonthly[selectedYear].injection.Sum();
-        totalNu = dataMonthly[selectedYear].usage.Sum();
-        totalU = totalP + totalNu - totalNi;
+        totalP = (int)dataMonthly[selectedYear].production.Sum();
+        totalNi = (int)dataMonthly[selectedYear].injection.Sum();
+        totalNu = (int)dataMonthly[selectedYear].usage.Sum();
+        totalU = (int)totalP + totalNu - totalNi;
 
         await InvokeAsync(() => StateHasChanged());
     }
