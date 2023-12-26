@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "myenergy",
   "resources": {
-    "hash": "sha256-nsh1REX81BVheCQSaXMUweuEzS9mNZiV69qFiTqbBIw=",
+    "hash": "sha256-2c0iGEG5G+jhE/N0OnP8RO3FPQX4nwqYTSGnNz50SrA=",
     "jsModuleNative": {
       "dotnet.native.8.0.0.45ykigla5r.js": "sha256-LjLDIz9+J7uuiwMlQ4HbNx2BnSpphOtO2MwkoI28vdI="
     },
@@ -33,7 +33,7 @@
       "Microsoft.Extensions.Primitives.wasm": "sha256-Ms2HR5Gpug/0uRAzdk4SUNT76Ml3CjFv9Jo+dUIMGac=",
       "Microsoft.JSInterop.wasm": "sha256-EtJO0POenyod5M2fB0fS97fOwqWAHYxciSYpGqqItvE=",
       "Microsoft.JSInterop.WebAssembly.wasm": "sha256-CQVLCKiSxLN5ghyJZG3mhnMGRROdqrbNUjtAXB0nWb8=",
-      "myenergy.wasm": "sha256-z5cvSeQEx9G/kQ+5HxoxDEi4BAaEvv9hq9bpjHp9j+s=",
+      "myenergy.wasm": "sha256-fbr/4FjKdE6rB7x+LqBNRUVjSy/+Jihs6Ts4klnbyTo=",
       "System.Collections.Concurrent.wasm": "sha256-jMNIo/B2m8TgiBcC+FO9A8nHz/LVEHGussxw7Dq+CF4=",
       "System.Collections.wasm": "sha256-FkNa6U+RYue+86M1qaiDR7i5Bm58YEK9CiAdrdk6EVw=",
       "System.ComponentModel.Primitives.wasm": "sha256-vXUKH8CLR3ad8iu5BuYVlszIR+BAOFXcagKBr0PW+b8=",
@@ -43,10 +43,10 @@
       "System.Drawing.Primitives.wasm": "sha256-SWSjZq0EUoDZVH12ToDUSvlGJPDJM+FV1XNni1am91k=",
       "System.Drawing.wasm": "sha256-Oe50z6H5Ed1gfzc5BVpUO5uagis+h/ZCE018/2sbIpo=",
       "System.Linq.Expressions.wasm": "sha256-aqEkDWQuNf+0Vr7mnHTJfrXpvq0/RCdkdTN7xLH08IE=",
-      "System.Linq.wasm": "sha256-XsF+AkK59udFQhOOK7JiF4UcvCjmwmZzmF2dAY9cczo=",
+      "System.Linq.wasm": "sha256-HKCfLRJ+De4omfn7GZtmUN8Llk5oxgsbocImXZW0RfE=",
       "System.Memory.wasm": "sha256-hkth6YS6UnK33Aewp8zIVYMCzEDYAnu0rL6ER05D+qw=",
       "System.ObjectModel.wasm": "sha256-ERusItTwj+VEDDncoYkMrUEZM4vtFrJayqYPi+Qp/9A=",
-      "System.Private.CoreLib.wasm": "sha256-OBkwTXwzlA5my2Fpo+50pfdcmwHVgM6M6QFZHwsl7oA=",
+      "System.Private.CoreLib.wasm": "sha256-XiIwGNsRtVYskMdH+L0J7xvz4UaSpas6aqfag1qORXo=",
       "System.Private.Uri.wasm": "sha256-8oCXs7RTZqsegLYSmPMQ76fNlTNCzofwtjHtqOCvtL8=",
       "System.Runtime.InteropServices.JavaScript.wasm": "sha256-zR0jbXpcHI1J4Qa0RczRYuIUDJylPyJnZOeo6ZbkpCE=",
       "System.Runtime.wasm": "sha256-ORjLUaEbMplRWV/cjVmW+vXTTJRQvyFqRlIN2cVOTio=",
