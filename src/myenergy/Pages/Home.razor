@@ -816,23 +816,23 @@
                     },
                     new BarChartDataset()
                     {
-                        Label = "Usage",
-                        Data = usage,
+                        Label = "Net Injection",
+                        Data = injection,
                         BackgroundColor = new List<string> { "rgb(243,167,18)" },
                         CategoryPercentage = 0.8,
                         BarPercentage = 1,
                     },
                     new BarChartDataset()
                     {
-                        Label = "Injection",
-                        Data = injection,
+                        Label = "Net Usage",
+                        Data = usage,
                         BackgroundColor = new List<string> { "rgb(231,105,149)" },
                         CategoryPercentage = 0.8,
                         BarPercentage = 1,
                     },
                     new BarChartDataset()
                     {
-                        Label = "Effective",
+                        Label = "Total Usage",
                         Data = production.Zip(injection, (first, second) => new { first, second })
                           .Zip(usage, (previous, last) => previous.first + last - previous.second)
                           .ToList(),
