@@ -15,6 +15,10 @@
         }
     }
 </select>
+<label>Total Production: @totalP</label>
+<label>Total Net Injection: @totalNi</label>
+<label>Total Net Usage: @totalNu</label>
+<label>Total Usage: @totalU</label>
 
 <BarChart @ref="barChartMonth" Class="mb-4" />
 <br>
@@ -879,6 +883,13 @@
             dataMonthly[selectedYear].injection,
             $"Solar Panels ({selectedYear})", init, barChartMonth!
         );
+
+        totalP = dataMonthly[selectedYear].production.Sum();
+        totalNi = dataMonthly[selectedYear].injection.Sum();
+        totalNu = dataMonthly[selectedYear].usage.Sum();
+        totalU = totalP + totalNu - totalNi;
+
+        await InvokeAsync(() => StateHasChanged());
     }
 
     private async Task RenderSolarPanelsWeekAsync(int yearIndex, int weekIndex, bool init)
@@ -894,7 +905,7 @@
             t.Select(s => s.Production).ToList(),
             t.Select(s => s.Usage).ToList(),
             t.Select(s => s.Injection / 1000).ToList(),
-            $"Solar Panels ({selectedYear}/{selectedWeek})", init, barChartWeek!,"Days"
+            $"Solar Panels ({selectedYear}/{selectedWeek})", init, barChartWeek!, "Days"
         );
     }
 
@@ -903,6 +914,10 @@
     int selectedYearIndex = years.FindIndex(0, 1, f => f == DateTime.Now.Year);
     int selectedWeekIndex = ci.Calendar.GetWeekOfYear(DateTime.Now, ci.DateTimeFormat.CalendarWeekRule, ci.DateTimeFormat.FirstDayOfWeek) - 1;
 
+    double totalP = 0.0;
+    double totalNi = 0.0;
+    double totalNu = 0.0;
+    double totalU = 0.0;
 
     static int GetWeekOfYear(int dayOfYear, int year)
     {
