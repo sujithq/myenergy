@@ -927,10 +927,10 @@
     int selectedYearIndex = years.FindIndex(0, 1, f => f == DateTime.Now.Year);
     int selectedWeekIndex = ci.Calendar.GetWeekOfYear(DateTime.Now, ci.DateTimeFormat.CalendarWeekRule, ci.DateTimeFormat.FirstDayOfWeek) - 1;
 
-    double totalP = 0.0;
-    double totalNi = 0.0;
-    double totalNu = 0.0;
-    double totalU = 0.0;
+    int totalP = 0;
+    int totalNi = 0;
+    int totalNu = 0;
+    int totalU = 0;
 
     static int GetWeekOfYear(int dayOfYear, int year)
     {
