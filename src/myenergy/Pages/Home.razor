@@ -20,13 +20,13 @@
 <br>
 
 <label>Week</label>
-<input type="range" min="1" max="52" class="slider" @bind="selectedWeekIndex" @bind:after="WeekChangedAsync">
+<input type="range" min="0" max="51" class="slider" @bind="selectedWeekIndex" @bind:after="WeekChangedAsync">
 
 <BarChart @ref="barChartWeek" Class="mb-4" />
 
 @code {
     private static List<int> years = new List<int> { 2023, 2024 };
-    private static List<int> weeks = Enumerable.Range(0, 51).ToList();
+    private static List<int> weeks = Enumerable.Range(1, 52).ToList();
 
     private BarChart? barChartMonth;
     private BarChart? barChartWeek;
@@ -874,8 +874,8 @@
     private async Task RenderSolarPanelsWeekAsync(int yearIndex, int weekIndex, bool init)
     {
 
-        var selectedWeek = weeks[weekIndex];
         var selectedYear = years[yearIndex];
+        var selectedWeek = weeks[weekIndex];
 
         var t = dataDaily[selectedYear].Where(a => GetWeekOfYear(a.DayNumber, selectedYear) == selectedWeek).ToList();
 
