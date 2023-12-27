@@ -1,9 +1,62 @@
 @page "/"
 @using System.Globalization
 
-<label>Year</label>
-<select class="select-element" @bind="selectedYearIndex" @bind:after="YearChangedAsync">
-    @foreach (var year in years.Select((Year, Id) => (Year, Id)))
+<Tabs EnableFadeEffect="true"
+      OnShown="@(args => OnTabShownAsync(args))">
+    <Tab Title="Day">
+        <Content>
+            <p class="mt-3">
+                <CardGroup>
+                    <Card Color="CardColor.Dark" Class="mb-4">
+                        <CardHeader>Total Production</CardHeader>
+                        <CardBody>
+                            <CardTitle>@totalP</CardTitle>
+                            </CardBody>
+                        </Card>
+                        <Card Color="CardColor.Warning" Class="mb-4">
+                            <CardHeader>Total Net Injection</CardHeader>
+                            <CardBody>
+                                <CardTitle>@totalNi</CardTitle>
+                            </CardBody>
+                        </Card>
+                        <Card Color="CardColor.Danger" Class="mb-4">
+                            <CardHeader>Total Net Usage</CardHeader>
+                            <CardBody>
+                                <CardTitle>@totalNu</CardTitle>
+                            </CardBody>
+                        </Card>
+                        <Card Color="CardColor.Success" Class="mb-4">
+                            <CardHeader>Total Usage</CardHeader>
+                            <CardBody>
+                                <CardTitle>@totalU</CardTitle>
+                            </CardBody>
+                        </Card>
+                    </CardGroup>
+
+                    <BarChart @ref="barChartDay" Class="mb-4" />
+                </p>
+            </Content>
+        </Tab>
+        <Tab Title="Week">
+            <Content>
+                <p class="mt-3">
+                    <input type="range" min="0" max="51" class="slider" @bind="selectedWeekIndex" @bind:after="WeekChangedAsync">
+                    <BarChart @ref="barChartWeek" Class="mb-4" />
+                </p>
+            </Content>
+        </Tab>
+        <Tab Title="Month" IsActive="true">
+            <Content>
+                <p class="mt-3">
+                    <BarChart @ref="barChartMonth" Class="mb-4" />
+                </p>
+            </Content>
+        </Tab>
+    </Tabs>
+
+    <label>Year</label>
+    <select class="select-element" @bind="selectedYearIndex" @bind:after="YearChangedAsync">
+        @foreach (var year in years.Select((Year, Id) => (Year, Id)))
     {
         if (year.Id == selectedYearIndex)
         {
@@ -27,24 +80,11 @@
     </thead>
 </table>
 
-
-
-
-
-
-
-<BarChart @ref="barChartMonth" Class="mb-4" />
-<br>
-
-<label>Week</label>
-<input type="range" min="0" max="51" class="slider" @bind="selectedWeekIndex" @bind:after="WeekChangedAsync">
-
-<BarChart @ref="barChartWeek" Class="mb-4" />
-
 @code {
     private static List<int> years = new List<int> { 2023, 2024 };
     private static List<int> weeks = Enumerable.Range(1, 52).ToList();
 
+    private BarChart? barChartDay;
     private BarChart? barChartMonth;
     private BarChart? barChartWeek;
 
@@ -968,5 +1008,24 @@
     private async Task WeekChangedAsync()
     {
         await RenderSolarPanelsWeekAsync(selectedYearIndex, selectedWeekIndex, false);
+    }
+
+
+    record TabMessage(string Event, string ActiveTabTitle, string PreviousActiveTabTitle);
+
+    List<TabMessage> messages = new List<TabMessage>();
+
+
+    private async Task OnTabShownAsync(TabsEventArgs args)
+    {
+        switch (args.ActiveTabTitle)
+        {
+            case "Week":
+                await RenderSolarPanelsWeekAsync(selectedYearIndex, selectedWeekIndex, false);
+                break;
+            case "Month":
+                await RenderSolarPanelsAsync(selectedYearIndex, false);
+                break;
+        }
     }
 }
