@@ -1,0 +1,5123 @@
+{
+  "2023": [
+    {
+      "DayNumber": 1,
+      "DayMonth": "1/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 2,
+      "DayMonth": "2/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 3,
+      "DayMonth": "3/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 4,
+      "DayMonth": "4/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 5,
+      "DayMonth": "5/1",
+      "Production": 0,
+      "Usage": 6.87,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 6,
+      "DayMonth": "6/1",
+      "Production": 0,
+      "Usage": 9.998,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 7,
+      "DayMonth": "7/1",
+      "Production": 0,
+      "Usage": 20.016,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 8,
+      "DayMonth": "8/1",
+      "Production": 0,
+      "Usage": 14.608,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 9,
+      "DayMonth": "9/1",
+      "Production": 0,
+      "Usage": 10.938,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 10,
+      "DayMonth": "10/1",
+      "Production": 0,
+      "Usage": 69.895,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 11,
+      "DayMonth": "11/1",
+      "Production": 0,
+      "Usage": 11.255,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 12,
+      "DayMonth": "12/1",
+      "Production": 0,
+      "Usage": 9.939,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 13,
+      "DayMonth": "13/1",
+      "Production": 0,
+      "Usage": 12.532,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 14,
+      "DayMonth": "14/1",
+      "Production": 0,
+      "Usage": 13.86,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 15,
+      "DayMonth": "15/1",
+      "Production": 0,
+      "Usage": 10.767,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 16,
+      "DayMonth": "16/1",
+      "Production": 0,
+      "Usage": 22.78,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 17,
+      "DayMonth": "17/1",
+      "Production": 0,
+      "Usage": 47.941,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 18,
+      "DayMonth": "18/1",
+      "Production": 0,
+      "Usage": 13.98,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 19,
+      "DayMonth": "19/1",
+      "Production": 0,
+      "Usage": 7.487,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 20,
+      "DayMonth": "20/1",
+      "Production": 0,
+      "Usage": 12.249,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 21,
+      "DayMonth": "21/1",
+      "Production": 0,
+      "Usage": 29.977,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 22,
+      "DayMonth": "22/1",
+      "Production": 0,
+      "Usage": 45.17,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 23,
+      "DayMonth": "23/1",
+      "Production": 0,
+      "Usage": 7.069,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 24,
+      "DayMonth": "24/1",
+      "Production": 0,
+      "Usage": 30.664,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 25,
+      "DayMonth": "25/1",
+      "Production": 0,
+      "Usage": 41.37,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 26,
+      "DayMonth": "26/1",
+      "Production": 0,
+      "Usage": 39.782,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 27,
+      "DayMonth": "27/1",
+      "Production": 0,
+      "Usage": 32.994,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 28,
+      "DayMonth": "28/1",
+      "Production": 0,
+      "Usage": 22.226,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 29,
+      "DayMonth": "29/1",
+      "Production": 0,
+      "Usage": 60.418,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 30,
+      "DayMonth": "30/1",
+      "Production": 0,
+      "Usage": 9.538,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 31,
+      "DayMonth": "31/1",
+      "Production": 0,
+      "Usage": 6.314,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 32,
+      "DayMonth": "1/2",
+      "Production": 0,
+      "Usage": 18.097,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 33,
+      "DayMonth": "2/2",
+      "Production": 0,
+      "Usage": 7.969,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 34,
+      "DayMonth": "3/2",
+      "Production": 0,
+      "Usage": 13.345,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 35,
+      "DayMonth": "4/2",
+      "Production": 0,
+      "Usage": 42.388,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 36,
+      "DayMonth": "5/2",
+      "Production": 0,
+      "Usage": 10.547,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 37,
+      "DayMonth": "6/2",
+      "Production": 0,
+      "Usage": 7.863,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 38,
+      "DayMonth": "7/2",
+      "Production": 0,
+      "Usage": 7.342,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 39,
+      "DayMonth": "8/2",
+      "Production": 0,
+      "Usage": 16.085,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 40,
+      "DayMonth": "9/2",
+      "Production": 0,
+      "Usage": 34.591,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 41,
+      "DayMonth": "10/2",
+      "Production": 0,
+      "Usage": 33.334,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 42,
+      "DayMonth": "11/2",
+      "Production": 0,
+      "Usage": 12.761,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 43,
+      "DayMonth": "12/2",
+      "Production": 0,
+      "Usage": 13.507,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 44,
+      "DayMonth": "13/2",
+      "Production": 0,
+      "Usage": 10.801,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 45,
+      "DayMonth": "14/2",
+      "Production": 0,
+      "Usage": 6.602,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 46,
+      "DayMonth": "15/2",
+      "Production": 0,
+      "Usage": 13.323,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 47,
+      "DayMonth": "16/2",
+      "Production": 0,
+      "Usage": 6.437,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 48,
+      "DayMonth": "17/2",
+      "Production": 0,
+      "Usage": 31.575,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 49,
+      "DayMonth": "18/2",
+      "Production": 0,
+      "Usage": 3.465,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 50,
+      "DayMonth": "19/2",
+      "Production": 0,
+      "Usage": 8.716,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 51,
+      "DayMonth": "20/2",
+      "Production": 0,
+      "Usage": 6.714,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 52,
+      "DayMonth": "21/2",
+      "Production": 0,
+      "Usage": 13.574,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 53,
+      "DayMonth": "22/2",
+      "Production": 0,
+      "Usage": 5.735,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 54,
+      "DayMonth": "23/2",
+      "Production": 0,
+      "Usage": 6.307,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 55,
+      "DayMonth": "24/2",
+      "Production": 0,
+      "Usage": 5.228,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 56,
+      "DayMonth": "25/2",
+      "Production": 0,
+      "Usage": 20.749,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 57,
+      "DayMonth": "26/2",
+      "Production": 0,
+      "Usage": 29.068,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 58,
+      "DayMonth": "27/2",
+      "Production": 0,
+      "Usage": 36.248,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 59,
+      "DayMonth": "28/2",
+      "Production": 0,
+      "Usage": 6.879,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 60,
+      "DayMonth": "1/3",
+      "Production": 0,
+      "Usage": 11.508,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 61,
+      "DayMonth": "2/3",
+      "Production": 0,
+      "Usage": 50.153,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 62,
+      "DayMonth": "3/3",
+      "Production": 0,
+      "Usage": 10.233,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 63,
+      "DayMonth": "4/3",
+      "Production": 0,
+      "Usage": 11.47,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 64,
+      "DayMonth": "5/3",
+      "Production": 0,
+      "Usage": 5.947,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 65,
+      "DayMonth": "6/3",
+      "Production": 0,
+      "Usage": 7.865,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 66,
+      "DayMonth": "7/3",
+      "Production": 0,
+      "Usage": 6.177,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 67,
+      "DayMonth": "8/3",
+      "Production": 0,
+      "Usage": 69.574,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 68,
+      "DayMonth": "9/3",
+      "Production": 0,
+      "Usage": 6.973,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 69,
+      "DayMonth": "10/3",
+      "Production": 0,
+      "Usage": 8.943,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 70,
+      "DayMonth": "11/3",
+      "Production": 0,
+      "Usage": 6.637,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 71,
+      "DayMonth": "12/3",
+      "Production": 0,
+      "Usage": 15.213,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 72,
+      "DayMonth": "13/3",
+      "Production": 0,
+      "Usage": 9.226,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 73,
+      "DayMonth": "14/3",
+      "Production": 0,
+      "Usage": 9.632,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 74,
+      "DayMonth": "15/3",
+      "Production": 0,
+      "Usage": 5.717,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 75,
+      "DayMonth": "16/3",
+      "Production": 0,
+      "Usage": 12.935,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 76,
+      "DayMonth": "17/3",
+      "Production": 0,
+      "Usage": 7.622,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 77,
+      "DayMonth": "18/3",
+      "Production": 0,
+      "Usage": 6.454,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 78,
+      "DayMonth": "19/3",
+      "Production": 0,
+      "Usage": 65.349,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 79,
+      "DayMonth": "20/3",
+      "Production": 0,
+      "Usage": 8.089,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 80,
+      "DayMonth": "21/3",
+      "Production": 0,
+      "Usage": 8.071,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 81,
+      "DayMonth": "22/3",
+      "Production": 0,
+      "Usage": 14.577,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 82,
+      "DayMonth": "23/3",
+      "Production": 0,
+      "Usage": 7.545,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 83,
+      "DayMonth": "24/3",
+      "Production": 0,
+      "Usage": 9.454,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 84,
+      "DayMonth": "25/3",
+      "Production": 0,
+      "Usage": 48.263,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 85,
+      "DayMonth": "26/3",
+      "Production": 0,
+      "Usage": 7.681,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 86,
+      "DayMonth": "27/3",
+      "Production": 0,
+      "Usage": 6.504,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 87,
+      "DayMonth": "28/3",
+      "Production": 0,
+      "Usage": 41.141,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 88,
+      "DayMonth": "29/3",
+      "Production": 0,
+      "Usage": 15.936,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 89,
+      "DayMonth": "30/3",
+      "Production": 0,
+      "Usage": 6.005,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 90,
+      "DayMonth": "31/3",
+      "Production": 0,
+      "Usage": 8.696,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 91,
+      "DayMonth": "1/4",
+      "Production": 0,
+      "Usage": 12.402,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 92,
+      "DayMonth": "2/4",
+      "Production": 0,
+      "Usage": 34.812,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 93,
+      "DayMonth": "3/4",
+      "Production": 0,
+      "Usage": 54.016,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 94,
+      "DayMonth": "4/4",
+      "Production": 0,
+      "Usage": 9.408,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 95,
+      "DayMonth": "5/4",
+      "Production": 0,
+      "Usage": 24.984,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 96,
+      "DayMonth": "6/4",
+      "Production": 0,
+      "Usage": 10.452,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 97,
+      "DayMonth": "7/4",
+      "Production": 0,
+      "Usage": 12.56,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 98,
+      "DayMonth": "8/4",
+      "Production": 0,
+      "Usage": 39.401,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 99,
+      "DayMonth": "9/4",
+      "Production": 0,
+      "Usage": 25.341,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 100,
+      "DayMonth": "10/4",
+      "Production": 0,
+      "Usage": 14.426,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 101,
+      "DayMonth": "11/4",
+      "Production": 0,
+      "Usage": 7.405,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 102,
+      "DayMonth": "12/4",
+      "Production": 0,
+      "Usage": 17.086,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 103,
+      "DayMonth": "13/4",
+      "Production": 0,
+      "Usage": 18.985,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 104,
+      "DayMonth": "14/4",
+      "Production": 0,
+      "Usage": 36.306,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 105,
+      "DayMonth": "15/4",
+      "Production": 0,
+      "Usage": 12.882,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 106,
+      "DayMonth": "16/4",
+      "Production": 0,
+      "Usage": 15.802,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 107,
+      "DayMonth": "17/4",
+      "Production": 0,
+      "Usage": 37.461,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 108,
+      "DayMonth": "18/4",
+      "Production": 0,
+      "Usage": 38.784,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 109,
+      "DayMonth": "19/4",
+      "Production": 0,
+      "Usage": 6.32,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 110,
+      "DayMonth": "20/4",
+      "Production": 0,
+      "Usage": 40.808,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 111,
+      "DayMonth": "21/4",
+      "Production": 0,
+      "Usage": 5.993,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 112,
+      "DayMonth": "22/4",
+      "Production": 0,
+      "Usage": 16.99,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 113,
+      "DayMonth": "23/4",
+      "Production": 0,
+      "Usage": 49.474,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 114,
+      "DayMonth": "24/4",
+      "Production": 0,
+      "Usage": 36.22,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 115,
+      "DayMonth": "25/4",
+      "Production": 0,
+      "Usage": 35.124,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 116,
+      "DayMonth": "26/4",
+      "Production": 0,
+      "Usage": 21.166,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 117,
+      "DayMonth": "27/4",
+      "Production": 0,
+      "Usage": 13.479,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 118,
+      "DayMonth": "28/4",
+      "Production": 0,
+      "Usage": 45.437,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 119,
+      "DayMonth": "29/4",
+      "Production": 0,
+      "Usage": 8.168,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 120,
+      "DayMonth": "30/4",
+      "Production": 0,
+      "Usage": 31.992,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 121,
+      "DayMonth": "1/5",
+      "Production": 0,
+      "Usage": 27.588,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 122,
+      "DayMonth": "2/5",
+      "Production": 0,
+      "Usage": 13.433,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 123,
+      "DayMonth": "3/5",
+      "Production": 0,
+      "Usage": 31.854,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 124,
+      "DayMonth": "4/5",
+      "Production": 0,
+      "Usage": 5.375,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 125,
+      "DayMonth": "5/5",
+      "Production": 0,
+      "Usage": 8.925,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 126,
+      "DayMonth": "6/5",
+      "Production": 0,
+      "Usage": 8.29,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 127,
+      "DayMonth": "7/5",
+      "Production": 0,
+      "Usage": 22.752,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 128,
+      "DayMonth": "8/5",
+      "Production": 0,
+      "Usage": 24.286,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 129,
+      "DayMonth": "9/5",
+      "Production": 0,
+      "Usage": 7.779,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 130,
+      "DayMonth": "10/5",
+      "Production": 0,
+      "Usage": 18.27,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 131,
+      "DayMonth": "11/5",
+      "Production": 0,
+      "Usage": 9.708,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 132,
+      "DayMonth": "12/5",
+      "Production": 0,
+      "Usage": 12.866,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 133,
+      "DayMonth": "13/5",
+      "Production": 0,
+      "Usage": 8.854,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 134,
+      "DayMonth": "14/5",
+      "Production": 0,
+      "Usage": 44.088,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 135,
+      "DayMonth": "15/5",
+      "Production": 0,
+      "Usage": 21.344,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 136,
+      "DayMonth": "16/5",
+      "Production": 0,
+      "Usage": 19.707,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 137,
+      "DayMonth": "17/5",
+      "Production": 0,
+      "Usage": 41.698,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 138,
+      "DayMonth": "18/5",
+      "Production": 0,
+      "Usage": 18.182,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 139,
+      "DayMonth": "19/5",
+      "Production": 0,
+      "Usage": 25.287,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 140,
+      "DayMonth": "20/5",
+      "Production": 0,
+      "Usage": 10.368,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 141,
+      "DayMonth": "21/5",
+      "Production": 0,
+      "Usage": 8.843,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 142,
+      "DayMonth": "22/5",
+      "Production": 5,
+      "Usage": 5.524,
+      "Injection": 3202
+    },
+    {
+      "DayNumber": 143,
+      "DayMonth": "23/5",
+      "Production": 32.6,
+      "Usage": 8.306,
+      "Injection": 13364
+    },
+    {
+      "DayNumber": 144,
+      "DayMonth": "24/5",
+      "Production": 29.3,
+      "Usage": 3.858,
+      "Injection": 21074
+    },
+    {
+      "DayNumber": 145,
+      "DayMonth": "25/5",
+      "Production": 38.1,
+      "Usage": 2.079,
+      "Injection": 32596
+    },
+    {
+      "DayNumber": 146,
+      "DayMonth": "26/5",
+      "Production": 47.5,
+      "Usage": 2.2,
+      "Injection": 40752
+    },
+    {
+      "DayNumber": 147,
+      "DayMonth": "27/5",
+      "Production": 47.3,
+      "Usage": 3.918,
+      "Injection": 32009
+    },
+    {
+      "DayNumber": 148,
+      "DayMonth": "28/5",
+      "Production": 45.7,
+      "Usage": 1.973,
+      "Injection": 42046
+    },
+    {
+      "DayNumber": 149,
+      "DayMonth": "29/5",
+      "Production": 44.6,
+      "Usage": 5.057,
+      "Injection": 26758
+    },
+    {
+      "DayNumber": 150,
+      "DayMonth": "30/5",
+      "Production": 47.5,
+      "Usage": 2.112,
+      "Injection": 43834
+    },
+    {
+      "DayNumber": 151,
+      "DayMonth": "31/5",
+      "Production": 46.6,
+      "Usage": 3.24,
+      "Injection": 38591
+    },
+    {
+      "DayNumber": 152,
+      "DayMonth": "1/6",
+      "Production": 47,
+      "Usage": 2.031,
+      "Injection": 43479
+    },
+    {
+      "DayNumber": 153,
+      "DayMonth": "2/6",
+      "Production": 41,
+      "Usage": 3.357,
+      "Injection": 17279
+    },
+    {
+      "DayNumber": 154,
+      "DayMonth": "3/6",
+      "Production": 47.7,
+      "Usage": 2.398,
+      "Injection": 36335
+    },
+    {
+      "DayNumber": 155,
+      "DayMonth": "4/6",
+      "Production": 46.9,
+      "Usage": 1.593,
+      "Injection": 41362
+    },
+    {
+      "DayNumber": 156,
+      "DayMonth": "5/6",
+      "Production": 45.7,
+      "Usage": 2.25,
+      "Injection": 21597
+    },
+    {
+      "DayNumber": 157,
+      "DayMonth": "6/6",
+      "Production": 44.8,
+      "Usage": 2.412,
+      "Injection": 40390
+    },
+    {
+      "DayNumber": 158,
+      "DayMonth": "7/6",
+      "Production": 32.6,
+      "Usage": 5.423,
+      "Injection": 21417
+    },
+    {
+      "DayNumber": 159,
+      "DayMonth": "8/6",
+      "Production": 45.4,
+      "Usage": 2.561,
+      "Injection": 23080
+    },
+    {
+      "DayNumber": 160,
+      "DayMonth": "9/6",
+      "Production": 44.5,
+      "Usage": 2.672,
+      "Injection": 39559
+    },
+    {
+      "DayNumber": 161,
+      "DayMonth": "10/6",
+      "Production": 45.5,
+      "Usage": 2.46,
+      "Injection": 34797
+    },
+    {
+      "DayNumber": 162,
+      "DayMonth": "11/6",
+      "Production": 43,
+      "Usage": 3.963,
+      "Injection": 32550
+    },
+    {
+      "DayNumber": 163,
+      "DayMonth": "12/6",
+      "Production": 45.4,
+      "Usage": 4.781,
+      "Injection": 38149
+    },
+    {
+      "DayNumber": 164,
+      "DayMonth": "13/6",
+      "Production": 46.1,
+      "Usage": 3.193,
+      "Injection": 33807
+    },
+    {
+      "DayNumber": 165,
+      "DayMonth": "14/6",
+      "Production": 46.9,
+      "Usage": 3.646,
+      "Injection": 36297
+    },
+    {
+      "DayNumber": 166,
+      "DayMonth": "15/6",
+      "Production": 41.2,
+      "Usage": 6.228,
+      "Injection": 33249
+    },
+    {
+      "DayNumber": 167,
+      "DayMonth": "16/6",
+      "Production": 39.6,
+      "Usage": 6.295,
+      "Injection": 26417
+    },
+    {
+      "DayNumber": 168,
+      "DayMonth": "17/6",
+      "Production": 35.7,
+      "Usage": 5.764,
+      "Injection": 19712
+    },
+    {
+      "DayNumber": 169,
+      "DayMonth": "18/6",
+      "Production": 18.9,
+      "Usage": 3.58,
+      "Injection": 14076
+    },
+    {
+      "DayNumber": 170,
+      "DayMonth": "19/6",
+      "Production": 39.6,
+      "Usage": 3.355,
+      "Injection": 33106
+    },
+    {
+      "DayNumber": 171,
+      "DayMonth": "20/6",
+      "Production": 28.8,
+      "Usage": 3.016,
+      "Injection": 25095
+    },
+    {
+      "DayNumber": 172,
+      "DayMonth": "21/6",
+      "Production": 41.7,
+      "Usage": 3.624,
+      "Injection": 31566
+    },
+    {
+      "DayNumber": 173,
+      "DayMonth": "22/6",
+      "Production": 7.3,
+      "Usage": 4.578,
+      "Injection": 2987
+    },
+    {
+      "DayNumber": 174,
+      "DayMonth": "23/6",
+      "Production": 43.2,
+      "Usage": 3.393,
+      "Injection": 31927
+    },
+    {
+      "DayNumber": 175,
+      "DayMonth": "24/6",
+      "Production": 47.9,
+      "Usage": 4.121,
+      "Injection": 28261
+    },
+    {
+      "DayNumber": 176,
+      "DayMonth": "25/6",
+      "Production": 47,
+      "Usage": 2.384,
+      "Injection": 42371
+    },
+    {
+      "DayNumber": 177,
+      "DayMonth": "26/6",
+      "Production": 34.5,
+      "Usage": 2.872,
+      "Injection": 30166
+    },
+    {
+      "DayNumber": 178,
+      "DayMonth": "27/6",
+      "Production": 31.9,
+      "Usage": 4.503,
+      "Injection": 26599
+    },
+    {
+      "DayNumber": 179,
+      "DayMonth": "28/6",
+      "Production": 20.8,
+      "Usage": 6.96,
+      "Injection": 13230
+    },
+    {
+      "DayNumber": 180,
+      "DayMonth": "29/6",
+      "Production": 19.1,
+      "Usage": 2.653,
+      "Injection": 14956
+    },
+    {
+      "DayNumber": 181,
+      "DayMonth": "30/6",
+      "Production": 37.4,
+      "Usage": 2.691,
+      "Injection": 30583
+    },
+    {
+      "DayNumber": 182,
+      "DayMonth": "1/7",
+      "Production": 15.6,
+      "Usage": 5.106,
+      "Injection": 10057
+    },
+    {
+      "DayNumber": 183,
+      "DayMonth": "2/7",
+      "Production": 35.9,
+      "Usage": 2.468,
+      "Injection": 27275
+    },
+    {
+      "DayNumber": 184,
+      "DayMonth": "3/7",
+      "Production": 33.7,
+      "Usage": 4.611,
+      "Injection": 28169
+    },
+    {
+      "DayNumber": 185,
+      "DayMonth": "4/7",
+      "Production": 30.2,
+      "Usage": 3.675,
+      "Injection": 24956
+    },
+    {
+      "DayNumber": 186,
+      "DayMonth": "5/7",
+      "Production": 28.8,
+      "Usage": 3.86,
+      "Injection": 21708
+    },
+    {
+      "DayNumber": 187,
+      "DayMonth": "6/7",
+      "Production": 32.1,
+      "Usage": 3.398,
+      "Injection": 26392
+    },
+    {
+      "DayNumber": 188,
+      "DayMonth": "7/7",
+      "Production": 43.2,
+      "Usage": 9.209,
+      "Injection": 32586
+    },
+    {
+      "DayNumber": 189,
+      "DayMonth": "8/7",
+      "Production": 38.8,
+      "Usage": 7.274,
+      "Injection": 25186
+    },
+    {
+      "DayNumber": 190,
+      "DayMonth": "9/7",
+      "Production": 26.4,
+      "Usage": 7.109,
+      "Injection": 14678
+    },
+    {
+      "DayNumber": 191,
+      "DayMonth": "10/7",
+      "Production": 37.1,
+      "Usage": 6.021,
+      "Injection": 25204
+    },
+    {
+      "DayNumber": 192,
+      "DayMonth": "11/7",
+      "Production": 38.1,
+      "Usage": 4.145,
+      "Injection": 30504
+    },
+    {
+      "DayNumber": 193,
+      "DayMonth": "12/7",
+      "Production": 34.7,
+      "Usage": 4.764,
+      "Injection": 26898
+    },
+    {
+      "DayNumber": 194,
+      "DayMonth": "13/7",
+      "Production": 28.7,
+      "Usage": 4.54,
+      "Injection": 22594
+    },
+    {
+      "DayNumber": 195,
+      "DayMonth": "14/7",
+      "Production": 33,
+      "Usage": 2.999,
+      "Injection": 30435
+    },
+    {
+      "DayNumber": 196,
+      "DayMonth": "15/7",
+      "Production": 25.1,
+      "Usage": 1.6,
+      "Injection": 22628
+    },
+    {
+      "DayNumber": 197,
+      "DayMonth": "16/7",
+      "Production": 26,
+      "Usage": 1.429,
+      "Injection": 23514
+    },
+    {
+      "DayNumber": 198,
+      "DayMonth": "17/7",
+      "Production": 35.6,
+      "Usage": 1.293,
+      "Injection": 33047
+    },
+    {
+      "DayNumber": 199,
+      "DayMonth": "18/7",
+      "Production": 41.5,
+      "Usage": 1.571,
+      "Injection": 39075
+    },
+    {
+      "DayNumber": 200,
+      "DayMonth": "19/7",
+      "Production": 28.1,
+      "Usage": 1.398,
+      "Injection": 25694
+    },
+    {
+      "DayNumber": 201,
+      "DayMonth": "20/7",
+      "Production": 25.5,
+      "Usage": 1.246,
+      "Injection": 22977
+    },
+    {
+      "DayNumber": 202,
+      "DayMonth": "21/7",
+      "Production": 32,
+      "Usage": 3.132,
+      "Injection": 25699
+    },
+    {
+      "DayNumber": 203,
+      "DayMonth": "22/7",
+      "Production": 27.9,
+      "Usage": 6.136,
+      "Injection": 20673
+    },
+    {
+      "DayNumber": 204,
+      "DayMonth": "23/7",
+      "Production": 15.4,
+      "Usage": 6.692,
+      "Injection": 9587
+    },
+    {
+      "DayNumber": 205,
+      "DayMonth": "24/7",
+      "Production": 23.6,
+      "Usage": 4.933,
+      "Injection": 17373
+    },
+    {
+      "DayNumber": 206,
+      "DayMonth": "25/7",
+      "Production": 35.8,
+      "Usage": 3.322,
+      "Injection": 30594
+    },
+    {
+      "DayNumber": 207,
+      "DayMonth": "26/7",
+      "Production": 33.5,
+      "Usage": 2.926,
+      "Injection": 26541
+    },
+    {
+      "DayNumber": 208,
+      "DayMonth": "27/7",
+      "Production": 10.1,
+      "Usage": 12.055,
+      "Injection": 4656
+    },
+    {
+      "DayNumber": 209,
+      "DayMonth": "28/7",
+      "Production": 27,
+      "Usage": 3.44,
+      "Injection": 21657
+    },
+    {
+      "DayNumber": 210,
+      "DayMonth": "29/7",
+      "Production": 28.7,
+      "Usage": 2.242,
+      "Injection": 23574
+    },
+    {
+      "DayNumber": 211,
+      "DayMonth": "30/7",
+      "Production": 23.9,
+      "Usage": 4.371,
+      "Injection": 19096
+    },
+    {
+      "DayNumber": 212,
+      "DayMonth": "31/7",
+      "Production": 9.7,
+      "Usage": 8.632,
+      "Injection": 6224
+    },
+    {
+      "DayNumber": 213,
+      "DayMonth": "1/8",
+      "Production": 22.8,
+      "Usage": 3.115,
+      "Injection": 18504
+    },
+    {
+      "DayNumber": 214,
+      "DayMonth": "2/8",
+      "Production": 26.3,
+      "Usage": 4.629,
+      "Injection": 20371
+    },
+    {
+      "DayNumber": 215,
+      "DayMonth": "3/8",
+      "Production": 16.1,
+      "Usage": 2.732,
+      "Injection": 12752
+    },
+    {
+      "DayNumber": 216,
+      "DayMonth": "4/8",
+      "Production": 29.9,
+      "Usage": 4.144,
+      "Injection": 21799
+    },
+    {
+      "DayNumber": 217,
+      "DayMonth": "5/8",
+      "Production": 14,
+      "Usage": 6.399,
+      "Injection": 9741
+    },
+    {
+      "DayNumber": 218,
+      "DayMonth": "6/8",
+      "Production": 13.8,
+      "Usage": 2.729,
+      "Injection": 10017
+    },
+    {
+      "DayNumber": 219,
+      "DayMonth": "7/8",
+      "Production": 31.7,
+      "Usage": 2.781,
+      "Injection": 25931
+    },
+    {
+      "DayNumber": 220,
+      "DayMonth": "8/8",
+      "Production": 22.4,
+      "Usage": 3.865,
+      "Injection": 17978
+    },
+    {
+      "DayNumber": 221,
+      "DayMonth": "9/8",
+      "Production": 39.9,
+      "Usage": 4.159,
+      "Injection": 28811
+    },
+    {
+      "DayNumber": 222,
+      "DayMonth": "10/8",
+      "Production": 43.8,
+      "Usage": 4.205,
+      "Injection": 37672
+    },
+    {
+      "DayNumber": 223,
+      "DayMonth": "11/8",
+      "Production": 31.8,
+      "Usage": 4.085,
+      "Injection": 27604
+    },
+    {
+      "DayNumber": 224,
+      "DayMonth": "12/8",
+      "Production": 27.9,
+      "Usage": 7.729,
+      "Injection": 23587
+    },
+    {
+      "DayNumber": 225,
+      "DayMonth": "13/8",
+      "Production": 27.2,
+      "Usage": 5.8,
+      "Injection": 18099
+    },
+    {
+      "DayNumber": 226,
+      "DayMonth": "14/8",
+      "Production": 42.9,
+      "Usage": 3.902,
+      "Injection": 34708
+    },
+    {
+      "DayNumber": 227,
+      "DayMonth": "15/8",
+      "Production": 31.9,
+      "Usage": 3.35,
+      "Injection": 26876
+    },
+    {
+      "DayNumber": 228,
+      "DayMonth": "16/8",
+      "Production": 22.9,
+      "Usage": 4.656,
+      "Injection": 17920
+    },
+    {
+      "DayNumber": 229,
+      "DayMonth": "17/8",
+      "Production": 15,
+      "Usage": 9.801,
+      "Injection": 6335
+    },
+    {
+      "DayNumber": 230,
+      "DayMonth": "18/8",
+      "Production": 28.7,
+      "Usage": 3.732,
+      "Injection": 24477
+    },
+    {
+      "DayNumber": 231,
+      "DayMonth": "19/8",
+      "Production": 23.5,
+      "Usage": 4.779,
+      "Injection": 19890
+    },
+    {
+      "DayNumber": 232,
+      "DayMonth": "20/8",
+      "Production": 40.1,
+      "Usage": 4.921,
+      "Injection": 30107
+    },
+    {
+      "DayNumber": 233,
+      "DayMonth": "21/8",
+      "Production": 42.1,
+      "Usage": 3.794,
+      "Injection": 35849
+    },
+    {
+      "DayNumber": 234,
+      "DayMonth": "22/8",
+      "Production": 33,
+      "Usage": 4.497,
+      "Injection": 27557
+    },
+    {
+      "DayNumber": 235,
+      "DayMonth": "23/8",
+      "Production": 41.1,
+      "Usage": 4.363,
+      "Injection": 32820
+    },
+    {
+      "DayNumber": 236,
+      "DayMonth": "24/8",
+      "Production": 13.9,
+      "Usage": 5.347,
+      "Injection": 8694
+    },
+    {
+      "DayNumber": 237,
+      "DayMonth": "25/8",
+      "Production": 11.7,
+      "Usage": 4.933,
+      "Injection": 7971
+    },
+    {
+      "DayNumber": 238,
+      "DayMonth": "26/8",
+      "Production": 30,
+      "Usage": 4.646,
+      "Injection": 24476
+    },
+    {
+      "DayNumber": 239,
+      "DayMonth": "27/8",
+      "Production": 29.3,
+      "Usage": 7.497,
+      "Injection": 20039
+    },
+    {
+      "DayNumber": 240,
+      "DayMonth": "28/8",
+      "Production": 25.7,
+      "Usage": 3.939,
+      "Injection": 21072
+    },
+    {
+      "DayNumber": 241,
+      "DayMonth": "29/8",
+      "Production": 21.8,
+      "Usage": 5.911,
+      "Injection": 16277
+    },
+    {
+      "DayNumber": 242,
+      "DayMonth": "30/8",
+      "Production": 21.3,
+      "Usage": 6.149,
+      "Injection": 13474
+    },
+    {
+      "DayNumber": 243,
+      "DayMonth": "31/8",
+      "Production": 26.6,
+      "Usage": 5.077,
+      "Injection": 21599
+    },
+    {
+      "DayNumber": 244,
+      "DayMonth": "1/9",
+      "Production": 20.5,
+      "Usage": 4.358,
+      "Injection": 17974
+    },
+    {
+      "DayNumber": 245,
+      "DayMonth": "2/9",
+      "Production": 25.8,
+      "Usage": 6.348,
+      "Injection": 22734
+    },
+    {
+      "DayNumber": 246,
+      "DayMonth": "3/9",
+      "Production": 35.8,
+      "Usage": 4.301,
+      "Injection": 27005
+    },
+    {
+      "DayNumber": 247,
+      "DayMonth": "4/9",
+      "Production": 38.5,
+      "Usage": 3.566,
+      "Injection": 29235
+    },
+    {
+      "DayNumber": 248,
+      "DayMonth": "5/9",
+      "Production": 40,
+      "Usage": 2.982,
+      "Injection": 35929
+    },
+    {
+      "DayNumber": 249,
+      "DayMonth": "6/9",
+      "Production": 39.7,
+      "Usage": 4.533,
+      "Injection": 28195
+    },
+    {
+      "DayNumber": 250,
+      "DayMonth": "7/9",
+      "Production": 39.5,
+      "Usage": 4.183,
+      "Injection": 34868
+    },
+    {
+      "DayNumber": 251,
+      "DayMonth": "8/9",
+      "Production": 37.2,
+      "Usage": 3.644,
+      "Injection": 33983
+    },
+    {
+      "DayNumber": 252,
+      "DayMonth": "9/9",
+      "Production": 36,
+      "Usage": 6.427,
+      "Injection": 20842
+    },
+    {
+      "DayNumber": 253,
+      "DayMonth": "10/9",
+      "Production": 35.1,
+      "Usage": 6.764,
+      "Injection": 17919
+    },
+    {
+      "DayNumber": 254,
+      "DayMonth": "11/9",
+      "Production": 27.7,
+      "Usage": 5.442,
+      "Injection": 23984
+    },
+    {
+      "DayNumber": 255,
+      "DayMonth": "12/9",
+      "Production": 22.3,
+      "Usage": 6.304,
+      "Injection": 19223
+    },
+    {
+      "DayNumber": 256,
+      "DayMonth": "13/9",
+      "Production": 21.9,
+      "Usage": 8.214,
+      "Injection": 12002
+    },
+    {
+      "DayNumber": 257,
+      "DayMonth": "14/9",
+      "Production": 32.4,
+      "Usage": 4.571,
+      "Injection": 25991
+    },
+    {
+      "DayNumber": 258,
+      "DayMonth": "15/9",
+      "Production": 33.9,
+      "Usage": 5.756,
+      "Injection": 29108
+    },
+    {
+      "DayNumber": 259,
+      "DayMonth": "16/9",
+      "Production": 23.8,
+      "Usage": 5.351,
+      "Injection": 15700
+    },
+    {
+      "DayNumber": 260,
+      "DayMonth": "17/9",
+      "Production": 15.5,
+      "Usage": 4.64,
+      "Injection": 13223
+    },
+    {
+      "DayNumber": 261,
+      "DayMonth": "18/9",
+      "Production": 22.6,
+      "Usage": 5.534,
+      "Injection": 18639
+    },
+    {
+      "DayNumber": 262,
+      "DayMonth": "19/9",
+      "Production": 18.9,
+      "Usage": 4.988,
+      "Injection": 14559
+    },
+    {
+      "DayNumber": 263,
+      "DayMonth": "20/9",
+      "Production": 14.5,
+      "Usage": 6.691,
+      "Injection": 5768
+    },
+    {
+      "DayNumber": 264,
+      "DayMonth": "21/9",
+      "Production": 3.8,
+      "Usage": 4.449,
+      "Injection": 1689
+    },
+    {
+      "DayNumber": 265,
+      "DayMonth": "22/9",
+      "Production": 12.7,
+      "Usage": 4.088,
+      "Injection": 10242
+    },
+    {
+      "DayNumber": 266,
+      "DayMonth": "23/9",
+      "Production": 26.2,
+      "Usage": 19.344,
+      "Injection": 21650
+    },
+    {
+      "DayNumber": 267,
+      "DayMonth": "24/9",
+      "Production": 36.3,
+      "Usage": 5.003,
+      "Injection": 32908
+    },
+    {
+      "DayNumber": 268,
+      "DayMonth": "25/9",
+      "Production": 27.5,
+      "Usage": 4.894,
+      "Injection": 24465
+    },
+    {
+      "DayNumber": 269,
+      "DayMonth": "26/9",
+      "Production": 22.2,
+      "Usage": 2.879,
+      "Injection": 19399
+    },
+    {
+      "DayNumber": 270,
+      "DayMonth": "27/9",
+      "Production": 22.3,
+      "Usage": 4.784,
+      "Injection": 18837
+    },
+    {
+      "DayNumber": 271,
+      "DayMonth": "28/9",
+      "Production": 23.7,
+      "Usage": 6.755,
+      "Injection": 13975
+    },
+    {
+      "DayNumber": 272,
+      "DayMonth": "29/9",
+      "Production": 9.5,
+      "Usage": 9.33,
+      "Injection": 3329
+    },
+    {
+      "DayNumber": 273,
+      "DayMonth": "30/9",
+      "Production": 27.4,
+      "Usage": 20.213,
+      "Injection": 19114
+    },
+    {
+      "DayNumber": 274,
+      "DayMonth": "1/10",
+      "Production": 32.6,
+      "Usage": 27.258,
+      "Injection": 25756
+    },
+    {
+      "DayNumber": 275,
+      "DayMonth": "2/10",
+      "Production": 24.8,
+      "Usage": 4.58,
+      "Injection": 20453
+    },
+    {
+      "DayNumber": 276,
+      "DayMonth": "3/10",
+      "Production": 17.7,
+      "Usage": 6.402,
+      "Injection": 14117
+    },
+    {
+      "DayNumber": 277,
+      "DayMonth": "4/10",
+      "Production": 15.7,
+      "Usage": 20.495,
+      "Injection": 6263
+    },
+    {
+      "DayNumber": 278,
+      "DayMonth": "5/10",
+      "Production": 18.3,
+      "Usage": 10.62,
+      "Injection": 10873
+    },
+    {
+      "DayNumber": 279,
+      "DayMonth": "6/10",
+      "Production": 22.2,
+      "Usage": 10.66,
+      "Injection": 14518
+    },
+    {
+      "DayNumber": 280,
+      "DayMonth": "7/10",
+      "Production": 27.9,
+      "Usage": 5.519,
+      "Injection": 20580
+    },
+    {
+      "DayNumber": 281,
+      "DayMonth": "8/10",
+      "Production": 24.9,
+      "Usage": 35.655,
+      "Injection": 11392
+    },
+    {
+      "DayNumber": 282,
+      "DayMonth": "9/10",
+      "Production": 13.3,
+      "Usage": 15.702,
+      "Injection": 9634
+    },
+    {
+      "DayNumber": 283,
+      "DayMonth": "10/10",
+      "Production": 25.4,
+      "Usage": 6.52,
+      "Injection": 11414
+    },
+    {
+      "DayNumber": 284,
+      "DayMonth": "11/10",
+      "Production": 19.7,
+      "Usage": 3.672,
+      "Injection": 15320
+    },
+    {
+      "DayNumber": 285,
+      "DayMonth": "12/10",
+      "Production": 5.1,
+      "Usage": 5.803,
+      "Injection": 3156
+    },
+    {
+      "DayNumber": 286,
+      "DayMonth": "13/10",
+      "Production": 7.9,
+      "Usage": 8.912,
+      "Injection": 3366
+    },
+    {
+      "DayNumber": 287,
+      "DayMonth": "14/10",
+      "Production": 18.3,
+      "Usage": 29.356,
+      "Injection": 11309
+    },
+    {
+      "DayNumber": 288,
+      "DayMonth": "15/10",
+      "Production": 14.1,
+      "Usage": 17.159,
+      "Injection": 11584
+    },
+    {
+      "DayNumber": 289,
+      "DayMonth": "16/10",
+      "Production": 19.8,
+      "Usage": 4.342,
+      "Injection": 17560
+    },
+    {
+      "DayNumber": 290,
+      "DayMonth": "17/10",
+      "Production": 25.9,
+      "Usage": 4.165,
+      "Injection": 20149
+    },
+    {
+      "DayNumber": 291,
+      "DayMonth": "18/10",
+      "Production": 14.3,
+      "Usage": 16.187,
+      "Injection": 4017
+    },
+    {
+      "DayNumber": 292,
+      "DayMonth": "19/10",
+      "Production": 10.8,
+      "Usage": 38.211,
+      "Injection": 6267
+    },
+    {
+      "DayNumber": 293,
+      "DayMonth": "20/10",
+      "Production": 2.7,
+      "Usage": 5.016,
+      "Injection": 0.68
+    },
+    {
+      "DayNumber": 294,
+      "DayMonth": "21/10",
+      "Production": 14.2,
+      "Usage": 10.072,
+      "Injection": 11749
+    },
+    {
+      "DayNumber": 295,
+      "DayMonth": "22/10",
+      "Production": 11.8,
+      "Usage": 53.593,
+      "Injection": 8253
+    },
+    {
+      "DayNumber": 296,
+      "DayMonth": "23/10",
+      "Production": 7.7,
+      "Usage": 8.051,
+      "Injection": 5419
+    },
+    {
+      "DayNumber": 297,
+      "DayMonth": "24/10",
+      "Production": 13.7,
+      "Usage": 10.857,
+      "Injection": 9919
+    },
+    {
+      "DayNumber": 298,
+      "DayMonth": "25/10",
+      "Production": 2.2,
+      "Usage": 21.836,
+      "Injection": 129
+    },
+    {
+      "DayNumber": 299,
+      "DayMonth": "26/10",
+      "Production": 8,
+      "Usage": 35.53,
+      "Injection": 5619
+    },
+    {
+      "DayNumber": 300,
+      "DayMonth": "27/10",
+      "Production": 9.5,
+      "Usage": 15.919,
+      "Injection": 4832
+    },
+    {
+      "DayNumber": 301,
+      "DayMonth": "28/10",
+      "Production": 14.1,
+      "Usage": 43.417,
+      "Injection": 9708
+    },
+    {
+      "DayNumber": 302,
+      "DayMonth": "29/10",
+      "Production": 9.8,
+      "Usage": 6.654,
+      "Injection": 6629
+    },
+    {
+      "DayNumber": 303,
+      "DayMonth": "30/10",
+      "Production": 3.6,
+      "Usage": 4.891,
+      "Injection": 1297
+    },
+    {
+      "DayNumber": 304,
+      "DayMonth": "31/10",
+      "Production": 8.9,
+      "Usage": 10.848,
+      "Injection": 3253
+    },
+    {
+      "DayNumber": 305,
+      "DayMonth": "1/11",
+      "Production": 8,
+      "Usage": 4.418,
+      "Injection": 5348
+    },
+    {
+      "DayNumber": 306,
+      "DayMonth": "2/11",
+      "Production": 8.6,
+      "Usage": 2.115,
+      "Injection": 7205
+    },
+    {
+      "DayNumber": 307,
+      "DayMonth": "3/11",
+      "Production": 17,
+      "Usage": 2.204,
+      "Injection": 15613
+    },
+    {
+      "DayNumber": 308,
+      "DayMonth": "4/11",
+      "Production": 4.8,
+      "Usage": 8.979,
+      "Injection": 2753
+    },
+    {
+      "DayNumber": 309,
+      "DayMonth": "5/11",
+      "Production": 5.7,
+      "Usage": 15.624,
+      "Injection": 1236
+    },
+    {
+      "DayNumber": 310,
+      "DayMonth": "6/11",
+      "Production": 12.7,
+      "Usage": 31.401,
+      "Injection": 10056
+    },
+    {
+      "DayNumber": 311,
+      "DayMonth": "7/11",
+      "Production": 11.1,
+      "Usage": 42.122,
+      "Injection": 7225
+    },
+    {
+      "DayNumber": 312,
+      "DayMonth": "8/11",
+      "Production": 7.9,
+      "Usage": 8.195,
+      "Injection": 5805
+    },
+    {
+      "DayNumber": 313,
+      "DayMonth": "9/11",
+      "Production": 11.7,
+      "Usage": 28.415,
+      "Injection": 7563
+    },
+    {
+      "DayNumber": 314,
+      "DayMonth": "10/11",
+      "Production": 4,
+      "Usage": 8.973,
+      "Injection": 2641
+    },
+    {
+      "DayNumber": 315,
+      "DayMonth": "11/11",
+      "Production": 10.2,
+      "Usage": 8.851,
+      "Injection": 6172
+    },
+    {
+      "DayNumber": 316,
+      "DayMonth": "12/11",
+      "Production": 7.2,
+      "Usage": 8.937,
+      "Injection": 3395
+    },
+    {
+      "DayNumber": 317,
+      "DayMonth": "13/11",
+      "Production": 3.1,
+      "Usage": 7.785,
+      "Injection": 1587
+    },
+    {
+      "DayNumber": 318,
+      "DayMonth": "14/11",
+      "Production": 1.1,
+      "Usage": 51.462,
+      "Injection": 44
+    },
+    {
+      "DayNumber": 319,
+      "DayMonth": "15/11",
+      "Production": 12.4,
+      "Usage": 5.525,
+      "Injection": 9534
+    },
+    {
+      "DayNumber": 320,
+      "DayMonth": "16/11",
+      "Production": 2.1,
+      "Usage": 6.805,
+      "Injection": 385
+    },
+    {
+      "DayNumber": 321,
+      "DayMonth": "17/11",
+      "Production": 4.8,
+      "Usage": 28.2,
+      "Injection": 2.23
+    },
+    {
+      "DayNumber": 322,
+      "DayMonth": "18/11",
+      "Production": 0.8,
+      "Usage": 33.479,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 323,
+      "DayMonth": "19/11",
+      "Production": 8.6,
+      "Usage": 10.436,
+      "Injection": 6327
+    },
+    {
+      "DayNumber": 324,
+      "DayMonth": "20/11",
+      "Production": 3.2,
+      "Usage": 63.657,
+      "Injection": 442
+    },
+    {
+      "DayNumber": 325,
+      "DayMonth": "21/11",
+      "Production": 2.5,
+      "Usage": 8.148,
+      "Injection": 1187
+    },
+    {
+      "DayNumber": 326,
+      "DayMonth": "22/11",
+      "Production": 5.4,
+      "Usage": 9.319,
+      "Injection": 2855
+    },
+    {
+      "DayNumber": 327,
+      "DayMonth": "23/11",
+      "Production": 4.7,
+      "Usage": 39.774,
+      "Injection": 1076
+    },
+    {
+      "DayNumber": 328,
+      "DayMonth": "24/11",
+      "Production": 5.9,
+      "Usage": 50.546,
+      "Injection": 3689
+    },
+    {
+      "DayNumber": 329,
+      "DayMonth": "25/11",
+      "Production": 12.3,
+      "Usage": 23.782,
+      "Injection": 10347
+    },
+    {
+      "DayNumber": 330,
+      "DayMonth": "26/11",
+      "Production": 3,
+      "Usage": 32.103,
+      "Injection": 1570
+    },
+    {
+      "DayNumber": 331,
+      "DayMonth": "27/11",
+      "Production": 0.6,
+      "Usage": 30.632,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 332,
+      "DayMonth": "28/11",
+      "Production": 15.7,
+      "Usage": 16.35,
+      "Injection": 9199
+    },
+    {
+      "DayNumber": 333,
+      "DayMonth": "29/11",
+      "Production": 7.5,
+      "Usage": 37.787,
+      "Injection": 4306
+    },
+    {
+      "DayNumber": 334,
+      "DayMonth": "30/11",
+      "Production": 2.3,
+      "Usage": 5.998,
+      "Injection": 990
+    },
+    {
+      "DayNumber": 335,
+      "DayMonth": "1/12",
+      "Production": 1.7,
+      "Usage": 18.211,
+      "Injection": 570
+    },
+    {
+      "DayNumber": 336,
+      "DayMonth": "2/12",
+      "Production": 12.9,
+      "Usage": 41.092,
+      "Injection": 10884
+    },
+    {
+      "DayNumber": 337,
+      "DayMonth": "3/12",
+      "Production": 3.4,
+      "Usage": 12.913,
+      "Injection": 721
+    },
+    {
+      "DayNumber": 338,
+      "DayMonth": "4/12",
+      "Production": 1.9,
+      "Usage": 7.386,
+      "Injection": 758
+    },
+    {
+      "DayNumber": 339,
+      "DayMonth": "5/12",
+      "Production": 0.6,
+      "Usage": 31.181,
+      "Injection": 420
+    },
+    {
+      "DayNumber": 340,
+      "DayMonth": "6/12",
+      "Production": 4,
+      "Usage": 23.098,
+      "Injection": 1960
+    },
+    {
+      "DayNumber": 341,
+      "DayMonth": "7/12",
+      "Production": 7.2,
+      "Usage": 7.042,
+      "Injection": 4979
+    },
+    {
+      "DayNumber": 342,
+      "DayMonth": "8/12",
+      "Production": 1.5,
+      "Usage": 21.92,
+      "Injection": 46
+    },
+    {
+      "DayNumber": 343,
+      "DayMonth": "9/12",
+      "Production": 0.9,
+      "Usage": 49.056,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 344,
+      "DayMonth": "10/12",
+      "Production": 5.2,
+      "Usage": 18.342,
+      "Injection": 962
+    },
+    {
+      "DayNumber": 345,
+      "DayMonth": "11/12",
+      "Production": 2.3,
+      "Usage": 10.547,
+      "Injection": 645
+    },
+    {
+      "DayNumber": 346,
+      "DayMonth": "12/12",
+      "Production": 3.1,
+      "Usage": 6.515,
+      "Injection": 638
+    },
+    {
+      "DayNumber": 347,
+      "DayMonth": "13/12",
+      "Production": 1.9,
+      "Usage": 15.906,
+      "Injection": 199
+    },
+    {
+      "DayNumber": 348,
+      "DayMonth": "14/12",
+      "Production": 4,
+      "Usage": 45.648,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 349,
+      "DayMonth": "15/12",
+      "Production": 2,
+      "Usage": 6.26,
+      "Injection": 374
+    },
+    {
+      "DayNumber": 350,
+      "DayMonth": "16/12",
+      "Production": 2,
+      "Usage": 7.077,
+      "Injection": 95
+    },
+    {
+      "DayNumber": 351,
+      "DayMonth": "17/12",
+      "Production": 14.5,
+      "Usage": 17.404,
+      "Injection": 92
+    },
+    {
+      "DayNumber": 352,
+      "DayMonth": "18/12",
+      "Production": 1.2,
+      "Usage": 7.134,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 353,
+      "DayMonth": "19/12",
+      "Production": 0.1,
+      "Usage": 20.359,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 354,
+      "DayMonth": "20/12",
+      "Production": 3.6,
+      "Usage": 39.621,
+      "Injection": 1573
+    },
+    {
+      "DayNumber": 355,
+      "DayMonth": "21/12",
+      "Production": 2.4,
+      "Usage": 14.92,
+      "Injection": 259
+    },
+    {
+      "DayNumber": 356,
+      "DayMonth": "22/12",
+      "Production": 1.2,
+      "Usage": 49.625,
+      "Injection": 100
+    },
+    {
+      "DayNumber": 357,
+      "DayMonth": "23/12",
+      "Production": 1.9,
+      "Usage": 27.17,
+      "Injection": 372
+    },
+    {
+      "DayNumber": 358,
+      "DayMonth": "24/12",
+      "Production": 0.6,
+      "Usage": 15.159,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 359,
+      "DayMonth": "25/12",
+      "Production": 0.6,
+      "Usage": 59.16,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 360,
+      "DayMonth": "26/12",
+      "Production": 8.4,
+      "Usage": 35.94,
+      "Injection": 4610
+    },
+    {
+      "DayNumber": 361,
+      "DayMonth": "27/12",
+      "Production": 2.7,
+      "Usage": 9.74,
+      "Injection": 570
+    },
+    {
+      "DayNumber": 362,
+      "DayMonth": "28/12",
+      "Production": 4.1,
+      "Usage": 29.42,
+      "Injection": 1140
+    },
+    {
+      "DayNumber": 363,
+      "DayMonth": "29/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 364,
+      "DayMonth": "30/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 365,
+      "DayMonth": "31/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    }
+  ],
+  "2024": [
+    {
+      "DayNumber": 1,
+      "DayMonth": "1/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 2,
+      "DayMonth": "2/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 3,
+      "DayMonth": "3/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 4,
+      "DayMonth": "4/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 5,
+      "DayMonth": "5/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 6,
+      "DayMonth": "6/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 7,
+      "DayMonth": "7/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 8,
+      "DayMonth": "8/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 9,
+      "DayMonth": "9/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 10,
+      "DayMonth": "10/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 11,
+      "DayMonth": "11/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 12,
+      "DayMonth": "12/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 13,
+      "DayMonth": "13/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 14,
+      "DayMonth": "14/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 15,
+      "DayMonth": "15/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 16,
+      "DayMonth": "16/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 17,
+      "DayMonth": "17/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 18,
+      "DayMonth": "18/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 19,
+      "DayMonth": "19/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 20,
+      "DayMonth": "20/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 21,
+      "DayMonth": "21/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 22,
+      "DayMonth": "22/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 23,
+      "DayMonth": "23/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 24,
+      "DayMonth": "24/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 25,
+      "DayMonth": "25/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 26,
+      "DayMonth": "26/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 27,
+      "DayMonth": "27/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 28,
+      "DayMonth": "28/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 29,
+      "DayMonth": "29/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 30,
+      "DayMonth": "30/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 31,
+      "DayMonth": "31/1",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 32,
+      "DayMonth": "1/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 33,
+      "DayMonth": "2/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 34,
+      "DayMonth": "3/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 35,
+      "DayMonth": "4/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 36,
+      "DayMonth": "5/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 37,
+      "DayMonth": "6/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 38,
+      "DayMonth": "7/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 39,
+      "DayMonth": "8/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 40,
+      "DayMonth": "9/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 41,
+      "DayMonth": "10/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 42,
+      "DayMonth": "11/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 43,
+      "DayMonth": "12/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 44,
+      "DayMonth": "13/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 45,
+      "DayMonth": "14/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 46,
+      "DayMonth": "15/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 47,
+      "DayMonth": "16/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 48,
+      "DayMonth": "17/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 49,
+      "DayMonth": "18/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 50,
+      "DayMonth": "19/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 51,
+      "DayMonth": "20/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 52,
+      "DayMonth": "21/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 53,
+      "DayMonth": "22/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 54,
+      "DayMonth": "23/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 55,
+      "DayMonth": "24/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 56,
+      "DayMonth": "25/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 57,
+      "DayMonth": "26/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 58,
+      "DayMonth": "27/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 59,
+      "DayMonth": "28/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 60,
+      "DayMonth": "29/2",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 61,
+      "DayMonth": "1/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 62,
+      "DayMonth": "2/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 63,
+      "DayMonth": "3/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 64,
+      "DayMonth": "4/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 65,
+      "DayMonth": "5/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 66,
+      "DayMonth": "6/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 67,
+      "DayMonth": "7/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 68,
+      "DayMonth": "8/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 69,
+      "DayMonth": "9/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 70,
+      "DayMonth": "10/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 71,
+      "DayMonth": "11/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 72,
+      "DayMonth": "12/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 73,
+      "DayMonth": "13/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 74,
+      "DayMonth": "14/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 75,
+      "DayMonth": "15/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 76,
+      "DayMonth": "16/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 77,
+      "DayMonth": "17/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 78,
+      "DayMonth": "18/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 79,
+      "DayMonth": "19/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 80,
+      "DayMonth": "20/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 81,
+      "DayMonth": "21/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 82,
+      "DayMonth": "22/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 83,
+      "DayMonth": "23/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 84,
+      "DayMonth": "24/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 85,
+      "DayMonth": "25/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 86,
+      "DayMonth": "26/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 87,
+      "DayMonth": "27/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 88,
+      "DayMonth": "28/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 89,
+      "DayMonth": "29/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 90,
+      "DayMonth": "30/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 91,
+      "DayMonth": "31/3",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 92,
+      "DayMonth": "1/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 93,
+      "DayMonth": "2/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 94,
+      "DayMonth": "3/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 95,
+      "DayMonth": "4/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 96,
+      "DayMonth": "5/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 97,
+      "DayMonth": "6/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 98,
+      "DayMonth": "7/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 99,
+      "DayMonth": "8/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 100,
+      "DayMonth": "9/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 101,
+      "DayMonth": "10/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 102,
+      "DayMonth": "11/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 103,
+      "DayMonth": "12/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 104,
+      "DayMonth": "13/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 105,
+      "DayMonth": "14/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 106,
+      "DayMonth": "15/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 107,
+      "DayMonth": "16/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 108,
+      "DayMonth": "17/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 109,
+      "DayMonth": "18/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 110,
+      "DayMonth": "19/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 111,
+      "DayMonth": "20/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 112,
+      "DayMonth": "21/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 113,
+      "DayMonth": "22/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 114,
+      "DayMonth": "23/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 115,
+      "DayMonth": "24/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 116,
+      "DayMonth": "25/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 117,
+      "DayMonth": "26/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 118,
+      "DayMonth": "27/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 119,
+      "DayMonth": "28/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 120,
+      "DayMonth": "29/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 121,
+      "DayMonth": "30/4",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 122,
+      "DayMonth": "1/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 123,
+      "DayMonth": "2/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 124,
+      "DayMonth": "3/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 125,
+      "DayMonth": "4/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 126,
+      "DayMonth": "5/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 127,
+      "DayMonth": "6/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 128,
+      "DayMonth": "7/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 129,
+      "DayMonth": "8/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 130,
+      "DayMonth": "9/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 131,
+      "DayMonth": "10/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 132,
+      "DayMonth": "11/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 133,
+      "DayMonth": "12/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 134,
+      "DayMonth": "13/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 135,
+      "DayMonth": "14/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 136,
+      "DayMonth": "15/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 137,
+      "DayMonth": "16/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 138,
+      "DayMonth": "17/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 139,
+      "DayMonth": "18/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 140,
+      "DayMonth": "19/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 141,
+      "DayMonth": "20/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 142,
+      "DayMonth": "21/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 143,
+      "DayMonth": "22/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 144,
+      "DayMonth": "23/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 145,
+      "DayMonth": "24/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 146,
+      "DayMonth": "25/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 147,
+      "DayMonth": "26/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 148,
+      "DayMonth": "27/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 149,
+      "DayMonth": "28/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 150,
+      "DayMonth": "29/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 151,
+      "DayMonth": "30/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 152,
+      "DayMonth": "31/5",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 153,
+      "DayMonth": "1/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 154,
+      "DayMonth": "2/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 155,
+      "DayMonth": "3/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 156,
+      "DayMonth": "4/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 157,
+      "DayMonth": "5/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 158,
+      "DayMonth": "6/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 159,
+      "DayMonth": "7/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 160,
+      "DayMonth": "8/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 161,
+      "DayMonth": "9/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 162,
+      "DayMonth": "10/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 163,
+      "DayMonth": "11/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 164,
+      "DayMonth": "12/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 165,
+      "DayMonth": "13/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 166,
+      "DayMonth": "14/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 167,
+      "DayMonth": "15/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 168,
+      "DayMonth": "16/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 169,
+      "DayMonth": "17/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 170,
+      "DayMonth": "18/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 171,
+      "DayMonth": "19/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 172,
+      "DayMonth": "20/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 173,
+      "DayMonth": "21/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 174,
+      "DayMonth": "22/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 175,
+      "DayMonth": "23/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 176,
+      "DayMonth": "24/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 177,
+      "DayMonth": "25/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 178,
+      "DayMonth": "26/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 179,
+      "DayMonth": "27/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 180,
+      "DayMonth": "28/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 181,
+      "DayMonth": "29/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 182,
+      "DayMonth": "30/6",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 183,
+      "DayMonth": "1/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 184,
+      "DayMonth": "2/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 185,
+      "DayMonth": "3/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 186,
+      "DayMonth": "4/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 187,
+      "DayMonth": "5/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 188,
+      "DayMonth": "6/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 189,
+      "DayMonth": "7/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 190,
+      "DayMonth": "8/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 191,
+      "DayMonth": "9/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 192,
+      "DayMonth": "10/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 193,
+      "DayMonth": "11/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 194,
+      "DayMonth": "12/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 195,
+      "DayMonth": "13/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 196,
+      "DayMonth": "14/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 197,
+      "DayMonth": "15/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 198,
+      "DayMonth": "16/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 199,
+      "DayMonth": "17/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 200,
+      "DayMonth": "18/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 201,
+      "DayMonth": "19/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 202,
+      "DayMonth": "20/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 203,
+      "DayMonth": "21/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 204,
+      "DayMonth": "22/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 205,
+      "DayMonth": "23/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 206,
+      "DayMonth": "24/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 207,
+      "DayMonth": "25/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 208,
+      "DayMonth": "26/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 209,
+      "DayMonth": "27/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 210,
+      "DayMonth": "28/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 211,
+      "DayMonth": "29/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 212,
+      "DayMonth": "30/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 213,
+      "DayMonth": "31/7",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 214,
+      "DayMonth": "1/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 215,
+      "DayMonth": "2/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 216,
+      "DayMonth": "3/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 217,
+      "DayMonth": "4/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 218,
+      "DayMonth": "5/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 219,
+      "DayMonth": "6/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 220,
+      "DayMonth": "7/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 221,
+      "DayMonth": "8/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 222,
+      "DayMonth": "9/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 223,
+      "DayMonth": "10/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 224,
+      "DayMonth": "11/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 225,
+      "DayMonth": "12/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 226,
+      "DayMonth": "13/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 227,
+      "DayMonth": "14/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 228,
+      "DayMonth": "15/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 229,
+      "DayMonth": "16/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 230,
+      "DayMonth": "17/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 231,
+      "DayMonth": "18/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 232,
+      "DayMonth": "19/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 233,
+      "DayMonth": "20/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 234,
+      "DayMonth": "21/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 235,
+      "DayMonth": "22/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 236,
+      "DayMonth": "23/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 237,
+      "DayMonth": "24/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 238,
+      "DayMonth": "25/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 239,
+      "DayMonth": "26/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 240,
+      "DayMonth": "27/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 241,
+      "DayMonth": "28/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 242,
+      "DayMonth": "29/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 243,
+      "DayMonth": "30/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 244,
+      "DayMonth": "31/8",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 245,
+      "DayMonth": "1/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 246,
+      "DayMonth": "2/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 247,
+      "DayMonth": "3/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 248,
+      "DayMonth": "4/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 249,
+      "DayMonth": "5/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 250,
+      "DayMonth": "6/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 251,
+      "DayMonth": "7/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 252,
+      "DayMonth": "8/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 253,
+      "DayMonth": "9/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 254,
+      "DayMonth": "10/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 255,
+      "DayMonth": "11/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 256,
+      "DayMonth": "12/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 257,
+      "DayMonth": "13/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 258,
+      "DayMonth": "14/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 259,
+      "DayMonth": "15/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 260,
+      "DayMonth": "16/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 261,
+      "DayMonth": "17/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 262,
+      "DayMonth": "18/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 263,
+      "DayMonth": "19/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 264,
+      "DayMonth": "20/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 265,
+      "DayMonth": "21/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 266,
+      "DayMonth": "22/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 267,
+      "DayMonth": "23/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 268,
+      "DayMonth": "24/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 269,
+      "DayMonth": "25/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 270,
+      "DayMonth": "26/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 271,
+      "DayMonth": "27/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 272,
+      "DayMonth": "28/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 273,
+      "DayMonth": "29/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 274,
+      "DayMonth": "30/9",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 275,
+      "DayMonth": "1/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 276,
+      "DayMonth": "2/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 277,
+      "DayMonth": "3/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 278,
+      "DayMonth": "4/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 279,
+      "DayMonth": "5/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 280,
+      "DayMonth": "6/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 281,
+      "DayMonth": "7/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 282,
+      "DayMonth": "8/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 283,
+      "DayMonth": "9/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 284,
+      "DayMonth": "10/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 285,
+      "DayMonth": "11/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 286,
+      "DayMonth": "12/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 287,
+      "DayMonth": "13/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 288,
+      "DayMonth": "14/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 289,
+      "DayMonth": "15/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 290,
+      "DayMonth": "16/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 291,
+      "DayMonth": "17/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 292,
+      "DayMonth": "18/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 293,
+      "DayMonth": "19/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 294,
+      "DayMonth": "20/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 295,
+      "DayMonth": "21/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 296,
+      "DayMonth": "22/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 297,
+      "DayMonth": "23/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 298,
+      "DayMonth": "24/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 299,
+      "DayMonth": "25/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 300,
+      "DayMonth": "26/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 301,
+      "DayMonth": "27/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 302,
+      "DayMonth": "28/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 303,
+      "DayMonth": "29/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 304,
+      "DayMonth": "30/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 305,
+      "DayMonth": "31/10",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 306,
+      "DayMonth": "1/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 307,
+      "DayMonth": "2/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 308,
+      "DayMonth": "3/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 309,
+      "DayMonth": "4/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 310,
+      "DayMonth": "5/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 311,
+      "DayMonth": "6/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 312,
+      "DayMonth": "7/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 313,
+      "DayMonth": "8/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 314,
+      "DayMonth": "9/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 315,
+      "DayMonth": "10/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 316,
+      "DayMonth": "11/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 317,
+      "DayMonth": "12/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 318,
+      "DayMonth": "13/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 319,
+      "DayMonth": "14/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 320,
+      "DayMonth": "15/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 321,
+      "DayMonth": "16/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 322,
+      "DayMonth": "17/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 323,
+      "DayMonth": "18/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 324,
+      "DayMonth": "19/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 325,
+      "DayMonth": "20/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 326,
+      "DayMonth": "21/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 327,
+      "DayMonth": "22/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 328,
+      "DayMonth": "23/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 329,
+      "DayMonth": "24/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 330,
+      "DayMonth": "25/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 331,
+      "DayMonth": "26/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 332,
+      "DayMonth": "27/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 333,
+      "DayMonth": "28/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 334,
+      "DayMonth": "29/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 335,
+      "DayMonth": "30/11",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 336,
+      "DayMonth": "1/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 337,
+      "DayMonth": "2/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 338,
+      "DayMonth": "3/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 339,
+      "DayMonth": "4/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 340,
+      "DayMonth": "5/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 341,
+      "DayMonth": "6/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 342,
+      "DayMonth": "7/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 343,
+      "DayMonth": "8/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 344,
+      "DayMonth": "9/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 345,
+      "DayMonth": "10/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 346,
+      "DayMonth": "11/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 347,
+      "DayMonth": "12/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 348,
+      "DayMonth": "13/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 349,
+      "DayMonth": "14/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 350,
+      "DayMonth": "15/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 351,
+      "DayMonth": "16/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 352,
+      "DayMonth": "17/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 353,
+      "DayMonth": "18/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 354,
+      "DayMonth": "19/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 355,
+      "DayMonth": "20/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 356,
+      "DayMonth": "21/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 357,
+      "DayMonth": "22/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 358,
+      "DayMonth": "23/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 359,
+      "DayMonth": "24/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 360,
+      "DayMonth": "25/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 361,
+      "DayMonth": "26/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 362,
+      "DayMonth": "27/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 363,
+      "DayMonth": "28/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 364,
+      "DayMonth": "29/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 365,
+      "DayMonth": "30/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    },
+    {
+      "DayNumber": 366,
+      "DayMonth": "31/12",
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0
+    }
+  ]
+}
