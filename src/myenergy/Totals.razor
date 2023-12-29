@@ -1,0 +1,43 @@
+﻿@using static myenergy.Pages.Home
+
+@if (Data!.ContainsKey(Key!))
+{
+    <CardGroup>
+        <Card Color="CardColor.Dark" Class="mb-4">
+            <CardHeader>Total Production</CardHeader>
+            <CardBody>
+                <CardTitle>@Data[Key!].TotalProduction</CardTitle>
+                </CardBody>
+            </Card>
+            <Card Color="CardColor.Warning" Class="mb-4">
+                <CardHeader>Total Net Injection</CardHeader>
+                <CardBody>
+                    <CardTitle>@Data[Key!].TotalNetInjection</CardTitle>
+                </CardBody>
+            </Card>
+            <Card Color="CardColor.Danger" Class="mb-4">
+                <CardHeader>Total Net Usage</CardHeader>
+                <CardBody>
+                    <CardTitle>@Data[Key!].TotalNetUsage</CardTitle>
+                </CardBody>
+            </Card>
+            <Card Color="CardColor.Success" Class="mb-4">
+                <CardHeader>Total Usage</CardHeader>
+                <CardBody>
+                    <CardTitle>@Data[Key!].TotalUsage</CardTitle>
+                </CardBody>
+            </Card>
+        </CardGroup>
+}
+else
+{
+    <div>Loading data...</div>
+}
+
+@code {
+    [Parameter]
+    public Dictionary<string, TotalData>? Data { get; set; }
+
+    [Parameter]
+    public string? Key { get; set; }
+}
