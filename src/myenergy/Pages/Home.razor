@@ -370,22 +370,17 @@
     private async Task YearChangedAsync()
     {
         await RenderSolarPanelsYearAsync(selectedYearIndex, false);
-        await RenderSolarPanelsMonthAsync(selectedYearIndex, selectedMonthIndex, false);
-        await RenderSolarPanelsWeekAsync(selectedYearIndex, selectedWeekIndex, false);
     }
 
     private async Task MonthChangedAsync()
     {
-        // await RenderSolarPanelsYearAsync(selectedYearIndex, false);
         await RenderSolarPanelsMonthAsync(selectedYearIndex, selectedMonthIndex, false);
-        // await RenderSolarPanelsWeekAsync(selectedYearIndex, selectedWeekIndex, false);
     }
 
     private async Task DayChangedAsync(DateOnly dateOnly)
     {
         selectedYearIndex = years.FindIndex(0, 1, f => f == dateOnly.Year);
         selectedDayOfYear = dateOnly.DayOfYear;
-        currentDate = dateOnly;
         await RenderSolarPanelsDayAsync(selectedYearIndex, selectedDayOfYear, false);
     }
 
