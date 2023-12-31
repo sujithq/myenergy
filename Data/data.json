@@ -2537,14 +2537,14 @@
     {
       "DayNumber": 363,
       "DayMonth": "29/12",
-      "Production": 0,
+      "Production": 1.9,
       "Usage": 24.84,
       "Injection": 280
     },
     {
       "DayNumber": 364,
       "DayMonth": "30/12",
-      "Production": 0,
+      "Production": 7.5,
       "Usage": 8.99,
       "Injection": 4949
     },
