@@ -2538,15 +2538,15 @@
       "DayNumber": 363,
       "DayMonth": "29/12",
       "Production": 0,
-      "Usage": 0,
-      "Injection": 0
+      "Usage": 24.84,
+      "Injection": 280
     },
     {
       "DayNumber": 364,
       "DayMonth": "30/12",
       "Production": 0,
-      "Usage": 0,
-      "Injection": 0
+      "Usage": 8.99,
+      "Injection": 4949
     },
     {
       "DayNumber": 365,
