@@ -2551,9 +2551,9 @@
     {
       "DayNumber": 365,
       "DayMonth": "31/12",
-      "Production": 0,
-      "Usage": 0,
-      "Injection": 0
+      "Production": 2,
+      "Usage": 7.45,
+      "Injection": 540
     }
   ],
   "2024": [
