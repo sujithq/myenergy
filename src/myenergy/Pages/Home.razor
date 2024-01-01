@@ -316,7 +316,7 @@
 
     static CultureInfo ci = new CultureInfo("nl-BE");
 
-    int selectedYearIndex = years.FindIndex(0, 1, f => f == DateTime.Now.Year);
+    int selectedYearIndex = DateTime.Now.Year - 2023; // years.FindIndex(0, 1, f => f == DateTime.Now.Year);
     int selectedMonthIndex = DateTime.Now.Month - 1;
     int selectedWeekIndex = ci.Calendar.GetWeekOfYear(DateTime.Now, ci.DateTimeFormat.CalendarWeekRule, ci.DateTimeFormat.FirstDayOfWeek) - 1;
     int selectedDayOfYear = DateTime.Now.DayOfYear;
