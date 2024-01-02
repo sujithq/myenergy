@@ -320,10 +320,10 @@ DateTime utcNow = DateTime.UtcNow;
 TimeZoneInfo belgiumZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
 DateTime belgiumTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, belgiumZone);
 
-    int selectedYearIndex = belgiumTime.Year - 2023; // years.FindIndex(0, 1, f => f == DateTime.Now.Year);
+    int selectedYearIndex = years.FindIndex(0, 1, f => f == belgiumTime.Now.Year);
     int selectedMonthIndex = DateTime.Now.Month - 1;
-    int selectedWeekIndex = ci.Calendar.GetWeekOfYear(DateTime.Now, ci.DateTimeFormat.CalendarWeekRule, ci.DateTimeFormat.FirstDayOfWeek) - 1;
-    int selectedDayOfYear = DateTime.Now.DayOfYear;
+    int selectedWeekIndex = ci.Calendar.GetWeekOfYear(belgiumTime.Now, ci.DateTimeFormat.CalendarWeekRule, ci.DateTimeFormat.FirstDayOfWeek) - 1;
+    int selectedDayOfYear = belgiumTime.DayOfYear;
 
     static int GetWeekOfYear(int dayOfYear, int year)
     {
