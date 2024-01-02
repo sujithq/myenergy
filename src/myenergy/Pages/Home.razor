@@ -323,10 +323,10 @@
     int selectedWeekIndex = ci.Calendar.GetWeekOfYear(belgiumTime.Now, ci.DateTimeFormat.CalendarWeekRule, ci.DateTimeFormat.FirstDayOfWeek) - 1;
     int selectedDayOfYear = belgiumTime.DayOfYear;
 
-private DateTime GetBelgiumTime(){
+private static void GetBelgiumTime(){
 DateTime utcNow = DateTime.UtcNow;
 TimeZoneInfo belgiumZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
-return TimeZoneInfo.ConvertTimeFromUtc(utcNow, belgiumZone);
+belgiumTime =  TimeZoneInfo.ConvertTimeFromUtc(utcNow, belgiumZone);
 }
 
 private static DateTime belgiumTime;
@@ -334,7 +334,7 @@ private static DateTime belgiumTime;
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        belgiumTime = GetBelgiumTime();
+        GetBelgiumTime();
     }
 
     static int GetWeekOfYear(int dayOfYear, int year)
