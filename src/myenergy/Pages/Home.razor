@@ -316,14 +316,26 @@
 
     static CultureInfo ci = new CultureInfo("nl-BE");
 
-DateTime utcNow = DateTime.UtcNow;
-TimeZoneInfo belgiumZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
-DateTime belgiumTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, belgiumZone);
+
 
     int selectedYearIndex = years.FindIndex(0, 1, f => f == belgiumTime.Now.Year);
     int selectedMonthIndex = DateTime.Now.Month - 1;
     int selectedWeekIndex = ci.Calendar.GetWeekOfYear(belgiumTime.Now, ci.DateTimeFormat.CalendarWeekRule, ci.DateTimeFormat.FirstDayOfWeek) - 1;
     int selectedDayOfYear = belgiumTime.DayOfYear;
+
+private DateTime GetBelgiumTime(){
+DateTime utcNow = DateTime.UtcNow;
+TimeZoneInfo belgiumZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
+return TimeZoneInfo.ConvertTimeFromUtc(utcNow, belgiumZone);
+}
+
+private DateTime belgiumTime;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        belgiumTime = GetBelgiumTime();
+    }
 
     static int GetWeekOfYear(int dayOfYear, int year)
     {
