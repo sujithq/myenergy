@@ -318,9 +318,9 @@
 
 
 
-    int selectedYearIndex = years.FindIndex(0, 1, f => f == belgiumTime.Now.Year);
+    int selectedYearIndex = years.FindIndex(0, 1, f => f == belgiumTime.Year);
     int selectedMonthIndex = belgiumTime.Month - 1;
-    int selectedWeekIndex = ci.Calendar.GetWeekOfYear(belgiumTime.Now, ci.DateTimeFormat.CalendarWeekRule, ci.DateTimeFormat.FirstDayOfWeek) - 1;
+    int selectedWeekIndex = ci.Calendar.GetWeekOfYear(belgiumTime, ci.DateTimeFormat.CalendarWeekRule, ci.DateTimeFormat.FirstDayOfWeek) - 1;
     int selectedDayOfYear = belgiumTime.DayOfYear;
 
 private static void GetBelgiumTime(){
