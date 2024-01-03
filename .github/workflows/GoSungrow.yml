@@ -1,0 +1,20 @@
+name: GoSungrow Workflow
+
+on: [workflow_dispatch]
+
+jobs:
+  install-and-use-go-package:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Download and Install Go Package
+      run: |
+        curl -L -o GoSungrow.tar.gz https://github.com/MickMake/GoSungrow/releases/download/v3.0.7/GoSungrow-linux_amd64.tar.gz
+        tar -xzf GoSungrow.tar.gz
+        echo "$(pwd)/GoSungrow" >> $GITHUB_PATH
+        GoSungrow config read
+
+    # Add additional steps to use the installed software
