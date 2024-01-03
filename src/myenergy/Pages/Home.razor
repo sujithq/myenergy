@@ -4,6 +4,8 @@
 
 @using System.Globalization
 @using System.Text.Json
+@using NodaTime
+@using NodaTime.Calendars
 
 <Tabs EnableFadeEffect="true"
       OnShown="@(args => OnTabShownAsync(args))">
@@ -123,7 +125,7 @@
 
     DateOnly minDate = DateOnly.FromDateTime(new DateTime(years.First(), 1, 1));
     DateOnly maxDate = DateOnly.FromDateTime(new DateTime(years.Last(), 12, 31));
-    DateOnly currentDate = DateOnly.FromDateTime(DateTime.Now);
+    DateOnly currentDate; // = belgiumTime.ToDateOnly();
 
     private Dictionary<int, List<BarChartData>> dataDaily = new();
 
@@ -318,23 +320,30 @@
 
 
 
-    int selectedYearIndex = years.FindIndex(0, 1, f => f == belgiumTime.Year);
-    int selectedMonthIndex = belgiumTime.Month - 1;
-    int selectedWeekIndex = ci.Calendar.GetWeekOfYear(belgiumTime, ci.DateTimeFormat.CalendarWeekRule, ci.DateTimeFormat.FirstDayOfWeek) - 1;
-    int selectedDayOfYear = belgiumTime.DayOfYear;
+    int selectedYearIndex; // = years.FindIndex(0, 1, f => f == belgiumTime.Year);
+    int selectedMonthIndex; // = belgiumTime.Month - 1;
+    int selectedWeekIndex; // = WeekYearRules.Iso.GetWeekOfWeekYear(belgiumTime); // ci.Calendar.GetWeekOfYear(belgiumTime, ci.DateTimeFormat.CalendarWeekRule, ci.DateTimeFormat.FirstDayOfWeek) - 1;
+    int selectedDayOfYear; // = belgiumTime.DayOfYear;
 
-private static void GetBelgiumTime(){
-DateTime utcNow = DateTime.UtcNow;
-TimeZoneInfo belgiumZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
-belgiumTime =  TimeZoneInfo.ConvertTimeFromUtc(utcNow, belgiumZone);
-}
+    private static void GetBelgiumTime()
+    {
+        Instant now = SystemClock.Instance.GetCurrentInstant();
+        DateTimeZone zone = DateTimeZoneProviders.Tzdb["Europe/Brussels"];
+        belgiumTime = now.InZone(zone).Date;
+    }
 
-private static DateTime belgiumTime;
+    private static LocalDate belgiumTime;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         GetBelgiumTime();
+
+        selectedYearIndex = belgiumTime.Year - years.First(); // years.FindIndex(0, 1, f => f == belgiumTime.Year);
+        selectedMonthIndex = belgiumTime.Month - 1;
+        selectedWeekIndex = WeekYearRules.Iso.GetWeekOfWeekYear(belgiumTime); // ci.Calendar.GetWeekOfYear(belgiumTime, ci.DateTimeFormat.CalendarWeekRule, ci.DateTimeFormat.FirstDayOfWeek) - 1;
+        selectedDayOfYear = belgiumTime.DayOfYear;
+        currentDate = belgiumTime.ToDateOnly();
     }
 
     static int GetWeekOfYear(int dayOfYear, int year)
@@ -395,7 +404,7 @@ private static DateTime belgiumTime;
 
     private async Task DayChangedAsync(DateOnly dateOnly)
     {
-        selectedYearIndex = years.FindIndex(0, 1, f => f == dateOnly.Year);
+        selectedYearIndex = dateOnly.Year - years.First();
         selectedDayOfYear = dateOnly.DayOfYear;
         await RenderSolarPanelsDayAsync(selectedYearIndex, selectedDayOfYear, false);
     }
