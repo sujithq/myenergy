@@ -14,7 +14,7 @@
             <p class="mt-3">
                 <Totals Data="@totals" Key="Day" />
                 <DateInput Value="currentDate" ValueExpression="() => currentDate" TValue="DateOnly" EnableMinMax="true" Min="@minDate" Max="@maxDate" Placeholder="Enter Date" ValueChanged="(value) => DayChangedAsync(value)" />
-                <BarChart @ref="barChartDay" Class="mb-4" />
+                <BarChart @ref="barChartDay" Class="mb-4" Height="200" />
             </p>
         </Content>
     </Tab>
@@ -37,7 +37,7 @@
                 </select>
                 <Totals Data="@totals" Key="Week" />
                 <input type="range" min="0" max="51" class="slider" @bind="selectedWeekIndex" @bind:after="WeekChangedAsync">
-                <BarChart @ref="barChartWeek" Class="mb-4" />
+                <BarChart @ref="barChartWeek" Class="mb-4" Height="200" />
             </p>
         </Content>
     </Tab>
@@ -74,7 +74,7 @@
                     }
                 </select>
                 <Totals Data="@totals" Key="Month" />
-                <BarChart @ref="barChartMonth" Class="mb-4" />
+                <BarChart @ref="barChartMonth" Class="mb-4" Height="200" />
             </p>
         </Content>
     </Tab>
@@ -96,7 +96,7 @@
                     }
                 </select>
                 <Totals Data="@totals" Key="Year" />
-                <BarChart @ref="barChartYear" Class="mb-4" />
+                <BarChart @ref="barChartYear" Class="mb-4" Height="200" />
             </p>
         </Content>
     </Tab>
