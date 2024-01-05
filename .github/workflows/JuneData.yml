@@ -27,7 +27,9 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Copy data file
-      run: cp ./src/myenergy/wwwroot/Data/data.json ./src/June.Data/Data/data.json
+      run: |
+        ls -la
+        cp ./src/myenergy/wwwroot/Data/data.json ./src/June.Data/Data/data.json
 
     - name: Build June.Data
       run: dotnet build src/June.Data -c Release
