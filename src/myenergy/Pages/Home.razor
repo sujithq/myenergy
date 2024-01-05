@@ -133,7 +133,7 @@
     {
         if (!dataDaily.Any())
         {
-            dataDaily = await Http.GetFromJsonAsync<Dictionary<int, List<BarChartData>>>("Data/data.json");
+            dataDaily = await Http.GetFromJsonAsync<Dictionary<int, List<BarChartData>>>($"Data/data.json?v{DateTime.UtcNow.Ticks}");
         }
 
         if (first)
