@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "myenergy",
   "resources": {
-    "hash": "sha256-KjA1+wUFkGj25Y0wHyt0dSndnPwcha7GE6h3TPjYCK8=",
+    "hash": "sha256-STp4dAZw4mC7RH8tSXY/FiXw1RXZJXRQOIjqwMKrzD4=",
     "jsModuleNative": {
       "dotnet.native.8.0.0.45ykigla5r.js": "sha256-LjLDIz9+J7uuiwMlQ4HbNx2BnSpphOtO2MwkoI28vdI="
     },
@@ -34,7 +34,7 @@
       "Microsoft.Extensions.Primitives.wasm": "sha256-Ms2HR5Gpug/0uRAzdk4SUNT76Ml3CjFv9Jo+dUIMGac=",
       "Microsoft.JSInterop.wasm": "sha256-xA6WZ/qJYSpIVN/cRJmsctenrQidtmWikG6iBHwRPMw=",
       "Microsoft.JSInterop.WebAssembly.wasm": "sha256-CQVLCKiSxLN5ghyJZG3mhnMGRROdqrbNUjtAXB0nWb8=",
-      "myenergy.wasm": "sha256-GUDA2hKYKMkUMM0+3Sa/pmA+IbQMawFKTI5z8KwLDoU=",
+      "myenergy.wasm": "sha256-sOExctkq60KspBIxlmM1HJqgx0mcY2Op8DjXRxBHKeo=",
       "NodaTime.wasm": "sha256-I9Q8xTrphNH8V080xWEzF3EGUFm80SERC8o/QsEi3Gk=",
       "System.Collections.Concurrent.wasm": "sha256-ZvrEQF84sw6CppNhMYNrLlT7CESY9MwceklEWTfVnYk=",
       "System.Collections.NonGeneric.wasm": "sha256-LB4cKXkUx1VUJTqX3AY+ERfRmP4qrQdyFDcTusxobxk=",
