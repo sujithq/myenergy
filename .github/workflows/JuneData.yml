@@ -47,6 +47,12 @@ jobs:
         SUNGROW_PS_ID: ${{ secrets.SUNGROW_PS_ID }}
     - name: Copy data file
       run: cp ./src/June.Data/bin/Release/net8.0/Data/data.json ./src/myenergy/wwwroot/Data/data.json
+    - name: Generate a token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
 
     - name: Commit Data File
       run: |
@@ -56,4 +62,4 @@ jobs:
         git commit -m "Add update data file"
         git push
       env:
-        GH_TOKEN: ${{ secrets.MYTOKEN }}
+        GH_TOKEN: ${{ steps.generate_token.outputs.token }}
