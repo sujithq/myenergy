@@ -46,12 +46,11 @@ jobs:
     - name: Copy data file
       run: cp ./src/June.Data/bin/Release/net8.0/Data/data.json ./src/myenergy/wwwroot/Data/data.json
     - name: Generate a token
-        id: generate_token
-        uses: actions/create-github-app-token@v1
-        with:
-          app-id: ${{ secrets.APP_ID }}
-          private-key: ${{ secrets.PRIVATE_KEY }}
-
+      id: generate_token
+      uses: actions/create-github-app-token@v1
+      with:
+        app-id: ${{ secrets.APP_ID }}
+        private-key: ${{ secrets.PRIVATE_KEY }}
     - name: Commit Data File
       run: |
         git config --global user.name 'Sujith Quintelier'
