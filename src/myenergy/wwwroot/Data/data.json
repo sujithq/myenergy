@@ -3317,18 +3317,18 @@
     {
       "DayNumber": 4,
       "DayMonth": "4/1",
-      "Production": 0,
-      "Usage": 0,
-      "Injection": 0,
-      "JuneProcessed": false,
-      "SungrowProcessed": false
+      "Production": 7400,
+      "Usage": 8.406,
+      "Injection": 5121,
+      "JuneProcessed": true,
+      "SungrowProcessed": true
     },
     {
       "DayNumber": 5,
       "DayMonth": "5/1",
-      "Production": 0,
-      "Usage": 0,
-      "Injection": 0,
+      "Production": 2500,
+      "Usage": 11.911,
+      "Injection": 395,
       "JuneProcessed": false,
       "SungrowProcessed": false
     },
