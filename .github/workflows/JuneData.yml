@@ -21,17 +21,19 @@ jobs:
     # uses GitHub's checkout action to checkout code form the master branch
     - uses: actions/checkout@v4
     
-    # sets up .NET Core SDK 7.0
+    # sets up .NET Core SDK 8.0
     - name: Setup .NET Core SDK
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8.0.x
+    - name: Copy data file
+      run: cp ./src/myenergy/wwwroot/Data/data.json ./src/June.Data/Data/data.json
 
     - name: Build June.Data
       run: dotnet build src/June.Data -c Release
 
     - name: Run JuneData
-      run: dotnet run --project src/June.Data -c Release
+      run: dotnet run --project src/June.Data -c Release --no-build --no-restore
       env:
         NETCORE_ENVIRONMENT: Production
         JUNE_CLIENT_ID: ${{ secrets.JUNE_CLIENT_ID }}
@@ -42,6 +44,8 @@ jobs:
         SUNGROW_APP_RSA_PUBLIC_KEY: ${{ secrets.SUNGROW_APP_RSA_PUBLIC_KEY }}
         SUNGROW_PASSWORD: ${{ secrets.SUNGROW_PASSWORD }}
         SUNGROW_PS_ID: ${{ secrets.SUNGROW_PS_ID }}
+    - name: Copy data file
+      run: cp ./src/June.Data/bin/Release/net8.0/Data/data.json ./src/myenergy/wwwroot/Data/data.json
 
     - name: Commit Data File
       run: |

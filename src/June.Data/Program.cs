@@ -24,7 +24,6 @@ namespace June.Data
             var isDevelopment = string.IsNullOrEmpty(devEnvironmentVariable) ||
                                 devEnvironmentVariable.ToLower() == "development";
 
-            var cfg = isDevelopment ? "Debug" : "Release";
             //Determines the working environment as IHostingEnvironment is unavailable in a console app
 
             var builder = new ConfigurationBuilder();
@@ -38,11 +37,6 @@ namespace June.Data
                 builder
                     .AddUserSecrets<Program>();
             }
-            else
-            {
-                builder
-                   .AddEnvironmentVariables();
-            }
 
             var Configuration = builder.Build();
 
@@ -52,9 +46,7 @@ namespace June.Data
             services
                 .Configure<JuneSettings>(Configuration.GetSection(nameof(JuneSettings)))
                 .Configure<SungrowSettings>(Configuration.GetSection(nameof(SungrowSettings)))
-
                 .AddOptions()
-                //.AddLogging()
                 .BuildServiceProvider();
 
             var serviceProvider = services.BuildServiceProvider();
@@ -73,42 +65,6 @@ namespace June.Data
             // Get token and user_id
             var token = sungrowLogin.RootElement.GetProperty("result_data").GetProperty("token").GetString();
             var user_id = sungrowLogin.RootElement.GetProperty("result_data").GetProperty("user_id").GetString();
-
-
-            // Get the CLR version
-            var clrVersion = Environment.Version;
-
-            var net = $"net{Environment.Version.Major}.{Environment.Version.Minor}";
-
-            // Print the CLR version
-            Console.WriteLine($"CLR Version: {clrVersion}");
-
-            // For detailed .NET Core or .NET version, we need to use RuntimeInformation.FrameworkDescription
-            var dotNetCoreVersion = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription;
-
-            // Print the .NET Core/.NET version
-            Console.WriteLine($"Runtime Version: {dotNetCoreVersion}");
-
-
-            // Get the current directory (assuming it's the Debug/net8.0 directory)
-            string currentDirectory = Directory.GetCurrentDirectory();
-
-            // Construct the path to the source file
-            string sourceFile = Path.Combine(currentDirectory, @"../../../../myenergy/wwwroot/Data/data.json");
-
-            // Construct the path to the destination file
-            string destinationFile = Path.Combine(currentDirectory, @$"Data/data.json");
-
-            Console.WriteLine(File.Exists(sourceFile));
-            Console.WriteLine(File.Exists(destinationFile));
-
-
-            // Copy the file
-            File.Copy(Path.GetFullPath(sourceFile), Path.GetFullPath(destinationFile), overwrite: true);
-
-
-            //\bin\Debug\net8.0
-            //myenergy\wwwroot\Data
 
             var data = JsonSerializer.Deserialize<Dictionary<int, List<BarChartData>>>(await File.ReadAllTextAsync("Data/data.json"));
 
@@ -157,7 +113,7 @@ namespace June.Data
             File.WriteAllText("Data/data.json", JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true }));
 
             // Copy the file
-            File.Copy(Path.GetFullPath(destinationFile), Path.GetFullPath(sourceFile), overwrite: true);
+            //File.Copy(Path.GetFullPath(destinationFile), Path.GetFullPath(sourceFile), overwrite: true);
 
         }
     }
