@@ -6,8 +6,6 @@ on:
     - cron: '0 4 * * *' # Runs every day at 4:00 AM UTC
 
   workflow_dispatch: # Allows manual triggering as well
-    branches: [ main ]
-
 
 permissions:
   contents: write
