@@ -66,7 +66,7 @@ namespace June.Data
             var token = sungrowLogin.RootElement.GetProperty("result_data").GetProperty("token").GetString();
             var user_id = sungrowLogin.RootElement.GetProperty("result_data").GetProperty("user_id").GetString();
 
-            var data = JsonSerializer.Deserialize<Dictionary<int, List<BarChartData>>>(await File.ReadAllTextAsync("Data/data.json"));
+            var data = JsonSerializer.Deserialize<Dictionary<int, List<BarChartData>>>(await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Data/data.json")));
 
             var cultureInfo = new CultureInfo("en-US");
             var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
@@ -110,7 +110,7 @@ namespace June.Data
                 data![item.Key][item.DayNumber - 1] = new BarChartData(d.DayNumber, d.DayMonth, production, d.Usage, d.Injection, d.JuneProcessed, item.Item4 == currentDateInBelgium ? false : true);
             }
 
-            File.WriteAllText("Data/data.json", JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true }));
+            File.WriteAllText(Path.Combine(AppContext.BaseDirectory, "Data/data.json"), JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true }));
 
             // Copy the file
             //File.Copy(Path.GetFullPath(destinationFile), Path.GetFullPath(sourceFile), overwrite: true);

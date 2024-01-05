@@ -30,7 +30,6 @@ jobs:
       run: |
         ls -la
         cp ./src/myenergy/wwwroot/Data/data.json ./src/June.Data/Data/data.json
-
     - name: Build June.Data
       run: dotnet build src/June.Data -c Release
 
