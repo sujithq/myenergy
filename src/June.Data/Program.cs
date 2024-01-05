@@ -1,10 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Globalization;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
@@ -36,10 +32,16 @@ namespace June.Data
             builder
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
-            //only add secrets in development
+            // only add secrets in development
             if (isDevelopment)
             {
-                builder.AddUserSecrets<Program>();
+                builder
+                    .AddUserSecrets<Program>();
+            }
+            else
+            {
+                builder
+                   .AddEnvironmentVariables();
             }
 
             var Configuration = builder.Build();
@@ -50,6 +52,7 @@ namespace June.Data
             services
                 .Configure<JuneSettings>(Configuration.GetSection(nameof(JuneSettings)))
                 .Configure<SungrowSettings>(Configuration.GetSection(nameof(SungrowSettings)))
+
                 .AddOptions()
                 //.AddLogging()
                 .BuildServiceProvider();
@@ -59,6 +62,23 @@ namespace June.Data
             // Get JuneSettings from DI
             var juneSettings = serviceProvider.GetService<IOptions<JuneSettings>>();
             var sungrowSettings = serviceProvider.GetService<IOptions<SungrowSettings>>();
+
+
+            if (!isDevelopment)
+            {
+                juneSettings!.Value.password = Environment.GetEnvironmentVariable("JUNE_PASSWORD");
+                juneSettings.Value.client_id = Environment.GetEnvironmentVariable("JUNE_CLIENT_ID");
+                juneSettings.Value.client_secret = Environment.GetEnvironmentVariable("JUNE_CLIENT_SECRET");
+
+                sungrowSettings!.Value.password = Environment.GetEnvironmentVariable("SUNGROW_PASSWORD");
+                sungrowSettings.Value.APP_RSA_PUBLIC_KEY = Environment.GetEnvironmentVariable("SUNGROW_APP_RSA_PUBLIC_KEY");
+                sungrowSettings.Value.ACCESS_KEY = Environment.GetEnvironmentVariable("SUNGROW_ACCESS_KEY");
+                sungrowSettings.Value.APP_KEY = Environment.GetEnvironmentVariable("SUNGROW_APP_KEY");
+                sungrowSettings.Value.PS_ID = Environment.GetEnvironmentVariable("SUNGROW_PS_ID");
+                sungrowSettings.Value.gatewayUrl = Environment.GetEnvironmentVariable("SUNGROW_GATEWAY_URL");
+
+            }
+
 
             var juneScraper = new JuneScraper(juneSettings!.Value);
             var sungrowScraper = new SungrowScraper(sungrowSettings!.Value);
