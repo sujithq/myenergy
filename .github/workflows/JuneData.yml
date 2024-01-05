@@ -28,10 +28,19 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Build June.Data
-      run: dotnet build src/June.Data
+      run: dotnet build src/June.Data -c Release
 
     - name: Run JuneData
       run: dotnet run --project src/June.Data -c Release
+      env:
+        JUNE_CLIENT_ID: ${{ secrets.JUNE_CLIENT_ID }}
+        JUNE_CLIENT_SECRET: ${{ secrets.JUNE_CLIENT_SECRET }}
+        JUNE_PASSWORD: ${{ secrets.JUNE_PASSWORD }}
+        SUNGROW_ACCESS_KEY: ${{ secrets.SUNGROW_ACCESS_KEY }}
+        SUNGROW_APP_KEY: ${{ secrets.SUNGROW_APP_KEY }} 
+        SUNGROW_APP_RSA_PUBLIC_KEY: ${{ secrets.SUNGROW_APP_RSA_PUBLIC_KEY }}
+        SUNGROW_PASSWORD: ${{ secrets.SUNGROW_PASSWORD }}
+        SUNGROW_PS_ID: ${{ secrets.SUNGROW_PS_ID }}
 
     - name: Commit Data File
       run: |
