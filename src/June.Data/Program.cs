@@ -63,23 +63,6 @@ namespace June.Data
             var juneSettings = serviceProvider.GetService<IOptions<JuneSettings>>();
             var sungrowSettings = serviceProvider.GetService<IOptions<SungrowSettings>>();
 
-
-            if (!isDevelopment)
-            {
-                juneSettings!.Value.password = Environment.GetEnvironmentVariable("JUNE_PASSWORD");
-                juneSettings.Value.client_id = Environment.GetEnvironmentVariable("JUNE_CLIENT_ID");
-                juneSettings.Value.client_secret = Environment.GetEnvironmentVariable("JUNE_CLIENT_SECRET");
-
-                sungrowSettings!.Value.password = Environment.GetEnvironmentVariable("SUNGROW_PASSWORD");
-                sungrowSettings.Value.APP_RSA_PUBLIC_KEY = Environment.GetEnvironmentVariable("SUNGROW_APP_RSA_PUBLIC_KEY");
-                sungrowSettings.Value.ACCESS_KEY = Environment.GetEnvironmentVariable("SUNGROW_ACCESS_KEY");
-                sungrowSettings.Value.APP_KEY = Environment.GetEnvironmentVariable("SUNGROW_APP_KEY");
-                sungrowSettings.Value.PS_ID = Environment.GetEnvironmentVariable("SUNGROW_PS_ID");
-                sungrowSettings.Value.gatewayUrl = Environment.GetEnvironmentVariable("SUNGROW_GATEWAY_URL");
-
-            }
-
-
             var juneScraper = new JuneScraper(juneSettings!.Value);
             var sungrowScraper = new SungrowScraper(sungrowSettings!.Value);
 
@@ -178,10 +161,14 @@ namespace June.Data
     internal class JuneScraper
     {
         private readonly JuneSettings settings;
-
         public JuneScraper(JuneSettings settings)
         {
             this.settings = settings;
+            this.settings.client_secret = Environment.GetEnvironmentVariable("JUNE_CLIENT_SECRET");
+            this.settings.client_id = Environment.GetEnvironmentVariable("JUNE_CLIENT_ID");
+            this.settings.password = Environment.GetEnvironmentVariable("JUNE_PASSWORD");
+            
+
         }
         public async Task<JsonDocument?> LoginAsync()
         {
@@ -214,7 +201,6 @@ namespace June.Data
             }
             return default;
         }
-
         public async Task<JsonDocument> GetData(Dictionary<string, string> config, string date_id)
         {
 
@@ -280,6 +266,12 @@ namespace June.Data
         {
             this.settings = settings;
             this.client = new HttpClient() { BaseAddress = new Uri(settings.gatewayUrl) };
+
+            this.settings.password = Environment.GetEnvironmentVariable("SUNGROW_PASSWORD");
+            this.settings.APP_RSA_PUBLIC_KEY = Environment.GetEnvironmentVariable("SUNGROW_APP_RSA_PUBLIC_KEY");
+            this.settings.ACCESS_KEY = Environment.GetEnvironmentVariable("SUNGROW_ACCESS_KEY");
+            this.settings.APP_KEY = Environment.GetEnvironmentVariable("SUNGROW_APP_KEY");
+            this.settings.PS_ID = Environment.GetEnvironmentVariable("SUNGROW_PS_ID");
         }
 
         private async Task<JsonDocument> GetData(string url, Dictionary<string, object> data, Dictionary<string, string> addtionalHeaders, string randomKey)
@@ -428,7 +420,6 @@ namespace June.Data
     {
         public string username { get; set; }
         public string password { get; set; }
-
         public string APP_RSA_PUBLIC_KEY { get; set; }
         public string ACCESS_KEY { get; set; }
         public string APP_KEY { get; set; }
