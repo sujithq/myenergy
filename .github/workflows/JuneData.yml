@@ -56,4 +56,4 @@ jobs:
         git commit -m "Add update data file"
         git push
       env:
-        GITHUB_TOKEN: ${{ secrets.MYTOKEN }}
+        GH_TOKEN: ${{ secrets.MYTOKEN }}
