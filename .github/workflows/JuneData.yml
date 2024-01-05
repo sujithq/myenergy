@@ -1,6 +1,6 @@
 name: June Data
 
-# Run workflow on every push to the master branch
+# Run workflow every day at 4:00 AM UTC or run manually
 on:
   schedule:
     - cron: '0 4 * * *' # Runs every day at 4:00 AM UTC
