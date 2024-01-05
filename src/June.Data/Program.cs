@@ -94,10 +94,14 @@ namespace June.Data
             string currentDirectory = Directory.GetCurrentDirectory();
 
             // Construct the path to the source file
-            string sourceFile = Path.Combine(currentDirectory, @"..\..\..\..\myenergy\wwwroot\Data\data.json");
+            string sourceFile = Path.Combine(currentDirectory, @"../../../../myenergy/wwwroot/Data/data.json");
 
             // Construct the path to the destination file
-            string destinationFile = Path.Combine(currentDirectory, @$"Data\data.json");
+            string destinationFile = Path.Combine(currentDirectory, @$"Data/data.json");
+
+            Console.WriteLine(File.Exists(sourceFile)); ;
+            Console.WriteLine(File.Exists(destinationFile)); ;
+
 
             // Copy the file
             File.Copy(Path.GetFullPath(sourceFile), Path.GetFullPath(destinationFile), overwrite: true);
@@ -366,6 +370,8 @@ namespace June.Data
         public async Task<JsonDocument> LoginAsync()
         {
             string randomKey = "web" + GenerateRandomWord(13);
+
+            settings.username
 
             return await GetData($"v1/userService/login", new Dictionary<string, object>
             {

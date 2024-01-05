@@ -33,6 +33,7 @@ jobs:
     - name: Run JuneData
       run: dotnet run --project src/June.Data -c Release
       env:
+        NETCORE_ENVIRONMENT: Production
         JUNE_CLIENT_ID: ${{ secrets.JUNE_CLIENT_ID }}
         JUNE_CLIENT_SECRET: ${{ secrets.JUNE_CLIENT_SECRET }}
         JUNE_PASSWORD: ${{ secrets.JUNE_PASSWORD }}
