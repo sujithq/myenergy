@@ -9,7 +9,7 @@
 
 <Tabs EnableFadeEffect="true"
       OnShown="@(args => OnTabShownAsync(args))">
-    <Tab Title="Day">
+    <Tab Title="Day" IsActive="true">
         <Content>
             <p class="mt-3">
                 <Totals Data="@totals" Key="Day" />
@@ -78,7 +78,7 @@
             </p>
         </Content>
     </Tab>
-    <Tab Title="Year" IsActive="true">
+    <Tab Title="Year">
         <Content>
             <p class="mt-3">
                 <label>Year</label>
