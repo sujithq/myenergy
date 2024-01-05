@@ -3290,38 +3290,38 @@
     {
       "DayNumber": 1,
       "DayMonth": "1/1",
-      "Production": 5200,
-      "Usage": 38.934,
-      "Injection": 3211,
-      "JuneProcessed": true,
-      "SungrowProcessed": true
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0,
+      "JuneProcessed": false,
+      "SungrowProcessed": false
     },
     {
       "DayNumber": 2,
       "DayMonth": "2/1",
-      "Production": 600,
-      "Usage": 40.711,
+      "Production": 0,
+      "Usage": 0,
       "Injection": 0,
-      "JuneProcessed": true,
-      "SungrowProcessed": true
+      "JuneProcessed": false,
+      "SungrowProcessed": false
     },
     {
       "DayNumber": 3,
       "DayMonth": "3/1",
-      "Production": 3300,
-      "Usage": 8.043,
-      "Injection": 1646,
-      "JuneProcessed": true,
-      "SungrowProcessed": true
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0,
+      "JuneProcessed": false,
+      "SungrowProcessed": false
     },
     {
       "DayNumber": 4,
       "DayMonth": "4/1",
-      "Production": 7400,
-      "Usage": 8.406,
-      "Injection": 5121,
-      "JuneProcessed": true,
-      "SungrowProcessed": true
+      "Production": 0,
+      "Usage": 0,
+      "Injection": 0,
+      "JuneProcessed": false,
+      "SungrowProcessed": false
     },
     {
       "DayNumber": 5,

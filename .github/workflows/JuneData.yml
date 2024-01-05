@@ -1,0 +1,51 @@
+name: June Data
+
+# Run workflow on every push to the master branch
+on:
+  schedule:
+    - cron: '0 4 * * *' # Runs every day at 4:00 AM UTC
+
+  workflow_dispatch: # Allows manual triggering as well
+
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    name: gitleaks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  deploy-to-github-pages:
+    needs: scan
+    # use ubuntu-latest image to run steps on
+    runs-on: ubuntu-latest
+    steps:
+    # uses GitHub's checkout action to checkout code form the master branch
+    - uses: actions/checkout@v4
+    
+    # sets up .NET Core SDK 7.0
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Build June.Data
+      run: dotnet build src/June.Data
+
+    - name: Run JuneData
+      run: dotnet run --project src/June.Data -c Release
+
+    - name: Commit Data File
+      run: |
+        git config --global user.name 'Sujith Quintelier'
+        git config --global user.email 'sujith.quintelier@gmail.com'
+        git add ./src/myenergy/wwwroot/Data/data.json
+        git commit -m "Add update data file"
+        git push

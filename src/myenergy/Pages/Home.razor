@@ -104,7 +104,7 @@
 
 @code {
 
-    record BarChartData(int DayNumber, string DayMonth, double Production, double Usage, double Injection);
+    record BarChartData(int DayNumber, string DayMonth, double Production, double Usage, double Injection, bool JuneProcessed, bool SungrowProcessed);
     public record TotalData(int TotalProduction, int TotalNetInjection, int TotalNetUsage, int TotalUsage);
 
     static List<int> years = new List<int> { 2023, 2024 };
@@ -337,6 +337,7 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
+
         GetBelgiumTime();
 
         selectedYearIndex = belgiumTime.Year - years.First(); // years.FindIndex(0, 1, f => f == belgiumTime.Year);

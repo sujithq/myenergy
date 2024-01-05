@@ -8,9 +8,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflow", "Workflow", "{B7DEE70E-0184-46EF-AA83-2D7E8F9106FE}"
 	ProjectSection(SolutionItems) = preProject
 		..\.github\workflows\main.yml = ..\.github\workflows\main.yml
+		..\.github\workflows\JuneData.yml = ..\.github\workflows\JuneData.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "June.Data", "June.Data\June.Data.csproj", "{6656076A-9291-447E-86C6-A919D98F0F84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "June.Data", "June.Data\June.Data.csproj", "{6656076A-9291-447E-86C6-A919D98F0F84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
