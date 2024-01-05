@@ -3326,9 +3326,9 @@
     {
       "DayNumber": 5,
       "DayMonth": "5/1",
-      "Production": 0,
-      "Usage": 0,
-      "Injection": 0,
+      "Production": 2500,
+      "Usage": 11.778,
+      "Injection": 395,
       "JuneProcessed": false,
       "SungrowProcessed": false
     },
