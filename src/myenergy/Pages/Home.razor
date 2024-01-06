@@ -100,6 +100,15 @@
             </p>
         </Content>
     </Tab>
+    <Tab Title="All">
+        <Content>
+            <p class="mt-3">
+                <Totals Data="@totals" Key="All" />
+                <BarChart @ref="barChartAll" Class="mb-4" />
+            </p>
+        </Content>
+    </Tab>
+
 </Tabs>
 
 @code {
@@ -122,6 +131,7 @@
     BarChart? barChartMonth;
     BarChart? barChartWeek;
     BarChart? barChartDay;
+    BarChart? barChartAll;
 
     DateOnly minDate = DateOnly.FromDateTime(new DateTime(years.First(), 1, 1));
     DateOnly maxDate = DateOnly.FromDateTime(new DateTime(years.Last(), 12, 31));
@@ -138,6 +148,7 @@
 
         if (first)
         {
+            await RenderSolarPanelsAllAsync(first);
             await RenderSolarPanelsYearAsync(selectedYearIndex, first);
             await RenderSolarPanelsWeekAsync(selectedYearIndex, selectedWeekIndex, first);
             await RenderSolarPanelsMonthAsync(selectedYearIndex, selectedMonthIndex, first);
@@ -214,6 +225,25 @@
 
         else
             await barChart.UpdateAsync(data, options);
+    }
+    private async Task RenderSolarPanelsAllAsync(bool init)
+    {
+        if (!dataDaily.Any())
+            return;
+
+        await SolarPanelsAsync(
+            dataDaily.Keys.Select(s=>s.ToString()).ToList(),
+            dataDaily.Select(s => s.Value.Sum(ss => ss.Production)).ToList(),
+            dataDaily.Select(s => s.Value.Sum(ss => ss.Usage)).ToList(),
+            dataDaily.Select(s => s.Value.Sum(ss => ss.Injection) / 1000).ToList(),
+            $"Solar Panels", init, barChartAll!, "Year"
+        );
+
+        totals["All"] = new TotalData((int)dataDaily.SelectMany(sm => sm.Value.Select(s => s.Production)).Sum(),
+                                        (int)dataDaily.SelectMany(sm => sm.Value.Select(s => s.Injection)).Sum() / 1000,
+                                        (int)dataDaily.SelectMany(sm => sm.Value.Select(s => s.Usage)).Sum(), (int)(dataDaily.SelectMany(sm => sm.Value.Select(s => s.Production)).Sum() + dataDaily.SelectMany(sm => sm.Value.Select(s => s.Usage)).Sum() - dataDaily.SelectMany(sm => sm.Value.Select(s => s.Injection)).Sum() / 1000));
+
+        await InvokeAsync(() => StateHasChanged());
     }
 
     private async Task RenderSolarPanelsYearAsync(int yearIndex, bool init)
@@ -340,11 +370,11 @@
 
         selectedYearIndex = belgiumTime.Year - years.First(); // years.FindIndex(0, 1, f => f == belgiumTime.Year);
         selectedMonthIndex = belgiumTime.Month - 1;
-        selectedWeekIndex = WeekYearRules.Iso.GetWeekOfWeekYear(belgiumTime); // ci.Calendar.GetWeekOfYear(belgiumTime, ci.DateTimeFormat.CalendarWeekRule, ci.DateTimeFormat.FirstDayOfWeek) - 1;
+        selectedWeekIndex = WeekYearRules.Iso.GetWeekOfWeekYear(belgiumTime) - 1; // ci.Calendar.GetWeekOfYear(belgiumTime, ci.DateTimeFormat.CalendarWeekRule, ci.DateTimeFormat.FirstDayOfWeek) - 1;
         selectedDayOfYear = belgiumTime.DayOfYear;
         currentDate = belgiumTime.ToDateOnly();
 
-base.OnInitialized();
+        base.OnInitialized();
 
 
     }
