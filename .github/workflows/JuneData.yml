@@ -8,7 +8,7 @@ on:
   workflow_dispatch: # Allows manual triggering as well
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   Run-June-Data:
@@ -60,7 +60,8 @@ jobs:
         git push origin main --force
       env:
         GH_TOKEN: ${{ steps.generate_token.outputs.token }}
-
+      permissions:
+        contents: write
     # publishes Blazor project to the release-folder
     - name: Publish .NET Core Project
       run: dotnet publish src/myenergy/myenergy.csproj -c Release -o release --nologo
