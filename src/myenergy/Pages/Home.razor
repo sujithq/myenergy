@@ -336,7 +336,9 @@
 
     protected override void OnInitialized()
     {
-        base.OnInitialized();
+dataDaily = await Http.GetFromJsonAsync<Dictionary<int, List<BarChartData>>>($"Data/data.json?v{DateTime.UtcNow.Ticks}");
+
+        
 
         GetBelgiumTime();
 
@@ -345,6 +347,10 @@
         selectedWeekIndex = WeekYearRules.Iso.GetWeekOfWeekYear(belgiumTime); // ci.Calendar.GetWeekOfYear(belgiumTime, ci.DateTimeFormat.CalendarWeekRule, ci.DateTimeFormat.FirstDayOfWeek) - 1;
         selectedDayOfYear = belgiumTime.DayOfYear;
         currentDate = belgiumTime.ToDateOnly();
+
+base.OnInitialized();
+
+
     }
 
     static int GetWeekOfYear(int dayOfYear, int year)
