@@ -336,10 +336,6 @@
 
     protected override void OnInitialized()
     {
-dataDaily = Http.GetFromJson<Dictionary<int, List<BarChartData>>>($"Data/data.json?v{DateTime.UtcNow.Ticks}");
-
-        
-
         GetBelgiumTime();
 
         selectedYearIndex = belgiumTime.Year - years.First(); // years.FindIndex(0, 1, f => f == belgiumTime.Year);
