@@ -336,7 +336,7 @@
 
     protected override void OnInitialized()
     {
-dataDaily = await Http.GetFromJsonAsync<Dictionary<int, List<BarChartData>>>($"Data/data.json?v{DateTime.UtcNow.Ticks}");
+dataDaily = Http.GetFromJson<Dictionary<int, List<BarChartData>>>($"Data/data.json?v{DateTime.UtcNow.Ticks}");
 
         
 
