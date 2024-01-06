@@ -3335,8 +3335,8 @@
     {
       "DayNumber": 6,
       "DayMonth": "6/1",
-      "Production": 0.1,
-      "Usage": 3.814,
+      "Production": 0.2,
+      "Usage": 3.965,
       "Injection": 0,
       "JuneProcessed": false,
       "SungrowProcessed": false
