@@ -143,7 +143,7 @@
     {
         if (!dataDaily.Any())
         {
-            dataDaily = await Http.GetFromJsonAsync<Dictionary<int, List<BarChartData>>>($"https://github.com/sujithq/myenergy/blob/main/src/myenergy/wwwroot/Data/data.json?v{DateTime.UtcNow.Ticks}");
+            dataDaily = await Http.GetFromJsonAsync<Dictionary<int, List<BarChartData>>>($"Data/data.json?v{DateTime.UtcNow.Ticks}");
         }
 
         if (first)
