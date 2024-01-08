@@ -3345,16 +3345,16 @@
       "DayNumber": 7,
       "DayMonth": "7/1",
       "Production": 0.5,
-      "Usage": 17.446,
+      "Usage": 17.552,
       "Injection": 0,
-      "JuneProcessed": false,
-      "SungrowProcessed": false
+      "JuneProcessed": true,
+      "SungrowProcessed": true
     },
     {
       "DayNumber": 8,
       "DayMonth": "8/1",
       "Production": 0,
-      "Usage": 0,
+      "Usage": 0.331,
       "Injection": 0,
       "JuneProcessed": false,
       "SungrowProcessed": false
