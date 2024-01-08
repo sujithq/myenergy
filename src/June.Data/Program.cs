@@ -115,10 +115,18 @@ namespace June.Data
             foreach (var item in listForSungrowProcessed)
             {
                 var sungrowData = await sungrowScraper.GetData(new Dictionary<string, string>() { { "token", token! }, { "user_id", user_id! } }, item.Item3);
-                var production = double.Parse(sungrowData.RootElement.GetProperty("result_data").GetProperty("day_data").GetProperty("p83077_map_virgin").GetProperty("value").GetString()!) / 1000;
+                var result_data = sungrowData.RootElement.GetProperty("result_data");
+                if(result_data.ValueKind == JsonValueKind.Null)
+                {
+                    await Console.Error.WriteLineAsync($"Error: ({sungrowData.RootElement.GetProperty("result_code").GetString()}) {sungrowData.RootElement.GetProperty("result_msg").GetString()}");
+                }
+                else
+                {
+                    var production = double.Parse(result_data.GetProperty("day_data").GetProperty("p83077_map_virgin").GetProperty("value").GetString()!) / 1000;
+                    var d = data![item.Key][item.DayNumber - 1];
+                    data![item.Key][item.DayNumber - 1] = new BarChartData(d.DayNumber, d.DayMonth, production, d.Usage, d.Injection, d.JuneProcessed, item.Item4 == currentDateInBelgium ? false : true);
 
-                var d = data![item.Key][item.DayNumber - 1];
-                data![item.Key][item.DayNumber - 1] = new BarChartData(d.DayNumber, d.DayMonth, production, d.Usage, d.Injection, d.JuneProcessed, item.Item4 == currentDateInBelgium ? false : true);
+                }
             }
 
             File.WriteAllText(Path.Combine(AppContext.BaseDirectory, "Data/data.json"), JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true }));
