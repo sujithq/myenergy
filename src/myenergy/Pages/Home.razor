@@ -6,9 +6,9 @@
 @using System.Text.Json
 @using NodaTime
 @using NodaTime.Calendars
+@using NodaTime.Extensions
 
-<Tabs EnableFadeEffect="true"
-      OnShown="@(args => OnTabShownAsync(args))">
+<Tabs EnableFadeEffect="true" OnShown="@(args => OnTabShownAsync(args))">
     <Tab Title="Day" IsActive="true">
         <Content>
             <p class="mt-3">
@@ -124,7 +124,8 @@
         { "Day", new TotalData(0, 0, 0, 0) },
         { "Week", new TotalData(0, 0, 0, 0) },
         { "Month", new TotalData(0, 0, 0, 0) },
-        { "Year", new TotalData(0, 0, 0, 0) }
+        { "Year", new TotalData(0, 0, 0, 0) },
+        { "All", new TotalData(0, 0, 0, 0) }
     };
 
     BarChart? barChartYear;
@@ -133,9 +134,12 @@
     BarChart? barChartDay;
     BarChart? barChartAll;
 
+    static ZonedDateTime zonedDateTimeBrussels = SystemClock.Instance.GetCurrentInstant().InZone(DateTimeZoneProviders.Tzdb["Europe/Brussels"]);
+
     DateOnly minDate = DateOnly.FromDateTime(new DateTime(years.First(), 1, 1));
-    DateOnly maxDate = DateOnly.FromDateTime(new DateTime(years.Last(), 12, 31));
-    DateOnly currentDate; // = belgiumTime.ToDateOnly();
+    DateOnly maxDate = DateOnly.FromDateTime(new DateTime(zonedDateTimeBrussels.Year, zonedDateTimeBrussels.Month, zonedDateTimeBrussels.Day));
+    DateOnly currentDate;
+
 
     private Dictionary<int, List<BarChartData>> dataDaily = new();
 
@@ -143,7 +147,7 @@
     {
         if (!dataDaily.Any())
         {
-            dataDaily = await Http.GetFromJsonAsync<Dictionary<int, List<BarChartData>>>($"Data/data.json?v{DateTime.UtcNow.Ticks}");
+            dataDaily = await Http.GetFromJsonAsync<Dictionary<int, List<BarChartData>>>($"Data/data.json?v{zonedDateTimeBrussels.ToDateTimeUtc().Ticks}");
         }
 
         if (first)
@@ -152,7 +156,7 @@
             await RenderSolarPanelsYearAsync(selectedYearIndex, first);
             await RenderSolarPanelsWeekAsync(selectedYearIndex, selectedWeekIndex, first);
             await RenderSolarPanelsMonthAsync(selectedYearIndex, selectedMonthIndex, first);
-            await RenderSolarPanelsDayAsync(selectedYearIndex, DateTime.Now.DayOfYear, first);
+            await RenderSolarPanelsDayAsync(selectedYearIndex, zonedDateTimeBrussels.DayOfYear, first);
         }
 
         await base.OnAfterRenderAsync(first);
@@ -232,7 +236,7 @@
             return;
 
         await SolarPanelsAsync(
-            dataDaily.Keys.Select(s=>s.ToString()).ToList(),
+            dataDaily.Keys.Select(s => s.ToString()).ToList(),
             dataDaily.Select(s => s.Value.Sum(ss => ss.Production)).ToList(),
             dataDaily.Select(s => s.Value.Sum(ss => ss.Usage)).ToList(),
             dataDaily.Select(s => s.Value.Sum(ss => ss.Injection) / 1000).ToList(),
@@ -305,7 +309,7 @@
         var selectedYear = years[yearIndex];
         var selectedWeek = weeks[weekIndex];
 
-        var data = dataDaily[selectedYear].Where(a => GetWeekOfYear(a.DayNumber, selectedYear) == selectedWeek).ToList();
+        var data = dataDaily[selectedYear].Where(a => WeekYearRules.Iso.GetWeekOfWeekYear(new LocalDate(selectedYear, 1, 1).PlusDays(a.DayNumber - 1)) == selectedWeek).ToList();
 
         await SolarPanelsAsync(
             data.Select(s => s.DayMonth).ToList(),
@@ -350,58 +354,25 @@
 
 
 
-    int selectedYearIndex; // = years.FindIndex(0, 1, f => f == belgiumTime.Year);
-    int selectedMonthIndex; // = belgiumTime.Month - 1;
-    int selectedWeekIndex; // = WeekYearRules.Iso.GetWeekOfWeekYear(belgiumTime); // ci.Calendar.GetWeekOfYear(belgiumTime, ci.DateTimeFormat.CalendarWeekRule, ci.DateTimeFormat.FirstDayOfWeek) - 1;
-    int selectedDayOfYear; // = belgiumTime.DayOfYear;
+    int selectedYearIndex;
+    int selectedMonthIndex;
+    int selectedWeekIndex;
+    int selectedDayOfYear;
 
     private static void GetBelgiumTime()
     {
-        Instant now = SystemClock.Instance.GetCurrentInstant();
-        DateTimeZone zone = DateTimeZoneProviders.Tzdb["Europe/Brussels"];
-        belgiumTime = now.InZone(zone).Date;
-    }
 
-    private static LocalDate belgiumTime;
+    }
 
     protected override void OnInitialized()
     {
-        GetBelgiumTime();
-
-        selectedYearIndex = belgiumTime.Year - years.First(); // years.FindIndex(0, 1, f => f == belgiumTime.Year);
-        selectedMonthIndex = belgiumTime.Month - 1;
-        selectedWeekIndex = WeekYearRules.Iso.GetWeekOfWeekYear(belgiumTime) - 1; // ci.Calendar.GetWeekOfYear(belgiumTime, ci.DateTimeFormat.CalendarWeekRule, ci.DateTimeFormat.FirstDayOfWeek) - 1;
-        selectedDayOfYear = belgiumTime.DayOfYear;
-        currentDate = belgiumTime.ToDateOnly();
+        selectedYearIndex = zonedDateTimeBrussels.Year - years.First();
+        selectedMonthIndex = zonedDateTimeBrussels.Month - 1;
+        selectedWeekIndex = WeekYearRules.Iso.GetWeekOfWeekYear(zonedDateTimeBrussels.Date) - 1;
+        selectedDayOfYear = zonedDateTimeBrussels.DayOfYear;
+        currentDate = zonedDateTimeBrussels.Date.ToDateOnly();
 
         base.OnInitialized();
-
-
-    }
-
-    static int GetWeekOfYear(int dayOfYear, int year)
-    {
-        // Create a date for the specified day of the specified year
-        DateTime date = new DateTime(year, 1, 1).AddDays(dayOfYear - 1);
-
-
-        // Get the Calendar instance associated with a CultureInfo
-        Calendar calendar = ci.Calendar;
-
-        // Specify the rules for the week of the year
-        CalendarWeekRule weekRule = ci.DateTimeFormat.CalendarWeekRule;
-        DayOfWeek firstDayOfWeek = ci.DateTimeFormat.FirstDayOfWeek;
-
-        // Get the week of the year
-        int weekOfYear = calendar.GetWeekOfYear(date, weekRule, firstDayOfWeek);
-
-        // Check if the week number belongs to the previous year
-        if (date.Month == 1 && weekOfYear > 50)
-        {
-            return 1;
-        }
-
-        return weekOfYear;
     }
 
     BarChartOptions options = new BarChartOptions();
@@ -422,6 +393,9 @@
                 break;
             case "Year":
                 await RenderSolarPanelsYearAsync(selectedYearIndex, false);
+                break;
+            case "All":
+                await RenderSolarPanelsAllAsync(false);
                 break;
         }
     }
