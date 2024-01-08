@@ -14,8 +14,6 @@ namespace June.Data
 
     internal class Program
     {
-
-
         static async Task Main(string[] args)
         {
 
@@ -80,6 +78,9 @@ namespace June.Data
                 .Select(date => (date.Key, date.DayNumber, date.Item3.ToString("yyyyMMdd"), date.Item3)))
                 .ToList();
 
+            if (listForJuneProcessed.Count == 0)
+                listForJuneProcessed.Add((currentDateInBelgium.Year, currentDateInBelgium.DayOfYear, currentDateInBelgium.ToString("yyyyMMdd"), currentDateInBelgium));
+
             // For SungrowProcessed = false
             var listForSungrowProcessed = data!
                 .SelectMany(kvp => kvp.Value.Where(data => !data.SungrowProcessed)
@@ -88,7 +89,8 @@ namespace June.Data
                 .Select(date => (date.Key, date.DayNumber, date.Item3.ToString("yyyyMMdd"), date.Item3)))
                 .ToList();
 
-            var date_ids = new List<string> { "20240103", "20240102" };
+            if (listForSungrowProcessed.Count == 0)
+                listForSungrowProcessed.Add((currentDateInBelgium.Year, currentDateInBelgium.DayOfYear, currentDateInBelgium.ToString("yyyyMMdd"), currentDateInBelgium));
 
             foreach (var item in listForJuneProcessed)
             {
@@ -97,6 +99,15 @@ namespace June.Data
                 var consumption = juneData.RootElement.GetProperty("electricity").GetProperty("single").GetProperty("consumption").GetDouble();
                 var injection = juneData.RootElement.GetProperty("electricity").GetProperty("single").GetProperty("injection").GetDouble() * 1000;
 
+                if (!data.ContainsKey(item.Key))
+                {
+                    data.Add(item.Key, new List<BarChartData>());
+                }
+                if(data![item.Key].Count() < item.DayNumber)
+                {
+                    data![item.Key].Add(new BarChartData(item.DayNumber, item.Item4.ToString("d/M"), 0, 0, 0, false, false));
+                }
+
                 var d = data![item.Key][item.DayNumber - 1];
                 data![item.Key][item.DayNumber - 1] = new BarChartData(d.DayNumber, d.DayMonth, d.Production, consumption, injection, item.Item4 == currentDateInBelgium ? false : true, d.SungrowProcessed);
             }
@@ -104,17 +115,13 @@ namespace June.Data
             foreach (var item in listForSungrowProcessed)
             {
                 var sungrowData = await sungrowScraper.GetData(new Dictionary<string, string>() { { "token", token! }, { "user_id", user_id! } }, item.Item3);
-                var production = double.Parse(sungrowData.RootElement.GetProperty("result_data").GetProperty("day_data").GetProperty("p83077_map_virgin").GetProperty("value").GetString()!)/1000;
+                var production = double.Parse(sungrowData.RootElement.GetProperty("result_data").GetProperty("day_data").GetProperty("p83077_map_virgin").GetProperty("value").GetString()!) / 1000;
 
                 var d = data![item.Key][item.DayNumber - 1];
                 data![item.Key][item.DayNumber - 1] = new BarChartData(d.DayNumber, d.DayMonth, production, d.Usage, d.Injection, d.JuneProcessed, item.Item4 == currentDateInBelgium ? false : true);
             }
 
             File.WriteAllText(Path.Combine(AppContext.BaseDirectory, "Data/data.json"), JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true }));
-
-            // Copy the file
-            //File.Copy(Path.GetFullPath(destinationFile), Path.GetFullPath(sourceFile), overwrite: true);
-
         }
     }
 
@@ -124,11 +131,6 @@ namespace June.Data
         public JuneScraper(JuneSettings settings)
         {
             this.settings = settings;
-            this.settings.client_secret = Environment.GetEnvironmentVariable("JUNE_CLIENT_SECRET");
-            this.settings.client_id = Environment.GetEnvironmentVariable("JUNE_CLIENT_ID");
-            this.settings.password = Environment.GetEnvironmentVariable("JUNE_PASSWORD");
-            
-
         }
         public async Task<JsonDocument?> LoginAsync()
         {
@@ -206,11 +208,30 @@ namespace June.Data
 
     public class JuneSettings
     {
-        public string username { get; set; }
-        public string password { get; set; }
-        public string grant_type { get; set; }
-        public string client_id { get; set; }
-        public string client_secret { get; set; }
+        public required string username { get; set; }
+        public required string grant_type { get; set; }
+
+        private string _password;
+        public string password
+        {
+            get => string.IsNullOrEmpty(_password) ? Environment.GetEnvironmentVariable("JUNE_PASSWORD")! : _password;
+            set => _password = value;
+
+        }
+        private string _client_id;
+        public string client_id
+        {
+            get => string.IsNullOrEmpty(_client_id) ? Environment.GetEnvironmentVariable("JUNE_CLIENT_ID")! : _client_id;
+            set => _client_id = value;
+
+        }
+        private string _client_secret;
+        public string client_secret
+        {
+            get => string.IsNullOrEmpty(_client_secret) ? Environment.GetEnvironmentVariable("JUNE_CLIENT_SECRET")! : _client_secret;
+            set => _client_secret = value;
+
+        }
     }
 
     internal class SungrowScraper
@@ -226,12 +247,6 @@ namespace June.Data
         {
             this.settings = settings;
             this.client = new HttpClient() { BaseAddress = new Uri(settings.gatewayUrl) };
-
-            this.settings.password = Environment.GetEnvironmentVariable("SUNGROW_PASSWORD");
-            this.settings.APP_RSA_PUBLIC_KEY = Environment.GetEnvironmentVariable("SUNGROW_APP_RSA_PUBLIC_KEY");
-            this.settings.ACCESS_KEY = Environment.GetEnvironmentVariable("SUNGROW_ACCESS_KEY");
-            this.settings.APP_KEY = Environment.GetEnvironmentVariable("SUNGROW_APP_KEY");
-            this.settings.PS_ID = Environment.GetEnvironmentVariable("SUNGROW_PS_ID");
         }
 
         private async Task<JsonDocument> GetData(string url, Dictionary<string, object> data, Dictionary<string, string> addtionalHeaders, string randomKey)
@@ -378,13 +393,45 @@ namespace June.Data
     }
     public class SungrowSettings
     {
-        public string username { get; set; }
-        public string password { get; set; }
-        public string APP_RSA_PUBLIC_KEY { get; set; }
-        public string ACCESS_KEY { get; set; }
-        public string APP_KEY { get; set; }
-        public string PS_ID { get; set; }
-        public string gatewayUrl { get; set; }
+        public required string username { get; set; }
+        public required string gatewayUrl { get; set; }
+
+        private string _password;
+        public string password
+        {
+            get => string.IsNullOrEmpty(_password) ? Environment.GetEnvironmentVariable("SUNGROW_PASSWORD")! : _password;
+            set => _password = value;
+        }
+
+        private string _APP_RSA_PUBLIC_KEY;
+        public string APP_RSA_PUBLIC_KEY
+        {
+            get => string.IsNullOrEmpty(_APP_RSA_PUBLIC_KEY) ? Environment.GetEnvironmentVariable("SUNGROW_APP_RSA_PUBLIC_KEY")! : _APP_RSA_PUBLIC_KEY;
+            set => _APP_RSA_PUBLIC_KEY = value;
+        }
+
+        private string _ACCESS_KEY;
+        public string ACCESS_KEY
+        {
+            get => string.IsNullOrEmpty(_ACCESS_KEY) ? Environment.GetEnvironmentVariable("SUNGROW_ACCESS_KEY")! : _ACCESS_KEY;
+            set => _ACCESS_KEY = value;
+
+        }
+
+        private string _APP_KEY;
+        public string APP_KEY
+        {
+            get => string.IsNullOrEmpty(_APP_KEY) ? Environment.GetEnvironmentVariable("SUNGROW_APP_KEY")! : _APP_KEY;
+            set => _APP_KEY = value;
+
+        }
+        private string _PS_ID;
+        public string PS_ID
+        {
+            get => string.IsNullOrEmpty(_PS_ID) ? Environment.GetEnvironmentVariable("SUNGROW_PS_ID")! : _PS_ID;
+            set => _PS_ID = value;
+
+        }
     }
     record BarChartData(int DayNumber, string DayMonth, double Production, double Usage, double Injection, bool JuneProcessed, bool SungrowProcessed);
 
