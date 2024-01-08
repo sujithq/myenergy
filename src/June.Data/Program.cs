@@ -16,7 +16,7 @@ namespace June.Data
     {
         static async Task Main(string[] args)
         {
-
+            var failed = false;
             var devEnvironmentVariable = Environment.GetEnvironmentVariable("NETCORE_ENVIRONMENT");
 
             var isDevelopment = string.IsNullOrEmpty(devEnvironmentVariable) ||
@@ -119,6 +119,7 @@ namespace June.Data
                 if(result_data.ValueKind == JsonValueKind.Null)
                 {
                     await Console.Error.WriteLineAsync($"Error: ({sungrowData.RootElement.GetProperty("result_code").GetString()}) {sungrowData.RootElement.GetProperty("result_msg").GetString()}");
+                    failed = true;
                 }
                 else
                 {
@@ -130,6 +131,11 @@ namespace June.Data
             }
 
             File.WriteAllText(Path.Combine(AppContext.BaseDirectory, "Data/data.json"), JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true }));
+
+            if (failed)
+            {
+                Environment.ExitCode = 1;
+            }
         }
     }
 
