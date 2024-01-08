@@ -3,7 +3,7 @@ name: June Data
 # Run workflow every day at 4:00 AM UTC or run manually
 on:
   schedule:
-    - cron: "0 * * * *" # Runs every hour
+    - cron: "0 */2 * * *" # Runs every hour
 
   workflow_dispatch: # Allows manual triggering as well
 
@@ -56,7 +56,7 @@ jobs:
         git config --global user.name 'Sujith Quintelier'
         git config --global user.email 'sujith.quintelier@gmail.com'
         git add ./src/myenergy/wwwroot/Data/data.json
-        git commit -m "Add update data file"
+        git commit -m "📊 Add update data file."
         git push origin main --force
       env:
         GH_TOKEN: ${{ steps.generate_token.outputs.token }}
