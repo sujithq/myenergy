@@ -67,10 +67,10 @@ namespace June.Data
 
             // For JuneProcessed = false
             var listForJuneProcessed = data!
-                .SelectMany(kvp => kvp.Value.Where(data => !data.JuneProcessed)
-                                            .Select(data => (kvp.Key, data.DayNumber, data.DayNumber.DayOfYearLocalDate(kvp.Key)))
+                .SelectMany(kvp => kvp.Value.Where(data => !data.J)
+                                            .Select(data => (kvp.Key, data.D, data.D.DayOfYearLocalDate(kvp.Key)))
                 .Where(date => date.Item3 <= currentDateInBelgium.Date)
-                .Select(date => (date.Key, date.DayNumber, date.Item3.ToString("yyyyMMdd", null), date.Item3)))
+                .Select(date => (date.Key, date.D, date.Item3.ToString("yyyyMMdd", null), date.Item3)))
                 .ToList();
 
             if (listForJuneProcessed.Count == 0)
@@ -78,10 +78,10 @@ namespace June.Data
 
             // For SungrowProcessed = false
             var listForSungrowProcessed = data!
-                .SelectMany(kvp => kvp.Value.Where(data => !data.SungrowProcessed)
-                                            .Select(data => (kvp.Key, data.DayNumber, data.DayNumber.DayOfYearLocalDate(kvp.Key)))
+                .SelectMany(kvp => kvp.Value.Where(data => !data.S)
+                                            .Select(data => (kvp.Key, data.D, data.D.DayOfYearLocalDate(kvp.Key)))
                 .Where(date => date.Item3 <= currentDateInBelgium.Date)
-                .Select(date => (date.Key, date.DayNumber, date.Item3.ToString("yyyyMMdd", null), date.Item3)))
+                .Select(date => (date.Key, date.D, date.Item3.ToString("yyyyMMdd", null), date.Item3)))
                 .ToList();
 
             if (listForSungrowProcessed.Count == 0)
@@ -98,13 +98,13 @@ namespace June.Data
                 {
                     data.Add(item.Key, new List<BarChartData>());
                 }
-                if (data![item.Key].Count() < item.DayNumber)
+                if (data![item.Key].Count() < item.D)
                 {
-                    data![item.Key].Add(new BarChartData(item.DayNumber, 0, 0, 0, false, false));
+                    data![item.Key].Add(new BarChartData(item.D, 0, 0, 0, false, false));
                 }
 
-                var d = data![item.Key][item.DayNumber - 1];
-                data![item.Key][item.DayNumber - 1] = new BarChartData(d.DayNumber, d.Production, consumption, injection, item.Item4 == currentDateInBelgium.Date ? false : true, d.SungrowProcessed);
+                var d = data![item.Key][item.D - 1];
+                data![item.Key][item.D - 1] = new BarChartData(d.D, d.P, consumption, injection, item.Item4 == currentDateInBelgium.Date ? false : true, d.S);
             }
 
             foreach (var item in listForSungrowProcessed)
@@ -122,8 +122,8 @@ namespace June.Data
 
                     production /= 1000;
 
-                    var d = data![item.Key][item.DayNumber - 1];
-                    data![item.Key][item.DayNumber - 1] = new BarChartData(d.DayNumber, production, d.Usage, d.Injection, d.JuneProcessed, item.Item4 == currentDateInBelgium.Date ? false : true);
+                    var d = data![item.Key][item.D - 1];
+                    data![item.Key][item.D - 1] = new BarChartData(d.D, production, d.U, d.I, d.J, item.Item4 == currentDateInBelgium.Date ? false : true);
                 }
             }
 

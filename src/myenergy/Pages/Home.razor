@@ -248,15 +248,15 @@
 
         await SolarPanelsAsync(
             dataDaily.Keys.Select(s => s.ToString()).ToList(),
-            dataDaily.Select(s => s.Value.Sum(ss => ss.Production)).ToList(),
-            dataDaily.Select(s => s.Value.Sum(ss => ss.Usage)).ToList(),
-            dataDaily.Select(s => s.Value.Sum(ss => ss.Injection) / 1000).ToList(),
+            dataDaily.Select(s => s.Value.Sum(ss => ss.P)).ToList(),
+            dataDaily.Select(s => s.Value.Sum(ss => ss.U)).ToList(),
+            dataDaily.Select(s => s.Value.Sum(ss => ss.I) / 1000).ToList(),
             $"Solar Panels", init, barChartAll!, "Year"
         );
 
-        totals["All"] = new TotalData((int)dataDaily.SelectMany(sm => sm.Value.Select(s => s.Production)).Sum(),
-                                        (int)dataDaily.SelectMany(sm => sm.Value.Select(s => s.Injection)).Sum() / 1000,
-                                        (int)dataDaily.SelectMany(sm => sm.Value.Select(s => s.Usage)).Sum(), (int)(dataDaily.SelectMany(sm => sm.Value.Select(s => s.Production)).Sum() + dataDaily.SelectMany(sm => sm.Value.Select(s => s.Usage)).Sum() - dataDaily.SelectMany(sm => sm.Value.Select(s => s.Injection)).Sum() / 1000));
+        totals["All"] = new TotalData((int)dataDaily.SelectMany(sm => sm.Value.Select(s => s.P)).Sum(),
+                                        (int)dataDaily.SelectMany(sm => sm.Value.Select(s => s.I)).Sum() / 1000,
+                                        (int)dataDaily.SelectMany(sm => sm.Value.Select(s => s.U)).Sum(), (int)(dataDaily.SelectMany(sm => sm.Value.Select(s => s.P)).Sum() + dataDaily.SelectMany(sm => sm.Value.Select(s => s.U)).Sum() - dataDaily.SelectMany(sm => sm.Value.Select(s => s.I)).Sum() / 1000));
 
         await InvokeAsync(() => StateHasChanged());
     }
@@ -269,20 +269,20 @@
         var selectedYear = years[yearIndex];
 
         var data = dataDaily[selectedYear]
-            .GroupBy(data => data.DayNumber.DayOfYearLocalDate(selectedYear).Month) // Extracting the month part
+            .GroupBy(data => data.D.DayOfYearLocalDate(selectedYear).Month) // Extracting the month part
             .ToList();
 
         await SolarPanelsAsync(
             data.Select(s => s.Key.ToString()).ToList(),
-            data.Select(s => s.Sum(ss => ss.Production)).ToList(),
-            data.Select(s => s.Sum(ss => ss.Usage)).ToList(),
-            data.Select(s => s.Sum(ss => ss.Injection) / 1000).ToList(),
+            data.Select(s => s.Sum(ss => ss.P)).ToList(),
+            data.Select(s => s.Sum(ss => ss.U)).ToList(),
+            data.Select(s => s.Sum(ss => ss.I) / 1000).ToList(),
             $"Solar Panels ({selectedYear})", init, barChartYear!, "Month"
         );
 
-        totals["Year"] = new TotalData((int)data.SelectMany(sm => sm.Select(s => s.Production)).Sum(),
-                                        (int)data.SelectMany(sm => sm.Select(s => s.Injection)).Sum() / 1000,
-                                        (int)data.SelectMany(sm => sm.Select(s => s.Usage)).Sum(), (int)(data.SelectMany(sm => sm.Select(s => s.Production)).Sum() + data.SelectMany(sm => sm.Select(s => s.Usage)).Sum() - data.SelectMany(sm => sm.Select(s => s.Injection)).Sum() / 1000));
+        totals["Year"] = new TotalData((int)data.SelectMany(sm => sm.Select(s => s.P)).Sum(),
+                                        (int)data.SelectMany(sm => sm.Select(s => s.I)).Sum() / 1000,
+                                        (int)data.SelectMany(sm => sm.Select(s => s.U)).Sum(), (int)(data.SelectMany(sm => sm.Select(s => s.P)).Sum() + data.SelectMany(sm => sm.Select(s => s.U)).Sum() - data.SelectMany(sm => sm.Select(s => s.I)).Sum() / 1000));
 
         await InvokeAsync(() => StateHasChanged());
     }
@@ -295,19 +295,19 @@
         var selectedYear = years[yearIndex];
         var selectedMonth = months[monthIndex];
 
-        var data = dataDaily[selectedYear].Where(a => a.DayNumber.DayOfYearLocalDate(selectedYear).Month == selectedMonth).ToList();
+        var data = dataDaily[selectedYear].Where(a => a.D.DayOfYearLocalDate(selectedYear).Month == selectedMonth).ToList();
 
         await SolarPanelsAsync(
-            data.Select(s => s.DayNumber.DayOfYearLocalDate(selectedYear).ToString("d/M", null)).ToList(),
-            data.Select(s => s.Production).ToList(),
-            data.Select(s => s.Usage).ToList(),
-            data.Select(s => s.Injection / 1000).ToList(),
+            data.Select(s => s.D.DayOfYearLocalDate(selectedYear).ToString("d/M", null)).ToList(),
+            data.Select(s => s.P).ToList(),
+            data.Select(s => s.U).ToList(),
+            data.Select(s => s.I / 1000).ToList(),
             $"Solar Panels ({selectedMonth}/{selectedYear})", init, barChartMonth!, "Day"
         );
 
-        totals["Month"] = new TotalData((int)data.Select(s => s.Production).Sum(),
-                                        (int)data.Select(s => s.Injection).Sum() / 1000,
-                                        (int)data.Select(s => s.Usage).Sum(), (int)(data.Select(s => s.Production).Sum() + data.Select(s => s.Usage).Sum() - data.Select(s => s.Injection).Sum() / 1000));
+        totals["Month"] = new TotalData((int)data.Select(s => s.P).Sum(),
+                                        (int)data.Select(s => s.I).Sum() / 1000,
+                                        (int)data.Select(s => s.U).Sum(), (int)(data.Select(s => s.P).Sum() + data.Select(s => s.U).Sum() - data.Select(s => s.I).Sum() / 1000));
 
         await InvokeAsync(() => StateHasChanged());
     }
@@ -320,19 +320,19 @@
         var selectedYear = years[yearIndex];
         var selectedWeek = weeks[weekIndex];
 
-        var data = dataDaily[selectedYear].Where(a => WeekYearRules.Iso.GetWeekOfWeekYear(a.DayNumber.DayOfYearLocalDate(selectedDayOfYear)) == selectedWeek).ToList();
+        var data = dataDaily[selectedYear].Where(a => WeekYearRules.Iso.GetWeekOfWeekYear(a.D.DayOfYearLocalDate(selectedDayOfYear)) == selectedWeek).ToList();
 
         await SolarPanelsAsync(
-            data.Select(s => s.DayNumber.DayOfYearLocalDate(selectedYear).ToString("d/M", null)).ToList(),
-            data.Select(s => s.Production).ToList(),
-            data.Select(s => s.Usage).ToList(),
-            data.Select(s => s.Injection / 1000).ToList(),
+            data.Select(s => s.D.DayOfYearLocalDate(selectedYear).ToString("d/M", null)).ToList(),
+            data.Select(s => s.P).ToList(),
+            data.Select(s => s.U).ToList(),
+            data.Select(s => s.I / 1000).ToList(),
             $"Solar Panels ({selectedYear}/{selectedWeek})", init, barChartWeek!, "Day"
         );
 
-        totals["Week"] = new TotalData((int)data.Select(s => s.Production).Sum(),
-                                        (int)data.Select(s => s.Injection).Sum() / 1000,
-                                        (int)data.Select(s => s.Usage).Sum(), (int)(data.Select(s => s.Production).Sum() + data.Select(s => s.Usage).Sum() - data.Select(s => s.Injection).Sum() / 1000));
+        totals["Week"] = new TotalData((int)data.Select(s => s.P).Sum(),
+                                        (int)data.Select(s => s.I).Sum() / 1000,
+                                        (int)data.Select(s => s.U).Sum(), (int)(data.Select(s => s.P).Sum() + data.Select(s => s.U).Sum() - data.Select(s => s.I).Sum() / 1000));
 
         await InvokeAsync(() => StateHasChanged());
     }
@@ -344,19 +344,19 @@
 
         var selectedYear = years[yearIndex];
 
-        var data = dataDaily[selectedYear].Where(a => a.DayNumber == day).ToList();
+        var data = dataDaily[selectedYear].Where(a => a.D == day).ToList();
 
         await SolarPanelsAsync(
-            data.Select(s => s.DayNumber.DayOfYearLocalDate(selectedYear).ToString("d/M", null)).ToList(),
-            data.Select(s => s.Production).ToList(),
-            data.Select(s => s.Usage).ToList(),
-            data.Select(s => s.Injection / 1000).ToList(),
+            data.Select(s => s.D.DayOfYearLocalDate(selectedYear).ToString("d/M", null)).ToList(),
+            data.Select(s => s.P).ToList(),
+            data.Select(s => s.U).ToList(),
+            data.Select(s => s.I / 1000).ToList(),
             $"Solar Panels ({DateOnly.FromDateTime(new DateTime(selectedYear, 1, 1).AddDays(day - 1)).ToString("yyyy/MM/dd")})", init, barChartDay!, "Day"
         );
 
-        totals["Day"] = new TotalData((int)data.Select(s => s.Production).Sum(),
-                                        (int)data.Select(s => s.Injection).Sum() / 1000,
-                                        (int)data.Select(s => s.Usage).Sum(), (int)(data.Select(s => s.Production).Sum() + data.Select(s => s.Usage).Sum() - data.Select(s => s.Injection).Sum() / 1000));
+        totals["Day"] = new TotalData((int)data.Select(s => s.P).Sum(),
+                                        (int)data.Select(s => s.I).Sum() / 1000,
+                                        (int)data.Select(s => s.U).Sum(), (int)(data.Select(s => s.P).Sum() + data.Select(s => s.U).Sum() - data.Select(s => s.I).Sum() / 1000));
 
         await InvokeAsync(() => StateHasChanged());
     }

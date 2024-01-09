@@ -1,4 +1,4 @@
 ﻿namespace myenergy.Common
 {
-    public record BarChartData(int DayNumber, double Production, double Usage, double Injection, bool JuneProcessed, bool SungrowProcessed);
+    public record BarChartData(int D, double P, double U, double I, bool J, bool S);
 }
