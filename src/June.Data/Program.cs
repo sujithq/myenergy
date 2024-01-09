@@ -98,7 +98,7 @@ namespace June.Data
                 {
                     data.Add(item.Key, new List<BarChartData>());
                 }
-                if (data![item.Key].Count() < item.D)
+                if (data![item.Key].Count < item.D)
                 {
                     data![item.Key].Add(new BarChartData(item.D, 0, 0, 0, false, false));
                 }
