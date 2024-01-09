@@ -3358,6 +3358,15 @@
       "Injection": 3049,
       "JuneProcessed": true,
       "SungrowProcessed": true
+    },
+    {
+      "DayNumber": 9,
+      "DayMonth": "9/1",
+      "Production": 0,
+      "Usage": 0.538,
+      "Injection": 0,
+      "JuneProcessed": false,
+      "SungrowProcessed": false
     }
   ]
 }
