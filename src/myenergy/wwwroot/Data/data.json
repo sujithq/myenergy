@@ -3354,10 +3354,10 @@
       "DayNumber": 8,
       "DayMonth": "8/1",
       "Production": 4.5,
-      "Usage": 52.681,
+      "Usage": 52.809,
       "Injection": 3049,
-      "JuneProcessed": false,
-      "SungrowProcessed": false
+      "JuneProcessed": true,
+      "SungrowProcessed": true
     }
   ]
 }
