@@ -103,7 +103,7 @@ namespace June.Data
                 {
                     data.Add(item.Key, new List<BarChartData>());
                 }
-                if(data![item.Key].Count() < item.DayNumber)
+                if (data![item.Key].Count() < item.DayNumber)
                 {
                     data![item.Key].Add(new BarChartData(item.DayNumber, item.Item4.ToString("d/M"), 0, 0, 0, false, false));
                 }
@@ -116,17 +116,19 @@ namespace June.Data
             {
                 var sungrowData = await sungrowScraper.GetData(new Dictionary<string, string>() { { "token", token! }, { "user_id", user_id! } }, item.Item3);
                 var result_data = sungrowData.RootElement.GetProperty("result_data");
-                if(result_data.ValueKind == JsonValueKind.Null)
+                if (result_data.ValueKind == JsonValueKind.Null)
                 {
                     await Console.Error.WriteLineAsync($"Error: ({sungrowData.RootElement.GetProperty("result_code").GetString()}) {sungrowData.RootElement.GetProperty("result_msg").GetString()}");
                     failed = true;
                 }
                 else
                 {
-                    var production = double.Parse(result_data.GetProperty("day_data").GetProperty("p83077_map_virgin").GetProperty("value").GetString()!) / 1000;
+                    _ = double.TryParse(result_data.GetProperty("day_data").GetProperty("p83077_map_virgin").GetProperty("value").GetString()!, out var production);
+                    
+                    production /= 1000;
+
                     var d = data![item.Key][item.DayNumber - 1];
                     data![item.Key][item.DayNumber - 1] = new BarChartData(d.DayNumber, d.DayMonth, production, d.Usage, d.Injection, d.JuneProcessed, item.Item4 == currentDateInBelgium ? false : true);
-
                 }
             }
 
