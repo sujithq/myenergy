@@ -2,11 +2,7 @@
 
 @inject HttpClient Http
 
-@using System.Globalization
-@using System.Text.Json
-@using NodaTime
-@using NodaTime.Calendars
-@using NodaTime.Extensions
+
 
 <Tabs EnableFadeEffect="true" OnShown="@(args => OnTabShownAsync(args))">
     <Tab Title="Day" IsActive="true">
@@ -113,13 +109,9 @@
 
 @code {
 
-    record BarChartData(int DayNumber, string DayMonth, double Production, double Usage, double Injection, bool JuneProcessed, bool SungrowProcessed);
-    public record TotalData(int TotalProduction, int TotalNetInjection, int TotalNetUsage, int TotalUsage);
-
     static List<int> years = new List<int> { 2023, 2024 };
     static List<int> weeks = Enumerable.Range(1, 52).ToList();
     static List<int> months = Enumerable.Range(1, 12).ToList();
-
     static Dictionary<string, TotalData> totals = new Dictionary<string, TotalData>(){
         { "Day", new TotalData(0, 0, 0, 0) },
         { "Week", new TotalData(0, 0, 0, 0) },
@@ -134,20 +126,38 @@
     BarChart? barChartDay;
     BarChart? barChartAll;
 
-    static ZonedDateTime zonedDateTimeBrussels = SystemClock.Instance.GetCurrentInstant().InZone(DateTimeZoneProviders.Tzdb["Europe/Brussels"]);
+    static LocalDateTime zonedDateTimeBrussels = MyExtensions.BelgiumTime(); // SystemClock.Instance.GetCurrentInstant().InZone(DateTimeZoneProviders.Tzdb["Europe/Brussels"]);
 
     DateOnly minDate = DateOnly.FromDateTime(new DateTime(years.First(), 1, 1));
     DateOnly maxDate = DateOnly.FromDateTime(new DateTime(zonedDateTimeBrussels.Year, zonedDateTimeBrussels.Month, zonedDateTimeBrussels.Day));
     DateOnly currentDate;
 
+    int selectedYearIndex;
+    int selectedMonthIndex;
+    int selectedWeekIndex;
+    int selectedDayOfYear;
 
     private Dictionary<int, List<BarChartData>> dataDaily = new();
+
+    BarChartOptions options = new BarChartOptions();
+    BarChartOptions optionsWeek = new BarChartOptions();
+
+    protected override void OnInitialized()
+    {
+        selectedYearIndex = zonedDateTimeBrussels.Year - years.First();
+        selectedMonthIndex = zonedDateTimeBrussels.Month - 1;
+        selectedWeekIndex = WeekYearRules.Iso.GetWeekOfWeekYear(zonedDateTimeBrussels.Date) - 1;
+        selectedDayOfYear = zonedDateTimeBrussels.DayOfYear;
+        currentDate = zonedDateTimeBrussels.Date.ToDateOnly();
+
+        base.OnInitialized();
+    }
 
     protected override async Task OnAfterRenderAsync(bool first)
     {
         if (!dataDaily.Any())
         {
-            dataDaily = await Http.GetFromJsonAsync<Dictionary<int, List<BarChartData>>>($"Data/data.json?v{zonedDateTimeBrussels.ToDateTimeUtc().Ticks}");
+            dataDaily = await Http.GetFromJsonAsync<Dictionary<int, List<BarChartData>>>($"Data/data.json?v{zonedDateTimeBrussels.TickOfSecond}");
         }
 
         if (first)
@@ -230,6 +240,7 @@
         else
             await barChart.UpdateAsync(data, options);
     }
+
     private async Task RenderSolarPanelsAllAsync(bool init)
     {
         if (!dataDaily.Any())
@@ -258,11 +269,11 @@
         var selectedYear = years[yearIndex];
 
         var data = dataDaily[selectedYear]
-            .GroupBy(data => data.DayMonth.Split('/')[1]) // Extracting the month part
+            .GroupBy(data => data.DayNumber.DayOfYearLocalDate(selectedYear).Month) // Extracting the month part
             .ToList();
 
         await SolarPanelsAsync(
-            data.Select(s => s.Key).ToList(),
+            data.Select(s => s.Key.ToString()).ToList(),
             data.Select(s => s.Sum(ss => ss.Production)).ToList(),
             data.Select(s => s.Sum(ss => ss.Usage)).ToList(),
             data.Select(s => s.Sum(ss => ss.Injection) / 1000).ToList(),
@@ -284,10 +295,10 @@
         var selectedYear = years[yearIndex];
         var selectedMonth = months[monthIndex];
 
-        var data = dataDaily[selectedYear].Where(a => int.Parse(a.DayMonth.Split('/').Last()) == selectedMonth).ToList();
+        var data = dataDaily[selectedYear].Where(a => a.DayNumber.DayOfYearLocalDate(selectedYear).Month == selectedMonth).ToList();
 
         await SolarPanelsAsync(
-            data.Select(s => s.DayMonth).ToList(),
+            data.Select(s => s.DayNumber.DayOfYearLocalDate(selectedYear).ToString("d/M", null)).ToList(),
             data.Select(s => s.Production).ToList(),
             data.Select(s => s.Usage).ToList(),
             data.Select(s => s.Injection / 1000).ToList(),
@@ -309,10 +320,10 @@
         var selectedYear = years[yearIndex];
         var selectedWeek = weeks[weekIndex];
 
-        var data = dataDaily[selectedYear].Where(a => WeekYearRules.Iso.GetWeekOfWeekYear(new LocalDate(selectedYear, 1, 1).PlusDays(a.DayNumber - 1)) == selectedWeek).ToList();
+        var data = dataDaily[selectedYear].Where(a => WeekYearRules.Iso.GetWeekOfWeekYear(a.DayNumber.DayOfYearLocalDate(selectedDayOfYear)) == selectedWeek).ToList();
 
         await SolarPanelsAsync(
-            data.Select(s => s.DayMonth).ToList(),
+            data.Select(s => s.DayNumber.DayOfYearLocalDate(selectedYear).ToString("d/M", null)).ToList(),
             data.Select(s => s.Production).ToList(),
             data.Select(s => s.Usage).ToList(),
             data.Select(s => s.Injection / 1000).ToList(),
@@ -336,7 +347,7 @@
         var data = dataDaily[selectedYear].Where(a => a.DayNumber == day).ToList();
 
         await SolarPanelsAsync(
-            data.Select(s => s.DayMonth).ToList(),
+            data.Select(s => s.DayNumber.DayOfYearLocalDate(selectedYear).ToString("d/M", null)).ToList(),
             data.Select(s => s.Production).ToList(),
             data.Select(s => s.Usage).ToList(),
             data.Select(s => s.Injection / 1000).ToList(),
@@ -349,34 +360,6 @@
 
         await InvokeAsync(() => StateHasChanged());
     }
-
-    static CultureInfo ci = new CultureInfo("nl-BE");
-
-
-
-    int selectedYearIndex;
-    int selectedMonthIndex;
-    int selectedWeekIndex;
-    int selectedDayOfYear;
-
-    private static void GetBelgiumTime()
-    {
-
-    }
-
-    protected override void OnInitialized()
-    {
-        selectedYearIndex = zonedDateTimeBrussels.Year - years.First();
-        selectedMonthIndex = zonedDateTimeBrussels.Month - 1;
-        selectedWeekIndex = WeekYearRules.Iso.GetWeekOfWeekYear(zonedDateTimeBrussels.Date) - 1;
-        selectedDayOfYear = zonedDateTimeBrussels.DayOfYear;
-        currentDate = zonedDateTimeBrussels.Date.ToDateOnly();
-
-        base.OnInitialized();
-    }
-
-    BarChartOptions options = new BarChartOptions();
-    BarChartOptions optionsWeek = new BarChartOptions();
 
     private async Task OnTabShownAsync(TabsEventArgs args)
     {
@@ -399,6 +382,7 @@
                 break;
         }
     }
+
     private async Task YearChangedAsync()
     {
         await RenderSolarPanelsYearAsync(selectedYearIndex, false);
