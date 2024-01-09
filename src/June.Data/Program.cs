@@ -94,17 +94,18 @@ namespace June.Data
                 var consumption = juneData.RootElement.GetProperty("electricity").GetProperty("single").GetProperty("consumption").GetDouble();
                 var injection = juneData.RootElement.GetProperty("electricity").GetProperty("single").GetProperty("injection").GetDouble() * 1000;
 
-                if (!data.ContainsKey(item.Key))
+                if (!data!.TryGetValue(item.Key, out List<BarChartData>? value))
                 {
-                    data.Add(item.Key, new List<BarChartData>());
+                    value = [];
+                    data.Add(item.Key, value);
                 }
-                if (data![item.Key].Count < item.D)
+                if (value.Count < item.D)
                 {
-                    data![item.Key].Add(new BarChartData(item.D, 0, 0, 0, false, false));
+                    value.Add(new BarChartData(item.D, 0, 0, 0, false, false));
                 }
 
-                var d = data![item.Key][item.D - 1];
-                data![item.Key][item.D - 1] = new BarChartData(d.D, d.P, consumption, injection, item.Item4 == currentDateInBelgium.Date ? false : true, d.S);
+                var d = value[item.D - 1];
+                value[item.D - 1] = new BarChartData(d.D, d.P, consumption, injection, item.Item4 == currentDateInBelgium.Date ? false : true, d.S);
             }
 
             foreach (var item in listForSungrowProcessed)
