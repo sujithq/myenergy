@@ -3353,9 +3353,18 @@
     {
       "DayNumber": 8,
       "DayMonth": "8/1",
-      "Production": 2.3,
-      "Usage": 2.158,
-      "Injection": 1555,
+      "Production": 4.5,
+      "Usage": 52.809,
+      "Injection": 3049,
+      "JuneProcessed": true,
+      "SungrowProcessed": true
+    },
+    {
+      "DayNumber": 9,
+      "DayMonth": "9/1",
+      "Production": 0,
+      "Usage": 1.13,
+      "Injection": 0,
       "JuneProcessed": false,
       "SungrowProcessed": false
     }
