@@ -32,7 +32,7 @@
                     }
                 </select>
                 <Totals Data="@totals" Key="Week" />
-                <input type="range" min="0" max="51" class="slider" @bind="selectedWeekIndex" @bind:after="WeekChangedAsync">
+                <input type="range" min="0" max="@maxWeekIndex" class="slider" @bind="selectedWeekIndex" @bind:after="WeekChangedAsync">
                 <BarChart @ref="barChartWeek" Class="mb-4" />
             </p>
         </Content>
@@ -136,6 +136,8 @@
     int selectedMonthIndex;
     int selectedWeekIndex;
     int selectedDayOfYear;
+
+    int maxWeekIndex = 52;
 
     private Dictionary<int, List<BarChartData>> dataDaily = new();
 
@@ -320,7 +322,9 @@
         var selectedYear = years[yearIndex];
         var selectedWeek = weeks[weekIndex];
 
-        var data = dataDaily[selectedYear].Where(a => WeekYearRules.Iso.GetWeekOfWeekYear(a.D.DayOfYearLocalDate(selectedDayOfYear)) == selectedWeek).ToList();
+        maxWeekIndex = WeekYearRules.Iso.GetWeekOfWeekYear(maxDate.ToLocalDate()) - 1;
+
+        var data = dataDaily[selectedYear].Where(a => WeekYearRules.Iso.GetWeekOfWeekYear(a.D.DayOfYearLocalDate(selectedYear)) == selectedWeek).ToList();
 
         await SolarPanelsAsync(
             data.Select(s => s.D.DayOfYearLocalDate(selectedYear).ToString("d/M", null)).ToList(),
