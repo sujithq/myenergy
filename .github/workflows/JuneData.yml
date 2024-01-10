@@ -57,7 +57,7 @@ jobs:
         git config --global user.email 'sujith.quintelier@gmail.com'
         git add ./src/myenergy/wwwroot/Data/data.json
         git commit -m "📊 Add update data file."
-        git push origin main --force
+        git push origin main
       env:
         GH_TOKEN: ${{ steps.generate_token.outputs.token }}
 
