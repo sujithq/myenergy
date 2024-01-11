@@ -78,7 +78,7 @@ namespace June.Data
 
             // For SungrowProcessed = false
             var listForSungrowProcessed = data!
-                .SelectMany(kvp => kvp.Value.Where(data => !data.S)
+                .SelectMany(kvp => kvp.Value.Where(data => !data.S || data.P < data.I / 1000.0)
                                             .Select(data => (kvp.Key, data.D, data.D.DayOfYearLocalDate(kvp.Key)))
                 .Where(date => date.Item3 <= currentDateInBelgium.Date)
                 .Select(date => (date.Key, date.D, date.Item3.ToString("yyyyMMdd", null), date.Item3)))
