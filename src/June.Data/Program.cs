@@ -67,7 +67,7 @@ namespace June.Data
 
             // For JuneProcessed = false
             var listForJuneProcessed = data!
-                .SelectMany(kvp => kvp.Value.Where(data => !data.J)
+                .SelectMany(kvp => kvp.Value.Where(data => !data.J || data.P < data.I / 1000.0)
                                             .Select(data => (kvp.Key, data.D, data.D.DayOfYearLocalDate(kvp.Key)))
                 .Where(date => date.Item3 <= currentDateInBelgium.Date)
                 .Select(date => (date.Key, date.D, date.Item3.ToString("yyyyMMdd", null), date.Item3)))
