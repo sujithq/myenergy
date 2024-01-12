@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using myenergy.Common;
@@ -77,7 +77,7 @@ namespace June.Data
                 .ToList();
 
             var listForMeteoStatProcessed = data!
-                .SelectMany(kvp => kvp.Value.Where(data => !data.M)
+                .SelectMany(kvp => kvp.Value//.Where(data => !data.M)
                                             .Select(data => (kvp.Key, data.D, data.D.DayOfYearLocalDate(kvp.Key)))
                 .Where(date => date.Item3 <= currentDateInBelgium.Date)
                 .Select(date => (date.Key, date.D, date.Item3)))
