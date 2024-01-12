@@ -6,25 +6,25 @@
         <Card Color="CardColor.Dark" Class="mb-4">
             <CardHeader>Total Production</CardHeader>
             <CardBody>
-                <CardTitle>@Data[Key!].TotalProduction</CardTitle>
+                <CardTitle>@Data[Key!].TotalProduction.ToString("F2")</CardTitle>
                 </CardBody>
             </Card>
             <Card Color="CardColor.Warning" Class="mb-4">
                 <CardHeader>Total Net Injection</CardHeader>
                 <CardBody>
-                    <CardTitle>@Data[Key!].TotalNetInjection</CardTitle>
+                    <CardTitle>@Data[Key!].TotalNetInjection.ToString("F2")</CardTitle>
                 </CardBody>
             </Card>
             <Card Color="CardColor.Danger" Class="mb-4">
                 <CardHeader>Total Net Usage</CardHeader>
                 <CardBody>
-                    <CardTitle>@Data[Key!].TotalNetUsage</CardTitle>
+                    <CardTitle>@Data[Key!].TotalNetUsage.ToString("F2")</CardTitle>
                 </CardBody>
             </Card>
             <Card Color="CardColor.Success" Class="mb-4">
                 <CardHeader>Total Usage</CardHeader>
                 <CardBody>
-                    <CardTitle>@Data[Key!].TotalUsage</CardTitle>
+                    <CardTitle>@Data[Key!].TotalUsage.ToString("F2")</CardTitle>
                 </CardBody>
             </Card>
         </CardGroup>

@@ -256,9 +256,9 @@
             $"Solar Panels", init, barChartAll!, "Year"
         );
 
-        totals["All"] = new TotalData((int)dataDaily.SelectMany(sm => sm.Value.Select(s => s.P)).Sum(),
-                                        (int)dataDaily.SelectMany(sm => sm.Value.Select(s => s.I)).Sum() / 1000,
-                                        (int)dataDaily.SelectMany(sm => sm.Value.Select(s => s.U)).Sum(), (int)(dataDaily.SelectMany(sm => sm.Value.Select(s => s.P)).Sum() + dataDaily.SelectMany(sm => sm.Value.Select(s => s.U)).Sum() - dataDaily.SelectMany(sm => sm.Value.Select(s => s.I)).Sum() / 1000));
+        totals["All"] = new TotalData(dataDaily.SelectMany(sm => sm.Value.Select(s => s.P)).Sum(),
+                                        dataDaily.SelectMany(sm => sm.Value.Select(s => s.I)).Sum() / 1000,
+                                        dataDaily.SelectMany(sm => sm.Value.Select(s => s.U)).Sum(), (dataDaily.SelectMany(sm => sm.Value.Select(s => s.P)).Sum() + dataDaily.SelectMany(sm => sm.Value.Select(s => s.U)).Sum() - dataDaily.SelectMany(sm => sm.Value.Select(s => s.I)).Sum() / 1000));
 
         await InvokeAsync(() => StateHasChanged());
     }
@@ -282,9 +282,9 @@
             $"Solar Panels ({selectedYear})", init, barChartYear!, "Month"
         );
 
-        totals["Year"] = new TotalData((int)data.SelectMany(sm => sm.Select(s => s.P)).Sum(),
-                                        (int)data.SelectMany(sm => sm.Select(s => s.I)).Sum() / 1000,
-                                        (int)data.SelectMany(sm => sm.Select(s => s.U)).Sum(), (int)(data.SelectMany(sm => sm.Select(s => s.P)).Sum() + data.SelectMany(sm => sm.Select(s => s.U)).Sum() - data.SelectMany(sm => sm.Select(s => s.I)).Sum() / 1000));
+        totals["Year"] = new TotalData(data.SelectMany(sm => sm.Select(s => s.P)).Sum(),
+                                        data.SelectMany(sm => sm.Select(s => s.I)).Sum() / 1000,
+                                        data.SelectMany(sm => sm.Select(s => s.U)).Sum(), (data.SelectMany(sm => sm.Select(s => s.P)).Sum() + data.SelectMany(sm => sm.Select(s => s.U)).Sum() - data.SelectMany(sm => sm.Select(s => s.I)).Sum() / 1000));
 
         await InvokeAsync(() => StateHasChanged());
     }
@@ -307,9 +307,9 @@
             $"Solar Panels ({selectedMonth}/{selectedYear})", init, barChartMonth!, "Day"
         );
 
-        totals["Month"] = new TotalData((int)data.Select(s => s.P).Sum(),
-                                        (int)data.Select(s => s.I).Sum() / 1000,
-                                        (int)data.Select(s => s.U).Sum(), (int)(data.Select(s => s.P).Sum() + data.Select(s => s.U).Sum() - data.Select(s => s.I).Sum() / 1000));
+        totals["Month"] = new TotalData(data.Select(s => s.P).Sum(),
+                                        data.Select(s => s.I).Sum() / 1000,
+                                        data.Select(s => s.U).Sum(), (data.Select(s => s.P).Sum() + data.Select(s => s.U).Sum() - data.Select(s => s.I).Sum() / 1000));
 
         await InvokeAsync(() => StateHasChanged());
     }
@@ -334,9 +334,9 @@
             $"Solar Panels ({selectedYear}/{selectedWeek})", init, barChartWeek!, "Day"
         );
 
-        totals["Week"] = new TotalData((int)data.Select(s => s.P).Sum(),
-                                        (int)data.Select(s => s.I).Sum() / 1000,
-                                        (int)data.Select(s => s.U).Sum(), (int)(data.Select(s => s.P).Sum() + data.Select(s => s.U).Sum() - data.Select(s => s.I).Sum() / 1000));
+        totals["Week"] = new TotalData(data.Select(s => s.P).Sum(),
+                                        data.Select(s => s.I).Sum() / 1000,
+                                        data.Select(s => s.U).Sum(), (data.Select(s => s.P).Sum() + data.Select(s => s.U).Sum() - data.Select(s => s.I).Sum() / 1000));
 
         await InvokeAsync(() => StateHasChanged());
     }
@@ -358,9 +358,9 @@
             $"Solar Panels ({DateOnly.FromDateTime(new DateTime(selectedYear, 1, 1).AddDays(day - 1)).ToString("yyyy/MM/dd")})", init, barChartDay!, "Day"
         );
 
-        totals["Day"] = new TotalData((int)data.Select(s => s.P).Sum(),
-                                        (int)data.Select(s => s.I).Sum() / 1000,
-                                        (int)data.Select(s => s.U).Sum(), (int)(data.Select(s => s.P).Sum() + data.Select(s => s.U).Sum() - data.Select(s => s.I).Sum() / 1000));
+        totals["Day"] = new TotalData(data.Select(s => s.P).Sum(),
+                                        data.Select(s => s.I).Sum() / 1000,
+                                        data.Select(s => s.U).Sum(), (data.Select(s => s.P).Sum() + data.Select(s => s.U).Sum() - data.Select(s => s.I).Sum() / 1000));
 
         await InvokeAsync(() => StateHasChanged());
     }
