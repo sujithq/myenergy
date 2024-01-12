@@ -49,17 +49,6 @@ namespace June.Data
             var juneSettings = serviceProvider.GetService<IOptions<JuneSettings>>();
             var sungrowSettings = serviceProvider.GetService<IOptions<SungrowSettings>>();
 
-            var juneScraper = new JuneScraper(juneSettings!.Value);
-            var sungrowScraper = new SungrowScraper(sungrowSettings!.Value);
-
-            var juneLogin = await juneScraper.LoginAsync();
-            var sungrowLogin = await sungrowScraper.LoginAsync();
-
-            var refresh_token = juneLogin!.RootElement.GetProperty("refresh_token").GetString();
-            // Get token and user_id
-            var token = sungrowLogin.RootElement.GetProperty("result_data").GetProperty("token").GetString();
-            var user_id = sungrowLogin.RootElement.GetProperty("result_data").GetProperty("user_id").GetString();
-
             var data = JsonSerializer.Deserialize<Dictionary<int, List<BarChartData>>>(await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Data/data.json")));
 
             var currentDateInBelgium = MyExtensions.BelgiumTime();
@@ -84,49 +73,91 @@ namespace June.Data
                 .Select(date => (date.Key, date.D, date.Item3.ToString("yyyyMMdd", null), date.Item3)))
                 .ToList();
 
-            if (listForSungrowProcessed.Count == 0)
-                listForSungrowProcessed.Add((currentDateInBelgium.Year, currentDateInBelgium.DayOfYear, currentDateInBelgiumString, currentDateInBelgium.Date));
+            var listForSungrowProcessed2 = string.Join(Environment.NewLine, data!
+                .SelectMany(kvp => kvp.Value.Select(data => (kvp.Key, data.D.DayOfYearLocalDate(kvp.Key).ToString("dd/MM/yyyy", null), data.P)))
+                .Select(date => $"{date.Key} {date.Item2} {date.P}")
+                .ToList());
 
-            foreach (var item in listForJuneProcessed)
+            var juneScraper = new JuneScraper(juneSettings!.Value);
+            var juneLogin = await juneScraper.LoginAsync();
+            if (juneLogin != default)
             {
-                var juneData = await juneScraper.GetData(new Dictionary<string, string>() { { "refresh_token", refresh_token! } }, item.Item3);
+                var refresh_token = juneLogin!.RootElement.GetProperty("refresh_token").GetString();
 
-                var consumption = juneData.RootElement.GetProperty("electricity").GetProperty("single").GetProperty("consumption").GetDouble();
-                var injection = juneData.RootElement.GetProperty("electricity").GetProperty("single").GetProperty("injection").GetDouble() * 1000;
-
-                if (!data!.TryGetValue(item.Key, out List<BarChartData>? value))
+                foreach (var item in listForJuneProcessed)
                 {
-                    value = [];
-                    data.Add(item.Key, value);
-                }
-                if (value.Count < item.D)
-                {
-                    value.Add(new BarChartData(item.D, 0, 0, 0, false, false));
-                }
+                    var juneData = await juneScraper.GetData(new Dictionary<string, string>() { { "refresh_token", refresh_token! } }, item.Item3);
 
-                var d = value[item.D - 1];
-                value[item.D - 1] = new BarChartData(d.D, d.P, consumption, injection, item.Item4 == currentDateInBelgium.Date ? false : true, d.S);
-            }
+                    var consumption = juneData.RootElement.GetProperty("electricity").GetProperty("single").GetProperty("consumption").GetDouble();
+                    var injection = juneData.RootElement.GetProperty("electricity").GetProperty("single").GetProperty("injection").GetDouble() * 1000;
 
-            foreach (var item in listForSungrowProcessed)
-            {
-                var sungrowData = await sungrowScraper.GetData(new Dictionary<string, string>() { { "token", token! }, { "user_id", user_id! } }, item.Item3);
-                var result_data = sungrowData.RootElement.GetProperty("result_data");
-                if (result_data.ValueKind == JsonValueKind.Null)
-                {
-                    await Console.Error.WriteLineAsync($"Error: ({sungrowData.RootElement.GetProperty("result_code").GetString()}) {sungrowData.RootElement.GetProperty("result_msg").GetString()}");
-                    failed = true;
-                }
-                else
-                {
-                    _ = double.TryParse(result_data.GetProperty("day_data").GetProperty("p83077_map_virgin").GetProperty("value").GetString()!, out var production);
+                    if (!data!.TryGetValue(item.Key, out List<BarChartData>? value))
+                    {
+                        value = [];
+                        data.Add(item.Key, value);
+                    }
+                    if (value.Count < item.D)
+                    {
+                        value.Add(new BarChartData(item.D, 0, 0, 0, false, false));
+                    }
 
-                    production /= 1000;
-
-                    var d = data![item.Key][item.D - 1];
-                    data![item.Key][item.D - 1] = new BarChartData(d.D, production, d.U, d.I, d.J, item.Item4 == currentDateInBelgium.Date ? false : true);
+                    var d = value[item.D - 1];
+                    value[item.D - 1] = new BarChartData(d.D, d.P, consumption, injection, item.Item4 == currentDateInBelgium.Date ? false : true, d.S);
                 }
             }
+            else
+            {
+                await Console.Error.WriteLineAsync($"Warning: Could not login into June");
+            }
+
+            var sungrowScraper = new SungrowScraper(sungrowSettings!.Value);
+            var sungrowLogin = await sungrowScraper.LoginAsync();
+
+            if (sungrowLogin != default)
+            {
+                var token = sungrowLogin.RootElement.GetProperty("result_data").GetProperty("token").GetString();
+                var user_id = sungrowLogin.RootElement.GetProperty("result_data").GetProperty("user_id").GetString();
+
+                foreach (var item in listForSungrowProcessed)
+                {
+                    var sungrowData = await sungrowScraper.GetData(new Dictionary<string, string>() { { "token", token! }, { "user_id", user_id! } }, item.Item3);
+
+                    if (sungrowData != default)
+                    {
+                        var result_data = sungrowData.RootElement.GetProperty("result_data");
+                        if (result_data.ValueKind == JsonValueKind.Null)
+                        {
+                            await Console.Error.WriteLineAsync($"Error: ({sungrowData.RootElement.GetProperty("result_code").GetString()}) {sungrowData.RootElement.GetProperty("result_msg").GetString()}");
+                            failed = true;
+                        }
+                        else
+                        {
+                            _ = double.TryParse(result_data.GetProperty("day_data").GetProperty("p83077_map_virgin").GetProperty("value").GetString()!, out var production);
+
+                            production /= 1000;
+
+                            if (!data!.TryGetValue(item.Key, out List<BarChartData>? value))
+                            {
+                                value = [];
+                                data.Add(item.Key, value);
+                            }
+                            if (value.Count < item.D)
+                            {
+                                value.Add(new BarChartData(item.D, 0, 0, 0, false, false));
+                            }
+
+
+                            var d = value[item.D - 1];
+                            value[item.D - 1] = new BarChartData(d.D, production, d.U, d.I, d.J, item.Item4 == currentDateInBelgium.Date ? false : true);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                await Console.Error.WriteLineAsync($"Warning: Could not login into Sungrow");
+            }
+
 
             File.WriteAllText(Path.Combine(AppContext.BaseDirectory, "Data/data.json"), JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true }));
 

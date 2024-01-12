@@ -35,10 +35,17 @@ namespace June.Data
             }
 
             var response = await client.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-            var responseContent = await response.Content.ReadAsStringAsync();
 
-            return DecryptHex(responseContent, randomKey);
+            if (response.IsSuccessStatusCode)
+            {
+                response.EnsureSuccessStatusCode();
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                return DecryptHex(responseContent, randomKey);
+
+            }
+            return default;
+
         }
 
         // RSA encryption method
