@@ -107,7 +107,8 @@ namespace June.Data
             }
             else
             {
-                await Console.Error.WriteLineAsync($"Warning: Could not login into June");
+                await Alert("Could not login into June", "Warning");
+
             }
 
             var sungrowScraper = new SungrowScraper(sungrowSettings!.Value);
@@ -127,7 +128,7 @@ namespace June.Data
                         var result_data = sungrowData.RootElement.GetProperty("result_data");
                         if (result_data.ValueKind == JsonValueKind.Null)
                         {
-                            await Console.Error.WriteLineAsync($"Error: ({sungrowData.RootElement.GetProperty("result_code").GetString()}) {sungrowData.RootElement.GetProperty("result_msg").GetString()}");
+                            await Alert($"({sungrowData.RootElement.GetProperty("result_code").GetString()}) {sungrowData.RootElement.GetProperty("result_msg").GetString()}", "Warning");
                             failed = true;
                         }
                         else
@@ -155,7 +156,7 @@ namespace June.Data
             }
             else
             {
-                await Console.Error.WriteLineAsync($"Warning: Could not login into Sungrow");
+                await Alert("Could not login into Sungrow", "Warning");
             }
 
 
@@ -166,5 +167,16 @@ namespace June.Data
                 Environment.ExitCode = 1;
             }
         }
+
+        async static Task Alert(string message, string type, ConsoleColor cc = ConsoleColor.Red)
+        {
+            Console.ForegroundColor = cc;
+
+            await Console.Out.WriteAsync("{type}: ");
+            Console.ResetColor();
+            await Console.Out.WriteLineAsync(message);
+        }
+
+
     }
 }
