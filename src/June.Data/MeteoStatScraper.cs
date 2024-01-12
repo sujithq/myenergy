@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 
 namespace June.Data
 {
@@ -20,7 +20,7 @@ namespace June.Data
             var meteoStatBaseAddress = "https://meteostat.p.rapidapi.com/";
             var start = config["start"];
             var end = config["end"];
-            var meteoStatTokenEndpoint = $"stations/daily?station=10637&start={start}&end={end}";
+            var meteoStatTokenEndpoint = $"stations/daily?station=10637&start={start}&end={end}&lat=50.96352&lon=4.60589";
 
             // Create a new HttpClient and set the base address
             var client = new HttpClient { BaseAddress = new Uri(meteoStatBaseAddress) };
