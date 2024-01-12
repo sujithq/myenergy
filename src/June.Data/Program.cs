@@ -107,7 +107,7 @@ namespace June.Data
             }
             else
             {
-                await Alert("Could not login into June", "Warning");
+                Alert("Could not login into June", "Warning");
             }
 
             var sungrowScraper = new SungrowScraper(sungrowSettings!.Value);
@@ -127,7 +127,7 @@ namespace June.Data
                         var result_data = sungrowData.RootElement.GetProperty("result_data");
                         if (result_data.ValueKind == JsonValueKind.Null)
                         {
-                            await Alert($"({sungrowData.RootElement.GetProperty("result_code").GetString()}) {sungrowData.RootElement.GetProperty("result_msg").GetString()}", "Warning");
+                            Alert($"({sungrowData.RootElement.GetProperty("result_code").GetString()}) {sungrowData.RootElement.GetProperty("result_msg").GetString()}", "Warning");
                             failed = true;
                         }
                         else
@@ -172,7 +172,7 @@ namespace June.Data
             Console.ForegroundColor = cc;
             Console.Write($"{type}: ");
             Console.ResetColor();
-            Console.WriteLine(message);
+            Console.WriteLine(message); 
         }
     }
 }
