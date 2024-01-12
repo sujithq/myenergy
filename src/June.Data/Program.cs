@@ -108,7 +108,6 @@ namespace June.Data
             else
             {
                 await Alert("Could not login into June", "Warning");
-
             }
 
             var sungrowScraper = new SungrowScraper(sungrowSettings!.Value);
@@ -156,7 +155,7 @@ namespace June.Data
             }
             else
             {
-                await Alert("Could not login into Sungrow", "Warning");
+                Alert("Could not login into Sungrow", "Warning");
             }
 
 
@@ -168,15 +167,12 @@ namespace June.Data
             }
         }
 
-        async static Task Alert(string message, string type, ConsoleColor cc = ConsoleColor.Red)
+        static void Alert(string message, string type, ConsoleColor cc = ConsoleColor.Red)
         {
             Console.ForegroundColor = cc;
-
-            await Console.Out.WriteAsync("{type}: ");
+            Console.Write($"{type}: ");
             Console.ResetColor();
-            await Console.Out.WriteLineAsync(message);
+            Console.WriteLine(message);
         }
-
-
     }
 }
