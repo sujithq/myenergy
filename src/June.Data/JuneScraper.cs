@@ -48,7 +48,7 @@ namespace June.Data
             var from = DateOnly.ParseExact(date_id, "yyyyMMdd").ToString("yyyy-MM-dd");
             var to = DateOnly.ParseExact(date_id, "yyyyMMdd").AddDays(1).ToString("yyyy-MM-dd");
             var valueType = "ENERGY";
-            var refresh_token = config["refresh_token"];
+            var token = config["token"];
 
             // June API endpoints
             var juneBaseAddress = "https://api.june.energy/";
@@ -67,7 +67,7 @@ namespace June.Data
             };
 
             // Add the access token to the request header
-            requestData.Headers.Authorization = new AuthenticationHeaderValue("Bearer", refresh_token);
+            requestData.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             // Send the request to the server and wait for the response
             var dataResponse = await client.SendAsync(requestData);

@@ -82,11 +82,12 @@ namespace June.Data
             var juneLogin = await juneScraper.LoginAsync();
             if (juneLogin != default)
             {
-                var refresh_token = juneLogin!.RootElement.GetProperty("refresh_token").GetString();
+                var token_name = "access_token";
+                var token = juneLogin!.RootElement.GetProperty(token_name).GetString();
 
                 foreach (var item in listForJuneProcessed)
                 {
-                    var juneData = await juneScraper.GetData(new Dictionary<string, string>() { { "refresh_token", refresh_token! } }, item.Item3);
+                    var juneData = await juneScraper.GetData(new Dictionary<string, string>() { { "token", token! } }, item.Item3);
 
                     var consumption = juneData.RootElement.GetProperty("electricity").GetProperty("single").GetProperty("consumption").GetDouble();
                     var injection = juneData.RootElement.GetProperty("electricity").GetProperty("single").GetProperty("injection").GetDouble() * 1000;
