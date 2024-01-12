@@ -4,7 +4,9 @@ using System.Text.Json;
 
 namespace June.Data
 {
-    internal class JuneScraper
+
+
+    internal class JuneScraper : IScraper
     {
         private readonly JuneSettings settings;
         public JuneScraper(JuneSettings settings)

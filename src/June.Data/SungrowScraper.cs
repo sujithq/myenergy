@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace June.Data
 {
-    internal class SungrowScraper
+    internal class SungrowScraper : IScraper
     {
         private static readonly string beginPublicKey = "-----BEGIN PUBLIC KEY-----";
         private static readonly string endPublicKey = "-----END PUBLIC KEY-----";

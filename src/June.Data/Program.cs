@@ -5,6 +5,7 @@ using myenergy.Common;
 using myenergy.Common.Extensions;
 using System.Globalization;
 using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace June.Data
 {
@@ -40,6 +41,7 @@ namespace June.Data
             services
                 .Configure<JuneSettings>(Configuration.GetSection(nameof(JuneSettings)))
                 .Configure<SungrowSettings>(Configuration.GetSection(nameof(SungrowSettings)))
+                .Configure<MeteoStatSettings>(Configuration.GetSection(nameof(MeteoStatSettings)))
                 .AddOptions()
                 .BuildServiceProvider();
 
@@ -48,6 +50,7 @@ namespace June.Data
             // Get JuneSettings from DI
             var juneSettings = serviceProvider.GetService<IOptions<JuneSettings>>();
             var sungrowSettings = serviceProvider.GetService<IOptions<SungrowSettings>>();
+            var meteoStatSettings = serviceProvider.GetService<IOptions<MeteoStatSettings>>();
 
             var data = JsonSerializer.Deserialize<Dictionary<int, List<BarChartData>>>(await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Data/data.json")));
 
@@ -73,10 +76,62 @@ namespace June.Data
                 .Select(date => (date.Key, date.D, date.Item3.ToString("yyyyMMdd", null), date.Item3)))
                 .ToList();
 
-            var listForSungrowProcessed2 = string.Join(Environment.NewLine, data!
-                .SelectMany(kvp => kvp.Value.Select(data => (kvp.Key, data.D.DayOfYearLocalDate(kvp.Key).ToString("dd/MM/yyyy", null), data.P)))
-                .Select(date => $"{date.Key} {date.Item2} {date.P}")
-                .ToList());
+            var listForMeteoStatProcessed = data!
+                .SelectMany(kvp => kvp.Value.Where(data => !data.M)
+                                            .Select(data => (kvp.Key, data.D, data.D.DayOfYearLocalDate(kvp.Key)))
+                .Where(date => date.Item3 <= currentDateInBelgium.Date)
+                .Select(date => (date.Key, date.D, date.Item3)))
+                .ToList();
+
+            var meteoStatStart = listForMeteoStatProcessed.Min(item => item.Item3.ToString("yyyy-MM-dd", null));
+            var meteoStatEnd = listForMeteoStatProcessed.Max(item => item.Item3.ToString("yyyy-MM-dd", null));
+
+
+            var meteoStatScraper = new MeteoStatScraper(meteoStatSettings!.Value);
+
+            var mdata = await meteoStatScraper.GetData(new Dictionary<string, string>() { { "start", meteoStatStart }, { "end", meteoStatEnd } }, null);
+
+            if (mdata != default)
+            {
+                var el = mdata.RootElement.GetProperty("data").EnumerateArray();
+
+                foreach (var item in listForMeteoStatProcessed)
+                {
+                    var dateStr = item.Item3.ToString("yyyy-MM-dd", null);
+
+                    var obj = el.FirstOrDefault(item => item.GetProperty("date").GetString() == dateStr);
+
+                    if (obj.ValueKind != JsonValueKind.Null)
+                    {
+
+                        var tsun = obj.GetProperty("tsun");
+
+                        if (tsun.ValueKind != JsonValueKind.Null)
+                        {
+                            tsun.TryGetInt32(out var R);
+
+                            if (!data!.TryGetValue(item.Key, out List<BarChartData>? value))
+                            {
+                                value = [];
+                                data.Add(item.Key, value);
+                            }
+                            if (value.Count < item.D)
+                            {
+                                value.Add(new BarChartData(item.D, 0, 0, 0, false, false, 0, false));
+                            }
+
+                            var d = value[item.D - 1];
+                            value[item.D - 1] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, R, true);
+                        }
+                        else
+                        {
+                            Console.WriteLine();
+                        }
+
+                    }
+                }
+            }
+
 
             var juneScraper = new JuneScraper(juneSettings!.Value);
             var juneLogin = await juneScraper.LoginAsync();
@@ -99,11 +154,11 @@ namespace June.Data
                     }
                     if (value.Count < item.D)
                     {
-                        value.Add(new BarChartData(item.D, 0, 0, 0, false, false));
+                        value.Add(new BarChartData(item.D, 0, 0, 0, false, false, 0, false));
                     }
 
                     var d = value[item.D - 1];
-                    value[item.D - 1] = new BarChartData(d.D, d.P, consumption, injection, item.Item4 == currentDateInBelgium.Date ? false : true, d.S);
+                    value[item.D - 1] = new BarChartData(d.D, d.P, consumption, injection, item.Item4 == currentDateInBelgium.Date ? false : true, d.S, d.R, d.M);
                 }
             }
             else
@@ -144,12 +199,12 @@ namespace June.Data
                             }
                             if (value.Count < item.D)
                             {
-                                value.Add(new BarChartData(item.D, 0, 0, 0, false, false));
+                                value.Add(new BarChartData(item.D, 0, 0, 0, false, false, 0, false));
                             }
 
 
                             var d = value[item.D - 1];
-                            value[item.D - 1] = new BarChartData(d.D, production, d.U, d.I, d.J, item.Item4 == currentDateInBelgium.Date ? false : true);
+                            value[item.D - 1] = new BarChartData(d.D, production, d.U, d.I, d.J, item.Item4 == currentDateInBelgium.Date ? false : true, d.R, d.M);
                         }
                     }
                 }
@@ -173,7 +228,7 @@ namespace June.Data
             Console.ForegroundColor = cc;
             Console.Write($"{type}: ");
             Console.ResetColor();
-            Console.WriteLine(message); 
+            Console.WriteLine(message);
         }
     }
 }
