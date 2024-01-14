@@ -52,6 +52,7 @@ jobs:
         SUNGROW_APP_RSA_PUBLIC_KEY: ${{ secrets.SUNGROW_APP_RSA_PUBLIC_KEY }}
         SUNGROW_PASSWORD: ${{ secrets.SUNGROW_PASSWORD }}
         SUNGROW_PS_ID: ${{ secrets.SUNGROW_PS_ID }}
+        METEOSTAT_KEY: ${{ secrets.METEOSTAT_KEY }}
     - name: Copy data file
       run: |
           ls -la ./src/myenergy/wwwroot/Data/data.json
