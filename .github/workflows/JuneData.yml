@@ -26,8 +26,12 @@ jobs:
         dotnet-version: 8.0.x
     - name: Copy data file
       run: |
-        ls -la
-        cp ./src/myenergy/wwwroot/Data/data.json ./src/June.Data/Data/data.json
+          cp ./src/myenergy/wwwroot/Data/data.json ./src/June.Data/Data/data.json
+            if [ $? -eq 0 ]; then
+                echo "Copy successful."
+            else
+                echo "Copy failed."
+            fi
     - name: Build June.Data
       run: dotnet build src/June.Data -c Release
 
@@ -44,7 +48,13 @@ jobs:
         SUNGROW_PASSWORD: ${{ secrets.SUNGROW_PASSWORD }}
         SUNGROW_PS_ID: ${{ secrets.SUNGROW_PS_ID }}
     - name: Copy data file
-      run: cp ./src/June.Data/bin/Release/net8.0/Data/data.json ./src/myenergy/wwwroot/Data/data.json
+      run: |
+          cp ./src/June.Data/bin/Release/net8.0/Data/data.json ./src/myenergy/wwwroot/Data/data.json
+            if [ $? -eq 0 ]; then
+                echo "Copy successful."
+            else
+                echo "Copy failed."
+            fi
     - name: Generate a token
       id: generate_token
       uses: actions/create-github-app-token@v1
@@ -53,8 +63,8 @@ jobs:
         private-key: ${{ secrets.PRIVATE_KEY }}
     - name: Commit Data File
       run: |
-        if git diff --quiet HEAD -- ./src/myenergy/wwwroot/Data/data.json; then
-            echo "No changes to the output on this push; exiting."
+        if git diff --quiet HEAD -- ; then
+            echo "No changes to the output on this push."
         else
             git config --global user.name 'Sujith Quintelier'
             git config --global user.email 'sujith.quintelier@gmail.com'
