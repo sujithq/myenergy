@@ -1,4 +1,5 @@
 using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace June.Data
 {
@@ -37,6 +38,8 @@ namespace June.Data
             {
                 // Read the response content as a string
                 var json = await response.Content.ReadAsStringAsync();
+
+                File.WriteAllText(Path.Combine(AppContext.BaseDirectory, "Data/meteostat.json"), json);
 
                 return JsonDocument.Parse(json);
             }
