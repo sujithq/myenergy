@@ -26,17 +26,22 @@ jobs:
         dotnet-version: 8.0.x
     - name: Copy data file
       run: |
+          ls -la ./src/June.Data/Data/data.json
           cp ./src/myenergy/wwwroot/Data/data.json ./src/June.Data/Data/data.json
             if [ $? -eq 0 ]; then
                 echo "Copy successful."
             else
                 echo "Copy failed."
             fi
+          ls -la ./src/June.Data/Data/data.json
     - name: Build June.Data
       run: dotnet build src/June.Data -c Release
 
     - name: Run JuneData
-      run: dotnet run --project src/June.Data -c Release --no-build --no-restore
+      run: |
+        ls -la ./src/June.Data/bin/Release/net8.0/Data/data.json
+        dotnet run --project src/June.Data -c Release --no-build --no-restore
+        ls -la ./src/June.Data/bin/Release/net8.0/Data/data.json
       env:
         NETCORE_ENVIRONMENT: Production
         JUNE_CLIENT_ID: ${{ secrets.JUNE_CLIENT_ID }}
@@ -49,12 +54,14 @@ jobs:
         SUNGROW_PS_ID: ${{ secrets.SUNGROW_PS_ID }}
     - name: Copy data file
       run: |
+          ls -la ./src/myenergy/wwwroot/Data/data.json
           cp ./src/June.Data/bin/Release/net8.0/Data/data.json ./src/myenergy/wwwroot/Data/data.json
             if [ $? -eq 0 ]; then
                 echo "Copy successful."
             else
                 echo "Copy failed."
             fi
+          ls -la ./src/myenergy/wwwroot/Data/data.json
     - name: Generate a token
       id: generate_token
       uses: actions/create-github-app-token@v1
