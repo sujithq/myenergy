@@ -63,6 +63,7 @@ jobs:
         private-key: ${{ secrets.PRIVATE_KEY }}
     - name: Commit Data File
       run: |
+        git diff HEAD --
         if git diff --quiet HEAD -- ; then
             echo "No changes to the output on this push."
         else
