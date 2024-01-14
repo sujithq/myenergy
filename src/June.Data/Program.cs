@@ -50,7 +50,11 @@ namespace June.Data
             var sungrowSettings = serviceProvider.GetService<IOptions<SungrowSettings>>();
             var meteoStatSettings = serviceProvider.GetService<IOptions<MeteoStatSettings>>();
 
-            var data = JsonSerializer.Deserialize<Dictionary<int, List<BarChartData>>>(await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Data/data.json")));
+            var dataPath = Path.Combine(AppContext.BaseDirectory, "Data/data.json");
+
+            Alert($"Reading from {dataPath}", "Info");
+
+            var data = JsonSerializer.Deserialize<Dictionary<int, List<BarChartData>>>(await File.ReadAllTextAsync(dataPath));
 
             var currentDateInBelgium = MyExtensions.BelgiumTime();
             var currentDateInBelgiumString = currentDateInBelgium.ToString("yyyyMMdd", null);
@@ -84,6 +88,8 @@ namespace June.Data
             var meteoStatStart = listForMeteoStatProcessed.Min(item => item.Item3.ToString("yyyy-MM-dd", null));
             var meteoStatEnd = listForMeteoStatProcessed.Max(item => item.Item3.ToString("yyyy-MM-dd", null));
 
+            Alert($"Meteo Stat Start: {meteoStatStart}", "Info");
+            Alert($"Meteo Stat End: {meteoStatEnd}", "Info");
 
             var meteoStatScraper = new MeteoStatScraper(meteoStatSettings!.Value);
 
@@ -124,7 +130,7 @@ namespace June.Data
                         }
                         else
                         {
-                            Console.WriteLine();
+                            Alert($"No tsun on '{dateStr}'", "Warning");
                         }
 
                     }
