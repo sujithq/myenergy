@@ -77,7 +77,7 @@ jobs:
             git config --global user.name 'Sujith Quintelier'
             git config --global user.email 'sujith.quintelier@gmail.com'
             git add ./src/myenergy/wwwroot/Data/data.json
-            // git add .
+            # git add .
             git commit -m "📊 Add update data file."
             git push origin main
         fi
