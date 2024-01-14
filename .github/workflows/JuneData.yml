@@ -70,14 +70,14 @@ jobs:
         private-key: ${{ secrets.PRIVATE_KEY }}
     - name: Commit Data File
       run: |
-        git diff HEAD --
-        if git diff --quiet HEAD -- ; then
+        git diff HEAD -- "./src/myenergy/wwwroot/Data/data.json"
+        if git diff --quiet HEAD -- "./src/myenergy/wwwroot/Data/data.json" ; then
             echo "No changes to the output on this push."
         else
             git config --global user.name 'Sujith Quintelier'
             git config --global user.email 'sujith.quintelier@gmail.com'
-            // git add ./src/myenergy/wwwroot/Data/data.json
-            git add .
+            git add ./src/myenergy/wwwroot/Data/data.json
+            // git add .
             git commit -m "📊 Add update data file."
             git push origin main
         fi
