@@ -30,6 +30,9 @@ namespace June.Data
             requestToken.Headers.Add("X-RapidAPI-Key", settings.Key);
             requestToken.Headers.Add("X-RapidAPI-Host", settings.Host);
 
+            await Console.Out.WriteLineAsync($"v1 {settings.Key[..3]}");
+            await Console.Out.WriteLineAsync($"v2 {settings.Host[..3]}");
+
             // Send the request to the server and wait for the response
             var response = await client.SendAsync(requestToken);
 
