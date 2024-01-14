@@ -43,6 +43,10 @@ namespace June.Data
 
                 return JsonDocument.Parse(json);
             }
+            else
+            {
+                Console.WriteLine($"{response.StatusCode}: {await response.Content.ReadAsStringAsync()}");
+            }
             return default;
         }
     }
