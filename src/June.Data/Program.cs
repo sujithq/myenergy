@@ -3,9 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using myenergy.Common;
 using myenergy.Common.Extensions;
-using System.Globalization;
 using System.Text.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace June.Data
 {
@@ -93,6 +91,7 @@ namespace June.Data
 
             if (mdata != default)
             {
+                Alert("Process Meteo Stat Data","Info");
                 var el = mdata.RootElement.GetProperty("data").EnumerateArray();
 
                 foreach (var item in listForMeteoStatProcessed)
@@ -131,12 +130,17 @@ namespace June.Data
                     }
                 }
             }
-
+            else
+            {
+                Alert("No Meteo Stat Data To Process", "Warning");
+            }
 
             var juneScraper = new JuneScraper(juneSettings!.Value);
             var juneLogin = await juneScraper.LoginAsync();
             if (juneLogin != default)
             {
+                Alert("Could login into June", "Info");
+
                 var token_name = "access_token";
                 var token = juneLogin!.RootElement.GetProperty(token_name).GetString();
 
@@ -171,6 +175,8 @@ namespace June.Data
 
             if (sungrowLogin != default)
             {
+                Alert("Could login into Sungrow", "Info");
+
                 var token = sungrowLogin.RootElement.GetProperty("result_data").GetProperty("token").GetString();
                 var user_id = sungrowLogin.RootElement.GetProperty("result_data").GetProperty("user_id").GetString();
 
