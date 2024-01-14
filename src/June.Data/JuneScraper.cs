@@ -42,6 +42,10 @@ namespace June.Data
 
                 return JsonDocument.Parse(json);
             }
+            else
+            {
+                Console.WriteLine($"{response.StatusCode}: {await response.Content.ReadAsStringAsync()}");
+            }
             return default;
         }
         public async Task<JsonDocument> GetData(Dictionary<string, string> config, string date_id)
@@ -82,6 +86,10 @@ namespace June.Data
 
                 return JsonDocument.Parse(dataResponseStringContent);
 
+            }
+            else
+            {
+                Console.WriteLine($"{dataResponse.StatusCode}: {await dataResponse.Content.ReadAsStringAsync()}");
             }
             return await Task.FromResult<JsonDocument>(null);
         }
