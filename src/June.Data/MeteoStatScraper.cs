@@ -10,18 +10,20 @@ namespace June.Data
         {
             this.settings = settings;
         }
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task<JsonDocument?> LoginAsync()
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             throw new NotImplementedException();
         }
 
-        public async Task<JsonDocument> GetData(Dictionary<string, string> config, string _)
+        public async Task<JsonDocument?> GetData(Dictionary<string, string> config, string? _)
         {
             // MeteoStat API endpoints
             var meteoStatBaseAddress = "https://meteostat.p.rapidapi.com/";
             var start = config["start"];
             var end = config["end"];
-            var meteoStatTokenEndpoint = $"stations/daily?station=10637&start={start}&end={end}&lat=50.96352&lon=4.60589";
+            var meteoStatTokenEndpoint = $"stations/daily?station={settings.Station}&start={start}&end={end}&lat=50.96352&lon=4.60589";
 
             // Create a new HttpClient and set the base address
             var client = new HttpClient { BaseAddress = new Uri(meteoStatBaseAddress) };

@@ -11,5 +11,6 @@ namespace June.Data
         }
 
         public required string Host { get; set; }
+        public required string Station { get; set; } = "06451";
     }
 }

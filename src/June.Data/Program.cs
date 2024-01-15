@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using myenergy.Common;
 using myenergy.Common.Extensions;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 
 namespace June.Data
@@ -88,16 +89,13 @@ namespace June.Data
             var meteoStatStart = listForMeteoStatProcessed.Min(item => item.Item3.ToString("yyyy-MM-dd", null));
             var meteoStatEnd = listForMeteoStatProcessed.Max(item => item.Item3.ToString("yyyy-MM-dd", null));
 
-            Alert($"Meteo Stat Start: {meteoStatStart}", "Info");
-            Alert($"Meteo Stat End: {meteoStatEnd}", "Info");
-
             var meteoStatScraper = new MeteoStatScraper(meteoStatSettings!.Value);
 
-            var mdata = await meteoStatScraper.GetData(new Dictionary<string, string>() { { "start", meteoStatStart }, { "end", meteoStatEnd } }, null);
+            var mdata = await meteoStatScraper.GetData(new Dictionary<string, string>() { { "start", meteoStatStart! }, { "end", meteoStatEnd! } }, default);
 
             if (mdata != default)
             {
-                Alert("Process Meteo Stat Data","Info");
+                Alert("Process Meteo Stat Data", "Info");
                 var el = mdata.RootElement.GetProperty("data").EnumerateArray();
 
                 foreach (var item in listForMeteoStatProcessed)
@@ -109,29 +107,101 @@ namespace June.Data
                     if (obj.ValueKind != JsonValueKind.Null)
                     {
 
-                        var tsun = obj.GetProperty("tsun");
+                        var msObj = obj.GetProperty("tavg");
+                        double tavg = 0.0;
 
-                        if (tsun.ValueKind != JsonValueKind.Null)
+                        if (msObj.ValueKind != JsonValueKind.Null)
                         {
-                            tsun.TryGetInt32(out var R);
-
-                            if (!data!.TryGetValue(item.Key, out List<BarChartData>? value))
-                            {
-                                value = [];
-                                data.Add(item.Key, value);
-                            }
-                            if (value.Count < item.D)
-                            {
-                                value.Add(new BarChartData(item.D, 0, 0, 0, false, false, 0, false));
-                            }
-
-                            var d = value[item.D - 1];
-                            value[item.D - 1] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, R, true);
+                            msObj.TryGetDouble(out tavg);
                         }
-                        else
+
+                        msObj = obj.GetProperty("tmin");
+                        double tmin = 0.0;
+
+                        if (msObj.ValueKind != JsonValueKind.Null)
                         {
-                            Alert($"No tsun on '{dateStr}'", "Warning");
+                            msObj.TryGetDouble(out tmin);
                         }
+
+                        msObj = obj.GetProperty("tmax");
+                        double tmax = 0.0;
+
+                        if (msObj.ValueKind != JsonValueKind.Null)
+                        {
+                            msObj.TryGetDouble(out tmax);
+                        }
+
+                        msObj = obj.GetProperty("tsun");
+                        double tsun = 0.0;
+
+                        if (msObj.ValueKind != JsonValueKind.Null)
+                        {
+                            msObj.TryGetDouble(out tsun);
+                        }
+
+                        msObj = obj.GetProperty("prcp");
+                        double prcp = 0.0;
+
+                        if (msObj.ValueKind != JsonValueKind.Null)
+                        {
+                            msObj.TryGetDouble(out prcp);
+                        }
+
+                        msObj = obj.GetProperty("snow");
+                        double snow = 0.0;
+
+                        if (msObj.ValueKind != JsonValueKind.Null)
+                        {
+                            msObj.TryGetDouble(out snow);
+                        }
+
+                        msObj = obj.GetProperty("wdir");
+                        double wdir = 0.0;
+
+                        if (msObj.ValueKind != JsonValueKind.Null)
+                        {
+                            msObj.TryGetDouble(out wdir);
+                        }
+
+                        msObj = obj.GetProperty("wspd");
+                        double wspd = 0.0;
+
+                        if (msObj.ValueKind != JsonValueKind.Null)
+                        {
+                            msObj.TryGetDouble(out wspd);
+                        }
+
+                        msObj = obj.GetProperty("wpgt");
+                        double wpgt = 0.0;
+
+                        if (msObj.ValueKind != JsonValueKind.Null)
+                        {
+                            msObj.TryGetDouble(out wpgt);
+                        }
+
+                        msObj = obj.GetProperty("pres");
+                        double pres = 0.0;
+
+                        if (msObj.ValueKind != JsonValueKind.Null)
+                        {
+                            msObj.TryGetDouble(out pres);
+                        }
+
+                        MeteoStatData msd = new(tavg, tmin, tmax, prcp, snow, wdir, wspd, wpgt, pres, tsun);
+
+                        if (!data!.TryGetValue(item.Key, out List<BarChartData>? value))
+                        {
+                            value = [];
+                            data.Add(item.Key, value);
+                        }
+                        if (value.Count < item.D)
+                        {
+                            value.Add(new BarChartData(item.D, 0, 0, 0, false, false, msd, false));
+                        }
+
+
+                        var d = value[item.D - 1];
+                        value[item.D - 1] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, msd, true);
 
                     }
                 }
@@ -145,8 +215,6 @@ namespace June.Data
             var juneLogin = await juneScraper.LoginAsync();
             if (juneLogin != default)
             {
-                Alert("Could login into June", "Info");
-
                 var token_name = "access_token";
                 var token = juneLogin!.RootElement.GetProperty(token_name).GetString();
 
@@ -154,21 +222,29 @@ namespace June.Data
                 {
                     var juneData = await juneScraper.GetData(new Dictionary<string, string>() { { "token", token! } }, item.Item3);
 
-                    var consumption = juneData.RootElement.GetProperty("electricity").GetProperty("single").GetProperty("consumption").GetDouble();
-                    var injection = juneData.RootElement.GetProperty("electricity").GetProperty("single").GetProperty("injection").GetDouble() * 1000;
-
-                    if (!data!.TryGetValue(item.Key, out List<BarChartData>? value))
+                    if (juneData != default)
                     {
-                        value = [];
-                        data.Add(item.Key, value);
+                        var consumption = juneData.RootElement.GetProperty("electricity").GetProperty("single").GetProperty("consumption").GetDouble();
+                        var injection = juneData.RootElement.GetProperty("electricity").GetProperty("single").GetProperty("injection").GetDouble() * 1000;
+
+                        if (!data!.TryGetValue(item.Key, out List<BarChartData>? value))
+                        {
+                            value = [];
+                            data.Add(item.Key, value);
+                        }
+                        if (value.Count < item.D)
+                        {
+                            value.Add(new BarChartData(item.D, 0, 0, 0, false, false, new MeteoStatData(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), false));
+                        }
+
+                        var d = value[item.D - 1];
+                        value[item.D - 1] = new BarChartData(d.D, d.P, consumption, injection, item.Item4 == currentDateInBelgium.Date ? false : true, d.S, d.MS, d.M);
                     }
-                    if (value.Count < item.D)
+                    else
                     {
-                        value.Add(new BarChartData(item.D, 0, 0, 0, false, false, 0, false));
+                        Alert("No June Data To Process", "Warning");
                     }
 
-                    var d = value[item.D - 1];
-                    value[item.D - 1] = new BarChartData(d.D, d.P, consumption, injection, item.Item4 == currentDateInBelgium.Date ? false : true, d.S, d.R, d.M);
                 }
             }
             else
@@ -181,8 +257,6 @@ namespace June.Data
 
             if (sungrowLogin != default)
             {
-                Alert("Could login into Sungrow", "Info");
-
                 var token = sungrowLogin.RootElement.GetProperty("result_data").GetProperty("token").GetString();
                 var user_id = sungrowLogin.RootElement.GetProperty("result_data").GetProperty("user_id").GetString();
 
@@ -211,13 +285,17 @@ namespace June.Data
                             }
                             if (value.Count < item.D)
                             {
-                                value.Add(new BarChartData(item.D, 0, 0, 0, false, false, 0, false));
+                                value.Add(new BarChartData(item.D, 0, 0, 0, false, false, new MeteoStatData(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), false));
                             }
 
 
                             var d = value[item.D - 1];
-                            value[item.D - 1] = new BarChartData(d.D, production, d.U, d.I, d.J, item.Item4 == currentDateInBelgium.Date ? false : true, d.R, d.M);
+                            value[item.D - 1] = new BarChartData(d.D, production, d.U, d.I, d.J, item.Item4 == currentDateInBelgium.Date ? false : true, d.MS, d.M);
                         }
+                    }
+                    else
+                    {
+                        Alert("No Sungrow To Process", "Warning");
                     }
                 }
             }

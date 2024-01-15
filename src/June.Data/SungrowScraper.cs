@@ -19,7 +19,7 @@ namespace June.Data
             this.client = new HttpClient() { BaseAddress = new Uri(settings.gatewayUrl) };
         }
 
-        private async Task<JsonDocument> GetData(string url, Dictionary<string, object> data, Dictionary<string, string> addtionalHeaders, string randomKey)
+        private async Task<JsonDocument?> GetData(string url, Dictionary<string, object> data, Dictionary<string, string> addtionalHeaders, string randomKey)
         {
             string dataStr = JsonSerializer.Serialize(data);
             string dataHex = EncryptHex(dataStr, randomKey);
@@ -119,7 +119,7 @@ namespace June.Data
             return result.ToString();
         }
 
-        public async Task<JsonDocument> LoginAsync()
+        public async Task<JsonDocument?> LoginAsync()
         {
             string randomKey = "web" + GenerateRandomWord(13);
 
@@ -143,7 +143,7 @@ namespace June.Data
 
         }
 
-        public async Task<JsonDocument> GetData(Dictionary<string, string> config, string date_id)
+        public async Task<JsonDocument?> GetData(Dictionary<string, string> config, string? date_id)
         {
 
             string token = config["token"];
@@ -154,7 +154,7 @@ namespace June.Data
                 { "token", token },
                 { "ps_id", settings.PS_ID },
                 { "date_type", "1" },
-                { "date_id", date_id },
+                { "date_id", date_id! },
                 { "api_key_param", new
                     {
                         timestamp = DateTimeOffset.Now.ToUnixTimeMilliseconds(),

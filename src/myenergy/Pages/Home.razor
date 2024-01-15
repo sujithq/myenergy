@@ -128,7 +128,7 @@
 
     static LocalDateTime zonedDateTimeBrussels = MyExtensions.BelgiumTime(); // SystemClock.Instance.GetCurrentInstant().InZone(DateTimeZoneProviders.Tzdb["Europe/Brussels"]);
 
-    DateOnly minDate = DateOnly.FromDateTime(new DateTime(years.First(), 1, 1));
+    DateOnly minDate = DateOnly.FromDateTime(new DateTime(years.First(), 5, 23));
     DateOnly maxDate = DateOnly.FromDateTime(new DateTime(zonedDateTimeBrussels.Year, zonedDateTimeBrussels.Month, zonedDateTimeBrussels.Day));
     DateOnly currentDate;
 

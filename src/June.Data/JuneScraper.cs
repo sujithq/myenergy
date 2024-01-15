@@ -48,11 +48,11 @@ namespace June.Data
             }
             return default;
         }
-        public async Task<JsonDocument> GetData(Dictionary<string, string> config, string date_id)
+        public async Task<JsonDocument?> GetData(Dictionary<string, string> config, string? date_id)
         {
 
-            var from = DateOnly.ParseExact(date_id, "yyyyMMdd").ToString("yyyy-MM-dd");
-            var to = DateOnly.ParseExact(date_id, "yyyyMMdd").AddDays(1).ToString("yyyy-MM-dd");
+            var from = DateOnly.ParseExact(date_id!, "yyyyMMdd").ToString("yyyy-MM-dd");
+            var to = DateOnly.ParseExact(date_id!, "yyyyMMdd").AddDays(1).ToString("yyyy-MM-dd");
             var valueType = "ENERGY";
             var token = config["token"];
 
@@ -91,7 +91,7 @@ namespace June.Data
             {
                 Console.WriteLine($"{dataResponse.StatusCode}: {await dataResponse.Content.ReadAsStringAsync()}");
             }
-            return await Task.FromResult<JsonDocument>(null);
+            return await Task.FromResult<JsonDocument?>(default);
         }
     }
 

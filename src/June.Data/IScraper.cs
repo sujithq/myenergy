@@ -5,7 +5,7 @@ namespace June.Data
     internal interface IScraper
     {
         Task<JsonDocument?> LoginAsync();
-        Task<JsonDocument> GetData(Dictionary<string, string> config, string date_id);
+        Task<JsonDocument?> GetData(Dictionary<string, string> config, string? date_id);
     }
 
 }
