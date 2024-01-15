@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.ML;
 using myenergy.Common;
 using myenergy.Common.Extensions;
+using Newtonsoft.Json.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 
@@ -203,12 +204,12 @@ namespace June.Data
                         }
                         if (value.FindIndex(f => f.D == item.D) == -1)
                         {
-                            value.Add(new BarChartData(item.D, 0, 0, 0, false, false, msd, false));
+                            value.Add(new BarChartData(item.D, 0, 0, 0, false, false, msd, false, false));
                         }
 
                         var idx = value.FindIndex(f => f.D == item.D);
                         var d = value[idx];
-                        value[idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, msd, item.Item3 == currentDateInBelgium.Date ? false : true);
+                        value[idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, msd, item.Item3 == currentDateInBelgium.Date ? false : true, false);
 
                     }
                 }
@@ -243,12 +244,12 @@ namespace June.Data
                         }
                         if (value.FindIndex(f => f.D == item.D) == -1)
                         {
-                            value.Add(new BarChartData(item.D, 0, 0, 0, false, false, new MeteoStatData(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), false));
+                            value.Add(new BarChartData(item.D, 0, 0, 0, false, false, new MeteoStatData(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), false, false));
                         }
 
                         var idx = value.FindIndex(f => f.D == item.D);
                         var d = value[idx];
-                        value[idx] = new BarChartData(d.D, d.P, consumption, injection, item.Item4 == currentDateInBelgium.Date ? false : true, d.S, d.MS, d.M);
+                        value[idx] = new BarChartData(d.D, d.P, consumption, injection, item.Item4 == currentDateInBelgium.Date ? false : true, d.S, d.MS, d.M, false);
                     }
                     else
                     {
@@ -298,12 +299,12 @@ namespace June.Data
                             }
                             if (value.FindIndex(f => f.D == item.D) == -1)
                             {
-                                value.Add(new BarChartData(item.D, 0, 0, 0, false, false, new MeteoStatData(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), false));
+                                value.Add(new BarChartData(item.D, 0, 0, 0, false, false, new MeteoStatData(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), false, false));
                             }
 
                             var idx = value.FindIndex(f => f.D == item.D);
                             var d = value[idx];
-                            value[idx] = new BarChartData(d.D, production, d.U, d.I, d.J, item.Item4 == currentDateInBelgium.Date ? false : true, d.MS, d.M);
+                            value[idx] = new BarChartData(d.D, production, d.U, d.I, d.J, item.Item4 == currentDateInBelgium.Date ? false : true, d.MS, d.M, false);
                         }
                     }
                     else
@@ -317,6 +318,7 @@ namespace June.Data
                 Alert("Could not login into Sungrow", "Warning");
             }
 
+            DetectAnomaly(data!);
 
             File.WriteAllText(Path.Combine(AppContext.BaseDirectory, "Data/data.json"), JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true }));
 
@@ -324,10 +326,6 @@ namespace June.Data
             {
                 Environment.ExitCode = 1;
             }
-
-
-            DetectAnomaly(data!);
-
         }
 
         static void DetectAnomaly(Dictionary<int, List<BarChartData>> data)
@@ -376,6 +374,10 @@ namespace June.Data
             foreach (var prediction in predictions.Where(w => w.Scores[0] != 0))
             {
                 Alert($"-> ({prediction.Y}/{prediction.D}/{prediction.P.ToString("F2")}) Prediction score of: {prediction.Scores[1]}", "Anomaly", ConsoleColor.Yellow);
+
+                var idx = data[prediction.Y].FindIndex(f => f.D == prediction.D);
+                var d = data[prediction.Y][idx];
+                data[prediction.Y][idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, d.MS, d.M, true);
             }
         }
 
