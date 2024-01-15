@@ -1,0 +1,546 @@
+@page "/"
+
+@inject HttpClient Http
+
+<Tabs EnableFadeEffect="true" OnShown="@(args => OnTabShownAsync(args))">
+    <Tab Title="Day" IsActive="true">
+        <Content>
+            <p class="mt-3">
+                <Totals Data="@totals" Key="Day" Format="F2" />
+            </p>
+            <p class="mt-3">
+
+                <div class="d-grid gap-2 d-md-flex mt-2">
+                    <Button @ref="saveButton1" Color="ButtonColor.Primary" Size="Size.Small" @onclick="DecreaseDate">
+                        <Icon Name="IconName.CalendarMinus"></Icon>
+                    </Button>
+                    <DateInput Value="currentDate" ValueExpression="() => currentDate" TValue="DateOnly" EnableMinMax="true" Min="@minDate" Max="@maxDate" Placeholder="Enter Date" ValueChanged="(value) => DayChanged(value)" />
+                    <Button @ref="saveButton2" Color="ButtonColor.Primary" Size="Size.Small" @onclick="IncreaseDate">
+                        <Icon Name="IconName.CalendarPlus"></Icon>
+                    </Button>
+                </div>
+            </p>
+            <p class="mt-3">
+            </p>
+            <p class="mt-3">
+                <BarChart @ref="barChartDay" Class="mb-4" />
+            </p>
+        </Content>
+    </Tab>
+    <Tab Title="Week">
+        <Content>
+            <p class="mt-3">
+                <label>Year</label>
+                <div class="d-grid gap-2 d-md-flex mt-2">
+                    <Button @ref="saveButton1" Color="ButtonColor.Primary" Size="Size.Small" @onclick="DecreaseDate">
+                        <Icon Name="IconName.CalendarMinus"></Icon>
+                    </Button>
+
+                    <select class="select-element" @bind="selectedYearIndex" @bind:after="YearChangedAsync">
+                        @foreach (var year in years.Select((Year, Id) => (Year, Id)))
+                        {
+                            if (year.Id == selectedYearIndex)
+                            {
+                                <option value="@year.Id" selected>@year.Year</option>
+                            }
+                            else
+                            {
+                                <option value="@year.Id">@year.Year</option>
+                            }
+                        }
+                    </select>
+                    <Button @ref="saveButton2" Color="ButtonColor.Primary" Size="Size.Small" @onclick="IncreaseDate">
+                        <Icon Name="IconName.CalendarPlus"></Icon>
+                    </Button>
+                </div>
+            </p>
+            <p class="mt-3">
+                <Totals Data="@totals" Key="Week" />
+            </p>
+            <p class="mt-3">
+                <label>@($"{selectedWeekIndex}/{maxWeekIndex}")</label>
+                <input type="range" min="@minWeekIndex" max="@maxWeekIndex" class="slider" @bind="selectedWeekIndex" @bind:after="WeekChangedAsync">
+            </p>
+            <p class="mt-3">
+                <BarChart @ref="barChartWeek" Class="mb-4" />
+            </p>
+        </Content>
+    </Tab>
+    <Tab Title="Month">
+        <Content>
+            <p class="mt-3">
+                <div class="d-grid gap-2 d-md-flex mt-2">
+                    <Button @ref="saveButton1" Color="ButtonColor.Primary" Size="Size.Small" @onclick="DecreaseDate">
+                        <Icon Name="IconName.CalendarMinus"></Icon>
+                    </Button>
+                    <select class="select-element" @bind="selectedYearIndex" @bind:after="YearChangedAsync">
+                        @foreach (var year in years.Select((Year, Id) => (Year, Id)))
+                        {
+                            if (year.Id == selectedYearIndex)
+                            {
+                                <option value="@year.Id" selected>@year.Year</option>
+                            }
+                            else
+                            {
+                                <option value="@year.Id">@year.Year</option>
+                            }
+                        }
+                    </select>
+                    <Button @ref="saveButton2" Color="ButtonColor.Primary" Size="Size.Small" @onclick="IncreaseDate">
+                        <Icon Name="IconName.CalendarPlus"></Icon>
+                    </Button>
+                </div>
+            </p>
+            <p class="mt-3">
+                <Totals Data="@totals" Key="Month" />
+            </p>
+            <p class="mt-3">
+                <label>@($"{selectedMonthIndex}/{maxMonthIndex}")</label>
+                <input type="range" min="@minMonthIndex" max="@maxMonthIndex" class="slider" @bind="selectedMonthIndex" @bind:after="MonthChangedAsync">
+            </p>
+            <p class="mt-3">
+                <BarChart @ref="barChartMonth" Class="mb-4" />
+            </p>
+        </Content>
+    </Tab>
+    <Tab Title="Year">
+        <Content>
+            <p class="mt-3">
+                <div class="d-grid gap-2 d-md-flex mt-2">
+                    <Button @ref="saveButton1" Color="ButtonColor.Primary" Size="Size.Small" @onclick="DecreaseDate">
+                        <Icon Name="IconName.CalendarMinus"></Icon>
+                    </Button>
+                    <select class="select-element" @bind="selectedYearIndex" @bind:after="YearChangedAsync">
+                        @foreach (var year in years.Select((Year, Id) => (Year, Id)))
+                        {
+                            if (year.Id == selectedYearIndex)
+                            {
+                                <option value="@year.Id" selected>@year.Year</option>
+                            }
+                            else
+                            {
+                                <option value="@year.Id">@year.Year</option>
+                            }
+                        }
+                    </select>
+                    <Button @ref="saveButton2" Color="ButtonColor.Primary" Size="Size.Small" @onclick="IncreaseDate">
+                        <Icon Name="IconName.CalendarPlus"></Icon>
+                    </Button>
+                </div>
+            </p>
+            <p class="mt-3">
+                <Totals Data="@totals" Key="Year" />
+            </p>
+            <p class="mt-3">
+                <BarChart @ref="barChartYear" Class="mb-4" />
+            </p>
+        </Content>
+    </Tab>
+    <Tab Title="All">
+        <Content>
+            <p class="mt-3">
+                <Totals Data="@totals" Key="All" />
+            </p>
+            <p class="mt-3">
+                <BarChart @ref="barChartAll" Class="mb-4" />
+            </p>
+        </Content>
+    </Tab>
+</Tabs>
+
+@code {
+    List<int> years = new List<int> { 2023, 2024 };
+    List<int> weeks = Enumerable.Range(1, 53).ToList();
+    List<int> months = Enumerable.Range(1, 12).ToList();
+    static Dictionary<string, TotalData> totals = new Dictionary<string, TotalData>(){
+        { "Day", new TotalData(0, 0, 0, 0) },
+        { "Week", new TotalData(0, 0, 0, 0) },
+        { "Month", new TotalData(0, 0, 0, 0) },
+        { "Year", new TotalData(0, 0, 0, 0) },
+        { "All", new TotalData(0, 0, 0, 0) }
+    };
+
+    BarChart? barChartYear;
+    BarChart? barChartMonth;
+    BarChart? barChartWeek;
+    BarChart? barChartDay;
+    BarChart? barChartAll;
+
+    Button? saveButton1;
+    Button? saveButton2;
+
+    static LocalDateTime zonedDateTimeBrussels = MyExtensions.BelgiumTime();
+
+    DateOnly minDate;
+    DateOnly maxDate;
+
+    DateOnly currentDate;
+
+    int selectedYearIndex;
+    int selectedMonthIndex;
+    int selectedWeekIndex;
+    int selectedDayOfYear;
+
+    int maxWeekIndex = 52;
+    int minWeekIndex = 0;
+
+    int maxMonthIndex = 11;
+    int minMonthIndex = 0;
+
+    string activeTabTitle = "Day";
+
+    private Dictionary<int, List<BarChartData>> dataDaily = new();
+
+    BarChartOptions options = new BarChartOptions();
+    BarChartOptions optionsWeek = new BarChartOptions();
+
+    void ChangeYear(int year)
+    {
+        var f = dataDaily[year].First().D.DayOfYearLocalDate(year);
+        var l = dataDaily[year].Last().D.DayOfYearLocalDate(year);
+
+        minDate = f.ToDateOnly();
+        maxDate = l.ToDateOnly();
+
+        selectedYearIndex = year - years.First();
+        selectedMonthIndex = 0;
+        selectedWeekIndex = 0;
+        selectedDayOfYear = dataDaily[year].First().D;
+
+        var lweek = WeekYearRules.Iso.GetWeekOfWeekYear(l);
+        var fweek = WeekYearRules.Iso.GetWeekOfWeekYear(f);
+
+        weeks = Enumerable.Range(fweek, lweek - fweek + 1).ToList();
+        months = Enumerable.Range(f.Month, l.Month - f.Month + 1).ToList();
+
+        minWeekIndex = 0;
+        maxWeekIndex = weeks.Count - 1;
+
+        minMonthIndex = 0;
+        maxMonthIndex = months.Count - 1;
+
+        // currentDate = dataDaily[year].Last().D.DayOfYearLocalDate(year).ToDateOnly();
+    }
+
+    protected override void OnInitialized()
+    {
+        years = new List<int> { 2023, zonedDateTimeBrussels.Year };
+
+        minDate = DateOnly.FromDateTime(new DateTime(years.First(), 1, 1));
+        maxDate = zonedDateTimeBrussels.Date.ToDateOnly();
+
+
+        selectedYearIndex = zonedDateTimeBrussels.Year - years.First();
+        selectedMonthIndex = zonedDateTimeBrussels.Month - 1;
+        selectedWeekIndex = WeekYearRules.Iso.GetWeekOfWeekYear(zonedDateTimeBrussels.Date) - 1;
+        selectedDayOfYear = zonedDateTimeBrussels.DayOfYear;
+
+        minWeekIndex = 0;
+        maxWeekIndex = WeekYearRules.Iso.GetWeekOfWeekYear(maxDate.ToLocalDate()) - 1;
+
+        weeks = Enumerable.Range(minWeekIndex + 1, maxWeekIndex - minWeekIndex + 1).ToList();
+        months = Enumerable.Range(minDate.Month, maxDate.Month - minDate.Month + 1).ToList();
+
+        minMonthIndex = 0;
+        maxMonthIndex = months.Count - 1;
+
+        currentDate = zonedDateTimeBrussels.Date.ToDateOnly();
+
+        base.OnInitialized();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool first)
+    {
+        if (!dataDaily.Any())
+        {
+            dataDaily = await Http.GetFromJsonAsync<Dictionary<int, List<BarChartData>>>($"Data/data.json?v{zonedDateTimeBrussels.TickOfSecond}");
+        }
+
+        if (first)
+        {
+            await RenderSolarPanelsAllAsync(first);
+            await RenderSolarPanelsYearAsync(selectedYearIndex, first);
+            await RenderSolarPanelsWeekAsync(selectedYearIndex, selectedWeekIndex, first);
+            await RenderSolarPanelsMonthAsync(selectedYearIndex, selectedMonthIndex, first);
+            await RenderSolarPanelsDayAsync(selectedYearIndex, zonedDateTimeBrussels.DayOfYear, first);
+        }
+
+        await base.OnAfterRenderAsync(first);
+
+    }
+
+    private async Task SolarPanelsAsync(List<string> labels, List<double> production, List<double> usage, List<double> injection, string title, bool init, BarChart barChart, string xTitle = "Months")
+    {
+        var data = new ChartData
+            {
+                Labels = labels,
+                Datasets = new List<IChartDataset>()
+                {
+                    new BarChartDataset()
+                    {
+                        Label = "Production",
+                        Data = production,
+                        BackgroundColor = new List<string>{ "rgb(0,0,0)" },
+                        CategoryPercentage = 0.8,
+                        BarPercentage = 1,
+                    },
+                    new BarChartDataset()
+                    {
+                        Label = "Net Injection",
+                        Data = injection,
+                        BackgroundColor = new List<string> { "rgb(243,167,18)" },
+                        CategoryPercentage = 0.8,
+                        BarPercentage = 1,
+                    },
+                    new BarChartDataset()
+                    {
+                        Label = "Net Usage",
+                        Data = usage,
+                        BackgroundColor = new List<string> { "rgb(231,105,149)" },
+                        CategoryPercentage = 0.8,
+                        BarPercentage = 1,
+                    },
+                    new BarChartDataset()
+                    {
+                        Label = "Total Usage",
+                        Data = production.Zip(injection, (first, second) => new { first, second })
+                          .Zip(usage, (previous, last) => previous.first + last - previous.second)
+                          .ToList(),
+                        BackgroundColor = new List<string> { "rgb(170,240,104)" },
+                        CategoryPercentage = 0.8,
+                        BarPercentage = 1,
+                    }
+                }
+            };
+
+
+        options.Plugins!.Title!.Text = title;
+        options.Scales.X!.Title!.Text = xTitle;
+
+        if (init)
+        {
+            options.Interaction.Mode = InteractionMode.Index;
+            options.Plugins.Title.Display = true;
+            options.Plugins.Title.Font!.Size = 20;
+
+            options.Responsive = true;
+
+            options.Scales.X.Title.Display = true;
+
+            options.Scales.Y!.Title!.Text = "kWh";
+            options.Scales.Y.Title.Display = true;
+
+            await barChart.InitializeAsync(data, options);
+        }
+
+        else
+            await barChart.UpdateAsync(data, options);
+    }
+
+    private async Task RenderSolarPanelsAllAsync(bool init)
+    {
+        if (!dataDaily.Any())
+            return;
+
+        await SolarPanelsAsync(
+            dataDaily.Keys.Select(s => s.ToString()).ToList(),
+            dataDaily.Select(s => s.Value.Sum(ss => ss.P)).ToList(),
+            dataDaily.Select(s => s.Value.Sum(ss => ss.U)).ToList(),
+            dataDaily.Select(s => s.Value.Sum(ss => ss.I) / 1000).ToList(),
+            $"Solar Panels", init, barChartAll!, "Year"
+        );
+
+        totals["All"] = new TotalData(dataDaily.SelectMany(sm => sm.Value.Select(s => s.P)).Sum(),
+                                        dataDaily.SelectMany(sm => sm.Value.Select(s => s.I)).Sum() / 1000,
+                                        dataDaily.SelectMany(sm => sm.Value.Select(s => s.U)).Sum(), (dataDaily.SelectMany(sm => sm.Value.Select(s => s.P)).Sum() + dataDaily.SelectMany(sm => sm.Value.Select(s => s.U)).Sum() - dataDaily.SelectMany(sm => sm.Value.Select(s => s.I)).Sum() / 1000));
+
+        await InvokeAsync(() => StateHasChanged());
+    }
+
+    private async Task RenderSolarPanelsYearAsync(int yearIndex, bool init)
+    {
+        if (!dataDaily.Any())
+            return;
+
+        var selectedYear = years[yearIndex];
+
+        var data = dataDaily[selectedYear]
+            .GroupBy(data => data.D.DayOfYearLocalDate(selectedYear).Month)
+            .ToList();
+
+        await SolarPanelsAsync(
+            data.Select(s => s.Key.ToString()).ToList(),
+            data.Select(s => s.Sum(ss => ss.P)).ToList(),
+            data.Select(s => s.Sum(ss => ss.U)).ToList(),
+            data.Select(s => s.Sum(ss => ss.I) / 1000).ToList(),
+            $"Solar Panels ({selectedYear})", init, barChartYear!, "Month"
+        );
+
+        totals["Year"] = new TotalData(data.SelectMany(sm => sm.Select(s => s.P)).Sum(),
+                                        data.SelectMany(sm => sm.Select(s => s.I)).Sum() / 1000,
+                                        data.SelectMany(sm => sm.Select(s => s.U)).Sum(), (data.SelectMany(sm => sm.Select(s => s.P)).Sum() + data.SelectMany(sm => sm.Select(s => s.U)).Sum() - data.SelectMany(sm => sm.Select(s => s.I)).Sum() / 1000));
+
+        await InvokeAsync(() => StateHasChanged());
+    }
+
+    private async Task RenderSolarPanelsMonthAsync(int yearIndex, int monthIndex, bool init)
+    {
+        if (!dataDaily.Any())
+            return;
+
+        var selectedYear = years[yearIndex];
+        var selectedMonth = months[monthIndex];
+
+        var data = dataDaily[selectedYear].Where(a => a.D.DayOfYearLocalDate(selectedYear).Month == selectedMonth).ToList();
+
+        await SolarPanelsAsync(
+            data.Select(s => s.D.DayOfYearLocalDate(selectedYear).ToString("d/M", null)).ToList(),
+            data.Select(s => s.P).ToList(),
+            data.Select(s => s.U).ToList(),
+            data.Select(s => s.I / 1000).ToList(),
+            $"Solar Panels ({selectedMonth}/{selectedYear})", init, barChartMonth!, "Day"
+        );
+
+        totals["Month"] = new TotalData(data.Select(s => s.P).Sum(),
+                                        data.Select(s => s.I).Sum() / 1000,
+                                        data.Select(s => s.U).Sum(), (data.Select(s => s.P).Sum() + data.Select(s => s.U).Sum() - data.Select(s => s.I).Sum() / 1000));
+
+        await InvokeAsync(() => StateHasChanged());
+    }
+
+    private async Task RenderSolarPanelsWeekAsync(int yearIndex, int weekIndex, bool init)
+    {
+        if (!dataDaily.Any())
+            return;
+
+        var selectedYear = years[yearIndex];
+        var selectedWeek = weeks[weekIndex];
+
+        var data = dataDaily[selectedYear].Where(a => WeekYearRules.Iso.GetWeekOfWeekYear(a.D.DayOfYearLocalDate(selectedYear)) == selectedWeek).ToList();
+
+        await SolarPanelsAsync(
+            data.Select(s => s.D.DayOfYearLocalDate(selectedYear).ToString("d/M", null)).ToList(),
+            data.Select(s => s.P).ToList(),
+            data.Select(s => s.U).ToList(),
+            data.Select(s => s.I / 1000).ToList(),
+            $"Solar Panels ({selectedYear}/{selectedWeek})", init, barChartWeek!, "Day"
+        );
+
+        totals["Week"] = new TotalData(data.Select(s => s.P).Sum(),
+                                        data.Select(s => s.I).Sum() / 1000,
+                                        data.Select(s => s.U).Sum(), (data.Select(s => s.P).Sum() + data.Select(s => s.U).Sum() - data.Select(s => s.I).Sum() / 1000));
+
+        await InvokeAsync(() => StateHasChanged());
+    }
+
+    private async Task RenderSolarPanelsDayAsync(int yearIndex, int day, bool init)
+    {
+        if (!dataDaily.Any())
+            return;
+
+        var selectedYear = years[yearIndex];
+
+        var data = dataDaily[selectedYear].Where(a => a.D == day).ToList();
+
+        await SolarPanelsAsync(
+            data.Select(s => s.D.DayOfYearLocalDate(selectedYear).ToString("d/M", null)).ToList(),
+            data.Select(s => s.P).ToList(),
+            data.Select(s => s.U).ToList(),
+            data.Select(s => s.I / 1000).ToList(),
+            $"Solar Panels ({DateOnly.FromDateTime(new DateTime(selectedYear, 1, 1).AddDays(day - 1)).ToString("yyyy/MM/dd")})", init, barChartDay!, "Day"
+        );
+
+        totals["Day"] = new TotalData(data.Select(s => s.P).Sum(),
+                                        data.Select(s => s.I).Sum() / 1000,
+                                        data.Select(s => s.U).Sum(), (data.Select(s => s.P).Sum() + data.Select(s => s.U).Sum() - data.Select(s => s.I).Sum() / 1000));
+
+        await InvokeAsync(() => StateHasChanged());
+    }
+
+    private async Task OnTabShownAsync(TabsEventArgs args)
+    {
+        switch (args.ActiveTabTitle)
+        {
+            case "Day":
+                await RenderSolarPanelsDayAsync(selectedYearIndex, selectedDayOfYear, false);
+                break;
+            case "Week":
+                await RenderSolarPanelsWeekAsync(selectedYearIndex, selectedWeekIndex, false);
+                break;
+            case "Month":
+                await RenderSolarPanelsMonthAsync(selectedYearIndex, selectedMonthIndex, false);
+                break;
+            case "Year":
+                await RenderSolarPanelsYearAsync(selectedYearIndex, false);
+                break;
+            case "All":
+                await RenderSolarPanelsAllAsync(false);
+                break;
+        }
+
+        activeTabTitle = args.ActiveTabTitle;
+    }
+
+    private async Task YearChangedAsync()
+    {
+        ChangeYear(years[selectedYearIndex]);
+
+        await RenderSolarPanelsYearAsync(selectedYearIndex, false);
+        await RenderSolarPanelsMonthAsync(selectedYearIndex, selectedMonthIndex, false);
+        await RenderSolarPanelsWeekAsync(selectedYearIndex, selectedWeekIndex, false);
+        await RenderSolarPanelsDayAsync(selectedYearIndex, selectedDayOfYear, false);
+    }
+
+    private async Task MonthChangedAsync()
+    {
+        await RenderSolarPanelsMonthAsync(selectedYearIndex, selectedMonthIndex, false);
+    }
+
+
+    private async Task WeekChangedAsync()
+    {
+        await RenderSolarPanelsWeekAsync(selectedYearIndex, selectedWeekIndex, false);
+    }
+
+    private void DayChanged(DateOnly dateOnly)
+    {
+        currentDate = dateOnly;
+        selectedYearIndex = currentDate.Year - years.First();
+        selectedDayOfYear = currentDate.DayOfYear;
+        RenderSolarPanelsDayAsync(selectedYearIndex, selectedDayOfYear, false); // .GetAwaiter().GetResult();
+    }
+
+    private void DecreaseDate()
+    {
+        if (activeTabTitle == "Day")
+        {
+            currentDate = currentDate.AddDays(-1);
+        }
+        else
+        {
+            if (selectedYearIndex > 0)
+            {
+                selectedYearIndex -= 1;
+                ChangeYear(years[selectedYearIndex]);
+                YearChangedAsync(); // .GetAwaiter().GetResult();
+            }
+        }
+    }
+    private void IncreaseDate()
+    {
+
+        if (activeTabTitle == "Day")
+        {
+            currentDate = currentDate.AddDays(1);
+        }
+        else
+        {
+            if (selectedYearIndex < years.Count() - 1)
+            {
+                selectedYearIndex += 1;
+                ChangeYear(years[selectedYearIndex]);
+                YearChangedAsync(); // .GetAwaiter().GetResult();
+            }
+        }
+    }
+}
