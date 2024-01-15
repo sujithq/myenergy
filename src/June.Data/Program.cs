@@ -1,6 +1,7 @@
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Microsoft.ML;
 using myenergy.Common;
 using myenergy.Common.Extensions;
 using System.Runtime.CompilerServices;
@@ -53,7 +54,7 @@ namespace June.Data
 
             var dataPath = Path.Combine(AppContext.BaseDirectory, "Data/data.json");
 
-            Alert($"Reading from {dataPath}", "Info");
+            Alert($"Reading from {dataPath}", "Info", ConsoleColor.Green);
 
             var data = JsonSerializer.Deserialize<Dictionary<int, List<BarChartData>>>(await File.ReadAllTextAsync(dataPath));
 
@@ -62,13 +63,13 @@ namespace June.Data
 
             // For JuneProcessed = false
             var listForJuneProcessed = data!
-                .SelectMany(kvp => kvp.Value.Where(data => !data.J || data.P < data.I / 1000.0)
+                .SelectMany(kvp => kvp.Value.Where(data => !data.J || data.P * 1000 < data.I)
                                             .Select(data => (kvp.Key, data.D, data.D.DayOfYearLocalDate(kvp.Key)))
                 .Where(date => date.Item3 <= currentDateInBelgium.Date)
                 .Select(date => (date.Key, date.D, date.Item3.ToString("yyyyMMdd", null), date.Item3)))
                 .ToList();
 
-            if (listForJuneProcessed.Count == 0)
+            if (listForJuneProcessed.FindIndex(f => f.Key == currentDateInBelgium.Year && f.D == currentDateInBelgium.DayOfYear) == -1)
                 listForJuneProcessed.Add((currentDateInBelgium.Year, currentDateInBelgium.DayOfYear, currentDateInBelgiumString, currentDateInBelgium.Date));
 
             // For SungrowProcessed = false
@@ -79,12 +80,18 @@ namespace June.Data
                 .Select(date => (date.Key, date.D, date.Item3.ToString("yyyyMMdd", null), date.Item3)))
                 .ToList();
 
+            if (listForSungrowProcessed.FindIndex(f => f.Key == currentDateInBelgium.Year && f.D == currentDateInBelgium.DayOfYear) == -1)
+                listForSungrowProcessed.Add((currentDateInBelgium.Year, currentDateInBelgium.DayOfYear, currentDateInBelgiumString, currentDateInBelgium.Date));
+
             var listForMeteoStatProcessed = data!
                 .SelectMany(kvp => kvp.Value.Where(data => !data.M)
                                             .Select(data => (kvp.Key, data.D, data.D.DayOfYearLocalDate(kvp.Key)))
                 .Where(date => date.Item3 <= currentDateInBelgium.Date)
                 .Select(date => (date.Key, date.D, date.Item3)))
                 .ToList();
+
+            if (listForMeteoStatProcessed.FindIndex(f => f.Key == currentDateInBelgium.Year && f.D == currentDateInBelgium.DayOfYear) == -1)
+                listForMeteoStatProcessed.Add((currentDateInBelgium.Year, currentDateInBelgium.DayOfYear, currentDateInBelgium.Date));
 
             var meteoStatStart = listForMeteoStatProcessed.Min(item => item.Item3.ToString("yyyy-MM-dd", null));
             var meteoStatEnd = listForMeteoStatProcessed.Max(item => item.Item3.ToString("yyyy-MM-dd", null));
@@ -95,7 +102,7 @@ namespace June.Data
 
             if (mdata != default)
             {
-                Alert("Process Meteo Stat Data", "Info");
+                Alert("Process Meteo Stat Data", "Info", ConsoleColor.Green);
                 var el = mdata.RootElement.GetProperty("data").EnumerateArray();
 
                 foreach (var item in listForMeteoStatProcessed)
@@ -194,14 +201,14 @@ namespace June.Data
                             value = [];
                             data.Add(item.Key, value);
                         }
-                        if (value.Count < item.D)
+                        if (value.FindIndex(f => f.D == item.D) == -1)
                         {
                             value.Add(new BarChartData(item.D, 0, 0, 0, false, false, msd, false));
                         }
 
-
-                        var d = value[item.D - 1];
-                        value[item.D - 1] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, msd, true);
+                        var idx = value.FindIndex(f => f.D == item.D);
+                        var d = value[idx];
+                        value[idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, msd, item.Item3 == currentDateInBelgium.Date ? false : true);
 
                     }
                 }
@@ -224,6 +231,8 @@ namespace June.Data
 
                     if (juneData != default)
                     {
+                        Alert($"Process June Data ({item.Item3})", "Info", ConsoleColor.Green);
+
                         var consumption = juneData.RootElement.GetProperty("electricity").GetProperty("single").GetProperty("consumption").GetDouble();
                         var injection = juneData.RootElement.GetProperty("electricity").GetProperty("single").GetProperty("injection").GetDouble() * 1000;
 
@@ -232,13 +241,14 @@ namespace June.Data
                             value = [];
                             data.Add(item.Key, value);
                         }
-                        if (value.Count < item.D)
+                        if (value.FindIndex(f => f.D == item.D) == -1)
                         {
                             value.Add(new BarChartData(item.D, 0, 0, 0, false, false, new MeteoStatData(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), false));
                         }
 
-                        var d = value[item.D - 1];
-                        value[item.D - 1] = new BarChartData(d.D, d.P, consumption, injection, item.Item4 == currentDateInBelgium.Date ? false : true, d.S, d.MS, d.M);
+                        var idx = value.FindIndex(f => f.D == item.D);
+                        var d = value[idx];
+                        value[idx] = new BarChartData(d.D, d.P, consumption, injection, item.Item4 == currentDateInBelgium.Date ? false : true, d.S, d.MS, d.M);
                     }
                     else
                     {
@@ -266,6 +276,9 @@ namespace June.Data
 
                     if (sungrowData != default)
                     {
+                        Alert($"Process Sungrow Data ({item.Item3})", "Info", ConsoleColor.Green);
+
+
                         var result_data = sungrowData.RootElement.GetProperty("result_data");
                         if (result_data.ValueKind == JsonValueKind.Null)
                         {
@@ -283,14 +296,14 @@ namespace June.Data
                                 value = [];
                                 data.Add(item.Key, value);
                             }
-                            if (value.Count < item.D)
+                            if (value.FindIndex(f => f.D == item.D) == -1)
                             {
                                 value.Add(new BarChartData(item.D, 0, 0, 0, false, false, new MeteoStatData(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), false));
                             }
 
-
-                            var d = value[item.D - 1];
-                            value[item.D - 1] = new BarChartData(d.D, production, d.U, d.I, d.J, item.Item4 == currentDateInBelgium.Date ? false : true, d.MS, d.M);
+                            var idx = value.FindIndex(f => f.D == item.D);
+                            var d = value[idx];
+                            value[idx] = new BarChartData(d.D, production, d.U, d.I, d.J, item.Item4 == currentDateInBelgium.Date ? false : true, d.MS, d.M);
                         }
                     }
                     else
@@ -311,7 +324,61 @@ namespace June.Data
             {
                 Environment.ExitCode = 1;
             }
+
+
+            DetectAnomaly(data!);
+
         }
+
+        static void DetectAnomaly(Dictionary<int, List<BarChartData>> data)
+        {
+            var lst = data
+            .SelectMany(kv => kv.Value.Where(w => w.J && w.S && w.M).Select(bcd =>
+                new AnomalyRecord(
+                    kv.Key,
+                    bcd.D,
+                    (float)bcd.P,
+                    (float)bcd.U,
+                    (float)bcd.I,
+                    (float)bcd.MS.tavg,
+                    (float)bcd.MS.tmin,
+                    (float)bcd.MS.tmax,
+                    (float)bcd.MS.prcp,
+                    (float)bcd.MS.snow,
+                    (float)bcd.MS.wdir,
+                    (float)bcd.MS.wspd,
+                    (float)bcd.MS.wpgt,
+                    (float)bcd.MS.pres,
+                    (float)bcd.MS.tsun
+                )))
+            .ToList();
+
+            // Create a new ML context
+            var mlContext = new MLContext();
+
+            // Load your data
+            IDataView dataView = mlContext.Data.LoadFromEnumerable<AnomalyRecord>(lst);
+
+            // Define the anomaly detection pipeline
+            var pipeline = mlContext.Transforms.DetectIidSpike(outputColumnName: nameof(Prediction.Scores),
+                                                               inputColumnName: nameof(AnomalyRecord.P),
+                                                               confidence: 95.0,
+                                                               pvalueHistoryLength: 50);
+
+            // Train the model
+            var trainedModel = pipeline.Fit(dataView);
+
+            // Predict and find anomalies
+            IDataView transformedData = trainedModel.Transform(dataView);
+            var predictions = mlContext.Data.CreateEnumerable<Prediction>(transformedData, reuseRowObject: false);
+
+            // Output the results
+            foreach (var prediction in predictions.Where(w => w.Scores[0] != 0))
+            {
+                Alert($"-> ({prediction.Y}/{prediction.D}/{prediction.P.ToString("F2")}) Prediction score of: {prediction.Scores[1]}", "Anomaly", ConsoleColor.Yellow);
+            }
+        }
+
 
         static void Alert(string message, string type, ConsoleColor cc = ConsoleColor.Red)
         {
