@@ -2,14 +2,27 @@
 
 @inject HttpClient Http
 
-
-
 <Tabs EnableFadeEffect="true" OnShown="@(args => OnTabShownAsync(args))">
     <Tab Title="Day" IsActive="true">
         <Content>
             <p class="mt-3">
-                <Totals Data="@totals" Key="Day" Format="F2"/>
-                <DateInput Value="currentDate" ValueExpression="() => currentDate" TValue="DateOnly" EnableMinMax="true" Min="@minDate" Max="@maxDate" Placeholder="Enter Date" ValueChanged="(value) => DayChangedAsync(value)" />
+                <Totals Data="@totals" Key="Day" Format="F2" />
+            </p>
+            <p class="mt-3">
+
+                <div class="d-grid gap-2 d-md-flex mt-2">
+                    <Button @ref="saveButton1" Color="ButtonColor.Primary" Size="Size.Small" @onclick="DecreaseDate">
+                        <Icon Name="IconName.CalendarMinus"></Icon>
+                    </Button>
+                    <DateInput Value="currentDate" ValueExpression="() => currentDate" TValue="DateOnly" EnableMinMax="true" Min="@minDate" Max="@maxDate" Placeholder="Enter Date" ValueChanged="(value) => DayChanged(value)" />
+                    <Button @ref="saveButton2" Color="ButtonColor.Primary" Size="Size.Small" @onclick="IncreaseDate">
+                        <Icon Name="IconName.CalendarPlus"></Icon>
+                    </Button>
+                </div>
+            </p>
+            <p class="mt-3">
+            </p>
+            <p class="mt-3">
                 <BarChart @ref="barChartDay" Class="mb-4" />
             </p>
         </Content>
@@ -18,58 +31,73 @@
         <Content>
             <p class="mt-3">
                 <label>Year</label>
-                <select class="select-element" @bind="selectedYearIndex" @bind:after="YearChangedAsync">
-                    @foreach (var year in years.Select((Year, Id) => (Year, Id)))
-                    {
-                        if (year.Id == selectedYearIndex)
+                <div class="d-grid gap-2 d-md-flex mt-2">
+                    <Button @ref="saveButton1" Color="ButtonColor.Primary" Size="Size.Small" @onclick="DecreaseDate">
+                        <Icon Name="IconName.CalendarMinus"></Icon>
+                    </Button>
+
+                    <select class="select-element" @bind="selectedYearIndex" @bind:after="YearChangedAsync">
+                        @foreach (var year in years.Select((Year, Id) => (Year, Id)))
                         {
-                            <option value="@year.Id" selected>@year.Year</option>
+                            if (year.Id == selectedYearIndex)
+                            {
+                                <option value="@year.Id" selected>@year.Year</option>
+                            }
+                            else
+                            {
+                                <option value="@year.Id">@year.Year</option>
+                            }
                         }
-                        else
-                        {
-                            <option value="@year.Id">@year.Year</option>
-                        }
-                    }
-                </select>
+                    </select>
+                    <Button @ref="saveButton2" Color="ButtonColor.Primary" Size="Size.Small" @onclick="IncreaseDate">
+                        <Icon Name="IconName.CalendarPlus"></Icon>
+                    </Button>
+                </div>
+            </p>
+            <p class="mt-3">
                 <Totals Data="@totals" Key="Week" />
-                <input type="range" min="0" max="@maxWeekIndex" class="slider" @bind="selectedWeekIndex" @bind:after="WeekChangedAsync">
+            </p>
+            <p class="mt-3">
+                <input type="range" min="@minWeekIndex" max="@maxWeekIndex" class="slider" @bind="selectedWeekIndex" @bind:after="WeekChangedAsync">
+            </p>
+            <p class="mt-3">
                 <BarChart @ref="barChartWeek" Class="mb-4" />
             </p>
         </Content>
     </Tab>
-
     <Tab Title="Month">
         <Content>
             <p class="mt-3">
-                <label>Year</label>
-                <select class="select-element" @bind="selectedYearIndex" @bind:after="YearChangedAsync">
-                    @foreach (var year in years.Select((Year, Id) => (Year, Id)))
-                    {
-                        if (year.Id == selectedYearIndex)
+                <div class="d-grid gap-2 d-md-flex mt-2">
+                    <Button @ref="saveButton1" Color="ButtonColor.Primary" Size="Size.Small" @onclick="DecreaseDate">
+                        <Icon Name="IconName.CalendarMinus"></Icon>
+                    </Button>
+                    <select class="select-element" @bind="selectedYearIndex" @bind:after="YearChangedAsync">
+                        @foreach (var year in years.Select((Year, Id) => (Year, Id)))
                         {
-                            <option value="@year.Id" selected>@year.Year</option>
+                            if (year.Id == selectedYearIndex)
+                            {
+                                <option value="@year.Id" selected>@year.Year</option>
+                            }
+                            else
+                            {
+                                <option value="@year.Id">@year.Year</option>
+                            }
                         }
-                        else
-                        {
-                            <option value="@year.Id">@year.Year</option>
-                        }
-                    }
-                </select>
-                <label>Month</label>
-                <select class="select-element" @bind="selectedMonthIndex" @bind:after="MonthChangedAsync">
-                    @foreach (var month in months.Select((Year, Id) => (Year, Id)))
-                    {
-                        if (month.Id == selectedMonthIndex)
-                        {
-                            <option value="@month.Id" selected>@month.Year</option>
-                        }
-                        else
-                        {
-                            <option value="@month.Id">@month.Year</option>
-                        }
-                    }
-                </select>
+                    </select>
+                    <Button @ref="saveButton2" Color="ButtonColor.Primary" Size="Size.Small" @onclick="IncreaseDate">
+                        <Icon Name="IconName.CalendarPlus"></Icon>
+                    </Button>
+                </div>
+            </p>
+            <p class="mt-3">
                 <Totals Data="@totals" Key="Month" />
+            </p>
+            <p class="mt-3">
+
+                <input type="range" min="@minMonthIndex" max="@maxMonthIndex" class="slider" @bind="selectedMonthIndex" @bind:after="MonthChangedAsync">
+            </p>
+            <p class="mt-3">
                 <BarChart @ref="barChartMonth" Class="mb-4" />
             </p>
         </Content>
@@ -77,21 +105,32 @@
     <Tab Title="Year">
         <Content>
             <p class="mt-3">
-                <label>Year</label>
-                <select class="select-element" @bind="selectedYearIndex" @bind:after="YearChangedAsync">
-                    @foreach (var year in years.Select((Year, Id) => (Year, Id)))
-                    {
-                        if (year.Id == selectedYearIndex)
+                <div class="d-grid gap-2 d-md-flex mt-2">
+                    <Button @ref="saveButton1" Color="ButtonColor.Primary" Size="Size.Small" @onclick="DecreaseDate">
+                        <Icon Name="IconName.CalendarMinus"></Icon>
+                    </Button>
+                    <select class="select-element" @bind="selectedYearIndex" @bind:after="YearChangedAsync">
+                        @foreach (var year in years.Select((Year, Id) => (Year, Id)))
                         {
-                            <option value="@year.Id" selected>@year.Year</option>
+                            if (year.Id == selectedYearIndex)
+                            {
+                                <option value="@year.Id" selected>@year.Year</option>
+                            }
+                            else
+                            {
+                                <option value="@year.Id">@year.Year</option>
+                            }
                         }
-                        else
-                        {
-                            <option value="@year.Id">@year.Year</option>
-                        }
-                    }
-                </select>
+                    </select>
+                    <Button @ref="saveButton2" Color="ButtonColor.Primary" Size="Size.Small" @onclick="IncreaseDate">
+                        <Icon Name="IconName.CalendarPlus"></Icon>
+                    </Button>
+                </div>
+            </p>
+            <p class="mt-3">
                 <Totals Data="@totals" Key="Year" />
+            </p>
+            <p class="mt-3">
                 <BarChart @ref="barChartYear" Class="mb-4" />
             </p>
         </Content>
@@ -100,18 +139,18 @@
         <Content>
             <p class="mt-3">
                 <Totals Data="@totals" Key="All" />
+            </p>
+            <p class="mt-3">
                 <BarChart @ref="barChartAll" Class="mb-4" />
             </p>
         </Content>
     </Tab>
-
 </Tabs>
 
 @code {
-
-    static List<int> years = new List<int> { 2023, 2024 };
-    static List<int> weeks = Enumerable.Range(1, 52).ToList();
-    static List<int> months = Enumerable.Range(1, 12).ToList();
+    List<int> years = new List<int> { 2023, 2024 };
+    List<int> weeks = Enumerable.Range(1, 53).ToList();
+    List<int> months = Enumerable.Range(1, 12).ToList();
     static Dictionary<string, TotalData> totals = new Dictionary<string, TotalData>(){
         { "Day", new TotalData(0, 0, 0, 0) },
         { "Week", new TotalData(0, 0, 0, 0) },
@@ -126,10 +165,14 @@
     BarChart? barChartDay;
     BarChart? barChartAll;
 
-    static LocalDateTime zonedDateTimeBrussels = MyExtensions.BelgiumTime(); // SystemClock.Instance.GetCurrentInstant().InZone(DateTimeZoneProviders.Tzdb["Europe/Brussels"]);
+    Button? saveButton1;
+    Button? saveButton2;
 
-    DateOnly minDate = DateOnly.FromDateTime(new DateTime(years.First(), 5, 23));
-    DateOnly maxDate = DateOnly.FromDateTime(new DateTime(zonedDateTimeBrussels.Year, zonedDateTimeBrussels.Month, zonedDateTimeBrussels.Day));
+    static LocalDateTime zonedDateTimeBrussels = MyExtensions.BelgiumTime();
+
+    DateOnly minDate;
+    DateOnly maxDate;
+
     DateOnly currentDate;
 
     int selectedYearIndex;
@@ -138,18 +181,65 @@
     int selectedDayOfYear;
 
     int maxWeekIndex = 52;
+    int minWeekIndex = 0;
+
+    int maxMonthIndex = 11;
+    int minMonthIndex = 0;
+
+    string activeTabTitle = "Day";
 
     private Dictionary<int, List<BarChartData>> dataDaily = new();
 
     BarChartOptions options = new BarChartOptions();
     BarChartOptions optionsWeek = new BarChartOptions();
 
+    void ChangeYear(int year)
+    {
+        Console.WriteLine($"ChangeYear({year}) - Start");
+
+        minDate = dataDaily[year].First().D.DayOfYearLocalDate(year).ToDateOnly();
+        maxDate = dataDaily[year].Last().D.DayOfYearLocalDate(year).ToDateOnly();
+
+        selectedYearIndex = year - years.First();
+        selectedMonthIndex = 0;
+        selectedWeekIndex = WeekYearRules.Iso.GetWeekOfWeekYear(dataDaily[year].First().D.DayOfYearLocalDate(year)) - 1;
+        selectedDayOfYear = dataDaily[year].First().D;
+
+        maxWeekIndex = WeekYearRules.Iso.GetWeekOfWeekYear(dataDaily[year].Last().D.DayOfYearLocalDate(year)) - 1;
+        minWeekIndex = WeekYearRules.Iso.GetWeekOfWeekYear(dataDaily[year].First().D.DayOfYearLocalDate(year)) - 1;
+
+        weeks = Enumerable.Range(minWeekIndex + 1, maxWeekIndex - minWeekIndex + 1).ToList();
+        months = Enumerable.Range(minDate.Month, maxDate.Month - minDate.Month + 1).ToList();
+
+        minMonthIndex = 0;
+        maxMonthIndex = months.Count - 1;
+
+        currentDate = dataDaily[year].Last().D.DayOfYearLocalDate(year).ToDateOnly();
+    }
+
     protected override void OnInitialized()
     {
+        years = new List<int> { 2023, zonedDateTimeBrussels.Year };
+
+        minDate = DateOnly.FromDateTime(new DateTime(years.First(), 1, 1));
+        maxDate = zonedDateTimeBrussels.Date.ToDateOnly();
+
+
         selectedYearIndex = zonedDateTimeBrussels.Year - years.First();
         selectedMonthIndex = zonedDateTimeBrussels.Month - 1;
         selectedWeekIndex = WeekYearRules.Iso.GetWeekOfWeekYear(zonedDateTimeBrussels.Date) - 1;
         selectedDayOfYear = zonedDateTimeBrussels.DayOfYear;
+
+        maxWeekIndex = WeekYearRules.Iso.GetWeekOfWeekYear(maxDate.ToLocalDate()) - 1;
+        minWeekIndex = 0;
+
+        weeks = Enumerable.Range(minWeekIndex + 1, maxWeekIndex - minWeekIndex + 1).ToList();
+        months = Enumerable.Range(minDate.Month, maxDate.Month - minDate.Month + 1).ToList();
+
+        minMonthIndex = 0;
+        maxMonthIndex = months.Count - 1;
+
+
         currentDate = zonedDateTimeBrussels.Date.ToDateOnly();
 
         base.OnInitialized();
@@ -385,11 +475,18 @@
                 await RenderSolarPanelsAllAsync(false);
                 break;
         }
+
+        activeTabTitle = args.ActiveTabTitle;
     }
 
     private async Task YearChangedAsync()
     {
+        ChangeYear(years[selectedYearIndex]);
+
         await RenderSolarPanelsYearAsync(selectedYearIndex, false);
+        await RenderSolarPanelsMonthAsync(selectedYearIndex, selectedMonthIndex, false);
+        await RenderSolarPanelsWeekAsync(selectedYearIndex, selectedWeekIndex, false);
+        await RenderSolarPanelsDayAsync(selectedYearIndex, selectedDayOfYear, false);
     }
 
     private async Task MonthChangedAsync()
@@ -397,15 +494,51 @@
         await RenderSolarPanelsMonthAsync(selectedYearIndex, selectedMonthIndex, false);
     }
 
-    private async Task DayChangedAsync(DateOnly dateOnly)
-    {
-        selectedYearIndex = dateOnly.Year - years.First();
-        selectedDayOfYear = dateOnly.DayOfYear;
-        await RenderSolarPanelsDayAsync(selectedYearIndex, selectedDayOfYear, false);
-    }
 
     private async Task WeekChangedAsync()
     {
         await RenderSolarPanelsWeekAsync(selectedYearIndex, selectedWeekIndex, false);
+    }
+
+    private void DayChanged(DateOnly dateOnly)
+    {
+        currentDate = dateOnly;
+        selectedYearIndex = currentDate.Year - years.First();
+        selectedDayOfYear = currentDate.DayOfYear;
+        RenderSolarPanelsDayAsync(selectedYearIndex, selectedDayOfYear, false);
+    }
+
+    private void DecreaseDate()
+    {
+        if (activeTabTitle == "Day")
+        {
+            currentDate = currentDate.AddDays(-1);
+        }
+        else
+        {
+            if (selectedYearIndex > 0)
+            {
+                selectedYearIndex -= 1;
+                ChangeYear(years[selectedYearIndex]);
+                YearChangedAsync();
+            }
+        }
+    }
+    private void IncreaseDate()
+    {
+
+        if (activeTabTitle == "Day")
+        {
+            currentDate = currentDate.AddDays(1);
+        }
+        else
+        {
+            if (selectedYearIndex < years.Count() - 1)
+            {
+                selectedYearIndex += 1;
+                ChangeYear(years[selectedYearIndex]);
+                YearChangedAsync();
+            }
+        }
     }
 }
