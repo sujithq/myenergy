@@ -3,25 +3,25 @@
 @if (Data!.ContainsKey(Key!))
 {
     <CardGroup>
-        <Card Color="CardColor.Dark" Class="mb-4">
+        <Card Color="CardColor.Dark" Class="mb-3" TextAlignment="Alignment.Center">
             <CardHeader>Total Production</CardHeader>
             <CardBody>
                 <CardTitle>@Data[Key!].TotalProduction.ToString(Format)</CardTitle>
                 </CardBody>
             </Card>
-            <Card Color="CardColor.Warning" Class="mb-4">
+            <Card Color="CardColor.Warning" Class="mb-3" TextAlignment="Alignment.Center">
                 <CardHeader>Total Net Injection</CardHeader>
                 <CardBody>
                     <CardTitle>@Data[Key!].TotalNetInjection.ToString(Format)</CardTitle>
                 </CardBody>
             </Card>
-            <Card Color="CardColor.Danger" Class="mb-4">
+            <Card Color="CardColor.Danger" Class="mb-3" TextAlignment="Alignment.Center">
                 <CardHeader>Total Net Usage</CardHeader>
                 <CardBody>
                     <CardTitle>@Data[Key!].TotalNetUsage.ToString(Format)</CardTitle>
                 </CardBody>
             </Card>
-            <Card Color="CardColor.Success" Class="mb-4">
+            <Card Color="CardColor.Success" Class="mb-3" TextAlignment="Alignment.Center">
                 <CardHeader>Total Usage</CardHeader>
                 <CardBody>
                     <CardTitle>@Data[Key!].TotalUsage.ToString(Format)</CardTitle>

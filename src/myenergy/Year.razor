@@ -1,0 +1,84 @@
+﻿@if (Years!.Count > 0)
+{
+    <div class="col-sm-1">
+        <Button @ref="saveButton1" Color="ButtonColor.Primary" Size="Size.Small" @onclick="DecreaseAsync">
+            <Icon Name="IconName.CalendarMinus"></Icon>
+        </Button>
+    </div>
+    <div class="col-sm-1">
+        <select class="select-element" @bind="selectedYearIndex" @bind:after="YearChangedAsync">
+            @foreach (var year in Years.Select((Year, Id) => (Year, Id)))
+            {
+                if (year.Id == selectedYearIndex)
+                {
+                    <option value="@year.Id" selected>@year.Year</option>
+                }
+                else
+                {
+                    <option value="@year.Id
+                                                                ">
+                        @year.Year
+                    </option>
+                }
+            }
+        </select>
+    </div>
+    <div class="col-sm-1">
+        <Button @ref="saveButton2" Color="ButtonColor.Primary" Size="Size.Small" @onclick="IncreaseAsync">
+            <Icon Name="IconName.CalendarPlus"></Icon>
+        </Button>
+    </div>
+}
+else
+{
+    <div>Loading data...</div>
+}
+@code {
+
+    int selectedYearIndex;
+
+    Button? saveButton1;
+    Button? saveButton2;
+
+
+    [Parameter]
+    public List<int>? Years { get; set; }
+
+    [Parameter]
+    public int InitialYearIndex
+    {
+        get => selectedYearIndex;
+        set => selectedYearIndex = value;
+    }
+
+    [Parameter]
+    public string? Tab { get; set; }
+
+    [Parameter]
+    public EventCallback<int> OnClickCallback { get; set; }
+
+    private async Task YearChangedAsync()
+    {
+        await OnClickCallback.InvokeAsync(selectedYearIndex);
+    }
+
+    [Parameter]
+    public EventCallback DecreaseCallback { get; set; }
+
+    private async Task DecreaseAsync()
+    {
+        if (selectedYearIndex > 0)
+            selectedYearIndex -= 1;
+        await DecreaseCallback.InvokeAsync();
+    }
+
+    [Parameter]
+    public EventCallback IncreaseCallback { get; set; }
+
+    private async Task IncreaseAsync()
+    {
+        if (selectedYearIndex < Years!.Count() - 1)
+            selectedYearIndex += 1;
+        await IncreaseCallback.InvokeAsync();
+    }
+}
