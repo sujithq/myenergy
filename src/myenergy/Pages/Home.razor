@@ -6,23 +6,29 @@
     <Tabs EnableFadeEffect="true" OnShown="@(args => OnTabShownAsync(args))">
         <Tab Title="Day" IsActive="true">
             <Content>
-                <div class="row mb-1">
+                <div class="row mb-1 d-none d-md-block justify-content-center ">
                     <div class="col-sm-10 mx-auto">
                         <BarChart @ref="barChartDay" Class="mb-1" />
                     </div>
                 </div>
+                <div class="row mb-1 d-md-none justify-content-center">
+                    <div class="col-sm-10 mx-auto text-center">
+                        <label>@titleDay</label>
+                    </div>
+                </div>
 
                 <div class="row justify-content-center mb-1">
-                    <div class="col text-end p-0">
+                    <div class="col text-end p-0 d-none d-md-block">
                         <Button @ref="saveButton1" Color="ButtonColor.Primary" Size="Size.Small" @onclick="DecreaseDate">
                             <Icon Name="IconName.CalendarMinus"></Icon>
                         </Button>
                     </div>
+
                     <div class="col-sm-2 text-center p-0">
                         <DateInput Value="currentDate" ValueExpression="() => currentDate" TValue="DateOnly" EnableMinMax="true" Min="@minDate" Max="@maxDate" Placeholder="Enter Date" ValueChanged="(value) => DayChanged(value)" />
                     </div>
-                    <div class="col text-start p-0 ">
-                        <Button @ref="saveButton2" Color="ButtonColor.Primary" Size="Size.Small" @onclick="IncreaseDate">
+                    <div class="col text-start p-0 d-none d-md-block">
+                        <Button @ref="saveButton2" Color="ButtonColor.Success" Size="Size.Small" @onclick="IncreaseDate">
                             <Icon Name="IconName.CalendarPlus"></Icon>
                         </Button>
                     </div>
@@ -37,9 +43,14 @@
         </Tab>
         <Tab Title="Week">
             <Content>
-                <div class="row mb-1">
+                <div class="row mb-1 d-none d-md-block justify-content-center ">
                     <div class="col-sm-10 mx-auto">
                         <BarChart @ref="barChartWeek" Class="mb-1" />
+                    </div>
+                </div>
+                <div class="row mb-1 d-md-none justify-content-center">
+                    <div class="col-sm-10 mx-auto text-center">
+                        <label>@titleWeek</label>
                     </div>
                 </div>
 
@@ -60,12 +71,16 @@
         </Tab>
         <Tab Title="Month">
             <Content>
-                <div class="row mb-1">
+                <div class="row mb-1 d-none d-md-block justify-content-center ">
                     <div class="col-sm-10 mx-auto">
                         <BarChart @ref="barChartMonth" Class="mb-1" />
                     </div>
                 </div>
-
+                <div class="row mb-1 d-md-none justify-content-center">
+                    <div class="col-sm-10 mx-auto text-center">
+                        <label>@titleMonth</label>
+                    </div>
+                </div>
                 <div class="row justify-content-center mb-1">
                     <Year Years="@years" OnClickCallback="YearChangedAsync" DecreaseCallback="DecreaseDate" IncreaseCallback="IncreaseDate" Tab="@activeTabTitle" InitialYearIndex="@selectedYearIndex" />
                 </div>
@@ -83,12 +98,16 @@
         </Tab>
         <Tab Title="Year">
             <Content>
-                <div class="row mb-1">
+                <div class="row mb-1 d-none d-md-block justify-content-center ">
                     <div class="col-sm-10 mx-auto">
                         <BarChart @ref="barChartYear" Class="mb-1" />
                     </div>
                 </div>
-
+                <div class="row mb-1 d-md-none justify-content-center">
+                    <div class="col-sm-10 mx-auto text-center">
+                        <label>@titleYear</label>
+                    </div>
+                </div>
                 <div class="row justify-content-center mb-1">
                     <Year Years="@years" OnClickCallback="YearChangedAsync" DecreaseCallback="DecreaseDate" IncreaseCallback="IncreaseDate" Tab="@activeTabTitle" InitialYearIndex="@selectedYearIndex" />
                 </div>
@@ -100,9 +119,14 @@
         </Tab>
         <Tab Title="All">
             <Content>
-                <div class="row mb-1">
+                <div class="row mb-1 d-none d-md-block justify-content-center ">
                     <div class="col-sm-10 mx-auto">
                         <BarChart @ref="barChartAll" Class="mb-1 " />
+                    </div>
+                </div>
+                <div class="row mb-1 d-md-none justify-content-center">
+                    <div class="col-sm-10 mx-auto text-center">
+                        <label>@titleAll</label>
                     </div>
                 </div>
 
@@ -152,6 +176,12 @@
 
     int maxMonthIndex = 11;
     int minMonthIndex = 0;
+
+    string titleAll = "Solar Panels";
+    string titleYear = "Solar Panels";
+    string titleMonth = "Solar Panels";
+    string titleWeek = "Solar Panels";
+    string titleDay = "Solar Panels";
 
     string activeTabTitle = "Day";
 
@@ -226,8 +256,8 @@
         {
             await RenderSolarPanelsAllAsync(first);
             await RenderSolarPanelsYearAsync(selectedYearIndex, first);
-            await RenderSolarPanelsWeekAsync(selectedYearIndex, selectedWeekIndex, first);
             await RenderSolarPanelsMonthAsync(selectedYearIndex, selectedMonthIndex, first);
+            await RenderSolarPanelsWeekAsync(selectedYearIndex, selectedWeekIndex, first);
             await RenderSolarPanelsDayAsync(selectedYearIndex, zonedDateTimeBrussels.DayOfYear, first);
         }
 
@@ -308,12 +338,14 @@
         if (!dataDaily.Any())
             return;
 
+        titleAll = $"Solar Panels ({years.First()} - {years.Last()})";
+
         await SolarPanelsAsync(
             dataDaily.Keys.Select(s => s.ToString()).ToList(),
             dataDaily.Select(s => s.Value.Sum(ss => ss.P)).ToList(),
             dataDaily.Select(s => s.Value.Sum(ss => ss.U)).ToList(),
             dataDaily.Select(s => s.Value.Sum(ss => ss.I) / 1000).ToList(),
-            $"Solar Panels", init, barChartAll!, "Year"
+            titleAll, init, barChartAll!, "Year"
         );
 
         totals["All"] = new TotalData(dataDaily.SelectMany(sm => sm.Value.Select(s => s.P)).Sum(),
@@ -330,6 +362,8 @@
 
         var selectedYear = years[yearIndex];
 
+        titleYear= $"Solar Panels ({selectedYear})";
+
         var data = dataDaily[selectedYear]
             .GroupBy(data => data.D.DayOfYearLocalDate(selectedYear).Month)
             .ToList();
@@ -339,7 +373,7 @@
             data.Select(s => s.Sum(ss => ss.P)).ToList(),
             data.Select(s => s.Sum(ss => ss.U)).ToList(),
             data.Select(s => s.Sum(ss => ss.I) / 1000).ToList(),
-            $"Solar Panels ({selectedYear})", init, barChartYear!, "Month"
+            titleYear, init, barChartYear!, "Month"
         );
 
         totals["Year"] = new TotalData(data.SelectMany(sm => sm.Select(s => s.P)).Sum(),
@@ -357,6 +391,8 @@
         var selectedYear = years[yearIndex];
         var selectedMonth = months[monthIndex];
 
+        titleMonth = $"Solar Panels ({selectedMonth}/{selectedYear})";
+
         var data = dataDaily[selectedYear].Where(a => a.D.DayOfYearLocalDate(selectedYear).Month == selectedMonth).ToList();
 
         await SolarPanelsAsync(
@@ -364,7 +400,7 @@
             data.Select(s => s.P).ToList(),
             data.Select(s => s.U).ToList(),
             data.Select(s => s.I / 1000).ToList(),
-            $"Solar Panels ({selectedMonth}/{selectedYear})", init, barChartMonth!, "Day"
+            titleMonth, init, barChartMonth!, "Day"
         );
 
         totals["Month"] = new TotalData(data.Select(s => s.P).Sum(),
@@ -381,6 +417,7 @@
 
         var selectedYear = years[yearIndex];
         var selectedWeek = weeks[weekIndex];
+        titleWeek = $"Solar Panels ({selectedYear}/{selectedWeek})";
 
         var data = dataDaily[selectedYear].Where(a => WeekYearRules.Iso.GetWeekOfWeekYear(a.D.DayOfYearLocalDate(selectedYear)) == selectedWeek).ToList();
 
@@ -389,7 +426,7 @@
             data.Select(s => s.P).ToList(),
             data.Select(s => s.U).ToList(),
             data.Select(s => s.I / 1000).ToList(),
-            $"Solar Panels ({selectedYear}/{selectedWeek})", init, barChartWeek!, "Day"
+            titleWeek, init, barChartWeek!, "Day"
         );
 
         totals["Week"] = new TotalData(data.Select(s => s.P).Sum(),
@@ -406,6 +443,8 @@
 
         var selectedYear = years[yearIndex];
 
+        titleDay = $"Solar Panels ({DateOnly.FromDateTime(new DateTime(selectedYear, 1, 1).AddDays(day - 1)).ToString("yyyy/MM/dd")})";
+
         var data = dataDaily[selectedYear].Where(a => a.D == day).ToList();
 
         await SolarPanelsAsync(
@@ -413,7 +452,7 @@
             data.Select(s => s.P).ToList(),
             data.Select(s => s.U).ToList(),
             data.Select(s => s.I / 1000).ToList(),
-            $"Solar Panels ({DateOnly.FromDateTime(new DateTime(selectedYear, 1, 1).AddDays(day - 1)).ToString("yyyy/MM/dd")})", init, barChartDay!, "Day"
+            titleDay, init, barChartDay!, "Day"
         );
 
         totals["Day"] = new TotalData(data.Select(s => s.P).Sum(),

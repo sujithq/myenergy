@@ -1,6 +1,6 @@
 ﻿@if (Years!.Count > 0)
 {
-    <div class="col text-end p-0">
+    <div class="col text-end p-0 d-none d-md-block">
         <Button @ref="saveButton1" Color="ButtonColor.Primary" Size="Size.Small" @onclick="DecreaseAsync">
             <Icon Name="IconName.CalendarMinus"></Icon>
         </Button>
@@ -23,8 +23,8 @@
             }
         </select>
     </div>
-    <div class="col text-start p-0">
-        <Button @ref="saveButton2" Color="ButtonColor.Primary" Size="Size.Small" @onclick="IncreaseAsync">
+    <div class="col text-start p-0 d-none d-md-block">
+        <Button @ref="saveButton2" Color="ButtonColor.Success" Size="Size.Small" @onclick="IncreaseAsync">
             <Icon Name="IconName.CalendarPlus"></Icon>
         </Button>
     </div>
