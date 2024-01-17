@@ -17,13 +17,13 @@
         @context.D.DayOfYearLocalDate(context.Y).ToString("yyyy-MM-dd", null)
     </GridColumn>
     <GridColumn TItem="AnomalyModalData" HeaderText="P" PropertyName="Id" SortKeySelector="item => item.A.P" TextAlignment="Alignment.End">
-        @context.A.P.ToString("F2")
+        @(context.A.P.ToString("F2") == "0.00" ? "N/A" : context.A.P.ToString("F2"))
     </GridColumn>
     <GridColumn TItem="AnomalyModalData" HeaderText="U" PropertyName="Id" SortKeySelector="item => item.A.U" TextAlignment="Alignment.End">
-        @context.A.U.ToString("F2")
+        @(context.A.U.ToString("F2") == "0.00" ? "N/A" : context.A.U.ToString("F2"))
     </GridColumn>
     <GridColumn TItem="AnomalyModalData" HeaderText="I" PropertyName="Id" SortKeySelector="item => item.A.I" TextAlignment="Alignment.End">
-        @context.A.I.ToString("F2")
+        @(context.A.I.ToString("F2") == "0.00" ? "N/A" : context.A.I.ToString("F2"))
     </GridColumn>
 </Grid>
 
