@@ -2,6 +2,8 @@
 
 @inject HttpClient Http
 
+<Modal @ref="modal" />
+
 <div class="container-fluid mh-100">
     <Tabs EnableFadeEffect="true" OnShown="@(args => OnTabShownAsync(args))">
         <Tab Title="Day" IsActive="true">
@@ -137,6 +139,8 @@
         </Tab>
     </Tabs>
 </div>
+
+<Button Color="ButtonColor.Primary" @onclick="ShowAnomalies">Show Employee Component</Button>
 
 @code {
     List<int> years = new List<int> { 2023, 2024 };
@@ -362,7 +366,7 @@
 
         var selectedYear = years[yearIndex];
 
-        titleYear= $"Solar Panels ({selectedYear})";
+        titleYear = $"Solar Panels ({selectedYear})";
 
         var data = dataDaily[selectedYear]
             .GroupBy(data => data.D.DayOfYearLocalDate(selectedYear).Month)
@@ -549,5 +553,16 @@
                 YearChangedAsync(selectedYearIndex); // .GetAwaiter().GetResult();
             }
         }
+    }
+
+    private Modal modal = default!;
+
+    private async Task ShowAnomalies()
+    {
+        var d = dataDaily.SelectMany(sm => sm.Value.Where(w => w.AS.A).Select(s => new AnomalyModalData(sm.Key, s.D, s.AS))).ToList();
+
+        var parameters = new Dictionary<string, object>();
+        parameters.Add("data", d);
+        await modal.ShowAsync<Anomaly>(title: "Anomaly Details", parameters: parameters);
     }
 }

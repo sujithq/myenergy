@@ -1,0 +1,46 @@
+﻿<h3>Anomaly</h3>
+
+<Grid TItem="AnomalyModalData"
+      Class="table table-hover table-bordered table-striped"
+      DataProvider="EmployeesDataProvider"
+      AllowFiltering="true"
+      AllowPaging="true"
+      PageSize="5"
+      AllowSorting="true"
+      AllowSelection="false"
+      SelectionMode="GridSelectionMode.Multiple"
+      Responsive="true">
+    <GridColumn TItem="AnomalyModalData" HeaderText="Y" PropertyName="Id" SortKeySelector="item => item.Y">
+        @context.Y
+    </GridColumn>
+    <GridColumn TItem="AnomalyModalData" HeaderText="D" PropertyName="Id" SortKeySelector="item => item.D">
+        @context.D.DayOfYearLocalDate(context.Y).ToString("yyyy-MM-dd", null)
+    </GridColumn>
+    <GridColumn TItem="AnomalyModalData" HeaderText="P" PropertyName="Id" SortKeySelector="item => item.A.P" TextAlignment="Alignment.End">
+        @context.A.P.ToString("F2")
+    </GridColumn>
+    <GridColumn TItem="AnomalyModalData" HeaderText="U" PropertyName="Id" SortKeySelector="item => item.A.U" TextAlignment="Alignment.End">
+        @context.A.U.ToString("F2")
+    </GridColumn>
+    <GridColumn TItem="AnomalyModalData" HeaderText="I" PropertyName="Id" SortKeySelector="item => item.A.I" TextAlignment="Alignment.End">
+        @context.A.I.ToString("F2")
+    </GridColumn>
+</Grid>
+
+
+@code {
+
+    [Parameter]
+    public List<AnomalyModalData> data { get; set; }
+
+    protected override void OnInitialized()
+    {
+
+        base.OnInitialized();
+    }
+
+    private async Task<GridDataProviderResult<AnomalyModalData>> EmployeesDataProvider(GridDataProviderRequest<AnomalyModalData> request)
+    {
+        return request.ApplyTo(data);
+    }
+}
