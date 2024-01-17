@@ -2,32 +2,12 @@
 
 @if (Data!.ContainsKey(Key!))
 {
-    <CardGroup>
-        <Card Color="CardColor.Dark" Class="mb-3" TextAlignment="Alignment.Center">
-            <CardHeader>Total Production</CardHeader>
-            <CardBody>
-                <CardTitle>@Data[Key!].TotalProduction.ToString(Format)</CardTitle>
-                </CardBody>
-            </Card>
-            <Card Color="CardColor.Warning" Class="mb-3" TextAlignment="Alignment.Center">
-                <CardHeader>Total Net Injection</CardHeader>
-                <CardBody>
-                    <CardTitle>@Data[Key!].TotalNetInjection.ToString(Format)</CardTitle>
-                </CardBody>
-            </Card>
-            <Card Color="CardColor.Danger" Class="mb-3" TextAlignment="Alignment.Center">
-                <CardHeader>Total Net Usage</CardHeader>
-                <CardBody>
-                    <CardTitle>@Data[Key!].TotalNetUsage.ToString(Format)</CardTitle>
-                </CardBody>
-            </Card>
-            <Card Color="CardColor.Success" Class="mb-3" TextAlignment="Alignment.Center">
-                <CardHeader>Total Usage</CardHeader>
-                <CardBody>
-                    <CardTitle>@Data[Key!].TotalUsage.ToString(Format)</CardTitle>
-                </CardBody>
-            </Card>
-        </CardGroup>
+    <div class="col text-center">
+        <span class="badge rounded-pill bg-dark">@($"Production {Data[Key!].TotalProduction.ToString(Format)}")</span>
+        <span class="badge rounded-pill bg-warning">@($"Injection {Data[Key!].TotalNetInjection.ToString(Format)}")</span>
+        <span class="badge rounded-pill bg-danger">@($"Net Usage {Data[Key!].TotalNetUsage.ToString(Format)}")</span>
+        <span class="badge rounded-pill bg-success">@($"Total Usage {Data[Key!].TotalUsage.ToString(Format)}")</span>
+    </div>
 }
 else
 {

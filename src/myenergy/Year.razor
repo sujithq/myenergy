@@ -1,12 +1,12 @@
 ﻿@if (Years!.Count > 0)
 {
-    <div class="col-sm-1">
+    <div class="col text-end p-0">
         <Button @ref="saveButton1" Color="ButtonColor.Primary" Size="Size.Small" @onclick="DecreaseAsync">
             <Icon Name="IconName.CalendarMinus"></Icon>
         </Button>
     </div>
-    <div class="col-sm-1">
-        <select class="select-element" @bind="selectedYearIndex" @bind:after="YearChangedAsync">
+    <div class="col-sm-1 text-center p-0">
+        <select class="select-element form-select w-100" @bind="selectedYearIndex" @bind:after="YearChangedAsync">
             @foreach (var year in Years.Select((Year, Id) => (Year, Id)))
             {
                 if (year.Id == selectedYearIndex)
@@ -16,14 +16,14 @@
                 else
                 {
                     <option value="@year.Id
-                                                                ">
+                                                                                        ">
                         @year.Year
                     </option>
                 }
             }
         </select>
     </div>
-    <div class="col-sm-1">
+    <div class="col text-start p-0">
         <Button @ref="saveButton2" Color="ButtonColor.Primary" Size="Size.Small" @onclick="IncreaseAsync">
             <Icon Name="IconName.CalendarPlus"></Icon>
         </Button>
