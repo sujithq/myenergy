@@ -5,6 +5,8 @@ using Microsoft.ML;
 using myenergy.Common;
 using myenergy.Common.Extensions;
 using Newtonsoft.Json.Linq;
+using System.Diagnostics;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 
@@ -48,7 +50,7 @@ namespace June.Data
 
             var serviceProvider = services.BuildServiceProvider();
 
-            // Get JuneSettings from DI
+            // Get Settings from DI
             var juneSettings = serviceProvider.GetService<IOptions<JuneSettings>>();
             var sungrowSettings = serviceProvider.GetService<IOptions<SungrowSettings>>();
             var meteoStatSettings = serviceProvider.GetService<IOptions<MeteoStatSettings>>();
@@ -84,8 +86,9 @@ namespace June.Data
             if (listForSungrowProcessed.FindIndex(f => f.Key == currentDateInBelgium.Year && f.D == currentDateInBelgium.DayOfYear) == -1)
                 listForSungrowProcessed.Add((currentDateInBelgium.Year, currentDateInBelgium.DayOfYear, currentDateInBelgiumString, currentDateInBelgium.Date));
 
+            // For MeteoStat
             var listForMeteoStatProcessed = data!
-                .SelectMany(kvp => kvp.Value.Where(data => !data.M)
+                .SelectMany(kvp => kvp.Value //.Where(data => !data.M)
                                             .Select(data => (kvp.Key, data.D, data.D.DayOfYearLocalDate(kvp.Key)))
                 .Where(date => date.Item3 <= currentDateInBelgium.Date)
                 .Select(date => (date.Key, date.D, date.Item3)))
@@ -204,12 +207,12 @@ namespace June.Data
                         }
                         if (value.FindIndex(f => f.D == item.D) == -1)
                         {
-                            value.Add(new BarChartData(item.D, 0, 0, 0, false, false, msd, false, false));
+                            value.Add(new BarChartData(item.D, 0, 0, 0, false, false, msd, false, new AnomalyData(0, 0, 0)));
                         }
 
                         var idx = value.FindIndex(f => f.D == item.D);
                         var d = value[idx];
-                        value[idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, msd, item.Item3 == currentDateInBelgium.Date ? false : true, false);
+                        value[idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, msd, item.Item3 == currentDateInBelgium.Date ? false : true, new AnomalyData(0, 0, 0));
 
                     }
                 }
@@ -244,12 +247,12 @@ namespace June.Data
                         }
                         if (value.FindIndex(f => f.D == item.D) == -1)
                         {
-                            value.Add(new BarChartData(item.D, 0, 0, 0, false, false, new MeteoStatData(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), false, false));
+                            value.Add(new BarChartData(item.D, 0, 0, 0, false, false, new MeteoStatData(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), false, new AnomalyData(0, 0, 0)));
                         }
 
                         var idx = value.FindIndex(f => f.D == item.D);
                         var d = value[idx];
-                        value[idx] = new BarChartData(d.D, d.P, consumption, injection, item.Item4 == currentDateInBelgium.Date ? false : true, d.S, d.MS, d.M, false);
+                        value[idx] = new BarChartData(d.D, d.P, consumption, injection, item.Item4 == currentDateInBelgium.Date ? false : true, d.S, d.MS, d.M, new AnomalyData(0, 0, 0));
                     }
                     else
                     {
@@ -299,12 +302,12 @@ namespace June.Data
                             }
                             if (value.FindIndex(f => f.D == item.D) == -1)
                             {
-                                value.Add(new BarChartData(item.D, 0, 0, 0, false, false, new MeteoStatData(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), false, false));
+                                value.Add(new BarChartData(item.D, 0, 0, 0, false, false, new MeteoStatData(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), false, new AnomalyData(0, 0, 0)));
                             }
 
                             var idx = value.FindIndex(f => f.D == item.D);
                             var d = value[idx];
-                            value[idx] = new BarChartData(d.D, production, d.U, d.I, d.J, item.Item4 == currentDateInBelgium.Date ? false : true, d.MS, d.M, false);
+                            value[idx] = new BarChartData(d.D, production, d.U, d.I, d.J, item.Item4 == currentDateInBelgium.Date ? false : true, d.MS, d.M, new AnomalyData(0, 0, 0));
                         }
                     }
                     else
@@ -357,28 +360,69 @@ namespace June.Data
             // Load your data
             IDataView dataView = mlContext.Data.LoadFromEnumerable<AnomalyRecord>(lst);
 
-            // Define the anomaly detection pipeline
-            var pipeline = mlContext.Transforms.DetectIidSpike(outputColumnName: nameof(Prediction.Scores),
-                                                               inputColumnName: nameof(AnomalyRecord.P),
-                                                               confidence: 95.0,
-                                                               pvalueHistoryLength: 50);
+            var inputColums = new string[] { nameof(AnomalyRecord.P), nameof(AnomalyRecord.U), nameof(AnomalyRecord.I) };
 
-            // Train the model
-            var trainedModel = pipeline.Fit(dataView);
+            // Define the anomaly detection pipeline
+            var pipelines = inputColums.Select(s => mlContext.Transforms.DetectIidSpike(outputColumnName: nameof(Prediction.Scores),
+                                                               inputColumnName: s,
+                                                               confidence: 95.0,
+                                                               pvalueHistoryLength: 50)).ToList();
+
+            //Train the model
+            var trainedModels = pipelines.Select(p => p.Fit(dataView)).ToList();
+
+            //// Define the anomaly detection pipeline
+            //var pipeline = mlContext.Transforms.DetectIidSpike(outputColumnName: nameof(Prediction.Scores),
+            //                                                   inputColumnName: nameof(AnomalyRecord.P),
+            //                                                   confidence: 95.0,
+            //                                                   pvalueHistoryLength: 50);
+
+            //// Train the model
+            //var trainedModel = pipeline.Fit(dataView);
 
             // Predict and find anomalies
-            IDataView transformedData = trainedModel.Transform(dataView);
-            var predictions = mlContext.Data.CreateEnumerable<Prediction>(transformedData, reuseRowObject: false);
+
+            var transformedDatas = trainedModels.Select(tm => tm.Transform(dataView)).ToList();
+            var allPredictions = transformedDatas.Select(td => mlContext.Data.CreateEnumerable<Prediction>(td, reuseRowObject: false)).ToList();
+
+            //IDataView transformedData = trainedModel.Transform(dataView);
+            //var predictions = mlContext.Data.CreateEnumerable<Prediction>(transformedData, reuseRowObject: false);
+
+            for (int j = 0; j < inputColums.Length; j++)
+            {
+                foreach (var prediction in allPredictions[j].Where(w => w.Scores![0] != 0))
+                {
+
+                    var idx = data[prediction.Y].FindIndex(f => f.D == prediction.D);
+                    var d = data[prediction.Y][idx];
+
+                    double p = d.AS.P, u = d.AS.U, i = d.AS.I;
+
+                    switch (inputColums[j])
+                    {
+                        case "P":
+                            p = prediction.Scores[1];
+                            Alert($"-> ({inputColums[j]}/{prediction.Y}/{prediction.D}/{prediction.D.DayOfYearLocalDate(prediction.Y).ToString("yyyy-MM-dd", null)}) Prediction score of: {p:F2}", "Anomaly", ConsoleColor.Yellow);
+                            break;
+                        case "U":
+                            u = prediction.Scores[1];
+                            Alert($"-> ({inputColums[j]}/{prediction.Y}/{prediction.D}/{prediction.D.DayOfYearLocalDate(prediction.Y).ToString("yyyy-MM-dd", null)}) Prediction score of: {u:F2}", "Anomaly", ConsoleColor.Yellow);
+                            break;
+                        case "I":
+                            i = prediction.Scores[1] / 1000;
+                            Alert($"-> ({inputColums[j]}/{prediction.Y}/{prediction.D}/{prediction.D.DayOfYearLocalDate(prediction.Y).ToString("yyyy-MM-dd", null)}) Prediction score of: {i:F2}", "Anomaly", ConsoleColor.Yellow);
+                            break;
+                        default:
+                            // Handle default case if necessary
+                            break;
+                    }
+
+                    data[prediction.Y][idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, d.MS, d.M, new(p, u, i));
+                }
+            }
 
             // Output the results
-            foreach (var prediction in predictions.Where(w => w.Scores[0] != 0))
-            {
-                Alert($"-> ({prediction.Y}/{prediction.D}/{prediction.P.ToString("F2")}) Prediction score of: {prediction.Scores[1]}", "Anomaly", ConsoleColor.Yellow);
 
-                var idx = data[prediction.Y].FindIndex(f => f.D == prediction.D);
-                var d = data[prediction.Y][idx];
-                data[prediction.Y][idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, d.MS, d.M, true);
-            }
         }
 
 
