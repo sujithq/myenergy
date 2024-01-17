@@ -6,19 +6,19 @@
     <Tabs EnableFadeEffect="true" OnShown="@(args => OnTabShownAsync(args))">
         <Tab Title="Day" IsActive="true">
             <Content>
-                <div class="row mb-1 d-none d-md-block justify-content-center ">
+                <div class="row mb-1 d-none d-sm-block justify-content-center ">
                     <div class="col-sm-10 mx-auto">
                         <BarChart @ref="barChartDay" Class="mb-1" />
                     </div>
                 </div>
-                <div class="row mb-1 d-md-none justify-content-center">
+                <div class="row mb-1 d-sm-none justify-content-center">
                     <div class="col-sm-10 mx-auto text-center">
                         <label>@titleDay</label>
                     </div>
                 </div>
 
                 <div class="row justify-content-center mb-1">
-                    <div class="col text-end p-0 d-none d-md-block">
+                    <div class="col text-end p-0 d-none d-sm-block">
                         <Button @ref="saveButton1" Color="ButtonColor.Primary" Size="Size.Small" @onclick="DecreaseDate">
                             <Icon Name="IconName.CalendarMinus"></Icon>
                         </Button>
@@ -27,7 +27,7 @@
                     <div class="col-sm-2 text-center p-0">
                         <DateInput Value="currentDate" ValueExpression="() => currentDate" TValue="DateOnly" EnableMinMax="true" Min="@minDate" Max="@maxDate" Placeholder="Enter Date" ValueChanged="(value) => DayChanged(value)" />
                     </div>
-                    <div class="col text-start p-0 d-none d-md-block">
+                    <div class="col text-start p-0 d-none d-sm-block">
                         <Button @ref="saveButton2" Color="ButtonColor.Success" Size="Size.Small" @onclick="IncreaseDate">
                             <Icon Name="IconName.CalendarPlus"></Icon>
                         </Button>
@@ -43,12 +43,12 @@
         </Tab>
         <Tab Title="Week">
             <Content>
-                <div class="row mb-1 d-none d-md-block justify-content-center ">
+                <div class="row mb-1 d-none d-sm-block justify-content-center ">
                     <div class="col-sm-10 mx-auto">
                         <BarChart @ref="barChartWeek" Class="mb-1" />
                     </div>
                 </div>
-                <div class="row mb-1 d-md-none justify-content-center">
+                <div class="row mb-1 d-sm-none justify-content-center">
                     <div class="col-sm-10 mx-auto text-center">
                         <label>@titleWeek</label>
                     </div>
@@ -71,12 +71,12 @@
         </Tab>
         <Tab Title="Month">
             <Content>
-                <div class="row mb-1 d-none d-md-block justify-content-center ">
+                <div class="row mb-1 d-none d-sm-block justify-content-center ">
                     <div class="col-sm-10 mx-auto">
                         <BarChart @ref="barChartMonth" Class="mb-1" />
                     </div>
                 </div>
-                <div class="row mb-1 d-md-none justify-content-center">
+                <div class="row mb-1 d-sm-none justify-content-center">
                     <div class="col-sm-10 mx-auto text-center">
                         <label>@titleMonth</label>
                     </div>
@@ -98,12 +98,12 @@
         </Tab>
         <Tab Title="Year">
             <Content>
-                <div class="row mb-1 d-none d-md-block justify-content-center ">
+                <div class="row mb-1 d-none d-sm-block justify-content-center ">
                     <div class="col-sm-10 mx-auto">
                         <BarChart @ref="barChartYear" Class="mb-1" />
                     </div>
                 </div>
-                <div class="row mb-1 d-md-none justify-content-center">
+                <div class="row mb-1 d-sm-none justify-content-center">
                     <div class="col-sm-10 mx-auto text-center">
                         <label>@titleYear</label>
                     </div>
@@ -119,12 +119,12 @@
         </Tab>
         <Tab Title="All">
             <Content>
-                <div class="row mb-1 d-none d-md-block justify-content-center ">
+                <div class="row mb-1 d-none d-sm-block justify-content-center ">
                     <div class="col-sm-10 mx-auto">
                         <BarChart @ref="barChartAll" Class="mb-1 " />
                     </div>
                 </div>
-                <div class="row mb-1 d-md-none justify-content-center">
+                <div class="row mb-1 d-sm-none justify-content-center">
                     <div class="col-sm-10 mx-auto text-center">
                         <label>@titleAll</label>
                     </div>
