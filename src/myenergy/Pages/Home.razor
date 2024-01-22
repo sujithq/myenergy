@@ -1,152 +1,261 @@
 @page "/"
 
-@inject HttpClient Http
 
-<Modal @ref="modal" />
+@inject IDataService dataService
+@inject PreloadService PreloadService
 
-<div class="container-fluid mh-100">
-    <Tabs EnableFadeEffect="true" OnShown="@(args => OnTabShownAsync(args))">
-        <Tab Title="Day" IsActive="true">
-            <Content>
-                <div class="row mb-1 d-none d-sm-block justify-content-center ">
-                    <div class="col-sm-10 mx-auto">
-                        <BarChart @ref="barChartDay" Class="mb-1" />
-                    </div>
-                </div>
-                <div class="row mb-1 d-sm-none justify-content-center">
-                    <div class="col-sm-10 mx-auto text-center">
-                        <label>@titleDay</label>
-                    </div>
-                </div>
-
-                <div class="row justify-content-center mb-1">
-                    <div class="col text-end p-0 d-none d-sm-block">
-                        <Button @ref="saveButton1" Color="ButtonColor.Primary" Size="Size.Small" @onclick="DecreaseDate">
-                            <Icon Name="IconName.CalendarMinus"></Icon>
-                        </Button>
-                    </div>
-
-                    <div class="col-sm-2 text-center p-0">
-                        <DateInput Value="currentDate" ValueExpression="() => currentDate" TValue="DateOnly" EnableMinMax="true" Min="@minDate" Max="@maxDate" Placeholder="Enter Date" ValueChanged="(value) => DayChanged(value)" />
-                    </div>
-                    <div class="col text-start p-0 d-none d-sm-block">
-                        <Button @ref="saveButton2" Color="ButtonColor.Success" Size="Size.Small" @onclick="IncreaseDate">
-                            <Icon Name="IconName.CalendarPlus"></Icon>
-                        </Button>
-                    </div>
-                </div>
-
-                <div class="row justify-content-center mb-1">
-                    <Totals Data="@totals" Key="Day" Format="F2" />
-                </div>
+@* <Modal @ref="modal" /> *@
 
 
-            </Content>
-        </Tab>
-        <Tab Title="Week">
-            <Content>
-                <div class="row mb-1 d-none d-sm-block justify-content-center ">
-                    <div class="col-sm-10 mx-auto">
-                        <BarChart @ref="barChartWeek" Class="mb-1" />
-                    </div>
-                </div>
-                <div class="row mb-1 d-sm-none justify-content-center">
-                    <div class="col-sm-10 mx-auto text-center">
-                        <label>@titleWeek</label>
-                    </div>
-                </div>
+@if (dataService.Data != null && dataService.Data.Count > 0)
+{
+    <div class="container-fluid mh-100">
+        <Tabs EnableFadeEffect="true" OnShown="@(args => OnTabShownAsync(args))">
+            <Tab Title="Day" IsActive="true">
+                <Content>
+                    <Tabs EnableFadeEffect="true">
+                        <Tab Title="Data">
+                            <Content>
+                                <div class="row mb-1 d-none d-sm-block justify-content-center ">
+                                    <div class="col-sm-10 mx-auto">
+                                        <BarChart @ref="barChartDay" Class="mb-1" />
+                                    </div>
+                                </div>
+                            </Content>
+                        </Tab>
 
-                <div class="row justify-content-center mb-1">
-                    <Year Years="@years" OnClickCallback="YearChangedAsync" DecreaseCallback="DecreaseDate" IncreaseCallback="IncreaseDate" Tab="@activeTabTitle" InitialYearIndex="@selectedYearIndex" />
-                </div>
+                        <Tab Title="Weather Info">
+                            <Content>
+                                @if (selectedDayOfYearData != default)
+                                {
+                                    <div class="row mb-1">
+                                        <table class="table table-striped">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <label>The average air temperature in °C</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>@selectedDayOfYearData.MS.tavg</label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>The average air temperature in °C</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>@selectedDayOfYearData.MS.tavg</label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>The minimum air temperature in °C</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>@selectedDayOfYearData.MS.tmin.ToString("F2")</label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>The maximum air temperature in °C</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>@selectedDayOfYearData.MS.tmax.ToString("F2")</label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>The daily precipitation total in mm</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>@selectedDayOfYearData.MS.prcp.ToString("F2")</label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>The maximum snow depth in mm	</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>@selectedDayOfYearData.MS.snow</label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>The average wind direction in degrees (°)</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>@selectedDayOfYearData.MS.wdir</label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>The average wind speed in km/h</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>@selectedDayOfYearData.MS.wspd.ToString("F2")</label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>The peak wind gust in km/h</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>@selectedDayOfYearData.MS.wpgt.ToString("F2")</label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>The average sea-level air pressure in hPa</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>@selectedDayOfYearData.MS.pres.ToString("F2")</label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>The daily sunshine total in minutes (m)	</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>@selectedDayOfYearData.MS.tsun</label>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <Alert Color="AlertColor.Warning"> No Weather Data Available Yet </Alert>
+                                }
+                            </Content>
+                        </Tab>
+                    </Tabs>
 
-                <div class="row mb-1">
-                    <div class="col-sm-12">
-                        <input type="range" min="@minWeekIndex" max="@maxWeekIndex" class="slider" @bind="selectedWeekIndex" @bind:after="WeekChangedAsync">
+                    <div class="row justify-content-center mb-1">
+                        <Totals Data="@totals" Key="Day" Format="F2" />
                     </div>
-                </div>
 
-                <div class="row justify-content-center mb-1">
-                    <Totals Data="@totals" Key="Week" />
-                </div>
-            </Content>
-        </Tab>
-        <Tab Title="Month">
-            <Content>
-                <div class="row mb-1 d-none d-sm-block justify-content-center ">
-                    <div class="col-sm-10 mx-auto">
-                        <BarChart @ref="barChartMonth" Class="mb-1" />
-                    </div>
-                </div>
-                <div class="row mb-1 d-sm-none justify-content-center">
-                    <div class="col-sm-10 mx-auto text-center">
-                        <label>@titleMonth</label>
-                    </div>
-                </div>
-                <div class="row justify-content-center mb-1">
-                    <Year Years="@years" OnClickCallback="YearChangedAsync" DecreaseCallback="DecreaseDate" IncreaseCallback="IncreaseDate" Tab="@activeTabTitle" InitialYearIndex="@selectedYearIndex" />
-                </div>
+                    <div class="row justify-content-center mb-1">
+                        <div class="col text-end p-0 d-none d-sm-block">
+                            <Button @ref="saveButton1" Color="ButtonColor.Primary" Size="Size.Small" @onclick="DecreaseDate">
+                                <Icon Name="IconName.CalendarMinus"></Icon>
+                            </Button>
+                        </div>
 
-                <div class="row mb-1">
-                    <div class="col-sm-12">
-                        <input type="range" min="@minMonthIndex" max="@maxMonthIndex" class="slider" @bind="selectedMonthIndex" @bind:after="MonthChangedAsync">
+                        <div class="col-sm-2 text-center p-0">
+                            <DateInput Value="currentDate" ValueExpression="() => currentDate" TValue="DateOnly" EnableMinMax="true" Min="@minDate" Max="@maxDate" Placeholder="Enter Date" ValueChanged="(value) => DayChanged(value)" />
+                        </div>
+                        <div class="col text-start p-0 d-none d-sm-block">
+                            <Button @ref="saveButton2" Color="ButtonColor.Success" Size="Size.Small" @onclick="IncreaseDate">
+                                <Icon Name="IconName.CalendarPlus"></Icon>
+                            </Button>
+                        </div>
                     </div>
-                </div>
+                </Content>
+            </Tab>
+            <Tab Title="Week">
+                <Content>
+                    <div class="row mb-1 d-none d-sm-block justify-content-center ">
+                        <div class="col-sm-10 mx-auto">
+                            <BarChart @ref="barChartWeek" Class="mb-1" />
+                        </div>
+                    </div>
+                    
+                    <div class="row justify-content-center mb-1">
+                        <Year Years="@years" OnClickCallback="YearChangedAsync" DecreaseCallback="DecreaseDate" IncreaseCallback="IncreaseDate" Tab="@activeTabTitle" InitialYearIndex="@selectedYearIndex" />
+                    </div>
 
-                <div class="row justify-content-center mb-1">
-                    <Totals Data="@totals" Key="Month" />
-                </div>
-            </Content>
-        </Tab>
-        <Tab Title="Year">
-            <Content>
-                <div class="row mb-1 d-none d-sm-block justify-content-center ">
-                    <div class="col-sm-10 mx-auto">
-                        <BarChart @ref="barChartYear" Class="mb-1" />
+                    <div class="row mb-1">
+                        <div class="col-sm-12">
+                            <input type="range" min="@minWeekIndex" max="@maxWeekIndex" class="slider" @bind="selectedWeekIndex" @bind:after="WeekChangedAsync">
+                        </div>
                     </div>
-                </div>
-                <div class="row mb-1 d-sm-none justify-content-center">
-                    <div class="col-sm-10 mx-auto text-center">
-                        <label>@titleYear</label>
-                    </div>
-                </div>
-                <div class="row justify-content-center mb-1">
-                    <Year Years="@years" OnClickCallback="YearChangedAsync" DecreaseCallback="DecreaseDate" IncreaseCallback="IncreaseDate" Tab="@activeTabTitle" InitialYearIndex="@selectedYearIndex" />
-                </div>
 
-                <div class="row justify-content-center mb-1">
-                    <Totals Data="@totals" Key="Year" />
-                </div>
-            </Content>
-        </Tab>
-        <Tab Title="All">
-            <Content>
-                <div class="row mb-1 d-none d-sm-block justify-content-center ">
-                    <div class="col-sm-10 mx-auto">
-                        <BarChart @ref="barChartAll" Class="mb-1 " />
+                    <div class="row justify-content-center mb-1">
+                        <Totals Data="@totals" Key="Week" />
                     </div>
-                </div>
-                <div class="row mb-1 d-sm-none justify-content-center">
-                    <div class="col-sm-10 mx-auto text-center">
-                        <label>@titleAll</label>
+                </Content>
+            </Tab>
+            <Tab Title="Month">
+                <Content>
+                    <div class="row mb-1 d-none d-sm-block justify-content-center ">
+                        <div class="col-sm-10 mx-auto">
+                            <BarChart @ref="barChartMonth" Class="mb-1" />
+                        </div>
                     </div>
-                </div>
+                    
+                    <div class="row justify-content-center mb-1">
+                        <Year Years="@years" OnClickCallback="YearChangedAsync" DecreaseCallback="DecreaseDate" IncreaseCallback="IncreaseDate" Tab="@activeTabTitle" InitialYearIndex="@selectedYearIndex" />
+                    </div>
 
-                <div class="row justify-content-center mb-1">
-                    <Totals Data="@totals" Key="All" />
-                </div>
-            </Content>
-        </Tab>
-    </Tabs>
-</div>
+                    <div class="row mb-1">
+                        <div class="col-sm-12">
+                            <input type="range" min="@minMonthIndex" max="@maxMonthIndex" class="slider" @bind="selectedMonthIndex" @bind:after="MonthChangedAsync">
+                        </div>
+                    </div>
 
-<div class="container-fluid mh-100">
-    <div class="row justify-content-center mb-1">
-        <div class="col-sm-2 mx-auto">
-        <Button Color="ButtonColor.Primary" @onclick="ShowAnomalies">Show Anomalies</Button>
+                    <div class="row justify-content-center mb-1">
+                        <Totals Data="@totals" Key="Month" />
+                    </div>
+                </Content>
+            </Tab>
+            <Tab Title="Year">
+                <Content>
+                    <div class="row mb-1 d-none d-sm-block justify-content-center ">
+                        <div class="col-sm-10 mx-auto">
+                            <BarChart @ref="barChartYear" Class="mb-1" />
+                        </div>
+                    </div>
+                    
+                    <div class="row justify-content-center mb-1">
+                        <Year Years="@years" OnClickCallback="YearChangedAsync" DecreaseCallback="DecreaseDate" IncreaseCallback="IncreaseDate" Tab="@activeTabTitle" InitialYearIndex="@selectedYearIndex" />
+                    </div>
+
+                    <div class="row justify-content-center mb-1">
+                        <Totals Data="@totals" Key="Year" />
+                    </div>
+                </Content>
+            </Tab>
+            <Tab Title="All">
+                <Content>
+                    <Tabs EnableFadeEffect="true">
+                        <Tab Title="Data">
+                            <Content>
+                                <div class="row mb-1 d-none d-sm-block justify-content-center ">
+                                    <div class="col-sm-10 mx-auto">
+                                        <BarChart @ref="barChartAll" Class="mb-1 " />
+                                    </div>
+                                </div>
+                                
+                            </Content>
+                        </Tab>
+                        <Tab Title="Anomalies">
+                            <Content>
+                                <div class="row justify-content-center mb-1">
+                                    <div class="col mx-auto">
+                                        <Anomaly />
+                                    </div>
+                                </div>
+                            </Content>
+                        </Tab>
+                    </Tabs>
+                    <div class="row justify-content-center mb-1">
+                        <Totals Data="@totals" Key="All" />
+                    </div>
+                </Content>
+            </Tab>
+        </Tabs>
+    </div>
+}
+else
+{
+    <div class="row justify-content-center">
+        <div class="col-sm-10 mx-auto text-center">
+            <label>Loading...</label>
         </div>
     </div>
-</div>
+}
+
 
 @code {
     List<int> years = new List<int> { 2023, 2024 };
@@ -180,6 +289,7 @@
     int selectedMonthIndex;
     int selectedWeekIndex;
     int selectedDayOfYear;
+    BarChartData? selectedDayOfYearData;
 
     int maxWeekIndex = 52;
     int minWeekIndex = 0;
@@ -195,15 +305,15 @@
 
     string activeTabTitle = "Day";
 
-    private Dictionary<int, List<BarChartData>> dataDaily = new();
 
     BarChartOptions options = new BarChartOptions();
     BarChartOptions optionsWeek = new BarChartOptions();
 
+
     void ChangeYear(int year)
     {
-        var f = dataDaily[year].First().D.DayOfYearLocalDate(year);
-        var l = dataDaily[year].Last().D.DayOfYearLocalDate(year);
+        var f = dataService.Data[year].First().D.DayOfYearLocalDate(year);
+        var l = dataService.Data[year].Last().D.DayOfYearLocalDate(year);
 
         minDate = f.ToDateOnly();
         maxDate = l.ToDateOnly();
@@ -211,7 +321,9 @@
         selectedYearIndex = year - years.First();
         selectedMonthIndex = 0;
         selectedWeekIndex = 0;
-        selectedDayOfYear = dataDaily[year].First().D;
+        selectedDayOfYear = dataService.Data[year].First().D;
+        selectedDayOfYearData = dataService.Data[years[selectedYearIndex]].Where(a => a.D == selectedDayOfYear).FirstOrDefault();
+
 
         var lweek = WeekYearRules.Iso.GetWeekOfWeekYear(l);
         var fweek = WeekYearRules.Iso.GetWeekOfWeekYear(f);
@@ -225,11 +337,35 @@
         minMonthIndex = 0;
         maxMonthIndex = months.Count - 1;
 
-        // currentDate = dataDaily[year].Last().D.DayOfYearLocalDate(year).ToDateOnly();
+        // currentDate = dataService.Data[year].Last().D.DayOfYearLocalDate(year).ToDateOnly();
     }
 
-    protected override void OnInitialized()
+    private async Task CheckData()
     {
+        if (dataService.Data == null)
+        {
+            try
+            {
+                PreloadService.Show();
+
+                await dataService.LoadDataAsync();
+            }
+            catch
+            {
+                // handle exception
+            }
+            finally
+            {
+                PreloadService.Hide();
+            }
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        await CheckData();
+
         years = new List<int> { 2023, zonedDateTimeBrussels.Year };
 
         minDate = DateOnly.FromDateTime(new DateTime(years.First(), 1, 1));
@@ -240,6 +376,7 @@
         selectedMonthIndex = zonedDateTimeBrussels.Month - 1;
         selectedWeekIndex = WeekYearRules.Iso.GetWeekOfWeekYear(zonedDateTimeBrussels.Date) - 1;
         selectedDayOfYear = zonedDateTimeBrussels.DayOfYear;
+        selectedDayOfYearData = dataService.Data[years[selectedYearIndex]].Where(a => a.D == selectedDayOfYear).FirstOrDefault();
 
         minWeekIndex = 0;
         maxWeekIndex = WeekYearRules.Iso.GetWeekOfWeekYear(maxDate.ToLocalDate()) - 1;
@@ -252,17 +389,16 @@
 
         currentDate = zonedDateTimeBrussels.Date.ToDateOnly();
 
+        // dataService.Data = Data.GetDailyDataAsync(zonedDateTimeBrussels.TickOfSecond).ConfigureAwait(false).GetAwaiter().GetResult(); //Http.GetFromJsonAsync<Dictionary<int, List<BarChartData>>>($"Data/data.json?v{zonedDateTimeBrussels.TickOfSecond}").Result;
+
         base.OnInitialized();
     }
 
     protected override async Task OnAfterRenderAsync(bool first)
     {
-        if (!dataDaily.Any())
-        {
-            dataDaily = await Http.GetFromJsonAsync<Dictionary<int, List<BarChartData>>>($"Data/data.json?v{zonedDateTimeBrussels.TickOfSecond}");
-        }
+        await CheckData();
 
-        if (first)
+        if (first && dataService.Data!.Count > 0)
         {
             await RenderSolarPanelsAllAsync(first);
             await RenderSolarPanelsYearAsync(selectedYearIndex, first);
@@ -277,6 +413,7 @@
 
     private async Task SolarPanelsAsync(List<string> labels, List<double> production, List<double> usage, List<double> injection, string title, bool init, BarChart barChart, string xTitle = "Months")
     {
+        Console.WriteLine($"SolarPanelsAsync({labels.Count}, {production.Count}, {usage.Count}, {injection.Count}, {title}, {init}, {barChart.ElementId}, {xTitle})");
         var data = new ChartData
             {
                 Labels = labels,
@@ -345,36 +482,30 @@
 
     private async Task RenderSolarPanelsAllAsync(bool init)
     {
-        if (!dataDaily.Any())
-            return;
-
         titleAll = $"Solar Panels ({years.First()} - {years.Last()})";
 
         await SolarPanelsAsync(
-            dataDaily.Keys.Select(s => s.ToString()).ToList(),
-            dataDaily.Select(s => s.Value.Sum(ss => ss.P)).ToList(),
-            dataDaily.Select(s => s.Value.Sum(ss => ss.U)).ToList(),
-            dataDaily.Select(s => s.Value.Sum(ss => ss.I) / 1000).ToList(),
+            dataService.Data.Keys.Select(s => s.ToString()).ToList(),
+            dataService.Data.Select(s => s.Value.Sum(ss => ss.P)).ToList(),
+            dataService.Data.Select(s => s.Value.Sum(ss => ss.U)).ToList(),
+            dataService.Data.Select(s => s.Value.Sum(ss => ss.I) / 1000).ToList(),
             titleAll, init, barChartAll!, "Year"
         );
 
-        totals["All"] = new TotalData(dataDaily.SelectMany(sm => sm.Value.Select(s => s.P)).Sum(),
-                                        dataDaily.SelectMany(sm => sm.Value.Select(s => s.I)).Sum() / 1000,
-                                        dataDaily.SelectMany(sm => sm.Value.Select(s => s.U)).Sum(), (dataDaily.SelectMany(sm => sm.Value.Select(s => s.P)).Sum() + dataDaily.SelectMany(sm => sm.Value.Select(s => s.U)).Sum() - dataDaily.SelectMany(sm => sm.Value.Select(s => s.I)).Sum() / 1000));
+        totals["All"] = new TotalData(dataService.Data.SelectMany(sm => sm.Value.Select(s => s.P)).Sum(),
+                                        dataService.Data.SelectMany(sm => sm.Value.Select(s => s.I)).Sum() / 1000,
+                                        dataService.Data.SelectMany(sm => sm.Value.Select(s => s.U)).Sum(), (dataService.Data.SelectMany(sm => sm.Value.Select(s => s.P)).Sum() + dataService.Data.SelectMany(sm => sm.Value.Select(s => s.U)).Sum() - dataService.Data.SelectMany(sm => sm.Value.Select(s => s.I)).Sum() / 1000));
 
         await InvokeAsync(() => StateHasChanged());
     }
 
     private async Task RenderSolarPanelsYearAsync(int yearIndex, bool init)
     {
-        if (!dataDaily.Any())
-            return;
-
         var selectedYear = years[yearIndex];
 
         titleYear = $"Solar Panels ({selectedYear})";
 
-        var data = dataDaily[selectedYear]
+        var data = dataService.Data[selectedYear]
             .GroupBy(data => data.D.DayOfYearLocalDate(selectedYear).Month)
             .ToList();
 
@@ -395,15 +526,12 @@
 
     private async Task RenderSolarPanelsMonthAsync(int yearIndex, int monthIndex, bool init)
     {
-        if (!dataDaily.Any())
-            return;
-
         var selectedYear = years[yearIndex];
         var selectedMonth = months[monthIndex];
 
         titleMonth = $"Solar Panels ({selectedMonth}/{selectedYear})";
 
-        var data = dataDaily[selectedYear].Where(a => a.D.DayOfYearLocalDate(selectedYear).Month == selectedMonth).ToList();
+        var data = dataService.Data[selectedYear].Where(a => a.D.DayOfYearLocalDate(selectedYear).Month == selectedMonth).ToList();
 
         await SolarPanelsAsync(
             data.Select(s => s.D.DayOfYearLocalDate(selectedYear).ToString("d/M", null)).ToList(),
@@ -422,14 +550,11 @@
 
     private async Task RenderSolarPanelsWeekAsync(int yearIndex, int weekIndex, bool init)
     {
-        if (!dataDaily.Any())
-            return;
-
         var selectedYear = years[yearIndex];
         var selectedWeek = weeks[weekIndex];
         titleWeek = $"Solar Panels ({selectedYear}/{selectedWeek})";
 
-        var data = dataDaily[selectedYear].Where(a => WeekYearRules.Iso.GetWeekOfWeekYear(a.D.DayOfYearLocalDate(selectedYear)) == selectedWeek).ToList();
+        var data = dataService.Data[selectedYear].Where(a => WeekYearRules.Iso.GetWeekOfWeekYear(a.D.DayOfYearLocalDate(selectedYear)) == selectedWeek).ToList();
 
         await SolarPanelsAsync(
             data.Select(s => s.D.DayOfYearLocalDate(selectedYear).ToString("d/M", null)).ToList(),
@@ -448,14 +573,11 @@
 
     private async Task RenderSolarPanelsDayAsync(int yearIndex, int day, bool init)
     {
-        if (!dataDaily.Any())
-            return;
-
         var selectedYear = years[yearIndex];
 
         titleDay = $"Solar Panels ({DateOnly.FromDateTime(new DateTime(selectedYear, 1, 1).AddDays(day - 1)).ToString("yyyy/MM/dd")})";
 
-        var data = dataDaily[selectedYear].Where(a => a.D == day).ToList();
+        var data = dataService.Data[selectedYear].Where(a => a.D == day).ToList();
 
         await SolarPanelsAsync(
             data.Select(s => s.D.DayOfYearLocalDate(selectedYear).ToString("d/M", null)).ToList(),
@@ -524,10 +646,11 @@
         currentDate = dateOnly;
         selectedYearIndex = currentDate.Year - years.First();
         selectedDayOfYear = currentDate.DayOfYear;
-        RenderSolarPanelsDayAsync(selectedYearIndex, selectedDayOfYear, false); // .GetAwaiter().GetResult();
+        selectedDayOfYearData = dataService.Data[years[selectedYearIndex]].Where(a => a.D == selectedDayOfYear).FirstOrDefault();
+        RenderSolarPanelsDayAsync(selectedYearIndex, selectedDayOfYear, false);
     }
 
-    private void DecreaseDate()
+    private async Task DecreaseDate()
     {
         if (activeTabTitle == "Day")
         {
@@ -539,11 +662,11 @@
             {
                 selectedYearIndex -= 1;
                 ChangeYear(years[selectedYearIndex]);
-                YearChangedAsync(selectedYearIndex); // .GetAwaiter().GetResult();
+                await YearChangedAsync(selectedYearIndex);
             }
         }
     }
-    private void IncreaseDate()
+    private async Task IncreaseDate()
     {
 
         if (activeTabTitle == "Day")
@@ -556,19 +679,8 @@
             {
                 selectedYearIndex += 1;
                 ChangeYear(years[selectedYearIndex]);
-                YearChangedAsync(selectedYearIndex); // .GetAwaiter().GetResult();
+                await YearChangedAsync(selectedYearIndex);
             }
         }
-    }
-
-    private Modal modal = default!;
-
-    private async Task ShowAnomalies()
-    {
-        var d = dataDaily.SelectMany(sm => sm.Value.Where(w => w.AS.A).Select(s => new AnomalyModalData(sm.Key, s.D, s.AS))).ToList();
-
-        var parameters = new Dictionary<string, object>();
-        parameters.Add("data", d);
-        await modal.ShowAsync<Anomaly>(title: "Anomaly Details", parameters: parameters);
     }
 }

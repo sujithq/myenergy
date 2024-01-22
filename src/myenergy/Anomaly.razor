@@ -1,46 +1,69 @@
-﻿<h3>Anomaly</h3>
+﻿@inject IDataService dataService
 
-<Grid TItem="AnomalyModalData"
-      Class="table table-hover table-bordered table-striped"
-      DataProvider="EmployeesDataProvider"
-      AllowFiltering="true"
-      AllowPaging="true"
-      PageSize="5"
-      AllowSorting="true"
-      AllowSelection="false"
-      SelectionMode="GridSelectionMode.Multiple"
-      Responsive="true">
-    <GridColumn TItem="AnomalyModalData" HeaderText="Y" PropertyName="Id" SortKeySelector="item => item.Y">
-        @context.Y
-    </GridColumn>
-    <GridColumn TItem="AnomalyModalData" HeaderText="D" PropertyName="Id" SortKeySelector="item => item.D">
-        @context.D.DayOfYearLocalDate(context.Y).ToString("yyyy-MM-dd", null)
-    </GridColumn>
-    <GridColumn TItem="AnomalyModalData" HeaderText="P" PropertyName="Id" SortKeySelector="item => item.A.P" TextAlignment="Alignment.End">
-        @(context.A.P.ToString("F2") == "0.00" ? "N/A" : context.A.P.ToString("F2"))
-    </GridColumn>
-    <GridColumn TItem="AnomalyModalData" HeaderText="U" PropertyName="Id" SortKeySelector="item => item.A.U" TextAlignment="Alignment.End">
-        @(context.A.U.ToString("F2") == "0.00" ? "N/A" : context.A.U.ToString("F2"))
-    </GridColumn>
-    <GridColumn TItem="AnomalyModalData" HeaderText="I" PropertyName="Id" SortKeySelector="item => item.A.I" TextAlignment="Alignment.End">
-        @(context.A.I.ToString("F2") == "0.00" ? "N/A" : context.A.I.ToString("F2"))
-    </GridColumn>
-</Grid>
+@if (dataService.Data != null && dataService.Data.Count > 0)
+{
+    <Grid TItem="AnomalyModalData"
+          Class="table table-hover table-bordered table-striped"
+          DataProvider="EmployeesDataProvider"
+          AllowFiltering="true"
+          AllowPaging="true"
+          PageSize="5"
+          AllowSorting="true"
+          AllowSelection="false"
+          SelectionMode="GridSelectionMode.Multiple"
+          Responsive="true">
+        <GridColumn TItem="AnomalyModalData" HeaderText="Y" PropertyName="Id" SortKeySelector="item => item.Y">
+            @context.Y
+        </GridColumn>
+        <GridColumn TItem="AnomalyModalData" HeaderText="D" PropertyName="Id" SortKeySelector="item => item.D">
+            @context.D.DayOfYearLocalDate(context.Y).ToString("yyyy-MM-dd", null)
+        </GridColumn>
+        <GridColumn TItem="AnomalyModalData" HeaderText="P" PropertyName="Id" SortKeySelector="item => item.A.P" TextAlignment="Alignment.End">
+            @(context.A.P.ToString("F2") == "0.00" ? "N/A" : context.A.P.ToString("F2"))
+        </GridColumn>
+        <GridColumn TItem="AnomalyModalData" HeaderText="U" PropertyName="Id" SortKeySelector="item => item.A.U" TextAlignment="Alignment.End">
+            @(context.A.U.ToString("F2") == "0.00" ? "N/A" : context.A.U.ToString("F2"))
+        </GridColumn>
+        <GridColumn TItem="AnomalyModalData" HeaderText="I" PropertyName="Id" SortKeySelector="item => item.A.I" TextAlignment="Alignment.End">
+            @(context.A.I.ToString("F2") == "0.00" ? "N/A" : context.A.I.ToString("F2"))
+        </GridColumn>
+    </Grid>
+}
+else
+{
+    <p>Loading data...</p>
+}
+
 
 
 @code {
 
-    [Parameter]
-    public List<AnomalyModalData> data { get; set; }
-
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
+        if (dataService.Data == null)
+        {
+            await dataService.LoadDataAsync();
+        }
+    }
 
-        base.OnInitialized();
+    public void Dispose()
+    {
+        dataService.OnDataChanged -= StateHasChanged;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool first)
+    {
+        if (first)
+        {
+            await InvokeAsync(() => StateHasChanged());
+        }
+
+        await base.OnAfterRenderAsync(first);
+
     }
 
     private async Task<GridDataProviderResult<AnomalyModalData>> EmployeesDataProvider(GridDataProviderRequest<AnomalyModalData> request)
     {
-        return request.ApplyTo(data);
+        return request.ApplyTo(dataService.Data.SelectMany(sm => sm.Value.Where(w => w.AS.A).Select(s => new AnomalyModalData(sm.Key, s.D, s.AS))).ToList());
     }
 }
