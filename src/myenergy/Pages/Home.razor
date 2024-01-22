@@ -4,7 +4,7 @@
 @inject IDataService dataService
 @inject PreloadService PreloadService
 
-@* <Modal @ref="modal" /> *@
+
 
 
 @if (dataService.Data != null && dataService.Data.Count > 0)
@@ -28,99 +28,10 @@
                             <Content>
                                 @if (selectedDayOfYearData != default)
                                 {
-                                    <div class="row mb-1">
-                                        <table class="table table-striped">
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <label>The average air temperature in °C</label>
-                                                    </td>
-                                                    <td>
-                                                        <label>@selectedDayOfYearData.MS.tavg</label>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label>The average air temperature in °C</label>
-                                                    </td>
-                                                    <td>
-                                                        <label>@selectedDayOfYearData.MS.tavg</label>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label>The minimum air temperature in °C</label>
-                                                    </td>
-                                                    <td>
-                                                        <label>@selectedDayOfYearData.MS.tmin.ToString("F2")</label>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label>The maximum air temperature in °C</label>
-                                                    </td>
-                                                    <td>
-                                                        <label>@selectedDayOfYearData.MS.tmax.ToString("F2")</label>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label>The daily precipitation total in mm</label>
-                                                    </td>
-                                                    <td>
-                                                        <label>@selectedDayOfYearData.MS.prcp.ToString("F2")</label>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label>The maximum snow depth in mm	</label>
-                                                    </td>
-                                                    <td>
-                                                        <label>@selectedDayOfYearData.MS.snow</label>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label>The average wind direction in degrees (°)</label>
-                                                    </td>
-                                                    <td>
-                                                        <label>@selectedDayOfYearData.MS.wdir</label>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label>The average wind speed in km/h</label>
-                                                    </td>
-                                                    <td>
-                                                        <label>@selectedDayOfYearData.MS.wspd.ToString("F2")</label>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label>The peak wind gust in km/h</label>
-                                                    </td>
-                                                    <td>
-                                                        <label>@selectedDayOfYearData.MS.wpgt.ToString("F2")</label>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label>The average sea-level air pressure in hPa</label>
-                                                    </td>
-                                                    <td>
-                                                        <label>@selectedDayOfYearData.MS.pres.ToString("F2")</label>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label>The daily sunshine total in minutes (m)	</label>
-                                                    </td>
-                                                    <td>
-                                                        <label>@selectedDayOfYearData.MS.tsun</label>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                    <div class="row mb-1 d-none d-sm-block justify-content-center ">
+                                        <div class="col-sm-10 mx-auto">
+                                            <MeteoDay Data="@selectedDayOfYearData.MS" />
+                                        </div>
                                     </div>
                                 }
                                 else
@@ -226,7 +137,9 @@
                                         <BarChart @ref="barChartAll" Class="mb-1 " />
                                     </div>
                                 </div>
-                                
+                                <div class="row justify-content-center mb-1">
+                                    <Totals Data="@totals" Key="All" />
+                                </div>
                             </Content>
                         </Tab>
                         <Tab Title="Anomalies">
@@ -239,9 +152,6 @@
                             </Content>
                         </Tab>
                     </Tabs>
-                    <div class="row justify-content-center mb-1">
-                        <Totals Data="@totals" Key="All" />
-                    </div>
                 </Content>
             </Tab>
         </Tabs>
@@ -258,6 +168,8 @@ else
 
 
 @code {
+    
+
     List<int> years = new List<int> { 2023, 2024 };
     List<int> weeks = Enumerable.Range(1, 53).ToList();
     List<int> months = Enumerable.Range(1, 12).ToList();

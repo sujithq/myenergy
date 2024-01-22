@@ -1,0 +1,102 @@
+<table class="table table-striped">
+    <tbody>
+        <tr>
+            <td>
+                <label>The average air temperature in °C</label>
+            </td>
+            <td class="text-end">
+                <label>@Data?.tavg</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>The average air temperature in °C</label>
+            </td>
+            <td class="text-end">
+                <label>@Data?.tavg</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>The minimum air temperature in °C</label>
+            </td>
+            <td class="text-end">
+                <label>@Data?.tmin.ToString("F2")</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>The maximum air temperature in °C</label>
+            </td>
+            <td class="text-end">
+                <label>@Data?.tmax.ToString("F2")</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>The daily precipitation total in mm</label>
+            </td>
+            <td class="text-end">
+                <label>@Data?.prcp.ToString("F2")</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>The maximum snow depth in mm	</label>
+            </td>
+            <td class="text-end">
+                <label>@Data?.snow</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>The average wind direction in degrees (°)</label>
+            </td>
+            <td class="text-end">
+                <label>@Data?.wdir</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>The average wind speed in km/h</label>
+            </td>
+            <td class="text-end">
+                <label>@Data?.wspd.ToString("F2")</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>The peak wind gust in km/h</label>
+            </td>
+            <td class="text-end">
+                <label>@Data?.wpgt.ToString("F2")</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>The average sea-level air pressure in hPa</label>
+            </td>
+            <td class="text-end">
+                <label>@Data?.pres.ToString("F2")</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>The daily sunshine total in minutes (m)	</label>
+            </td>
+            <td class="text-end">
+                <label>@Data?.tsun</label>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+@code {
+
+    [Parameter] public MeteoStatData? Data { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+}

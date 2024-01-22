@@ -1,4 +1,5 @@
 ﻿@inject IDataService dataService
+<Modal @ref="modal" />
 
 @if (dataService.Data != null && dataService.Data.Count > 0)
 {
@@ -27,6 +28,9 @@
         <GridColumn TItem="AnomalyModalData" HeaderText="I" PropertyName="Id" SortKeySelector="item => item.A.I" TextAlignment="Alignment.End">
             @(context.A.I.ToString("F2") == "0.00" ? "N/A" : context.A.I.ToString("F2"))
         </GridColumn>
+        <GridColumn TItem="AnomalyModalData" HeaderText="I" PropertyName="Id" SortKeySelector="item => item.A.I" TextAlignment="Alignment.End">
+            <Button Color="ButtonColor.Primary" @onclick="((args) => OnClickWithArgs(args, context))" >Show Meteo Data</Button>
+        </GridColumn>
     </Grid>
 }
 else
@@ -37,7 +41,7 @@ else
 
 
 @code {
-
+    
     protected override async Task OnInitializedAsync()
     {
         if (dataService.Data == null)
@@ -66,4 +70,17 @@ else
     {
         return request.ApplyTo(dataService.Data.SelectMany(sm => sm.Value.Where(w => w.AS.A).Select(s => new AnomalyModalData(sm.Key, s.D, s.AS))).ToList());
     }
+
+    Modal modal = default!;
+    async Task OnClickWithArgs(EventArgs args, AnomalyModalData data)
+    {
+
+        var m = dataService.Data[data.Y].First(f => f.D == data.D).MS;
+
+        var parameters = new Dictionary<string, object>();
+        parameters.Add(nameof(MeteoModal.Data), m);
+        await modal.ShowAsync<MeteoModal>(title: "Meteo Details", parameters: parameters);
+
+    }
+
 }
