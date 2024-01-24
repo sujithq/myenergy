@@ -7,7 +7,7 @@ on:
     paths-ignore:
       - 'src/myenergy/wwwroot/Data/data.json'
       - 'src/June.Data/**'
-      
+      - '.github/workflows/**'
 permissions:
   contents: write
 
