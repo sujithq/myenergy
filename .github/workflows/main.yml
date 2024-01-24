@@ -6,7 +6,8 @@ on:
     branches: [ main ]
     paths-ignore:
       - 'src/myenergy/wwwroot/Data/data.json'
-
+      - 'src/June.Data/**'
+      
 permissions:
   contents: write
 
