@@ -1,4 +1,4 @@
-﻿using myenergy.Common.Extensions;
+using myenergy.Common.Extensions;
 using NodaTime;
 using System.Net.Http.Json;
 
@@ -21,7 +21,7 @@ namespace myenergy.Common.Services
         public async Task LoadDataAsync()
         {
             // Fetch data from API
-            Data = (await Http.GetFromJsonAsync<Dictionary<int, List<BarChartData>>>($"Data/data.json?v{zonedDateTimeBrussels.TickOfSecond}"))!;
+            Data = (await Http.GetFromJsonAsync<Dictionary<int, List<BarChartData>>>($"https://raw.githubusercontent.com/sujithq/myenergy/main/src/myenergy/wwwroot/Data/data.json?v{zonedDateTimeBrussels.TickOfSecond}"))!;
 
             // Notify subscribers that data has changed
             OnDataChanged?.Invoke();
