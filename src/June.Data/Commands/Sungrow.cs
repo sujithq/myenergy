@@ -92,7 +92,7 @@ namespace Sungrow.Data.Commands
 
                             var idx = value.FindIndex(f => f.D == item.D);
                             var d = value[idx];
-                            value[idx] = new BarChartData(d.D, production, d.U, d.I, d.J, item.Item4 == currentDateInBelgium.Date ? false : true, d.MS, d.M, new AnomalyData(0, 0, 0, false), new QuarterData([], [], []));
+                            value[idx] = new BarChartData(d.D, production, d.U, d.I, d.J, item.Item4 == currentDateInBelgium.Date ? false : true, d.MS, d.M, d.AS, d.Q);
                         }
                     }
                     else

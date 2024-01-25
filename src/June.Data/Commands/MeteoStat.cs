@@ -163,7 +163,7 @@ namespace MeteoStat.Data.Commands
 
                         var idx = value.FindIndex(f => f.D == item.D);
                         var d = value[idx];
-                        value[idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, msd, item.Item3 == currentDateInBelgium.Date ? false : true, new AnomalyData(0, 0, 0, false), new QuarterData([], [], []));
+                        value[idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, msd, item.Item3 == currentDateInBelgium.Date ? false : true, d.AS, d.Q);
 
                     }
                 }
