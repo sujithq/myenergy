@@ -69,22 +69,9 @@ namespace June.Data.Commands
         {
             var dataPath = Path.Combine(AppContext.BaseDirectory, "Data/data.json");
 
-            var startDay = 13;
-            var endDay = 365;
-
             Alert($"Reading from {dataPath}", "Info", ConsoleColor.Green);
 
             var data = JsonSerializer.Deserialize<Dictionary<int, List<BarChartData>>>(File.ReadAllTextAsync(dataPath).GetAwaiter().GetResult());
-
-            for (int i = startDay; i < endDay + 1; i++)
-            {
-                var value = data![2023];
-                if (value.FindIndex(f => f.D == i) == -1)
-                {
-                    value.Add(new BarChartData(i, 0, 0, 0, false, false, new MeteoStatData(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), false, new AnomalyData(0, 0, 0, false)));
-                }
-            }
-
 
             var currentDateInBelgium = MyExtensions.BelgiumTime();
             var currentDateInBelgiumString = currentDateInBelgium.ToString("yyyyMMdd", null);
