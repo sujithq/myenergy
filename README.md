@@ -18,14 +18,14 @@ I always had to check June Energy and ISolarCloud app to see how much energy I h
 ### Sungrow Data Refresh Scheduled
 [![Sungrow Data Refresh Scheduled](https://github.com/sujithq/myenergy/actions/workflows/SungrowData.yml/badge.svg?branch=main&event=schedule)](https://github.com/sujithq/myenergy/actions/workflows/SungrowData.yml)
 
-### June Data Refresh Dispatched
+### Sungrow Data Refresh Dispatched
 [![June Data Refres Dispatched](https://github.com/sujithq/myenergy/actions/workflows/SungrowData.yml/badge.svg?branch=main&event=workflow_dispatch)](https://github.com/sujithq/myenergy/actions/workflows/SungrowData.yml)
 
 
 ### MeteoStat Data Refresh Scheduled
 [![MeteoStat Data Refresh Scheduled](https://github.com/sujithq/myenergy/actions/workflows/MeteoStatData.yml/badge.svg?branch=main&event=schedule)](https://github.com/sujithq/myenergy/actions/workflows/MeteoStatData.yml)
 
-### June Data Refresh Dispatched
+### MeteoStat Data Refresh Dispatched
 [![MeteoStat Data Refres Dispatched](https://github.com/sujithq/myenergy/actions/workflows/MeteoStatData.yml/badge.svg?branch=main&event=workflow_dispatch)](https://github.com/sujithq/myenergy/actions/workflows/MeteoStatData.yml)
 
 ## Deployment
