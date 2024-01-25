@@ -1,4 +1,4 @@
-name: June Data
+name: Sungrow Data
 
 # Run workflow every day at 4:00 AM UTC or run manually
 on:
