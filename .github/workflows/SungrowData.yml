@@ -12,7 +12,7 @@ permissions:
 
 env:
   GLOBAL_DOTNET_VERSION: '8.0.x'
-  GLOBAL_COMMAND: 'June'
+  GLOBAL_COMMAND: 'Sungrow'
 
 jobs:
   Run-June-Data:
@@ -51,23 +51,23 @@ jobs:
         ls -la ./src/June.Data/bin/Release/net8.0/Data/data.json
       env:
         NETCORE_ENVIRONMENT: Production
-        JUNE_CLIENT_ID: ${{ secrets.JUNE_CLIENT_ID }}
-        JUNE_CLIENT_SECRET: ${{ secrets.JUNE_CLIENT_SECRET }}
-        JUNE_PASSWORD: ${{ secrets.JUNE_PASSWORD }}
-        JUNE_CONTRACT: ${{ secrets.JUNE_CONTRACT }}
+        # JUNE_CLIENT_ID: ${{ secrets.JUNE_CLIENT_ID }}
+        # JUNE_CLIENT_SECRET: ${{ secrets.JUNE_CLIENT_SECRET }}
+        # JUNE_PASSWORD: ${{ secrets.JUNE_PASSWORD }}
+        # JUNE_CONTRACT: ${{ secrets.JUNE_CONTRACT }}
         SUNGROW_ACCESS_KEY: ${{ secrets.SUNGROW_ACCESS_KEY }}
         SUNGROW_APP_KEY: ${{ secrets.SUNGROW_APP_KEY }} 
         SUNGROW_APP_RSA_PUBLIC_KEY: ${{ secrets.SUNGROW_APP_RSA_PUBLIC_KEY }}
         SUNGROW_PASSWORD: ${{ secrets.SUNGROW_PASSWORD }}
         SUNGROW_PS_ID: ${{ secrets.SUNGROW_PS_ID }}
-        METEOSTAT_KEY: ${{ secrets.METEOSTAT_KEY }}
-        METEOSTAT_LAT: ${{ secrets.METEOSTAT_LAT }}
-        METEOSTAT_LON: ${{ secrets.METEOSTAT_LON }}
+        # METEOSTAT_KEY: ${{ secrets.METEOSTAT_KEY }}
+        # METEOSTAT_LAT: ${{ secrets.METEOSTAT_LAT }}
+        # METEOSTAT_LON: ${{ secrets.METEOSTAT_LON }}
 
-    - name: Before Run Actions
+    - name: After Run Actions
       uses: sujithq/myenergy/.github/actions/after-run-actions@main
       with:
-        command: 'June'
+        command: ${{ env.GLOBAL_COMMAND }}
 
     # - name: Copy data file
     #   run: |

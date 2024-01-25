@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Headers;
+﻿using Microsoft.Extensions.Options;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 
@@ -6,13 +7,10 @@ namespace June.Data
 {
 
 
-    internal class JuneScraper : IScraper
+    internal class JuneScraper(IOptions<JuneSettings> settings) : IScraper
     {
-        private readonly JuneSettings settings;
-        public JuneScraper(JuneSettings settings)
-        {
-            this.settings = settings;
-        }
+        private readonly JuneSettings settings = settings.Value;
+
         public async Task<JsonDocument?> LoginAsync()
         {
 
