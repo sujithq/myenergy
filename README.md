@@ -9,11 +9,24 @@ It is also ingesting data from [MeteoStat](https://meteostat.net/) to show the w
 I always had to check June Energy and ISolarCloud app to see how much energy I have used and generated. I also had to check the weather app to see if there are anomalies. I wanted to see all this information in one place. So I created this app.
 
 ## Data
-### Data Refresh Scheduled
-[![Data Refresh Scheduled](https://github.com/sujithq/myenergy/actions/workflows/JuneData.yml/badge.svg?branch=main&event=schedule)](https://github.com/sujithq/myenergy/actions/workflows/JuneData.yml)
+### June Data Refresh Scheduled
+[![June Data Refresh Scheduled](https://github.com/sujithq/myenergy/actions/workflows/JuneData.yml/badge.svg?branch=main&event=schedule)](https://github.com/sujithq/myenergy/actions/workflows/JuneData.yml)
 
-### Data Refresh Dispatched
-[![Data Refres Dispatched](https://github.com/sujithq/myenergy/actions/workflows/JuneData.yml/badge.svg?branch=main&event=workflow_dispatch)](https://github.com/sujithq/myenergy/actions/workflows/JuneData.yml)
+### June Data Refresh Dispatched
+[![June Data Refres Dispatched](https://github.com/sujithq/myenergy/actions/workflows/JuneData.yml/badge.svg?branch=main&event=workflow_dispatch)](https://github.com/sujithq/myenergy/actions/workflows/JuneData.yml)
+
+### Sungrow Data Refresh Scheduled
+[![Sungrow Data Refresh Scheduled](https://github.com/sujithq/myenergy/actions/workflows/SungrowData.yml/badge.svg?branch=main&event=schedule)](https://github.com/sujithq/myenergy/actions/workflows/SungrowData.yml)
+
+### June Data Refresh Dispatched
+[![June Data Refres Dispatched](https://github.com/sujithq/myenergy/actions/workflows/SungrowData.yml/badge.svg?branch=main&event=workflow_dispatch)](https://github.com/sujithq/myenergy/actions/workflows/SungrowData.yml)
+
+
+### MeteoStat Data Refresh Scheduled
+[![MeteoStat Data Refresh Scheduled](https://github.com/sujithq/myenergy/actions/workflows/MeteoStatData.yml/badge.svg?branch=main&event=schedule)](https://github.com/sujithq/myenergy/actions/workflows/MeteoStatData.yml)
+
+### June Data Refresh Dispatched
+[![MeteoStat Data Refres Dispatched](https://github.com/sujithq/myenergy/actions/workflows/MeteoStatData.yml/badge.svg?branch=main&event=workflow_dispatch)](https://github.com/sujithq/myenergy/actions/workflows/MeteoStatData.yml)
 
 ## Deployment
 ### Pages Deployment

@@ -49,7 +49,7 @@ namespace June.Data
                 {
                     add.AddCommand<SungrowRunCommand>("run");
                 });
-                config.AddBranch<BaseCommandSettings>("Meteostat", add =>
+                config.AddBranch<BaseCommandSettings>("MeteoStat", add =>
                 {
                     add.AddCommand<MeteoStatRunCommand>("run");
                 });
