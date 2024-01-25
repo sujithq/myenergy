@@ -16,10 +16,10 @@ namespace Sungrow.Data.Commands
 {
     public class SungrowRunSettings : BaseCommandSettings
     {
-        
+
     }
 
-    
+
     public class SungrowRunCommand : BaseRunCommand<SungrowRunSettings, SungrowSettings>
     {
         public SungrowRunCommand(IOptions<SungrowSettings> settings, IScraper scraper) : base(settings)
@@ -76,7 +76,8 @@ namespace Sungrow.Data.Commands
                         }
                         else
                         {
-                            _ = double.TryParse(result_data.GetProperty("day_data").GetProperty("p83077_map_virgin").GetProperty("value").GetString()!, out var production);
+                            var dd = result_data.GetProperty("day_data");
+                            _ = double.TryParse(dd.GetProperty("p83077_map_virgin").GetProperty("value").GetString()!, out var production);
 
                             production /= 1000;
 
@@ -87,12 +88,26 @@ namespace Sungrow.Data.Commands
                             }
                             if (value.FindIndex(f => f.D == item.D) == -1)
                             {
-                                value.Add(new BarChartData(item.D, 0, 0, 0, false, false, new MeteoStatData(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), false, new AnomalyData(0, 0, 0, false), new QuarterData([], [], [])));
+                                value.Add(new BarChartData(item.D, 0, 0, 0, false, false, new MeteoStatData(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), false, new AnomalyData(0, 0, 0, false), new QuarterData([], [], [], [])));
                             }
 
                             var idx = value.FindIndex(f => f.D == item.D);
                             var d = value[idx];
-                            value[idx] = new BarChartData(d.D, production, d.U, d.I, d.J, item.Item4 == currentDateInBelgium.Date ? false : true, d.MS, d.M, d.AS, d.Q);
+
+                            var d15l = dd.GetProperty("point_data_15_list");
+
+                            List<Coordinates> P = [];
+
+                            foreach (JsonElement it in d15l.EnumerateArray())
+                            {
+                                string name = it.GetProperty("time_stamp").GetString()!;
+                                double val = int.Parse(it.GetProperty("p83076").GetString()!) / 1000.0;
+                                P.Add(new Coordinates(name, val));
+                            }
+
+                            var newQ = new QuarterData(d.Q.C, d.Q.I, d.Q.G, P);
+
+                            value[idx] = new BarChartData(d.D, production, d.U, d.I, d.J, item.Item4 == currentDateInBelgium.Date ? false : true, d.MS, d.M, d.AS, newQ);
                         }
                     }
                     else

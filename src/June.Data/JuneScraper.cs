@@ -161,7 +161,7 @@ namespace June.Data
                                        .Select(p => new Coordinates(p.X, p.Y ?? 0))
                                        .ToList();
 
-            return new QuarterData(consumption, injection, []);
+            return new QuarterData(consumption, injection, [], []);
         }
     }
 

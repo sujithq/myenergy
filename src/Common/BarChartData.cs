@@ -6,6 +6,6 @@
 
     public record AnomalyModalData(int Y, int D, AnomalyData A);
 
-    public record QuarterData(List<Coordinates> C, List<Coordinates> I, List<Coordinates> G);
+    public record QuarterData(List<Coordinates> C, List<Coordinates> I, List<Coordinates> G, List<Coordinates> P);
     public record Coordinates(string x, double y);
 }
