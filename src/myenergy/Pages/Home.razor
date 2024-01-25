@@ -227,8 +227,8 @@ else
         var f = dataService.Data[year].First().D.DayOfYearLocalDate(year);
         var l = dataService.Data[year].Last().D.DayOfYearLocalDate(year);
 
-        minDate = f.ToDateOnly();
-        maxDate = l.ToDateOnly();
+        // minDate = f.ToDateOnly();
+        // maxDate = l.ToDateOnly();
 
         selectedYearIndex = year - years.First();
         selectedMonthIndex = 0;
@@ -280,7 +280,7 @@ else
 
         years = new List<int> { 2023, zonedDateTimeBrussels.Year };
 
-        minDate = DateOnly.FromDateTime(new DateTime(years.First(), 1, 1));
+        minDate = DateOnly.FromDateTime(new DateTime(years.First(), 1, 13));
         maxDate = zonedDateTimeBrussels.Date.ToDateOnly();
 
 
@@ -325,7 +325,6 @@ else
 
     private async Task SolarPanelsAsync(List<string> labels, List<double> production, List<double> usage, List<double> injection, string title, bool init, BarChart barChart, string xTitle = "Months")
     {
-        Console.WriteLine($"SolarPanelsAsync({labels.Count}, {production.Count}, {usage.Count}, {injection.Count}, {title}, {init}, {barChart.ElementId}, {xTitle})");
         var data = new ChartData
             {
                 Labels = labels,
