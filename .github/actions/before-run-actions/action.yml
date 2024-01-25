@@ -1,7 +1,7 @@
 name: Before Run Actions
 description: ''
 inputs:
-    dotnet-version:
+    DOTNET-VERSION:
         description: 'The version of the .NET Core SDK to use. Supported values are 8.0.x. The latest patch version of each minor version is used if the patch version is omitted.'
         required: true
         default: '8.0.x'
@@ -15,7 +15,7 @@ runs:
     - name: Setup .NET Core SDK
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: ${{ inputs.dotnet-version }}
+        dotnet-version: ${{ inputs.DOTNET-VERSION }}
     # Copy data file
     - name: Copy data file
       shell: bash

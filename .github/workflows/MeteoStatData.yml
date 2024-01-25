@@ -65,7 +65,9 @@ jobs:
     - name: After Run Actions
       uses: sujithq/myenergy/.github/actions/after-run-actions@main
       with:
-        command: ${{ env.GLOBAL_COMMAND }}
+        COMMAND: ${{ env.GLOBAL_COMMAND }}
+        APP_ID: ${{ secrets.APP_ID }}
+        PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
 
     # - name: Copy data file
     #   run: |

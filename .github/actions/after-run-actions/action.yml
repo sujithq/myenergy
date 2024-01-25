@@ -1,8 +1,14 @@
 name: After Run Actions
 description: 'After Run Steps: Copy Data, Generate Token, Commit Data'
 inputs:
-    command:
-        description: 'The command.'
+    COMMAND:
+        description: 'COMMAND'
+        required: true
+    APP_ID:
+        description: 'APP_ID'
+        required: true
+    PRIVATE_KEY:
+        description: 'PRIVATE_KEY'
         required: true
 runs:
     using: composite
@@ -23,8 +29,8 @@ runs:
       id: generate_token
       uses: actions/create-github-app-token@v1
       with:
-        app-id: ${{ secrets.APP_ID }}
-        private-key: ${{ secrets.PRIVATE_KEY }}
+        app-id: ${{ inputs.APP_ID }}
+        private-key: ${{ inputs.PRIVATE_KEY }}
     - name: Commit Data File
       shell: bash
       run: |
@@ -47,7 +53,7 @@ runs:
             echo "No changes to the output on this push."
         else
             git add ./src/June.Data/Data/data.json
-            git commit -m "📊 Add update data file for ${{ command }}."
+            git commit -m "📊 Add update data file for ${{ inputs.COMMAND }}."
             git push origin main
         fi
       env:
