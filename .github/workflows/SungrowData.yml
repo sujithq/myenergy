@@ -2,8 +2,8 @@ name: Sungrow Data
 
 # Run workflow every day at 4:00 AM UTC or run manually
 on:
-  # schedule:
-  #   - cron: "0 5-23 * * *" # Runs every hour
+  schedule:
+    - cron: "15 3-21 * * *" # Runs every hour between 5:00 and 23:00 CEST (UTC+2)
 
   workflow_dispatch: # Allows manual triggering as well
 

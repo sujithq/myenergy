@@ -2,9 +2,8 @@ name: MeteoStat Data
 
 # Run workflow every day at 4:00 AM UTC or run manually
 on:
-  # schedule:
-  #   - cron: "0 5-23 * * *" # Runs every hour
-
+  schedule:
+    - cron: "30 0 * * *" # Runs every day at 2:30 CEST (UTC+2)
   workflow_dispatch: # Allows manual triggering as well
 
 permissions:
