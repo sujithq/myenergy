@@ -79,7 +79,7 @@ namespace June.Data.Commands
 
             // For JuneProcessed = false
             var listForJuneProcessed = data!
-                .SelectMany(kvp => kvp.Value.Where(data => !data.J || data.P * 1000 < data.I)
+                .SelectMany(kvp => kvp.Value.Where(data => !data.J || data.P * 1000 < data.I || data.Q.C.Count == 0 || data.Q.I.Count == 0)
                                             .Select(data => (kvp.Key, data.D, data.D.DayOfYearLocalDate(kvp.Key)))
                 .Where(date => date.Item3 <= currentDateInBelgium.Date)
                 .Select(date => (date.Key, date.D, date.Item3.ToString("yyyyMMdd", null), date.Item3)))
@@ -101,7 +101,7 @@ namespace June.Data.Commands
 
                     if (juneData != default)
                     {
-                        Alert($"Process June Data ({item.Item3})", "Info", ConsoleColor.Green);
+                        Alert($"Process June Data ({item.D} => {item.Item3})", "Info", ConsoleColor.Green);
 
                         var consumption = juneData.RootElement.GetProperty("electricity").GetProperty("single").GetProperty("consumption").GetDouble();
                         var injection = juneData.RootElement.GetProperty("electricity").GetProperty("single").GetProperty("injection").GetDouble() * 1000;

@@ -21,7 +21,11 @@ namespace myenergy.Common.Services
         public async Task LoadDataAsync()
         {
             // Fetch data from API
+#if DEBUG
+            Data = (await Http.GetFromJsonAsync<Dictionary<int, List<BarChartData>>>($"Data/data.json?v{zonedDateTimeBrussels.TickOfSecond}"))!;
+#else
             Data = (await Http.GetFromJsonAsync<Dictionary<int, List<BarChartData>>>($"https://raw.githubusercontent.com/sujithq/myenergy/main/src/myenergy/wwwroot/Data/data.json?v{zonedDateTimeBrussels.TickOfSecond}"))!;
+#endif
 
             // Notify subscribers that data has changed
             OnDataChanged?.Invoke();

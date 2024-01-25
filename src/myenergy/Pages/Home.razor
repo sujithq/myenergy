@@ -11,6 +11,39 @@
 {
     <div class="container-fluid mh-100">
         <Tabs EnableFadeEffect="true" OnShown="@(args => OnTabShownAsync(args))">
+            @* <Tab Title="15m">
+                <Content>
+                    <Tabs EnableFadeEffect="true">
+                        <Tab Title="Data">
+                            <Content>
+                                <div class="row mb-1 d-none d-sm-block justify-content-center ">
+                                    <div class="col-sm-10 mx-auto">
+                                        <BarChart @ref="barChart15m" Class="mb-1" />
+                                    </div>
+                                </div>
+                            </Content>
+                        </Tab>
+                    </Tabs>
+
+                    <div class="row justify-content-center mb-1">
+                        <div class="col text-end p-0 d-none d-sm-block">
+                            <Button @ref="saveButton1" Color="ButtonColor.Primary" Size="Size.Small" @onclick="DecreaseDate">
+                                <Icon Name="IconName.CalendarMinus"></Icon>
+                            </Button>
+                        </div>
+
+                        <div class="col-sm-2 text-center p-0">
+                            <DateInput Value="currentDate" ValueExpression="() => currentDate" TValue="DateOnly" EnableMinMax="true" Min="@minDate" Max="@maxDate" Placeholder="Enter Date" ValueChanged="(value) => DayChanged(value)" />
+                        </div>
+
+                        <div class="col text-start p-0 d-none d-sm-block">
+                            <Button @ref="saveButton2" Color="ButtonColor.Success" Size="Size.Small" @onclick="IncreaseDate">
+                                <Icon Name="IconName.CalendarPlus"></Icon>
+                            </Button>
+                        </div>
+                    </div>
+                </Content>
+            </Tab> *@
             <Tab Title="Day" IsActive="true">
                 <Content>
                     <Tabs EnableFadeEffect="true">
@@ -19,6 +52,11 @@
                                 <div class="row mb-1 d-none d-sm-block justify-content-center ">
                                     <div class="col-sm-10 mx-auto">
                                         <BarChart @ref="barChartDay" Class="mb-1" />
+                                    </div>
+                                </div>
+                                <div class="row mb-1 d-none d-sm-block justify-content-center ">
+                                    <div class="col-sm-10 mx-auto">
+                                        <BarChart @ref="barChart15m" Class="mb-1" />
                                     </div>
                                 </div>
                             </Content>
@@ -71,7 +109,7 @@
                             <BarChart @ref="barChartWeek" Class="mb-1" />
                         </div>
                     </div>
-                    
+
                     <div class="row justify-content-center mb-1">
                         <Year Years="@years" OnClickCallback="YearChangedAsync" DecreaseCallback="DecreaseDate" IncreaseCallback="IncreaseDate" Tab="@activeTabTitle" InitialYearIndex="@selectedYearIndex" />
                     </div>
@@ -94,7 +132,7 @@
                             <BarChart @ref="barChartMonth" Class="mb-1" />
                         </div>
                     </div>
-                    
+
                     <div class="row justify-content-center mb-1">
                         <Year Years="@years" OnClickCallback="YearChangedAsync" DecreaseCallback="DecreaseDate" IncreaseCallback="IncreaseDate" Tab="@activeTabTitle" InitialYearIndex="@selectedYearIndex" />
                     </div>
@@ -117,7 +155,7 @@
                             <BarChart @ref="barChartYear" Class="mb-1" />
                         </div>
                     </div>
-                    
+
                     <div class="row justify-content-center mb-1">
                         <Year Years="@years" OnClickCallback="YearChangedAsync" DecreaseCallback="DecreaseDate" IncreaseCallback="IncreaseDate" Tab="@activeTabTitle" InitialYearIndex="@selectedYearIndex" />
                     </div>
@@ -168,12 +206,13 @@ else
 
 
 @code {
-    
+
 
     List<int> years = new List<int> { 2023, 2024 };
     List<int> weeks = Enumerable.Range(1, 53).ToList();
     List<int> months = Enumerable.Range(1, 12).ToList();
     static Dictionary<string, TotalData> totals = new Dictionary<string, TotalData>(){
+        { "15m", new TotalData(0, 0, 0, 0) },
         { "Day", new TotalData(0, 0, 0, 0) },
         { "Week", new TotalData(0, 0, 0, 0) },
         { "Month", new TotalData(0, 0, 0, 0) },
@@ -186,6 +225,7 @@ else
     BarChart? barChartWeek;
     BarChart? barChartDay;
     BarChart? barChartAll;
+    BarChart? barChart15m;
 
     Button? saveButton1;
     Button? saveButton2;
@@ -214,6 +254,7 @@ else
     string titleMonth = "Solar Panels";
     string titleWeek = "Solar Panels";
     string titleDay = "Solar Panels";
+    string title15m = "Solar Panels";
 
     string activeTabTitle = "Day";
 
@@ -317,6 +358,7 @@ else
             await RenderSolarPanelsMonthAsync(selectedYearIndex, selectedMonthIndex, first);
             await RenderSolarPanelsWeekAsync(selectedYearIndex, selectedWeekIndex, first);
             await RenderSolarPanelsDayAsync(selectedYearIndex, zonedDateTimeBrussels.DayOfYear, first);
+            await RenderSolarPanels15mAsync(selectedYearIndex, zonedDateTimeBrussels.DayOfYear, first);
         }
 
         await base.OnAfterRenderAsync(first);
@@ -361,6 +403,56 @@ else
                           .Zip(usage, (previous, last) => previous.first + last - previous.second)
                           .ToList(),
                         BackgroundColor = new List<string> { "rgb(170,240,104)" },
+                        CategoryPercentage = 0.8,
+                        BarPercentage = 1,
+                    }
+                }
+            };
+
+
+        options.Plugins!.Title!.Text = title;
+        options.Scales.X!.Title!.Text = xTitle;
+
+        if (init)
+        {
+            options.Interaction.Mode = InteractionMode.Index;
+            options.Plugins.Title.Display = true;
+            options.Plugins.Title.Font!.Size = 20;
+
+            options.Responsive = true;
+
+            options.Scales.X.Title.Display = true;
+
+            options.Scales.Y!.Title!.Text = "kWh";
+            options.Scales.Y.Title.Display = true;
+
+            await barChart.InitializeAsync(data, options);
+        }
+
+        else
+            await barChart.UpdateAsync(data, options);
+    }
+
+    private async Task SolarPanelsAsync(List<string> labels, List<double> usage, List<double> injection, string title, bool init, BarChart barChart, string xTitle = "15m")
+    {
+        var data = new ChartData
+            {
+                Labels = labels,
+                Datasets = new List<IChartDataset>()
+                {
+                    new BarChartDataset()
+                    {
+                        Label = "Net Injection",
+                        Data = injection,
+                        BackgroundColor = new List<string> { "rgb(243,167,18)" },
+                        CategoryPercentage = 0.8,
+                        BarPercentage = 1,
+                    },
+                    new BarChartDataset()
+                    {
+                        Label = "Net Usage",
+                        Data = usage,
+                        BackgroundColor = new List<string> { "rgb(231,105,149)" },
                         CategoryPercentage = 0.8,
                         BarPercentage = 1,
                     }
@@ -482,6 +574,39 @@ else
         await InvokeAsync(() => StateHasChanged());
     }
 
+    private async Task RenderSolarPanels15mAsync(int yearIndex, int day, bool init)
+    {
+        var selectedYear = years[yearIndex];
+
+        title15m = $"Solar Panels ({DateOnly.FromDateTime(new DateTime(selectedYear, 1, 1).AddDays(day - 1)).ToString("yyyy/MM/dd")})";
+
+        var data = dataService.Data[selectedYear].Where(a => a.D == day).ToList();
+
+        var listWithCommas = Enumerable.Range(0, 24)
+                                       .Select(i => $"{i},,,,")
+                                       .ToList();
+
+        string formattedString = string.Join("", listWithCommas);
+
+        var labels = formattedString.Split(",").ToList();
+        labels.Reverse();
+        labels.RemoveAt(0);
+        labels.Reverse();
+
+        await SolarPanelsAsync(
+            labels,
+            data.SelectMany(s => s.Q.C.Select(c => c.y)).ToList(),
+            data.SelectMany(s => s.Q.I.Select(c => c.y)).ToList(),
+            title15m, init, barChart15m!, "15m"
+        );
+
+        // totals["15m"] = new TotalData(data.Select(s => s.P).Sum(),
+        //                                 data.Select(s => s.I).Sum() / 1000,
+        //                                 data.Select(s => s.U).Sum(), (data.Select(s => s.P).Sum() + data.Select(s => s.U).Sum() - data.Select(s => s.I).Sum() / 1000));
+
+        await InvokeAsync(() => StateHasChanged());
+    }
+
     private async Task RenderSolarPanelsDayAsync(int yearIndex, int day, bool init)
     {
         var selectedYear = years[yearIndex];
@@ -509,6 +634,9 @@ else
     {
         switch (args.ActiveTabTitle)
         {
+            case "15m":
+                await RenderSolarPanels15mAsync(selectedYearIndex, selectedDayOfYear, false);
+                break;
             case "Day":
                 await RenderSolarPanelsDayAsync(selectedYearIndex, selectedDayOfYear, false);
                 break;
@@ -539,13 +667,13 @@ else
         await RenderSolarPanelsMonthAsync(selectedYearIndex, selectedMonthIndex, false);
         await RenderSolarPanelsWeekAsync(selectedYearIndex, selectedWeekIndex, false);
         await RenderSolarPanelsDayAsync(selectedYearIndex, selectedDayOfYear, false);
+        await RenderSolarPanels15mAsync(selectedYearIndex, selectedDayOfYear, false);
     }
 
     private async Task MonthChangedAsync()
     {
         await RenderSolarPanelsMonthAsync(selectedYearIndex, selectedMonthIndex, false);
     }
-
 
     private async Task WeekChangedAsync()
     {
@@ -559,6 +687,7 @@ else
         selectedDayOfYear = currentDate.DayOfYear;
         selectedDayOfYearData = dataService.Data[years[selectedYearIndex]].Where(a => a.D == selectedDayOfYear).FirstOrDefault();
         RenderSolarPanelsDayAsync(selectedYearIndex, selectedDayOfYear, false);
+        RenderSolarPanels15mAsync(selectedYearIndex, selectedDayOfYear, false);
     }
 
     private async Task DecreaseDate()
@@ -577,6 +706,7 @@ else
             }
         }
     }
+
     private async Task IncreaseDate()
     {
 

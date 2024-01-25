@@ -65,7 +65,7 @@ namespace Sungrow.Data.Commands
 
                     if (sungrowData != default)
                     {
-                        Alert($"Process Sungrow Data ({item.Item3})", "Info", ConsoleColor.Green);
+                        Alert($"Process Sungrow Data ({item.D} => {item.Item3})", "Info", ConsoleColor.Green);
 
 
                         var result_data = sungrowData.RootElement.GetProperty("result_data");
