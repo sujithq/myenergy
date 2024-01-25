@@ -5,9 +5,10 @@ on:
   push:
     branches: [ main ]
     paths-ignore:
-      - 'src/myenergy/wwwroot/Data/data.json'
+      - 'src/myenergy/wwwroot/Data/**'
       - 'src/June.Data/**'
       - '.github/workflows/**'
+      - '.github/actions/**'
 permissions:
   contents: write
 

@@ -46,9 +46,7 @@ jobs:
 
     - name: Run ${{ env.GLOBAL_COMMAND }} Data
       run: |
-        ls -la ./src/June.Data/bin/Release/net8.0/Data/data.json
         dotnet run --project src/June.Data -c Release --no-build --no-restore ${{ env.GLOBAL_COMMAND }} run
-        ls -la ./src/June.Data/bin/Release/net8.0/Data/data.json
       env:
         NETCORE_ENVIRONMENT: Production
         # JUNE_CLIENT_ID: ${{ secrets.JUNE_CLIENT_ID }}

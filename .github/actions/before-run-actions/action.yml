@@ -5,8 +5,6 @@ inputs:
         description: 'The version of the .NET Core SDK to use. Supported values are 8.0.x. The latest patch version of each minor version is used if the patch version is omitted.'
         required: true
         default: '8.0.x'
-        # dotnet-version: 8.0.x
-
 runs:
     using: composite
     steps:
@@ -18,15 +16,17 @@ runs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ inputs.dotnet-version }}
+    # Copy data file
     - name: Copy data file
+      shell: bash
       run: |
-          ls -la ./src/June.Data/Data/data.json
-          cp ./src/myenergy/wwwroot/Data/data.json ./src/June.Data/Data/data.json
-            if [ $? -eq 0 ]; then
-                echo "Copy successful."
-            else
-                echo "Copy failed."
-            fi
-          ls -la ./src/June.Data/Data/data.json
-    - name: Build June.Data
+        cp ./src/myenergy/wwwroot/Data/data.json ./src/June.Data/Data/data.json
+        if [ $? -eq 0 ]; then
+            echo "Copy successful."
+        else
+            echo "Copy failed."
+        fi
+    # Build Data
+    - name: Build Data
+      shell: bash
       run: dotnet build src/June.Data -c Release

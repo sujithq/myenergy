@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myenergy", "myenergy\myener
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflow", "Workflow", "{B7DEE70E-0184-46EF-AA83-2D7E8F9106FE}"
 	ProjectSection(SolutionItems) = preProject
-		..\.github\workflows\AfterRun.yml = ..\.github\workflows\AfterRun.yml
-		..\.github\workflows\BeforeRun.yml = ..\.github\workflows\BeforeRun.yml
 		..\.github\workflows\JuneData.yml = ..\.github\workflows\JuneData.yml
 		..\.github\workflows\main.yml = ..\.github\workflows\main.yml
 		..\.github\workflows\MeteoStatData.yml = ..\.github\workflows\MeteoStatData.yml
@@ -19,6 +17,18 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "June.Data", "June.Data\June.Data.csproj", "{6656076A-9291-447E-86C6-A919D98F0F84}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{3CB977BB-BCD6-43E8-8BE0-03C6C1D2480A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Actions", "Actions", "{E53883D5-D09A-4AAF-AF1F-0A0196C869B3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "before-run-actions", "before-run-actions", "{1E8CCC3C-900F-4CDF-9352-B501BDC357B4}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\actions\before-run-actions\action.yml = ..\.github\actions\before-run-actions\action.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "after-run-actions", "after-run-actions", "{D60C82AA-BE52-49BC-8950-521C2DE12DC0}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\actions\after-run-actions\action.yml = ..\.github\actions\after-run-actions\action.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +51,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1E8CCC3C-900F-4CDF-9352-B501BDC357B4} = {E53883D5-D09A-4AAF-AF1F-0A0196C869B3}
+		{D60C82AA-BE52-49BC-8950-521C2DE12DC0} = {E53883D5-D09A-4AAF-AF1F-0A0196C869B3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F71AA69A-AC73-4FEF-851F-35A16A2FDB9C}
