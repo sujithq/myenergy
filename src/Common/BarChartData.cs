@@ -1,8 +1,11 @@
 ﻿namespace myenergy.Common
 {
-    public record BarChartData(int D, double P, double U, double I, bool J, bool S, MeteoStatData MS, bool M, AnomalyData AS);
+    public record BarChartData(int D, double P, double U, double I, bool J, bool S, MeteoStatData MS, bool M, AnomalyData AS, QuarterData Q);
 
     public record AnomalyData(double P, double U, double I, bool A);
 
     public record AnomalyModalData(int Y, int D, AnomalyData A);
+
+    public record QuarterData(List<Coordinates> C, List<Coordinates> I, List<Coordinates> G);
+    public record Coordinates(string x, double y);
 }

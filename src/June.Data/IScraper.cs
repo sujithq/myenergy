@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using myenergy.Common;
+using System.Text.Json;
 
 namespace June.Data
 {
@@ -7,5 +8,11 @@ namespace June.Data
         Task<JsonDocument?> LoginAsync();
         Task<JsonDocument?> GetData(Dictionary<string, string> config, string? date_id);
     }
+
+    public interface IJuneScraper : IScraper
+    {
+        Task<QuarterData?> GetQuarterData(Dictionary<string, string> config, string? date_id);
+    }
+
 
 }

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Microsoft.ML;
 using Spectre.Console;
 using June.Data.Commands.Settings;
+using System.Text.Json.Serialization;
 
 namespace June.Data.Commands
 {
@@ -58,12 +59,12 @@ namespace June.Data.Commands
     }
     public class JuneRunCommand : BaseRunCommand<JuneRunSettings, JuneSettings>
     {
-        public JuneRunCommand(IOptions<JuneSettings> settings, IScraper scraper) : base(settings)
+        public JuneRunCommand(IOptions<JuneSettings> settings, IJuneScraper scraper) : base(settings)
         {
             Scraper = scraper;
         }
 
-        public IScraper Scraper { get; }
+        public IJuneScraper Scraper { get; }
 
         public override int Execute(CommandContext context, JuneRunSettings settings)
         {
@@ -96,6 +97,7 @@ namespace June.Data.Commands
                 foreach (var item in listForJuneProcessed)
                 {
                     var juneData = Scraper.GetData(new Dictionary<string, string>() { { "token", token! } }, item.Item3).GetAwaiter().GetResult();
+                    var q = Scraper.GetQuarterData(new Dictionary<string, string>() { { "token", token! } }, item.Item3).GetAwaiter().GetResult();
 
                     if (juneData != default)
                     {
@@ -111,17 +113,19 @@ namespace June.Data.Commands
                         }
                         if (value.FindIndex(f => f.D == item.D) == -1)
                         {
-                            value.Add(new BarChartData(item.D, 0, 0, 0, false, false, new MeteoStatData(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), false, new AnomalyData(0, 0, 0, false)));
+                            value.Add(new BarChartData(item.D, 0, 0, 0, false, false, new MeteoStatData(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), false, new AnomalyData(0, 0, 0, false), q!));
                         }
 
                         var idx = value.FindIndex(f => f.D == item.D);
                         var d = value[idx];
-                        value[idx] = new BarChartData(d.D, d.P, consumption, injection, item.Item4 == currentDateInBelgium.Date ? false : true, d.S, d.MS, d.M, new AnomalyData(0, 0, 0, false));
+                        value[idx] = new BarChartData(d.D, d.P, consumption, injection, item.Item4 == currentDateInBelgium.Date ? false : true, d.S, d.MS, d.M, new AnomalyData(0, 0, 0, false), q!);
                     }
                     else
                     {
                         Alert("No June Data To Process", "Warning");
                     }
+
+
 
                 }
             }
@@ -237,13 +241,57 @@ namespace June.Data.Commands
                             break;
                     }
 
-                    data[prediction.Y][idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, d.MS, d.M, new(p, u, i, true));
+                    data[prediction.Y][idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, d.MS, d.M, new(p, u, i, true), new QuarterData([], [], []));
                 }
             }
 
             // Output the results
 
         }
+    }
+
+
+
+    public class EnergyData
+    {
+        [JsonPropertyName("contractId")]
+        public string ContractId { get; set; }
+
+        [JsonPropertyName("energyType")]
+        public string EnergyType { get; set; }
+
+        [JsonPropertyName("from")]
+        public string From { get; set; }
+
+        [JsonPropertyName("resolution")]
+        public string Resolution { get; set; }
+
+        [JsonPropertyName("series")]
+        public List<SeriesData> Series { get; set; }
+
+        [JsonPropertyName("to")]
+        public string To { get; set; }
+
+        [JsonPropertyName("usageType")]
+        public string? UsageType { get; set; }
+    }
+
+    public class SeriesData
+    {
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
+
+        [JsonPropertyName("points")]
+        public List<PointData> Points { get; set; }
+    }
+
+    public class PointData
+    {
+        [JsonPropertyName("x")]
+        public string X { get; set; }
+
+        [JsonPropertyName("y")]
+        public double? Y { get; set; }
     }
 
 

@@ -1,13 +1,13 @@
-﻿using Microsoft.Extensions.Options;
+﻿using June.Data.Commands;
+using Microsoft.Extensions.Options;
+using myenergy.Common;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 
 namespace June.Data
 {
-
-
-    internal class JuneScraper(IOptions<JuneSettings> settings) : IScraper
+    internal class JuneScraper(IOptions<JuneSettings> settings) : IJuneScraper
     {
         private readonly JuneSettings settings = settings.Value;
 
@@ -90,6 +90,78 @@ namespace June.Data
                 Console.WriteLine($"{dataResponse.StatusCode}: {await dataResponse.Content.ReadAsStringAsync()}");
             }
             return await Task.FromResult<JsonDocument?>(default);
+        }
+
+        public async Task<QuarterData?> GetQuarterData(Dictionary<string, string> config, string? date_id)
+        {
+            var from = DateOnly.ParseExact(date_id!, "yyyyMMdd").ToString("yyyy-MM-dd");
+            var to = DateOnly.ParseExact(date_id!, "yyyyMMdd").AddDays(1).ToString("yyyy-MM-dd");
+            var valueType = "ENERGY";
+            var token = config["token"];
+
+            // June API endpoints
+            var juneBaseAddress = "https://api.june.energy/";
+            var juneSummaryEndpoint = $"eliq/contract/{settings.contract}/electricity/series/15min?from={from}&to={to}&valueType={valueType}";
+
+            // Create a new HttpClient and set the base address
+            var client = new HttpClient { BaseAddress = new Uri(juneBaseAddress) };
+
+            // Create the request body as JSON
+            string json = JsonSerializer.Serialize(settings);
+
+            // Create the request body as JSON
+            var requestData = new HttpRequestMessage(HttpMethod.Get, juneSummaryEndpoint)
+            {
+                Content = new StringContent(json, Encoding.UTF8, "application/json")
+            };
+
+            // Add the access token to the request header
+            requestData.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            // Send the request to the server and wait for the response
+            var dataResponse = await client.SendAsync(requestData);
+
+            // If the response contains content we want to read it!
+            if (dataResponse.IsSuccessStatusCode)
+            {
+                // Read the response content as a string
+                var dataResponseStringContent = await dataResponse.Content.ReadAsStringAsync();
+
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                EnergyData? data = JsonSerializer.Deserialize<EnergyData>(dataResponseStringContent, options);
+                 return ConvertToQuarterData(data);
+
+                Console.WriteLine("Deserialization successful!");
+
+                return await Task.FromResult<QuarterData?>(default);
+
+            }
+            else
+            {
+                Console.WriteLine($"{dataResponse.StatusCode}: {await dataResponse.Content.ReadAsStringAsync()}");
+            }
+            return await Task.FromResult<QuarterData?>(default);
+        }
+
+        private static QuarterData? ConvertToQuarterData(EnergyData? data)
+        {
+            if (data == null)
+                return default;
+
+            var consumption = data.Series.Where(s => s.Name.StartsWith("electricity-consumption-total"))
+                                         .SelectMany(s => s.Points)
+                                         .Select(p => new Coordinates(p.X, p.Y ?? 0))
+                                         .ToList();
+
+            var injection = data.Series.Where(s => s.Name.StartsWith("electricity-injection-total"))
+                                       .SelectMany(s => s.Points)
+                                       .Select(p => new Coordinates(p.X, p.Y ?? 0))
+                                       .ToList();
+
+            return new QuarterData(consumption, injection, []);
         }
     }
 
