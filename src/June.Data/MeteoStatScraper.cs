@@ -1,15 +1,12 @@
+using Microsoft.Extensions.Options;
 using System.Text.Json;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace June.Data
 {
-    internal class MeteoStatScraper : IScraper
+    internal class MeteoStatScraper(IOptions<MeteoStatSettings> settings) : IScraper
     {
-        private readonly MeteoStatSettings settings;
-        public MeteoStatScraper(MeteoStatSettings settings)
-        {
-            this.settings = settings;
-        }
+        private readonly MeteoStatSettings settings = settings.Value;
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task<JsonDocument?> LoginAsync()
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously

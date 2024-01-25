@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using Microsoft.Extensions.Options;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 
@@ -13,10 +14,10 @@ namespace June.Data
 
         private HttpClient client;
 
-        public SungrowScraper(SungrowSettings settings)
+        public SungrowScraper(IOptions<SungrowSettings> settings)
         {
-            this.settings = settings;
-            this.client = new HttpClient() { BaseAddress = new Uri(settings.gatewayUrl) };
+            this.settings = settings.Value;
+            this.client = new HttpClient() { BaseAddress = new Uri(this.settings.gatewayUrl) };
         }
 
         private async Task<JsonDocument?> GetData(string url, Dictionary<string, object> data, Dictionary<string, string> addtionalHeaders, string randomKey)

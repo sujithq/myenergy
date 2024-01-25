@@ -6646,11 +6646,11 @@
     },
     {
       "D": 24,
-      "P": 0,
+      "P": 8.6,
       "U": 2.642,
       "I": 0,
       "J": false,
-      "S": false,
+      "S": true,
       "MS": {
         "tavg": 11.2,
         "tmin": 8.8,
@@ -6661,6 +6661,33 @@
         "wspd": 31.6,
         "wpgt": 63,
         "pres": 1023.3,
+        "tsun": 0
+      },
+      "M": false,
+      "AS": {
+        "P": 0,
+        "U": 0,
+        "I": 0,
+        "A": false
+      }
+    },
+    {
+      "D": 25,
+      "P": 0,
+      "U": 0,
+      "I": 0,
+      "J": false,
+      "S": false,
+      "MS": {
+        "tavg": 0,
+        "tmin": 0,
+        "tmax": 0,
+        "prcp": 0,
+        "snow": 0,
+        "wdir": 0,
+        "wspd": 0,
+        "wpgt": 0,
+        "pres": 0,
         "tsun": 0
       },
       "M": false,

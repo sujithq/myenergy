@@ -2,7 +2,7 @@
   "profiles": {
     "June.Data": {
       "commandName": "Project",
-      "commandLineArgs": "june run"
+      "commandLineArgs": "June run"
     }
   }
 }
