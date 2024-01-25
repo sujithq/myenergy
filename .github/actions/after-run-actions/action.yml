@@ -43,7 +43,7 @@ runs:
             echo "No changes to the output on this push."
         else
             git add ./src/myenergy/wwwroot/Data/data.json
-            git commit -m "📊 Add update data file."
+            git commit -m "📊 Add update data file for ${{ inputs.COMMAND }}."
             git push origin main
         fi
 

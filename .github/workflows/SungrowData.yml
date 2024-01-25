@@ -22,7 +22,7 @@ jobs:
     - name: Before Run Actions
       uses: sujithq/myenergy/.github/actions/before-run-actions@main
       with:
-        dotnet_version: ${{ env.GLOBAL_DOTNET_VERSION }}
+        DOTNET-VERSION: ${{ env.GLOBAL_DOTNET_VERSION }}
 
     # # uses GitHub's checkout action to checkout code form the master branch
     # - uses: actions/checkout@v4
