@@ -15,7 +15,19 @@ env:
   GLOBAL_COMMAND: 'June'
 
 jobs:
-  Run-June-Data:
+  scan:
+    name: gitleaks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  Run-Data:
+    needs: scan
     # use ubuntu-latest|self-hosted image to run steps on
     runs-on: ubuntu-latest
     steps:
@@ -23,26 +35,6 @@ jobs:
       uses: sujithq/myenergy/.github/actions/before-run-actions@main
       with:
         DOTNET-VERSION: ${{ env.GLOBAL_DOTNET_VERSION }}
-
-    # # uses GitHub's checkout action to checkout code form the master branch
-    # - uses: actions/checkout@v4
-    # # sets up .NET Core SDK 8.0
-    # - name: Setup .NET Core SDK
-    #   uses: actions/setup-dotnet@v4
-    #   with:
-    #     dotnet-version: 8.0.x
-    # - name: Copy data file
-    #   run: |
-    #       ls -la ./src/June.Data/Data/data.json
-    #       cp ./src/myenergy/wwwroot/Data/data.json ./src/June.Data/Data/data.json
-    #         if [ $? -eq 0 ]; then
-    #             echo "Copy successful."
-    #         else
-    #             echo "Copy failed."
-    #         fi
-    #       ls -la ./src/June.Data/Data/data.json
-    # - name: Build June.Data
-    #   run: dotnet build src/June.Data -c Release
 
     - name: Run ${{ env.GLOBAL_COMMAND }} Data
       run: |
@@ -53,14 +45,6 @@ jobs:
         JUNE_CLIENT_SECRET: ${{ secrets.JUNE_CLIENT_SECRET }}
         JUNE_PASSWORD: ${{ secrets.JUNE_PASSWORD }}
         JUNE_CONTRACT: ${{ secrets.JUNE_CONTRACT }}
-        # SUNGROW_ACCESS_KEY: ${{ secrets.SUNGROW_ACCESS_KEY }}
-        # SUNGROW_APP_KEY: ${{ secrets.SUNGROW_APP_KEY }} 
-        # SUNGROW_APP_RSA_PUBLIC_KEY: ${{ secrets.SUNGROW_APP_RSA_PUBLIC_KEY }}
-        # SUNGROW_PASSWORD: ${{ secrets.SUNGROW_PASSWORD }}
-        # SUNGROW_PS_ID: ${{ secrets.SUNGROW_PS_ID }}
-        # METEOSTAT_KEY: ${{ secrets.METEOSTAT_KEY }}
-        # METEOSTAT_LAT: ${{ secrets.METEOSTAT_LAT }}
-        # METEOSTAT_LON: ${{ secrets.METEOSTAT_LON }}
 
     - name: After Run Actions
       uses: sujithq/myenergy/.github/actions/after-run-actions@main
@@ -68,47 +52,3 @@ jobs:
         COMMAND: ${{ env.GLOBAL_COMMAND }}
         APP_ID: ${{ secrets.APP_ID }}
         PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-
-    # - name: Copy data file
-    #   run: |
-    #       ls -la ./src/myenergy/wwwroot/Data/data.json
-    #       cp ./src/June.Data/bin/Release/net8.0/Data/data.json ./src/myenergy/wwwroot/Data/data.json
-    #       cp ./src/June.Data/bin/Release/net8.0/Data/data.json ./src/June.Data/Data/data.json
-    #         if [ $? -eq 0 ]; then
-    #             echo "Copy successful."
-    #         else
-    #             echo "Copy failed."
-    #         fi
-    #       ls -la ./src/myenergy/wwwroot/Data/data.json
-    # - name: Generate a token
-    #   id: generate_token
-    #   uses: actions/create-github-app-token@v1
-    #   with:
-    #     app-id: ${{ secrets.APP_ID }}
-    #     private-key: ${{ secrets.PRIVATE_KEY }}
-    # - name: Commit Data File
-    #   run: |
-    #     git config --global user.name 'Sujith Quintelier'
-    #     git config --global user.email 'sujith.quintelier@gmail.com'
-
-    #     git diff HEAD -- "./src/myenergy/wwwroot/Data/data.json"
-
-    #     if git diff --quiet HEAD -- "./src/myenergy/wwwroot/Data/data.json" ; then
-    #         echo "No changes to the output on this push."
-    #     else
-    #         git add ./src/myenergy/wwwroot/Data/data.json
-    #         git commit -m "📊 Add update data file."
-    #         git push origin main
-    #     fi
-
-    #     git diff HEAD -- "./src/June.Data/Data/data.json"
-
-    #     if git diff --quiet HEAD -- "./src/June.Data/Data/data.json" ; then
-    #         echo "No changes to the output on this push."
-    #     else
-    #         git add ./src/June.Data/Data/data.json
-    #         git commit -m "📊 Add update data file."
-    #         git push origin main
-    #     fi
-    #   env:
-    #     GH_TOKEN: ${{ steps.generate_token.outputs.token }}

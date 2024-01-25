@@ -16,7 +16,6 @@ runs:
     - name: Copy data file
       shell: bash
       run: |
-          ls -la ./src/myenergy/wwwroot/Data/data.json
           cp ./src/June.Data/bin/Release/net8.0/Data/data.json ./src/myenergy/wwwroot/Data/data.json
           cp ./src/June.Data/bin/Release/net8.0/Data/data.json ./src/June.Data/Data/data.json
             if [ $? -eq 0 ]; then
@@ -24,7 +23,6 @@ runs:
             else
                 echo "Copy failed."
             fi
-          ls -la ./src/myenergy/wwwroot/Data/data.json
     - name: Generate a token
       id: generate_token
       uses: actions/create-github-app-token@v1

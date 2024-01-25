@@ -10,6 +10,8 @@ runs:
     steps:
     # uses GitHub's checkout action to checkout code form the master branch
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
     
     # sets up .NET Core SDK ${{ inputs.dotnet-version }}
     - name: Setup .NET Core SDK
