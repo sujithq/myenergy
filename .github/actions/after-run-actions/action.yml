@@ -35,7 +35,7 @@ runs:
         git config --global user.name 'Sujith Quintelier'
         git config --global user.email 'sujith.quintelier@gmail.com'
 
-        git diff HEAD -- "./src/myenergy/wwwroot/Data/data.json"
+        # git diff HEAD -- "./src/myenergy/wwwroot/Data/data.json"
 
         if git diff --quiet HEAD -- "./src/myenergy/wwwroot/Data/data.json" ; then
             echo "No changes to the output on this push."
@@ -45,7 +45,7 @@ runs:
             git push origin main
         fi
 
-        git diff HEAD -- "./src/June.Data/Data/data.json"
+        # git diff HEAD -- "./src/June.Data/Data/data.json"
 
         if git diff --quiet HEAD -- "./src/June.Data/Data/data.json" ; then
             echo "No changes to the output on this push."
