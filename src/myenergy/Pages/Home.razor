@@ -11,39 +11,6 @@
 {
     <div class="container-fluid mh-100">
         <Tabs EnableFadeEffect="true" OnShown="@(args => OnTabShownAsync(args))">
-            @* <Tab Title="15m">
-        <Content>
-        <Tabs EnableFadeEffect="true">
-        <Tab Title="Data">
-        <Content>
-        <div class="row mb-1 d-none d-sm-block justify-content-center ">
-        <div class="col-sm-10 mx-auto">
-        <BarChart @ref="barChart15m" Class="mb-1" />
-        </div>
-        </div>
-        </Content>
-        </Tab>
-        </Tabs>
-
-        <div class="row justify-content-center mb-1">
-        <div class="col text-end p-0 d-none d-sm-block">
-        <Button @ref="saveButton1" Color="ButtonColor.Primary" Size="Size.Small" @onclick="DecreaseDate">
-        <Icon Name="IconName.CalendarMinus"></Icon>
-        </Button>
-        </div>
-
-        <div class="col-sm-2 text-center p-0">
-        <DateInput Value="currentDate" ValueExpression="() => currentDate" TValue="DateOnly" EnableMinMax="true" Min="@minDate" Max="@maxDate" Placeholder="Enter Date" ValueChanged="(value) => DayChanged(value)" />
-        </div>
-
-        <div class="col text-start p-0 d-none d-sm-block">
-        <Button @ref="saveButton2" Color="ButtonColor.Success" Size="Size.Small" @onclick="IncreaseDate">
-        <Icon Name="IconName.CalendarPlus"></Icon>
-        </Button>
-        </div>
-        </div>
-        </Content>
-        </Tab> *@
             <Tab Title="Day" IsActive="true">
                 <Content>
                     <Tabs EnableFadeEffect="true">
@@ -56,7 +23,12 @@
                                 </div>
                                 <div class="row mb-1 d-none d-sm-block justify-content-center ">
                                     <div class="col-sm-10 mx-auto">
-                                        <BarChart @ref="barChart15m" Class="mb-1" />
+                                        <BarChart @ref="barChart15mE" Class="mb-1" />
+                                    </div>
+                                </div>
+                                <div class="row mb-1 d-none d-sm-block justify-content-center ">
+                                    <div class="col-sm-10 mx-auto">
+                                        <BarChart @ref="barChart15mG" Class="mb-1" />
                                     </div>
                                 </div>
                             </Content>
@@ -224,7 +196,8 @@ else
     BarChart? barChartWeek;
     BarChart? barChartDay;
     BarChart? barChartAll;
-    BarChart? barChart15m;
+    BarChart? barChart15mE;
+    BarChart? barChart15mG;
 
     Button? saveButton1;
     Button? saveButton2;
@@ -253,7 +226,8 @@ else
     string titleMonth = "Solar Panels";
     string titleWeek = "Solar Panels";
     string titleDay = "Solar Panels";
-    string title15m = "Solar Panels";
+    string title15mE = "Solar Panels";
+    string title15mG = "Gas";
 
     string activeTabTitle = "Day";
 
@@ -371,7 +345,6 @@ else
                     {
                         Label = "Production",
                         Data = production,
-                        // BackgroundColor = new List<string>{ "rgb(0,0,0)" },
                         CategoryPercentage = 0.8,
                         BarPercentage = 1,
                     },
@@ -379,7 +352,6 @@ else
                     {
                         Label = "Net Injection",
                         Data = injection,
-                        // BackgroundColor = new List<string> { "rgb(243,167,18)" },
                         CategoryPercentage = 0.8,
                         BarPercentage = 1,
                     },
@@ -388,7 +360,6 @@ else
                         Label = "Solar Usage",
                         Data = production.Zip(injection, (p, i) => p-i)
                           .ToList(),
-                        // BackgroundColor = new List<string> { "rgb(170,240,104)" },
                         CategoryPercentage = 0.8,
                         BarPercentage = 1,
                     },
@@ -396,7 +367,6 @@ else
                     {
                         Label = "Net Usage",
                         Data = usage,
-                        // BackgroundColor = new List<string> { "rgb(231,105,149)" },
                         CategoryPercentage = 0.8,
                         BarPercentage = 1,
                     },
@@ -478,18 +448,47 @@ else
                         CategoryPercentage = 0.8,
                         BarPercentage = 1,
                     }
-                    // ,
-                    // new BarChartDataset()
-                    // {
-                    //     Label = "Total Usage",
-                    //     Data = production.Zip(injection, (p, i) => new { p, i })
-                    //       .Zip(usage, (pi, u) => pi.p + u - pi.i)
-                    //       .ToList(),
-                    //     // BackgroundColor = new List<string> { "rgb(170,240,104)" },
-                    //     CategoryPercentage = 0.8,
-                    //     BarPercentage = 1,
-                    // }
+                }
+            };
 
+
+        options.Plugins!.Title!.Text = title;
+        options.Scales.X!.Title!.Text = xTitle;
+
+        if (init)
+        {
+            options.Interaction.Mode = InteractionMode.Index;
+            options.Plugins.Title.Display = true;
+            options.Plugins.Title.Font!.Size = 20;
+
+            options.Responsive = true;
+
+            options.Scales.X.Title.Display = true;
+
+            options.Scales.Y!.Title!.Text = "kWh";
+            options.Scales.Y.Title.Display = true;
+
+            await barChart.InitializeAsync(data, options);
+        }
+
+        else
+            await barChart.UpdateAsync(data, options);
+    }
+
+    private async Task SolarPanels15mAsync(List<string> labels, List<double> consumption, string title, bool init, BarChart barChart, string xTitle = "Months")
+    {
+        var data = new ChartData
+            {
+                Labels = labels,
+                Datasets = new List<IChartDataset>()
+                {
+                    new BarChartDataset()
+                    {
+                        Label = "Consumption",
+                        Data = consumption,
+                        CategoryPercentage = 0.8,
+                        BarPercentage = 1,
+                    }
                 }
             };
 
@@ -617,7 +616,8 @@ else
     {
         var selectedYear = years[yearIndex];
 
-        title15m = $"Solar Panels ({DateOnly.FromDateTime(new DateTime(selectedYear, 1, 1).AddDays(day - 1)).ToString("yyyy/MM/dd")})";
+        title15mE = $"Solar Panels ({DateOnly.FromDateTime(new DateTime(selectedYear, 1, 1).AddDays(day - 1)).ToString("yyyy/MM/dd")})";
+        title15mG = $"Gas ({DateOnly.FromDateTime(new DateTime(selectedYear, 1, 1).AddDays(day - 1)).ToString("yyyy/MM/dd")})";
 
         var data = dataService.Data[selectedYear].Where(a => a.D == day).ToList();
 
@@ -634,10 +634,16 @@ else
 
         await SolarPanels15mAsync(
             labels,
-            data.SelectMany(s => s.Q.P.Select(c => c.y)).ToList(),
-            data.SelectMany(s => s.Q.C.Select(c => c.y)).ToList(),
-            data.SelectMany(s => s.Q.I.Select(c => c.y)).ToList(),
-            title15m, init, barChart15m!, "15m"
+            data.SelectMany(s => s.Q.P.Select(c => c)).ToList(),
+            data.SelectMany(s => s.Q.C.Select(c => c)).ToList(),
+            data.SelectMany(s => s.Q.I.Select(c => c)).ToList(),
+            title15mE, init, barChart15mE!, "15m"
+        );
+
+        await SolarPanels15mAsync(
+            labels,
+            data.SelectMany(s => s.Q.G.Select(c => c)).ToList(),
+            title15mG, init, barChart15mG!, "15m"
         );
 
         // totals["15m"] = new TotalData(data.Select(s => s.P).Sum(),

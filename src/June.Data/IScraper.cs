@@ -12,6 +12,7 @@ namespace June.Data
     public interface IJuneScraper : IScraper
     {
         Task<QuarterData?> GetQuarterData(Dictionary<string, string> config, string? date_id);
+        Task<QuarterData2?> GetQuarterData2(Dictionary<string, string> config, string? date_id);
     }
 
 
