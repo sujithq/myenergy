@@ -101,7 +101,8 @@ namespace June.Data
 
             // June API endpoints
             var juneBaseAddress = "https://api.june.energy/";
-            var juneSummaryEndpoint = $"eliq/contract/{settings.contract}/electricity/series/15min?from={from}&to={to}&valueType={valueType}";
+            var june15mEndpointE = $"eliq/contract/{settings.contract}/electricity/series/15min?from={from}&to={to}&valueType={valueType}";
+            var june15mEndpointG = $"eliq/contract/{settings.contract}/gas/series/15min?from={from}&to={to}&valueType={valueType}";
 
             // Create a new HttpClient and set the base address
             var client = new HttpClient { BaseAddress = new Uri(juneBaseAddress) };
@@ -110,58 +111,96 @@ namespace June.Data
             string json = JsonSerializer.Serialize(settings);
 
             // Create the request body as JSON
-            var requestData = new HttpRequestMessage(HttpMethod.Get, juneSummaryEndpoint)
+            var requestDataE = new HttpRequestMessage(HttpMethod.Get, june15mEndpointE)
             {
                 Content = new StringContent(json, Encoding.UTF8, "application/json")
             };
 
+            var requestDataG = new HttpRequestMessage(HttpMethod.Get, june15mEndpointG)
+            {
+                Content = new StringContent(json, Encoding.UTF8, "application/json")
+            };
             // Add the access token to the request header
-            requestData.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            requestDataE.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            requestDataG.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             // Send the request to the server and wait for the response
-            var dataResponse = await client.SendAsync(requestData);
+            var dataResponseE = await client.SendAsync(requestDataE);
+            var dataResponseG = await client.SendAsync(requestDataG);
+            EnergyData? dataE = default;
+            EnergyData? dataG = default;
 
             // If the response contains content we want to read it!
-            if (dataResponse.IsSuccessStatusCode)
+            if (dataResponseE.IsSuccessStatusCode)
             {
                 // Read the response content as a string
-                var dataResponseStringContent = await dataResponse.Content.ReadAsStringAsync();
+                var dataResponseStringContent = await dataResponseE.Content.ReadAsStringAsync();
 
                 var options = new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 };
-                EnergyData? data = JsonSerializer.Deserialize<EnergyData>(dataResponseStringContent, options);
-                 return ConvertToQuarterData(data);
-
-                Console.WriteLine("Deserialization successful!");
-
-                return await Task.FromResult<QuarterData?>(default);
-
+                dataE = JsonSerializer.Deserialize<EnergyData>(dataResponseStringContent, options);
             }
             else
             {
-                Console.WriteLine($"{dataResponse.StatusCode}: {await dataResponse.Content.ReadAsStringAsync()}");
+                Console.WriteLine($"Electricity: {dataResponseE.StatusCode}: {await dataResponseE.Content.ReadAsStringAsync()}");
             }
-            return await Task.FromResult<QuarterData?>(default);
+
+            // If the response contains content we want to read it!
+            if (dataResponseG.IsSuccessStatusCode)
+            {
+                // Read the response content as a string
+                var dataResponseStringContent = await dataResponseG.Content.ReadAsStringAsync();
+
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                dataG = JsonSerializer.Deserialize<EnergyData>(dataResponseStringContent, options);
+            }
+            else
+            {
+                Console.WriteLine($"Electricity: {dataResponseE.StatusCode}: {await dataResponseE.Content.ReadAsStringAsync()}");
+            }
+
+            return dataE == default && dataG == default ? await Task.FromResult<QuarterData?>(default) : ConvertToQuarterData(dataE, dataG);
+
         }
 
-        private static QuarterData? ConvertToQuarterData(EnergyData? data)
+        private static QuarterData? ConvertToQuarterData(EnergyData? dataE, EnergyData? dataG)
         {
-            if (data == null)
+            if (dataE == null && dataG == null)
                 return default;
 
-            var consumption = data.Series.Where(s => s.Name.StartsWith("electricity-consumption-total"))
-                                         .SelectMany(s => s.Points)
-                                         .Select(p => new Coordinates(p.X, p.Y ?? 0))
-                                         .ToList();
+            List<Coordinates> consumption = [];
+            List<Coordinates> injection = [];
+            List<Coordinates> gas = [];
 
-            var injection = data.Series.Where(s => s.Name.StartsWith("electricity-injection-total"))
-                                       .SelectMany(s => s.Points)
-                                       .Select(p => new Coordinates(p.X, p.Y ?? 0))
-                                       .ToList();
+            if (dataE != null)
+            {
+                consumption = FilterDataByPrefix(dataE, "electricity-consumption-total");
 
-            return new QuarterData(consumption, injection, [], []);
+                injection = FilterDataByPrefix(dataE, "electricity-injection-total");
+
+            }
+
+            if (dataG != null)
+            {
+                gas = FilterDataByPrefix(dataG, "gas-consumption-total");
+            }
+
+            return new QuarterData(consumption, injection, gas, []);
+        }
+        private static List<Coordinates> FilterDataByPrefix(EnergyData? data, string prefix)
+        {
+            if (data == null)
+                return new List<Coordinates>();
+
+            return data.Series.Where(s => s.Name.StartsWith(prefix))
+                             .SelectMany(s => s.Points)
+                             .Select(p => new Coordinates(p.X, p.Y ?? 0))
+                             .ToList();
         }
     }
 
