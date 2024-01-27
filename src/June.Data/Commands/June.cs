@@ -97,7 +97,6 @@ namespace June.Data.Commands
                 foreach (var item in listForJuneProcessed)
                 {
                     var juneData = Scraper.GetData(new Dictionary<string, string>() { { "token", token! } }, item.Item3).GetAwaiter().GetResult();
-                    var q = Scraper.GetQuarterData(new Dictionary<string, string>() { { "token", token! } }, item.Item3).GetAwaiter().GetResult();
                     var q2 = Scraper.GetQuarterData2(new Dictionary<string, string>() { { "token", token! } }, item.Item3).GetAwaiter().GetResult();
 
                     if (juneData != default)
@@ -114,7 +113,7 @@ namespace June.Data.Commands
                         }
                         if (value.FindIndex(f => f.D == item.D) == -1)
                         {
-                            value.Add(new BarChartData(item.D, 0, 0, 0, false, false, new MeteoStatData(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), false, new AnomalyData(0, 0, 0, false), new QuarterData2([], [], [], [])));
+                            value.Add(new BarChartData(item.D, 0, 0, 0, false, false, new MeteoStatData(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), false, new AnomalyData(0, 0, 0, false), new QuarterData([], [], [], [])));
                         }
 
                         var idx = value.FindIndex(f => f.D == item.D);

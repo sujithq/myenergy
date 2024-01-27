@@ -88,7 +88,7 @@ namespace Sungrow.Data.Commands
                             }
                             if (value.FindIndex(f => f.D == item.D) == -1)
                             {
-                                value.Add(new BarChartData(item.D, 0, 0, 0, false, false, new MeteoStatData(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), false, new AnomalyData(0, 0, 0, false), new QuarterData2([], [], [], [])));
+                                value.Add(new BarChartData(item.D, 0, 0, 0, false, false, new MeteoStatData(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), false, new AnomalyData(0, 0, 0, false), new QuarterData([], [], [], [])));
                             }
 
                             var idx = value.FindIndex(f => f.D == item.D);
@@ -96,18 +96,15 @@ namespace Sungrow.Data.Commands
 
                             var d15l = dd.GetProperty("point_data_15_list");
 
-                            List<Coordinates> P = [];
                             List<double> P2 = [];
 
                             foreach (JsonElement it in d15l.EnumerateArray())
                             {
-                                //string name = it.GetProperty("time_stamp").GetString()!;
                                 double val = int.Parse(it.GetProperty("p83076").GetString()!) / 1000.0;
-                                P.Add(new Coordinates(val));
                                 P2.Add(val);
                             }
 
-                            var newQ = new QuarterData2(d.Q.C, d.Q.I, d.Q.G, P2);
+                            var newQ = new QuarterData(d.Q.C, d.Q.I, d.Q.G, P2);
 
                             value[idx] = new BarChartData(d.D, production, d.U, d.I, d.J, item.Item4 == currentDateInBelgium.Date ? false : true, d.MS, d.M, d.AS, newQ);
                         }
