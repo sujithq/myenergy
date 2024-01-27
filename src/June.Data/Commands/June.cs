@@ -97,7 +97,7 @@ namespace June.Data.Commands
                 foreach (var item in listForJuneProcessed)
                 {
                     var juneData = Scraper.GetData(new Dictionary<string, string>() { { "token", token! } }, item.Item3).GetAwaiter().GetResult();
-                    var q2 = Scraper.GetQuarterData2(new Dictionary<string, string>() { { "token", token! } }, item.Item3).GetAwaiter().GetResult();
+                    var jQ = Scraper.GetQuarterData2(new Dictionary<string, string>() { { "token", token! } }, item.Item3).GetAwaiter().GetResult();
 
                     if (juneData != default)
                     {
@@ -118,7 +118,9 @@ namespace June.Data.Commands
 
                         var idx = value.FindIndex(f => f.D == item.D);
                         var d = value[idx];
-                        value[idx] = new BarChartData(d.D, d.P, consumption, injection, item.Item4 == currentDateInBelgium.Date ? false : true, d.S, d.MS, d.M, d.AS, q2!);
+                        var qd = new QuarterData(jQ!.C, jQ.I, jQ.G, d.Q.P);
+
+                        value[idx] = new BarChartData(d.D, d.P, consumption, injection, item.Item4 == currentDateInBelgium.Date ? false : true, d.S, d.MS, d.M, d.AS, qd);
                     }
                     else
                     {
