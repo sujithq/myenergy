@@ -9,6 +9,7 @@ on:
       - 'src/June.Data/**'
       - '.github/workflows/**'
       - '.github/actions/**'
+  workflow_dispatch:
 permissions:
   contents: write
 
