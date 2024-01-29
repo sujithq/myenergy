@@ -1,11 +1,8 @@
-@page "/"
+﻿@page "/"
 
 
 @inject IDataService dataService
 @inject PreloadService PreloadService
-
-
-
 
 @if (dataService.Data != null && dataService.Data.Count > 0)
 {
@@ -137,7 +134,7 @@
                     </div>
                 </Content>
             </Tab>
-            <Tab Title="All">
+            <Tab Title="All" IsActive="true">
                 <Content>
                     <Tabs EnableFadeEffect="true">
                         <Tab Title="Data">
@@ -191,13 +188,13 @@ else
         { "All", new TotalData(0, 0, 0, 0, 0) }
     };
 
-    BarChart? barChartYear;
-    BarChart? barChartMonth;
-    BarChart? barChartWeek;
     BarChart? barChartDay;
-    BarChart? barChartAll;
     BarChart? barChart15mE;
     BarChart? barChart15mG;
+    BarChart? barChartMonth;
+    BarChart? barChartWeek;
+    BarChart? barChartYear;
+    BarChart? barChartAll;
 
     Button? saveButton1;
     Button? saveButton2;
@@ -229,7 +226,7 @@ else
     string title15mE = "Solar Panels";
     string title15mG = "Gas";
 
-    string activeTabTitle = "Day";
+    string activeTabTitle = "All";
 
 
     BarChartOptions options = new BarChartOptions();
@@ -336,6 +333,8 @@ else
 
     private async Task SolarPanelsAsync(List<string> labels, List<double> production, List<double> usage, List<double> injection, string title, bool init, BarChart barChart, string xTitle = "Months")
     {
+        if (barChart == null) return;
+
         var data = new ChartData
             {
                 Labels = labels,
@@ -376,7 +375,6 @@ else
                         Data = production.Zip(injection, (p, i) => new { p, i })
                           .Zip(usage, (pi, u) => pi.p + u - pi.i)
                           .ToList(),
-                        // BackgroundColor = new List<string> { "rgb(170,240,104)" },
                         CategoryPercentage = 0.8,
                         BarPercentage = 1,
                     }
@@ -405,11 +403,20 @@ else
         }
 
         else
-            await barChart.UpdateAsync(data, options);
+            try
+            {
+                await barChart.UpdateAsync(data, options);
+            }
+            catch (Exception ex)
+            {
+                await barChart.InitializeAsync(data, options);
+            }
     }
 
     private async Task SolarPanels15mAsync(List<string> labels, List<double> production, List<double> usage, List<double> injection, string title, bool init, BarChart barChart, string xTitle = "Months")
     {
+        if (barChart == null) return;
+
         var data = new ChartData
             {
                 Labels = labels,
@@ -419,7 +426,6 @@ else
                     {
                         Label = "Production",
                         Data = production,
-                        // BackgroundColor = new List<string>{ "rgb(0,0,0)" },
                         CategoryPercentage = 0.8,
                         BarPercentage = 1,
                     },
@@ -427,7 +433,6 @@ else
                     {
                         Label = "Net Injection",
                         Data = injection,
-                        // BackgroundColor = new List<string> { "rgb(243,167,18)" },
                         CategoryPercentage = 0.8,
                         BarPercentage = 1,
                     },
@@ -436,7 +441,6 @@ else
                         Label = "Solar Usage",
                         Data = production.Zip(injection, (p, i) => p - i)
                           .ToList(),
-                        // BackgroundColor = new List<string> { "rgb(170,240,104)" },
                         CategoryPercentage = 0.8,
                         BarPercentage = 1,
                     },
@@ -444,7 +448,6 @@ else
                     {
                         Label = "Net Usage",
                         Data = usage,
-                        // BackgroundColor = new List<string> { "rgb(231,105,149)" },
                         CategoryPercentage = 0.8,
                         BarPercentage = 1,
                     }
@@ -472,11 +475,20 @@ else
         }
 
         else
-            await barChart.UpdateAsync(data, options);
+            try
+            {
+                await barChart.UpdateAsync(data, options);
+            }
+            catch (Exception ex)
+            {
+                await barChart.InitializeAsync(data, options);
+            }
     }
 
     private async Task SolarPanels15mAsync(List<string> labels, List<double> consumption, string title, bool init, BarChart barChart, string xTitle = "Months")
     {
+        if (barChart == null) return;
+
         var data = new ChartData
             {
                 Labels = labels,
@@ -513,7 +525,14 @@ else
         }
 
         else
-            await barChart.UpdateAsync(data, options);
+            try
+            {
+                await barChart.UpdateAsync(data, options);
+            }
+            catch (Exception ex)
+            {
+                await barChart.InitializeAsync(data, options);
+            }
     }
 
     private async Task RenderSolarPanelsAllAsync(bool init)
@@ -683,11 +702,9 @@ else
     {
         switch (args.ActiveTabTitle)
         {
-            case "15m":
-                await RenderSolarPanels15mAsync(selectedYearIndex, selectedDayOfYear, false);
-                break;
             case "Day":
                 await RenderSolarPanelsDayAsync(selectedYearIndex, selectedDayOfYear, false);
+                await RenderSolarPanels15mAsync(selectedYearIndex, selectedDayOfYear, false);
                 break;
             case "Week":
                 await RenderSolarPanelsWeekAsync(selectedYearIndex, selectedWeekIndex, false);
