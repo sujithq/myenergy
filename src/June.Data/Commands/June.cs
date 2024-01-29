@@ -13,6 +13,7 @@ using Microsoft.ML;
 using Spectre.Console;
 using June.Data.Commands.Settings;
 using System.Text.Json.Serialization;
+using NodaTime;
 
 namespace June.Data.Commands
 {
@@ -120,7 +121,7 @@ namespace June.Data.Commands
                         var d = value[idx];
                         var qd = new QuarterData(jQ!.C, jQ.I, jQ.G, d.Q.P);
 
-                        value[idx] = new BarChartData(d.D, d.P, consumption, injection, item.Item4 == currentDateInBelgium.Date ? false : true, d.S, d.MS, d.M, d.AS, qd);
+                        value[idx] = new BarChartData(d.D, d.P, consumption, injection, item.Item4 >= currentDateInBelgium.Date.Minus(Period.FromDays(5)) ? false : true, d.S, d.MS, d.M, d.AS, qd);
                     }
                     else
                     {

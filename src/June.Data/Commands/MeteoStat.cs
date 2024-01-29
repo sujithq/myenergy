@@ -11,6 +11,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using June.Data.Commands;
+using NodaTime;
 
 namespace MeteoStat.Data.Commands
 {
@@ -163,7 +164,7 @@ namespace MeteoStat.Data.Commands
 
                         var idx = value.FindIndex(f => f.D == item.D);
                         var d = value[idx];
-                        value[idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, msd, item.Item3 == currentDateInBelgium.Date ? false : true, d.AS, d.Q);
+                        value[idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, msd, item.Item3 >= currentDateInBelgium.Date.Minus(Period.FromDays(5)) ? false : true, d.AS, d.Q);
 
                     }
                 }

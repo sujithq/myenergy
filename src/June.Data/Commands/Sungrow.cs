@@ -11,6 +11,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using June.Data.Commands;
+using NodaTime;
 
 namespace Sungrow.Data.Commands
 {
@@ -106,7 +107,7 @@ namespace Sungrow.Data.Commands
 
                             var newQ = new QuarterData(d.Q.C, d.Q.I, d.Q.G, P2);
 
-                            value[idx] = new BarChartData(d.D, production, d.U, d.I, d.J, item.Item4 == currentDateInBelgium.Date ? false : true, d.MS, d.M, d.AS, newQ);
+                            value[idx] = new BarChartData(d.D, production, d.U, d.I, d.J, item.Item4 >= currentDateInBelgium.Date.Minus(Period.FromDays(5)) ? false : true, d.MS, d.M, d.AS, newQ);
                         }
                     }
                     else
