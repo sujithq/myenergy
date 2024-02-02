@@ -1,6 +1,6 @@
 ﻿namespace myenergy.Common
 {
-    public record BarChartData(int D, double P, double U, double I, bool J, bool S, MeteoStatData MS, bool M, AnomalyData AS, QuarterData Q);
+    public record BarChartData(int D, double P, double U, double I, bool J, bool S, MeteoStatData MS, bool M, AnomalyData AS, QuarterData Q, bool C = false);
 
     public record AnomalyData(double P, double U, double I, bool A);
 
