@@ -177,7 +177,8 @@ namespace June.Data.Commands
                     (float)bcd.MS.wspd,
                     (float)bcd.MS.wpgt,
                     (float)bcd.MS.pres,
-                    (float)bcd.MS.tsun
+                    (float)bcd.MS.tsun,
+                    bcd.C
                 )))
             .ToList();
 

@@ -1,0 +1,54 @@
+name: Charge Data
+
+# Run workflow every day at 4:00 AM UTC or run manually
+on:
+  # schedule:
+  #   - cron: "0 * * * *" # Runs every hour
+
+  workflow_dispatch: # Allows manual triggering as well
+
+permissions:
+  contents: write
+
+env:
+  GLOBAL_DOTNET_VERSION: '8.0.x'
+  GLOBAL_COMMAND: 'Charge'
+
+jobs:
+  scan:
+    name: gitleaks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  Run-Data:
+    needs: scan
+    # use ubuntu-latest|self-hosted image to run steps on
+    runs-on: ubuntu-latest
+    steps:
+    - name: Before Run Actions
+      uses: sujithq/myenergy/.github/actions/before-run-actions@main
+      with:
+        DOTNET-VERSION: ${{ env.GLOBAL_DOTNET_VERSION }}
+
+    - name: Run ${{ env.GLOBAL_COMMAND }} Data
+      run: |
+        dotnet run --project src/June.Data -c Release --no-build --no-restore ${{ env.GLOBAL_COMMAND }} run
+      env:
+        NETCORE_ENVIRONMENT: Production
+        JUNE_CLIENT_ID: ${{ secrets.JUNE_CLIENT_ID }}
+        JUNE_CLIENT_SECRET: ${{ secrets.JUNE_CLIENT_SECRET }}
+        JUNE_PASSWORD: ${{ secrets.JUNE_PASSWORD }}
+        JUNE_CONTRACT: ${{ secrets.JUNE_CONTRACT }}
+
+    - name: After Run Actions
+      uses: sujithq/myenergy/.github/actions/after-run-actions@main
+      with:
+        COMMAND: ${{ env.GLOBAL_COMMAND }}
+        APP_ID: ${{ secrets.APP_ID }}
+        PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}

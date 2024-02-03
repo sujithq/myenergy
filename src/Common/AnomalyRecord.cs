@@ -1,4 +1,4 @@
 ﻿namespace myenergy.Common
 {
-    public record AnomalyRecord(int Y, int D, float P, float U, float I, float tavg, float tmin, float tmax, float prcp, float snow, float wdir, float wspd, float wpgt, float pres, float tsun);
+    public record AnomalyRecord(int Y, int D, float P, float U, float I, float tavg, float tmin, float tmax, float prcp, float snow, float wdir, float wspd, float wpgt, float pres, float tsun, bool C);
 }

@@ -53,6 +53,10 @@ namespace June.Data
                 {
                     add.AddCommand<MeteoStatRunCommand>("run");
                 });
+                config.AddBranch<BaseCommandSettings>("Charge", add =>
+                {
+                    add.AddCommand<ChargeRunCommand>("run");
+                });
             });
 
             return app.Run(args);
@@ -67,9 +71,11 @@ namespace June.Data
                 .Configure<JuneSettings>(configuration.GetSection(nameof(JuneSettings)))
                 .Configure<SungrowSettings>(configuration.GetSection(nameof(SungrowSettings)))
                 .Configure<MeteoStatSettings>(configuration.GetSection(nameof(MeteoStatSettings)))
+                .Configure<ChargeSettings>(configuration.GetSection(nameof(ChargeSettings)))
                 .AddSingleton<JuneRunSettings>()
                 .AddSingleton<SungrowRunSettings>()
                 .AddSingleton<MeteoStatRunSettings>()
+                .AddSingleton<ChargeRunSettings>()
                 .AddSingleton(sp => { 
                     return new JuneRunCommand(sp.GetRequiredService<IOptions<JuneSettings>>(), new JuneScraper(sp.GetRequiredService<IOptions<JuneSettings>>()));
                 })
@@ -78,6 +84,9 @@ namespace June.Data
                 })
                 .AddSingleton(sp => {
                     return new MeteoStatRunCommand(sp.GetRequiredService<IOptions<MeteoStatSettings>>(), new MeteoStatScraper(sp.GetRequiredService<IOptions<MeteoStatSettings>>()));
+                })
+                .AddSingleton(sp => {
+                    return new ChargeRunCommand(sp.GetRequiredService<IOptions<ChargeSettings>>());
                 })
                 .AddOptions()
                 .BuildServiceProvider();
