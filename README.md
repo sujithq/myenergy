@@ -13,20 +13,27 @@ I always had to check June Energy and ISolarCloud app to see how much energy I h
 [![June Data Refresh Scheduled](https://github.com/sujithq/myenergy/actions/workflows/JuneData.yml/badge.svg?branch=main&event=schedule)](https://github.com/sujithq/myenergy/actions/workflows/JuneData.yml)
 
 ### June Data Refresh Dispatched
-[![June Data Refres Dispatched](https://github.com/sujithq/myenergy/actions/workflows/JuneData.yml/badge.svg?branch=main&event=workflow_dispatch)](https://github.com/sujithq/myenergy/actions/workflows/JuneData.yml)
+[![June Data Refresh Dispatched](https://github.com/sujithq/myenergy/actions/workflows/JuneData.yml/badge.svg?branch=main&event=workflow_dispatch)](https://github.com/sujithq/myenergy/actions/workflows/JuneData.yml)
 
 ### Sungrow Data Refresh Scheduled
 [![Sungrow Data Refresh Scheduled](https://github.com/sujithq/myenergy/actions/workflows/SungrowData.yml/badge.svg?branch=main&event=schedule)](https://github.com/sujithq/myenergy/actions/workflows/SungrowData.yml)
 
 ### Sungrow Data Refresh Dispatched
-[![June Data Refres Dispatched](https://github.com/sujithq/myenergy/actions/workflows/SungrowData.yml/badge.svg?branch=main&event=workflow_dispatch)](https://github.com/sujithq/myenergy/actions/workflows/SungrowData.yml)
+[![June Data Refresh Dispatched](https://github.com/sujithq/myenergy/actions/workflows/SungrowData.yml/badge.svg?branch=main&event=workflow_dispatch)](https://github.com/sujithq/myenergy/actions/workflows/SungrowData.yml)
 
 
 ### MeteoStat Data Refresh Scheduled
 [![MeteoStat Data Refresh Scheduled](https://github.com/sujithq/myenergy/actions/workflows/MeteoStatData.yml/badge.svg?branch=main&event=schedule)](https://github.com/sujithq/myenergy/actions/workflows/MeteoStatData.yml)
 
 ### MeteoStat Data Refresh Dispatched
-[![MeteoStat Data Refres Dispatched](https://github.com/sujithq/myenergy/actions/workflows/MeteoStatData.yml/badge.svg?branch=main&event=workflow_dispatch)](https://github.com/sujithq/myenergy/actions/workflows/MeteoStatData.yml)
+[![MeteoStat Data Refresh Dispatched](https://github.com/sujithq/myenergy/actions/workflows/MeteoStatData.yml/badge.svg?branch=main&event=workflow_dispatch)](https://github.com/sujithq/myenergy/actions/workflows/MeteoStatData.yml)
+
+### Charge Data Refresh Scheduled
+[![Charge Data Refresh Scheduled](https://github.com/sujithq/myenergy/actions/workflows/Charge.yml/badge.svg?branch=main&event=schedule)](https://github.com/sujithq/myenergy/actions/workflows/Charge.yml)
+
+### Charge Data Refresh Dispatched
+[![Charge Data Refresh Dispatched](https://github.com/sujithq/myenergy/actions/workflows/Charge.yml/badge.svg?branch=main&event=workflow_dispatch)](https://github.com/sujithq/myenergy/actions/workflows/Charge.yml)
+
 
 ## Deployment
 ### Pages Deployment
