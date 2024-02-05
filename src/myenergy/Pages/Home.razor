@@ -13,39 +13,52 @@
                     <Tabs EnableFadeEffect="true">
                         <Tab Title="Data">
                             <Content>
-                                    <div class="row mb-1 d-none d-sm-block justify-content-center ">
-                                        <div class="col-sm-10 mx-auto">
-                                            <Badge Color="BadgeColor.Primary" Class="ms-2" VisuallyHiddenText="charged"><Icon Name="IconName.BatteryCharging" />@selectedDayOfYearData.C</Badge>
-                                        </div>
-                                    </div>
-                                
-                                    <div class="row mb-1 d-none d-sm-block justify-content-center ">
-                                        <div class="col-sm-10 mx-auto">
-                                            <BarChart @ref="barChartDay" Class="mb-1" />
-                                        </div>
-                                    </div>
-                                    <div class="row mb-1 d-none d-sm-block justify-content-center ">
-                                        <div class="col-sm-10 mx-auto">
-                                            <BarChart @ref="barChart15mE" Class="mb-1" />
-                                        </div>
-                                    </div>
-                                    <div class="row mb-1 d-none d-sm-block justify-content-center ">
-                                        <div class="col-sm-10 mx-auto">
-                                            <BarChart @ref="barChart15mG" Class="mb-1" />
-                                        </div>
-                                    </div>
-                                </Content>
-                            </Tab>
 
-                            <Tab Title="Weather Info">
-                                <Content>
-                                    @if (selectedDayOfYearData != default)
+                                @if (selectedDayOfYearData.C)
+                                {
+                                    <div class="row mb-1 d-none d-sm-block justify-content-center ">
+                                        <div class="col-sm-10 mx-auto">
+                                            <Badge Color="BadgeColor.Primary" Class="ms-2" VisuallyHiddenText="selectedDayOfYearData.C"><Icon Name="IconName.BatteryCharging" Size="IconSize.x5" /></Badge>
+                                        </div>
+                                    </div>
+
+                                }
+                                else
+                                {
+                                    <div class="row mb-1 d-none d-sm-block justify-content-center ">
+                                        <div class="col-sm-10 mx-auto">
+                                            <Badge Color="BadgeColor.Danger" Class="ms-2" VisuallyHiddenText="selectedDayOfYearData.C"><Icon Name="IconName.BatteryCharging" Size="IconSize.x5" /></Badge>
+                                        </div>
+                                    </div>
+                                }
+                                <div class="row mb-1 d-none d-sm-block justify-content-center ">
+                                    <div class="col-sm-10 mx-auto">
+                                        <BarChart @ref="barChartDay" Class="mb-1" />
+                                    </div>
+                                </div>
+                                <div class="row mb-1 d-none d-sm-block justify-content-center ">
+                                    <div class="col-sm-10 mx-auto">
+                                        <BarChart @ref="barChart15mE" Class="mb-1" />
+                                    </div>
+                                </div>
+                                <div class="row mb-1 d-none d-sm-block justify-content-center ">
+                                    <div class="col-sm-10 mx-auto">
+                                        <BarChart @ref="barChart15mG" Class="mb-1" />
+                                    </div>
+                                </div>
+                            </Content>
+                        </Tab>
+
+                        <Tab Title="Weather Info">
+                            <Content>
+                                @if (selectedDayOfYearData != default)
                                 {
                                     <div class="row mt-4 d-none d-sm-block justify-content-center ">
                                         <div class="col-sm-10 mx-auto">
                                             <MeteoDay Data="@selectedDayOfYearData.MS" />
                                         </div>
                                     </div>
+
                                 }
                                 else
                                 {
@@ -756,10 +769,13 @@ else
     private void DayChanged(DateOnly dateOnly)
     {
         currentDate = dateOnly;
+
         selectedYearIndex = currentDate.Year - years.First();
         selectedDayOfYear = currentDate.DayOfYear;
         selectedDayOfYearData = dataService.Data[years[selectedYearIndex]].Where(a => a.D == selectedDayOfYear).FirstOrDefault();
-        charged = selectedDayOfYearData!.C;
+
+        // charged = selectedDayOfYearData!.C;
+
         RenderSolarPanelsDayAsync(selectedYearIndex, selectedDayOfYear, false);
         RenderSolarPanels15mAsync(selectedYearIndex, selectedDayOfYear, false);
 
@@ -771,7 +787,9 @@ else
     {
         if (activeTabTitle == "Day")
         {
+
             currentDate = currentDate.AddDays(-1);
+
         }
         else
         {
