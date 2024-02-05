@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflow", "Workflow", "{B7
 		..\.github\workflows\MeteoStatData.yml = ..\.github\workflows\MeteoStatData.yml
 		..\README.md = ..\README.md
 		..\.github\workflows\SungrowData.yml = ..\.github\workflows\SungrowData.yml
+		..\.github\workflows\SunRiseSet.yml = ..\.github\workflows\SunRiseSet.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "June.Data", "June.Data\June.Data.csproj", "{6656076A-9291-447E-86C6-A919D98F0F84}"

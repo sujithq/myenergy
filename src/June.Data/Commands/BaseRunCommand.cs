@@ -137,7 +137,7 @@ namespace June.Data.Commands
                     (float)value,
                     //dateTime, 
                     idx, 
-                    tuple.Item3
+                    tuple.Item3, bcd.SRS.R, bcd.SRS.S
                 );
             })
             .ToList());
@@ -171,7 +171,7 @@ namespace June.Data.Commands
                     (float)value,
                     //dateTime, 
                     idx,
-                    tuple.Item3
+                    tuple.Item3, bcd.SRS.R, bcd.SRS.S
                 );
             })
             .ToList());
@@ -205,7 +205,7 @@ namespace June.Data.Commands
                     (float)value,
                     //dateTime, 
                     idx,
-                    tuple.Item3
+                    tuple.Item3, bcd.SRS.R, bcd.SRS.S
                 );
             })
             .ToList());
@@ -239,7 +239,7 @@ namespace June.Data.Commands
                     (float)value,
                     //dateTime, 
                     idx,
-                    tuple.Item3
+                    tuple.Item3, bcd.SRS.R, bcd.SRS.S
                 );
             })
             .ToList());

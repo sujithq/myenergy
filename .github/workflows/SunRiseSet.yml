@@ -1,4 +1,4 @@
-name: Charge Data
+name: Sun Rise Set Data
 
 # Run workflow every day at 4:00 AM UTC or run manually
 on:
