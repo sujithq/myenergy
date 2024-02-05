@@ -45,7 +45,7 @@ namespace June.Data.Commands
             {
                 if (day.SRS == null)
                 {
-                    var localDate = day.D.DayOfYearLocalDate(year);
+                    var localDate = day.D.DayOfYearLocalDate(year).ToDateOnly();
                     var query = localDate.ToString("yyyy-MM-dd", null);
 
                     Console.WriteLine($"Get data for {query}");
@@ -54,13 +54,13 @@ namespace June.Data.Commands
                     var json = JObject.Parse(content);
 
 
-                    DateTime.TryParse(json["results"]["sunrise"].Value<string>(), CultureInfo.InvariantCulture, out var sunrise);
-                    DateTime.TryParse(json["results"]["sunset"].Value<string>(), CultureInfo.InvariantCulture, out var sunset);
+                    TimeOnly.TryParse(json["results"]["sunrise"].Value<string>(), CultureInfo.InvariantCulture, out var sunrise);
+                    TimeOnly.TryParse(json["results"]["sunset"].Value<string>(), CultureInfo.InvariantCulture, out var sunset);
 
                     var idx = data[year].FindIndex(f => f.D == day.D);
                     var d = data[year][idx];
 
-                    data[year][idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, d.MS, d.M, d.AS, d.Q, true, new SunRiseSet(sunrise, sunset));
+                    data[year][idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, d.MS, d.M, d.AS, d.Q, true, new SunRiseSet(localDate.ToDateTime(sunrise), localDate.ToDateTime(sunset)));
                 }
 
             }

@@ -13,28 +13,33 @@
                     <Tabs EnableFadeEffect="true">
                         <Tab Title="Data">
                             <Content>
-                                <Badge Color="BadgeColor.Primary" Class="ms-2" VisuallyHiddenText="charged">@charged</Badge>
-                                <div class="row mb-1 d-none d-sm-block justify-content-center ">
-                                    <div class="col-sm-10 mx-auto">
-                                        <BarChart @ref="barChartDay" Class="mb-1" />
+                                    <div class="row mb-1 d-none d-sm-block justify-content-center ">
+                                        <div class="col-sm-10 mx-auto">
+                                            <Badge Color="BadgeColor.Primary" Class="ms-2" VisuallyHiddenText="charged"><Icon Name="IconName.BatteryCharging" />@selectedDayOfYearData.C</Badge>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row mb-1 d-none d-sm-block justify-content-center ">
-                                    <div class="col-sm-10 mx-auto">
-                                        <BarChart @ref="barChart15mE" Class="mb-1" />
+                                
+                                    <div class="row mb-1 d-none d-sm-block justify-content-center ">
+                                        <div class="col-sm-10 mx-auto">
+                                            <BarChart @ref="barChartDay" Class="mb-1" />
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row mb-1 d-none d-sm-block justify-content-center ">
-                                    <div class="col-sm-10 mx-auto">
-                                        <BarChart @ref="barChart15mG" Class="mb-1" />
+                                    <div class="row mb-1 d-none d-sm-block justify-content-center ">
+                                        <div class="col-sm-10 mx-auto">
+                                            <BarChart @ref="barChart15mE" Class="mb-1" />
+                                        </div>
                                     </div>
-                                </div>
-                            </Content>
-                        </Tab>
+                                    <div class="row mb-1 d-none d-sm-block justify-content-center ">
+                                        <div class="col-sm-10 mx-auto">
+                                            <BarChart @ref="barChart15mG" Class="mb-1" />
+                                        </div>
+                                    </div>
+                                </Content>
+                            </Tab>
 
-                        <Tab Title="Weather Info">
-                            <Content>
-                                @if (selectedDayOfYearData != default)
+                            <Tab Title="Weather Info">
+                                <Content>
+                                    @if (selectedDayOfYearData != default)
                                 {
                                     <div class="row mt-4 d-none d-sm-block justify-content-center ">
                                         <div class="col-sm-10 mx-auto">
@@ -754,10 +759,12 @@ else
         selectedYearIndex = currentDate.Year - years.First();
         selectedDayOfYear = currentDate.DayOfYear;
         selectedDayOfYearData = dataService.Data[years[selectedYearIndex]].Where(a => a.D == selectedDayOfYear).FirstOrDefault();
+        charged = selectedDayOfYearData!.C;
         RenderSolarPanelsDayAsync(selectedYearIndex, selectedDayOfYear, false);
         RenderSolarPanels15mAsync(selectedYearIndex, selectedDayOfYear, false);
 
-        charged = selectedDayOfYearData!.C;
+        StateHasChanged();
+
     }
 
     private async Task DecreaseDate()
