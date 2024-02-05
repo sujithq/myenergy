@@ -97,7 +97,7 @@ namespace June.Data.Commands
                             break;
                     }
 
-                    data[prediction.Y][idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, d.MS, d.M, new(p, u, i, true), d.Q);
+                    data[prediction.Y][idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, d.MS, d.M, new(p, u, i, true), d.Q, d.C, d.SRS);
                 }
             }
 
@@ -138,7 +138,9 @@ namespace June.Data.Commands
                     (float)value,
                     //dateTime, 
                     idx,
-                    tuple.Item3, (bcd.SRS != null ? bcd.SRS.R : default), (bcd.SRS != null ? bcd.SRS.R : default)
+                    tuple.Item3,
+                    bcd.SRS != null ? bcd.SRS.R : default,
+                    bcd.SRS != null ? bcd.SRS.S : default
                 );
             })
             .ToList());
@@ -172,7 +174,9 @@ namespace June.Data.Commands
                     (float)value,
                     //dateTime, 
                     idx,
-                    tuple.Item3, (bcd.SRS != null ? bcd.SRS.R : default), (bcd.SRS != null ? bcd.SRS.R : default)
+                    tuple.Item3,
+                    bcd.SRS != null ? bcd.SRS.R : default,
+                    bcd.SRS != null ? bcd.SRS.S : default
                 );
             })
             .ToList());
@@ -206,7 +210,9 @@ namespace June.Data.Commands
                     (float)value,
                     //dateTime, 
                     idx,
-                    tuple.Item3, (bcd.SRS != null ? bcd.SRS.R : default), (bcd.SRS != null ? bcd.SRS.R : default)
+                    tuple.Item3,
+                    bcd.SRS != null ? bcd.SRS.R : default,
+                    bcd.SRS != null ? bcd.SRS.S : default
                 );
             })
             .ToList());
@@ -240,7 +246,9 @@ namespace June.Data.Commands
                     (float)value,
                     //dateTime, 
                     idx,
-                    tuple.Item3, (bcd.SRS != null ? bcd.SRS.R : default), (bcd.SRS != null ? bcd.SRS.R : default)
+                    tuple.Item3,
+                    bcd.SRS != null ? bcd.SRS.R : default, 
+                    bcd.SRS != null ? bcd.SRS.S : default
                 );
             })
             .ToList());

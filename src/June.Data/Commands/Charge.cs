@@ -60,7 +60,7 @@ namespace June.Data.Commands
                         if (idx != -1)
                         {
                             var d = data[year][idx];
-                            data[year][idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, d.MS, d.M, d.AS, d.Q, true);
+                            data[year][idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, d.MS, d.M, d.AS, d.Q, true, d.SRS);
 
                             var doy2 = r.PlugInDate.Add(r.ChargedTime_).ToLocalDateTime().DayOfYear;
 
@@ -73,7 +73,7 @@ namespace June.Data.Commands
                                 if (idx != -1)
                                 {
                                     d = data[year][idx];
-                                    data[year][idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, d.MS, d.M, d.AS, d.Q, true);
+                                    data[year][idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, d.MS, d.M, d.AS, d.Q, true, d.SRS);
                                 }
                             }
                         }

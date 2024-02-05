@@ -65,14 +65,14 @@ namespace June.Data.Commands
                     var idx = data[year].FindIndex(f => f.D == day.D);
                     var d = data[year][idx];
 
-                    data[year][idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, d.MS, d.M, d.AS, d.Q, true, new SunRiseSet(TimeOnly.FromDateTime(sunrise), TimeOnly.FromDateTime(sunset)));
+                    data[year][idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, d.MS, d.M, d.AS, d.Q, true, new SunRiseSet(sunrise, sunset));
                 }
 
             }
 
-            //DetectAnomaly(data!);
+            DetectAnomaly(data!);
 
-            //DetectAnomalyQuarterData(data!);
+            DetectAnomalyQuarterData(data!);
 
             File.WriteAllText(Path.Combine(AppContext.BaseDirectory, "Data/data.json"), JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true }));
 

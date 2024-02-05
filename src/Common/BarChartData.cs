@@ -8,5 +8,5 @@
 
     public record QuarterData(List<double> C, List<double> I, List<double> G, List<double> P);
 
-    public record SunRiseSet(TimeOnly R, TimeOnly S);
+    public record SunRiseSet(DateTime R, DateTime S);
 }
