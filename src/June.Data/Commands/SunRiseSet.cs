@@ -72,7 +72,7 @@ namespace June.Data.Commands
 
             DetectAnomaly(data!);
 
-            DetectAnomalyQuarterData(data!);
+            //DetectAnomalyQuarterData(data!);
 
             File.WriteAllText(Path.Combine(AppContext.BaseDirectory, "Data/data.json"), JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true }));
 
