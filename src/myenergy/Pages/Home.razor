@@ -13,6 +13,7 @@
                     <Tabs EnableFadeEffect="true">
                         <Tab Title="Data">
                             <Content>
+                                <Badge Color="BadgeColor.Primary" Class="ms-2" VisuallyHiddenText="charged">@charged</Badge>
                                 <div class="row mb-1 d-none d-sm-block justify-content-center ">
                                     <div class="col-sm-10 mx-auto">
                                         <BarChart @ref="barChartDay" Class="mb-1" />
@@ -205,6 +206,7 @@ else
     DateOnly maxDate;
 
     DateOnly currentDate;
+    bool charged;
 
     int selectedYearIndex;
     int selectedMonthIndex;
@@ -754,6 +756,8 @@ else
         selectedDayOfYearData = dataService.Data[years[selectedYearIndex]].Where(a => a.D == selectedDayOfYear).FirstOrDefault();
         RenderSolarPanelsDayAsync(selectedYearIndex, selectedDayOfYear, false);
         RenderSolarPanels15mAsync(selectedYearIndex, selectedDayOfYear, false);
+
+        charged = selectedDayOfYearData!.C;
     }
 
     private async Task DecreaseDate()
