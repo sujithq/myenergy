@@ -57,6 +57,10 @@ namespace June.Data
                 {
                     add.AddCommand<ChargeRunCommand>("run");
                 });
+                config.AddBranch<BaseCommandSettings>("SunRiseSet", add =>
+                {
+                    add.AddCommand<SunRiseSetRunCommand>("run");
+                });
             });
 
             return app.Run(args);
@@ -72,10 +76,12 @@ namespace June.Data
                 .Configure<SungrowSettings>(configuration.GetSection(nameof(SungrowSettings)))
                 .Configure<MeteoStatSettings>(configuration.GetSection(nameof(MeteoStatSettings)))
                 .Configure<ChargeSettings>(configuration.GetSection(nameof(ChargeSettings)))
+                .Configure<SunRiseSetSettings>(configuration.GetSection(nameof(SunRiseSetSettings)))
                 .AddSingleton<JuneRunSettings>()
                 .AddSingleton<SungrowRunSettings>()
                 .AddSingleton<MeteoStatRunSettings>()
                 .AddSingleton<ChargeRunSettings>()
+                .AddSingleton<SunRiseSetRunSettings>()
                 .AddSingleton(sp => { 
                     return new JuneRunCommand(sp.GetRequiredService<IOptions<JuneSettings>>(), new JuneScraper(sp.GetRequiredService<IOptions<JuneSettings>>()));
                 })
@@ -87,6 +93,9 @@ namespace June.Data
                 })
                 .AddSingleton(sp => {
                     return new ChargeRunCommand(sp.GetRequiredService<IOptions<ChargeSettings>>());
+                }) 
+                .AddSingleton(sp => {
+                    return new SunRiseSetRunCommand(sp.GetRequiredService<IOptions<SunRiseSetSettings>>());//, new SunRiseSetScraper(sp.GetRequiredService<IOptions<SunRiseSetSettings>>()));
                 })
                 .AddOptions()
                 .BuildServiceProvider();

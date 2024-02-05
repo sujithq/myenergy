@@ -14,6 +14,10 @@ using System.Text.Json;
 
 namespace June.Data.Commands
 {
+    public class ChargeSettings
+    {
+    }
+
     public class ChargeRunSettings : BaseCommandSettings
     {
 
