@@ -5,6 +5,7 @@ using Spectre.Console.Cli;
 using Microsoft.ML;
 using Spectre.Console;
 using System;
+using System.Linq;
 
 namespace June.Data.Commands
 {
@@ -108,7 +109,7 @@ namespace June.Data.Commands
         {
             var lists = new List<List<AnomalyQuarterRecord>>();
 
-            lists.Add( data
+            lists.Add(data
             .SelectMany(kv => kv.Value//.Where(w => w.J && w.S && w.M)
             .SelectMany(bcd => bcd.Q.C.Select((v, idx) => (kv.Key, bcd, "C", v, idx))
             ))
@@ -136,8 +137,8 @@ namespace June.Data.Commands
                     bcd.C,
                     (float)value,
                     //dateTime, 
-                    idx, 
-                    tuple.Item3, bcd.SRS.R, bcd.SRS.S
+                    idx,
+                    tuple.Item3, (bcd.SRS != null ? bcd.SRS.R : default), (bcd.SRS != null ? bcd.SRS.R : default)
                 );
             })
             .ToList());
@@ -171,7 +172,7 @@ namespace June.Data.Commands
                     (float)value,
                     //dateTime, 
                     idx,
-                    tuple.Item3, bcd.SRS.R, bcd.SRS.S
+                    tuple.Item3, (bcd.SRS != null ? bcd.SRS.R : default), (bcd.SRS != null ? bcd.SRS.R : default)
                 );
             })
             .ToList());
@@ -205,7 +206,7 @@ namespace June.Data.Commands
                     (float)value,
                     //dateTime, 
                     idx,
-                    tuple.Item3, bcd.SRS.R, bcd.SRS.S
+                    tuple.Item3, (bcd.SRS != null ? bcd.SRS.R : default), (bcd.SRS != null ? bcd.SRS.R : default)
                 );
             })
             .ToList());
@@ -239,7 +240,7 @@ namespace June.Data.Commands
                     (float)value,
                     //dateTime, 
                     idx,
-                    tuple.Item3, bcd.SRS.R, bcd.SRS.S
+                    tuple.Item3, (bcd.SRS != null ? bcd.SRS.R : default), (bcd.SRS != null ? bcd.SRS.R : default)
                 );
             })
             .ToList());
@@ -281,7 +282,7 @@ namespace June.Data.Commands
 
 
                         var p = prediction.Scores[1];
-                        Alert($"-> ({prediction.T}/{prediction.Y}/{prediction.D}/{date.ToString("yyyy-MM-dd H:mm", null)}) Prediction score of: {p:F3} ({prediction.IDX})", "Anomaly Quarter", ConsoleColor.Yellow);                        
+                        Alert($"-> ({prediction.T}/{prediction.Y}/{prediction.D}/{date.ToString("yyyy-MM-dd H:mm", null)}) Prediction score of: {p:F3} ({prediction.IDX})", "Anomaly Quarter", ConsoleColor.Yellow);
                     }
                 }
 
