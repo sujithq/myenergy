@@ -70,7 +70,7 @@ namespace June.Data.Commands
 
             }
 
-            DetectAnomaly(data!);
+            //DetectAnomaly(data!);
 
             //DetectAnomalyQuarterData(data!);
 
