@@ -118,6 +118,9 @@ namespace June.Data.Commands
             {
                 var (key, bcd, listType, value, idx) = tuple;
 
+                var dateToCheck = new DateTime(key, 1, 1).AddDays(bcd.D - 1).AddMinutes(15 * idx);
+                var sunShines = bcd.SRS != null ? dateToCheck >= bcd.SRS.R && dateToCheck <= bcd.SRS.S : false;
+
                 return new AnomalyQuarterRecord(
                     key,
                     bcd.D,
@@ -139,8 +142,9 @@ namespace June.Data.Commands
                     //dateTime, 
                     idx,
                     tuple.Item3,
-                    bcd.SRS != null ? bcd.SRS.R : default,
-                    bcd.SRS != null ? bcd.SRS.S : default
+                    //bcd.SRS != null ? bcd.SRS.R : default,
+                    //bcd.SRS != null ? bcd.SRS.S : default, 
+                    sunShines
                 );
             })
             .ToList());
@@ -154,6 +158,9 @@ namespace June.Data.Commands
             {
                 var (key, bcd, listType, value, idx) = tuple;
 
+                var dateToCheck = new DateTime(key, 1, 1).AddDays(bcd.D - 1).AddMinutes(15 * idx);
+                var sunShines = bcd.SRS != null ? dateToCheck >= bcd.SRS.R && dateToCheck <= bcd.SRS.S : false;
+
                 return new AnomalyQuarterRecord(
                     key,
                     bcd.D,
@@ -175,8 +182,9 @@ namespace June.Data.Commands
                     //dateTime, 
                     idx,
                     tuple.Item3,
-                    bcd.SRS != null ? bcd.SRS.R : default,
-                    bcd.SRS != null ? bcd.SRS.S : default
+                    //bcd.SRS != null ? bcd.SRS.R : default,
+                    //bcd.SRS != null ? bcd.SRS.S : default,
+                    sunShines
                 );
             })
             .ToList());
@@ -190,6 +198,9 @@ namespace June.Data.Commands
             {
                 var (key, bcd, listType, value, idx) = tuple;
 
+                var dateToCheck = new DateTime(key, 1, 1).AddDays(bcd.D - 1).AddMinutes(15 * idx);
+                var sunShines = bcd.SRS != null ? dateToCheck >= bcd.SRS.R && dateToCheck <= bcd.SRS.S : false;
+
                 return new AnomalyQuarterRecord(
                     key,
                     bcd.D,
@@ -211,8 +222,9 @@ namespace June.Data.Commands
                     //dateTime, 
                     idx,
                     tuple.Item3,
-                    bcd.SRS != null ? bcd.SRS.R : default,
-                    bcd.SRS != null ? bcd.SRS.S : default
+                    //bcd.SRS != null ? bcd.SRS.R : default,
+                    //bcd.SRS != null ? bcd.SRS.S : default,
+                    sunShines
                 );
             })
             .ToList());
@@ -226,6 +238,9 @@ namespace June.Data.Commands
             {
                 var (key, bcd, listType, value, idx) = tuple;
 
+                var dateToCheck = new DateTime(key, 1, 1).AddDays(bcd.D - 1).AddMinutes(15 * idx);
+                var sunShines = bcd.SRS != null ? dateToCheck >= bcd.SRS.R && dateToCheck <= bcd.SRS.S : false;
+
                 return new AnomalyQuarterRecord(
                     key,
                     bcd.D,
@@ -247,8 +262,9 @@ namespace June.Data.Commands
                     //dateTime, 
                     idx,
                     tuple.Item3,
-                    bcd.SRS != null ? bcd.SRS.R : default, 
-                    bcd.SRS != null ? bcd.SRS.S : default
+                    //bcd.SRS != null ? bcd.SRS.R : default, 
+                    //bcd.SRS != null ? bcd.SRS.S : default,
+                    sunShines
                 );
             })
             .ToList());
