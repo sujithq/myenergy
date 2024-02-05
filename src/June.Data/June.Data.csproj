@@ -71,6 +71,9 @@
     <None Update="Data\Charging\202312.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Data\Charging\202402.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Data\Charging\202401.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
