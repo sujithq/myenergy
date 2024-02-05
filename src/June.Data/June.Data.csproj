@@ -59,12 +59,6 @@
     <None Update="Data\Charging\202306.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Data\Charging\202307.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Charging\202308.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Data\Charging\202309.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

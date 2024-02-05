@@ -9,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.ML;
 using Spectre.Console;
 using June.Data.Commands.Settings;
 using System.Text.Json.Serialization;
@@ -17,43 +16,6 @@ using NodaTime;
 
 namespace June.Data.Commands
 {
-
-    public class TypeRegistrar : ITypeRegistrar, ITypeResolver
-    {
-        private readonly IServiceProvider _provider;
-
-        public TypeRegistrar(IServiceProvider provider)
-        {
-            _provider = provider;
-        }
-
-        public ITypeResolver Build()
-        {
-            return this;
-        }
-
-        public void Register(Type service, Type implementation)
-        {
-            // Implement registration logic if necessary
-        }
-
-        public void RegisterInstance(Type service, object implementation)
-        {
-            // Implement registration logic if necessary
-        }
-
-        public void RegisterLazy(Type service, Func<object> factory)
-        {
-            // Implement registration logic if necessary
-        }
-
-        public object? Resolve(Type? type)
-        {
-            return _provider.GetService(type!);
-        }
-    }
-
-
     public class JuneRunSettings : BaseCommandSettings
     {
 
@@ -145,115 +107,6 @@ namespace June.Data.Commands
         }
     }
 
-    public abstract class BaseRunCommand<T, U> : Command<T> where T : CommandSettings where U : class
-    {
-        public BaseRunCommand(IOptions<U> settings)
-        {
-            this.Settings = settings.Value;
-        }
-
-        public U Settings { get; }
-
-        protected static void Alert(string message, string type, ConsoleColor cc = ConsoleColor.Red)
-        {
-            AnsiConsole.MarkupLine($"[bold {cc}]{type}[/]: {message}");
-        }
-        protected static void DetectAnomaly(Dictionary<int, List<BarChartData>> data)
-        {
-            var lst = data
-            .SelectMany(kv => kv.Value.Where(w => w.J && w.S && w.M).Select(bcd =>
-                new AnomalyRecord(
-                    kv.Key,
-                    bcd.D,
-                    (float)bcd.P,
-                    (float)bcd.U,
-                    (float)bcd.I,
-                    (float)bcd.MS.tavg,
-                    (float)bcd.MS.tmin,
-                    (float)bcd.MS.tmax,
-                    (float)bcd.MS.prcp,
-                    (float)bcd.MS.snow,
-                    (float)bcd.MS.wdir,
-                    (float)bcd.MS.wspd,
-                    (float)bcd.MS.wpgt,
-                    (float)bcd.MS.pres,
-                    (float)bcd.MS.tsun,
-                    bcd.C
-                )))
-            .ToList();
-
-            // Create a new ML context
-            var mlContext = new MLContext();
-
-            // Load your data
-            IDataView dataView = mlContext.Data.LoadFromEnumerable<AnomalyRecord>(lst);
-
-            var inputColums = new string[] { nameof(AnomalyRecord.P), nameof(AnomalyRecord.U), nameof(AnomalyRecord.I) };
-
-            // Define the anomaly detection pipeline
-            var pipelines = inputColums.Select(s => mlContext.Transforms.DetectIidSpike(outputColumnName: nameof(Prediction.Scores),
-                                                               inputColumnName: s,
-                                                               confidence: 95.0,
-                                                               pvalueHistoryLength: 50)).ToList();
-
-            //Train the model
-            var trainedModels = pipelines.Select(p => p.Fit(dataView)).ToList();
-
-            //// Define the anomaly detection pipeline
-            //var pipeline = mlContext.Transforms.DetectIidSpike(outputColumnName: nameof(Prediction.Scores),
-            //                                                   inputColumnName: nameof(AnomalyRecord.P),
-            //                                                   confidence: 95.0,
-            //                                                   pvalueHistoryLength: 50);
-
-            //// Train the model
-            //var trainedModel = pipeline.Fit(dataView);
-
-            // Predict and find anomalies
-
-            var transformedDatas = trainedModels.Select(tm => tm.Transform(dataView)).ToList();
-            var allPredictions = transformedDatas.Select(td => mlContext.Data.CreateEnumerable<Prediction>(td, reuseRowObject: false)).ToList();
-
-            //IDataView transformedData = trainedModel.Transform(dataView);
-            //var predictions = mlContext.Data.CreateEnumerable<Prediction>(transformedData, reuseRowObject: false);
-
-            for (int j = 0; j < inputColums.Length; j++)
-            {
-                foreach (var prediction in allPredictions[j].Where(w => w.Scores![0] != 0))
-                {
-
-                    var idx = data[prediction.Y].FindIndex(f => f.D == prediction.D);
-                    var d = data[prediction.Y][idx];
-
-                    double p = d.AS.P, u = d.AS.U, i = d.AS.I;
-
-                    switch (inputColums[j])
-                    {
-                        case "P":
-                            p = prediction.Scores[1];
-                            Alert($"-> ({inputColums[j]}/{prediction.Y}/{prediction.D}/{prediction.D.DayOfYearLocalDate(prediction.Y).ToString("yyyy-MM-dd", null)}) Prediction score of: {p:F2}", "Anomaly", ConsoleColor.Yellow);
-                            break;
-                        case "U":
-                            u = prediction.Scores[1];
-                            Alert($"-> ({inputColums[j]}/{prediction.Y}/{prediction.D}/{prediction.D.DayOfYearLocalDate(prediction.Y).ToString("yyyy-MM-dd", null)}) Prediction score of: {u:F2}", "Anomaly", ConsoleColor.Yellow);
-                            break;
-                        case "I":
-                            i = prediction.Scores[1] / 1000;
-                            Alert($"-> ({inputColums[j]}/{prediction.Y}/{prediction.D}/{prediction.D.DayOfYearLocalDate(prediction.Y).ToString("yyyy-MM-dd", null)}) Prediction score of: {i:F2}", "Anomaly", ConsoleColor.Yellow);
-                            break;
-                        default:
-                            // Handle default case if necessary
-                            break;
-                    }
-
-                    data[prediction.Y][idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, d.MS, d.M, new(p, u, i, true), d.Q);
-                }
-            }
-
-            // Output the results
-
-        }
-    }
-
 
 
     public class EnergyData
@@ -291,8 +144,8 @@ namespace June.Data.Commands
 
     public class PointData
     {
-        [JsonPropertyName("x")]
-        public string X { get; set; }
+        //[JsonPropertyName("x")]
+        //public string X { get; set; }
 
         [JsonPropertyName("y")]
         public double? Y { get; set; }

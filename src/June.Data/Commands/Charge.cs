@@ -46,6 +46,8 @@ namespace June.Data.Commands
 
                     foreach (var r in records)
                     {
+                        
+                        Alert($"Processing start charging session on {r.PlugInDate}", "Info", ConsoleColor.Green);
 
                         var doy = r.PlugInDate.ToLocalDateTime().DayOfYear;
                         var year = r.PlugInDate.Year;
@@ -60,6 +62,8 @@ namespace June.Data.Commands
 
                             if (doy != doy2)
                             {
+                                Alert($"Processing end charging session on {r.PlugInDate.Add(r.ChargedTime_)}", "Info", ConsoleColor.Green);
+
                                 year = r.PlugInDate.Add(r.ChargedTime_).Year;
                                 idx = data[year].FindIndex(f => f.D == doy2);
                                 if (idx != -1)
@@ -75,19 +79,9 @@ namespace June.Data.Commands
                 }
             }); 
 
-
-            //dataPath = Path.Combine(AppContext.BaseDirectory, "Data/Charging/202301.csv");
-            //Alert($"Reading from {dataPath}", "Info", ConsoleColor.Green);
-
-            //CsvConfiguration config = CsvConfiguration.FromAttributes<Foo>();
-            //using (var reader = new StreamReader(dataPath))
-            //using (var csv = new CsvReader(reader, config))
-            //{
-            //    csv.Context.RegisterClassMap<FooMap>();
-            //    var records = csv.GetRecords<Foo>();
-            //}
-
             DetectAnomaly(data!);
+
+            DetectAnomalyQuarterData(data!);
 
             File.WriteAllText(Path.Combine(AppContext.BaseDirectory, "Data/data.json"), JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true }));
 

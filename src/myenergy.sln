@@ -7,6 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myenergy", "myenergy\myener
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflow", "Workflow", "{B7DEE70E-0184-46EF-AA83-2D7E8F9106FE}"
 	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\Charge.yml = ..\.github\workflows\Charge.yml
 		..\.github\workflows\JuneData.yml = ..\.github\workflows\JuneData.yml
 		..\.github\workflows\main.yml = ..\.github\workflows\main.yml
 		..\.github\workflows\MeteoStatData.yml = ..\.github\workflows\MeteoStatData.yml
