@@ -35,6 +35,13 @@ I always had to check June Energy and ISolarCloud app to see how much energy I h
 [![Charge Data Refresh Dispatched](https://github.com/sujithq/myenergy/actions/workflows/Charge.yml/badge.svg?branch=main&event=workflow_dispatch)](https://github.com/sujithq/myenergy/actions/workflows/Charge.yml)
 
 
+### Sun Rise/Set Data Refresh Scheduled
+[![Sun Rise/Set Data Refresh Scheduled](https://github.com/sujithq/myenergy/actions/workflows/SunRiseSet.yml/badge.svg?branch=main&event=schedule)](https://github.com/sujithq/myenergy/actions/workflows/SunRiseSet.yml)
+
+### Sun Rise/Set Data Refresh Dispatched
+[![Sun Rise/Set Data Refresh Dispatched](https://github.com/sujithq/myenergy/actions/workflows/SunRiseSet.yml/badge.svg?branch=main&event=workflow_dispatch)](https://github.com/sujithq/myenergy/actions/workflows/SunRiseSet.yml)
+
+
 ## Deployment
 ### Pages Deployment
 [![pages-build-deployment](https://github.com/sujithq/myenergy/actions/workflows/pages/pages-build-deployment/badge.svg?branch=gh-pages)](https://github.com/sujithq/myenergy/actions/workflows/pages/pages-build-deployment)

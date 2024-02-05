@@ -16,18 +16,18 @@
 
                                 @if (selectedDayOfYearData.C)
                                 {
-                                    <div class="row mb-1 d-none d-sm-block justify-content-center ">
+                                    <div class="row mb-4 d-none d-sm-block justify-content-center ">
                                         <div class="col-sm-10 mx-auto">
-                                            <Badge Color="BadgeColor.Primary" Class="ms-2" VisuallyHiddenText="selectedDayOfYearData.C"><Icon Name="IconName.BatteryCharging" Size="IconSize.x5" /></Badge>
+                                            <Badge Color="BadgeColor.Danger" Class="ms-2" VisuallyHiddenText="selectedDayOfYearData.C"><Icon Name="IconName.BatteryCharging" Size="IconSize.x5" /></Badge>
                                         </div>
                                     </div>
 
                                 }
                                 else
                                 {
-                                    <div class="row mb-1 d-none d-sm-block justify-content-center ">
+                                    <div class="row mb-4 d-none d-sm-block justify-content-center ">
                                         <div class="col-sm-10 mx-auto">
-                                            <Badge Color="BadgeColor.Danger" Class="ms-2" VisuallyHiddenText="selectedDayOfYearData.C"><Icon Name="IconName.BatteryCharging" Size="IconSize.x5" /></Badge>
+                                            <Badge Color="BadgeColor.Primary" Class="ms-2" VisuallyHiddenText="selectedDayOfYearData.C"><Icon Name="IconName.BatteryCharging" Size="IconSize.x5" /></Badge>
                                         </div>
                                     </div>
                                 }
@@ -58,25 +58,6 @@
                                             <MeteoDay Data="@selectedDayOfYearData.MS" />
                                         </div>
                                     </div>
-
-                                    @if (selectedDayOfYearData.C)
-                                    {
-                                        <div class="row mb-1 d-none d-sm-block justify-content-center ">
-                                            <div class="col-sm-10 mx-auto">
-                                                <Badge Color="BadgeColor.Primary" Class="ms-2" VisuallyHiddenText="selectedDayOfYearData.C"><Icon Name="IconName.BatteryCharging" Size="IconSize.x5" /></Badge>
-                                            </div>
-                                        </div>
-
-                                    }
-                                    else
-                                    {
-                                        <div class="row mb-1 d-none d-sm-block justify-content-center ">
-                                            <div class="col-sm-10 mx-auto">
-                                                <Badge Color="BadgeColor.Danger" Class="ms-2" VisuallyHiddenText="selectedDayOfYearData.C"><Icon Name="IconName.BatteryCharging" Size="IconSize.x5" /></Badge>
-                                            </div>
-                                        </div>
-                                    }
-
                                 }
                                 else
                                 {
@@ -242,7 +223,6 @@ else
     DateOnly maxDate;
 
     DateOnly currentDate;
-    bool charged;
 
     int selectedYearIndex;
     int selectedMonthIndex;
