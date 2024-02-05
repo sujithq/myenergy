@@ -1,25 +1,62 @@
 ﻿using June.Data;
-using June.Data.Commands.Settings;
-using myenergy.Common.Extensions;
-using myenergy.Common;
-using Spectre.Console.Cli;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
 using June.Data.Commands;
+using June.Data.Commands.Settings;
+using Microsoft.Extensions.Options;
+using myenergy.Common;
+using myenergy.Common.Extensions;
 using NodaTime;
+using Spectre.Console.Cli;
+using System.Text.Json;
 
 namespace Sungrow.Data.Commands
 {
+    public class SungrowSettings
+    {
+        public required string username { get; set; }
+        public required string gatewayUrl { get; set; }
+
+        private string? _password;
+        public string password
+        {
+            get => string.IsNullOrEmpty(_password) ? Environment.GetEnvironmentVariable("SUNGROW_PASSWORD")! : _password;
+            set => _password = value;
+        }
+
+        private string? _APP_RSA_PUBLIC_KEY;
+        public string APP_RSA_PUBLIC_KEY
+        {
+            get => string.IsNullOrEmpty(_APP_RSA_PUBLIC_KEY) ? Environment.GetEnvironmentVariable("SUNGROW_APP_RSA_PUBLIC_KEY")! : _APP_RSA_PUBLIC_KEY;
+            set => _APP_RSA_PUBLIC_KEY = value;
+        }
+
+        private string? _ACCESS_KEY;
+        public string ACCESS_KEY
+        {
+            get => string.IsNullOrEmpty(_ACCESS_KEY) ? Environment.GetEnvironmentVariable("SUNGROW_ACCESS_KEY")! : _ACCESS_KEY;
+            set => _ACCESS_KEY = value;
+
+        }
+
+        private string? _APP_KEY;
+        public string APP_KEY
+        {
+            get => string.IsNullOrEmpty(_APP_KEY) ? Environment.GetEnvironmentVariable("SUNGROW_APP_KEY")! : _APP_KEY;
+            set => _APP_KEY = value;
+
+        }
+        private string? _PS_ID;
+        public string PS_ID
+        {
+            get => string.IsNullOrEmpty(_PS_ID) ? Environment.GetEnvironmentVariable("SUNGROW_PS_ID")! : _PS_ID;
+            set => _PS_ID = value;
+
+        }
+    }
+
     public class SungrowRunSettings : BaseCommandSettings
     {
 
     }
-
 
     public class SungrowRunCommand : BaseRunCommand<SungrowRunSettings, SungrowSettings>
     {
@@ -123,7 +160,7 @@ namespace Sungrow.Data.Commands
 
             DetectAnomaly(data!);
 
-            File.WriteAllText(Path.Combine(AppContext.BaseDirectory, "Data/data.json"), JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true }));
+            File.WriteAllText(Path.Combine(AppContext.BaseDirectory, "Data/data.json"), JsonSerializer.Serialize(data, JsonSerializerOptions));
 
             if (failed)
             {

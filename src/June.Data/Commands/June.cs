@@ -1,18 +1,12 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using June.Data.Commands.Settings;
 using Microsoft.Extensions.Options;
-using myenergy.Common.Extensions;
 using myenergy.Common;
-using Spectre.Console.Cli;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Spectre.Console;
-using June.Data.Commands.Settings;
-using System.Text.Json.Serialization;
+using myenergy.Common.Extensions;
 using NodaTime;
+using Spectre.Console;
+using Spectre.Console.Cli;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace June.Data.Commands
 {
@@ -20,6 +14,7 @@ namespace June.Data.Commands
     {
 
     }
+
     public class JuneRunCommand : BaseRunCommand<JuneRunSettings, JuneSettings>
     {
         public JuneRunCommand(IOptions<JuneSettings> settings, IJuneScraper scraper) : base(settings)
@@ -101,13 +96,11 @@ namespace June.Data.Commands
 
             DetectAnomaly(data!);
 
-            File.WriteAllText(Path.Combine(AppContext.BaseDirectory, "Data/data.json"), JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true }));
+            File.WriteAllText(Path.Combine(AppContext.BaseDirectory, "Data/data.json"), JsonSerializer.Serialize(data, JsonSerializerOptions));
 
             return Environment.ExitCode;
         }
     }
-
-
 
     public class EnergyData
     {

@@ -5,6 +5,4 @@ namespace June.Data.Commands.Settings
     public class BaseCommandSettings : CommandSettings
     {
     }
-
-
 }

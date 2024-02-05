@@ -1,6 +1,6 @@
+using MeteoStat.Data.Commands;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace June.Data
 {

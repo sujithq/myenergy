@@ -5,8 +5,6 @@ using June.Data.Commands.Settings;
 using Microsoft.Extensions.Options;
 using myenergy.Common;
 using myenergy.Common.Extensions;
-using Newtonsoft.Json.Linq;
-using NodaTime;
 using NodaTime.Extensions;
 using Spectre.Console.Cli;
 using System.Globalization;
@@ -85,9 +83,7 @@ namespace June.Data.Commands
 
             DetectAnomaly(data!);
 
-            DetectAnomalyQuarterData(data!);
-
-            File.WriteAllText(Path.Combine(AppContext.BaseDirectory, "Data/data.json"), JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true }));
+            File.WriteAllText(Path.Combine(AppContext.BaseDirectory, "Data/data.json"), JsonSerializer.Serialize(data, JsonSerializerOptions));
 
             return Environment.ExitCode;
         }

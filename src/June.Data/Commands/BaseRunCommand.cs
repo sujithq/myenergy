@@ -1,16 +1,18 @@
 ﻿using Microsoft.Extensions.Options;
-using myenergy.Common.Extensions;
-using myenergy.Common;
-using Spectre.Console.Cli;
 using Microsoft.ML;
+using myenergy.Common;
+using myenergy.Common.Extensions;
 using Spectre.Console;
-using System;
-using System.Linq;
+using Spectre.Console.Cli;
+using System.Text.Json;
 
 namespace June.Data.Commands
 {
     public abstract class BaseRunCommand<T, U> : Command<T> where T : CommandSettings where U : class
     {
+
+        protected JsonSerializerOptions JsonSerializerOptions { get; set; } = new JsonSerializerOptions { WriteIndented = true };
+
         public BaseRunCommand(IOptions<U> settings)
         {
             this.Settings = settings.Value;
@@ -101,11 +103,11 @@ namespace June.Data.Commands
                 }
             }
 
-            // Output the results
+            DetectAnomalyQuarterData(data!);
 
         }
 
-        protected static void DetectAnomalyQuarterData(Dictionary<int, List<BarChartData>> data)
+        private static void DetectAnomalyQuarterData(Dictionary<int, List<BarChartData>> data)
         {
             var lists = new List<List<AnomalyQuarterRecord>>();
 
