@@ -45,14 +45,5 @@ runs:
             git push origin main
         fi
 
-        # git diff HEAD -- "./src/June.Data/Data/data.json"
-
-        if git diff --quiet HEAD -- "./src/June.Data/Data/data.json" ; then
-            echo "No changes to the output on this push."
-        else
-            git add ./src/June.Data/Data/data.json
-            git commit -m "📊 Add update data file for ${{ inputs.COMMAND }}."
-            git push origin main
-        fi
       env:
         GH_TOKEN: ${{ steps.generate_token.outputs.token }}
