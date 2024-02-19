@@ -6,7 +6,8 @@
 
     public record AnomalyModalData(int Y, int D, AnomalyData A);
 
-    public record QuarterData(List<double> C, List<double> I, List<double> G, List<double> P);
+    public record QuarterData(List<double> C, List<double> I, List<double> G, List<double> P, List<double> WRT, List<double> WOT, List<double> WP);
 
     public record SunRiseSet(DateTime R, DateTime S);
+
 }

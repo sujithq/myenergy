@@ -190,7 +190,7 @@ namespace June.Data
                 gas = FilterDataByPrefix2(dataG, "gas-consumption-total");
             }
 
-            return new QuarterData(consumption, injection, gas, []);
+            return new QuarterData(consumption, injection, gas, [], [], [], []);
         }
         private static List<double> FilterDataByPrefix2(EnergyData? data, string prefix)
         {

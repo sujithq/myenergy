@@ -1,0 +1,5 @@
+﻿Plug-in date;Total mileage;State of charge when plugged in;Unplug date;State of charge when unplugged;Charging location;Location address;US: Tag; Cost* ;Energy charged*;Energy rate 1;Energy rate 2;Charged time;Precondition for departure;;
+31/07/2023 20:04;17.963 km;45%;31/07/2023 20:32;80%;Mechelsesteenweg 13;Mechelsesteenweg 13, 1910 Kampenhout;--;21.33 EUR;~ 27 kWh;"0.79 EUR/kWh  (All day)";--;27 min;Off;;
+31/07/2023 19:23;17.963 km;7%;31/07/2023 20:03;44%;Mechelsesteenweg 13;Mechelsesteenweg 13, 1910 Kampenhout;--;22.12 EUR;~ 28 kWh;"0.79 EUR/kWh  (All day)";--;29 min;Off;;
+22/07/2023 09:10;17.634 km;15%;22/07/2023 10:04;80%;HPC/DC Powerland;MECHELSESTEENWEG 13 1910 KAMPENHOUT ;Public;37.92 EUR;~ 48 kWh;"0.79 EUR/kWh  (All day)";--;51 min;Off;;
+12/07/2023 19:12;17.280 km;29%;12/07/2023 20:09;98%;HPC/DC Powerland;MECHELSESTEENWEG 13 1910 KAMPENHOUT ;Public;40.29 EUR;~ 51 kWh;"0.79 EUR/kWh  (All day)";--;57 min;Off;;

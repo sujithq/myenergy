@@ -101,10 +101,9 @@
                         <Year Years="@years" OnClickCallback="YearChangedAsync" DecreaseCallback="DecreaseDate" IncreaseCallback="IncreaseDate" Tab="@activeTabTitle" InitialYearIndex="@selectedYearIndex" />
                     </div>
 
-                    <div class="row mb-1">
-                        <div class="col-sm-12">
-                            <input type="range" min="@minWeekIndex" max="@maxWeekIndex" class="slider" @bind="selectedWeekIndex" @bind:after="WeekChangedAsync">
-                        </div>
+                    <div class="d-flex flex-row mb-3">
+                        <input type="range" min="@minWeekIndex" max="@maxWeekIndex" class="slider" @bind="selectedWeekIndex" @bind:after="WeekChangedAsync">
+                        <Badge Color="BadgeColor.Primary" Class="ms-2" VisuallyHiddenText="amount1">@(weeks[selectedWeekIndex])</Badge>
                     </div>
 
                     <div class="row justify-content-center mb-1">
@@ -124,10 +123,9 @@
                         <Year Years="@years" OnClickCallback="YearChangedAsync" DecreaseCallback="DecreaseDate" IncreaseCallback="IncreaseDate" Tab="@activeTabTitle" InitialYearIndex="@selectedYearIndex" />
                     </div>
 
-                    <div class="row mb-1">
-                        <div class="col-sm-12">
-                            <input type="range" min="@minMonthIndex" max="@maxMonthIndex" class="slider" @bind="selectedMonthIndex" @bind:after="MonthChangedAsync">
-                        </div>
+                    <div class="d-flex flex-row mb-3">
+                        <input type="range" min="@minMonthIndex" max="@maxMonthIndex" class="slider" @bind="selectedMonthIndex" @bind:after="MonthChangedAsync">
+                        <Badge Color="BadgeColor.Primary" Class="ms-2" VisuallyHiddenText="amount1">@(weeks[selectedWeekIndex])</Badge>
                     </div>
 
                     <div class="row justify-content-center mb-1">

@@ -48,5 +48,17 @@ namespace myenergy.Common.Extensions
 
             return time;
         }
+
+        public static int GetQuarterHourIndex(this DateTime dateTime)
+        {
+            // Calculate the quarter hour index
+            int hours = dateTime.Hour;
+            int minutes = dateTime.Minute;
+
+            // Each hour has 4 quarters, and we add the current quarter
+            int index = hours * 4 + minutes / 15;
+
+            return index;
+        }
     }
 }

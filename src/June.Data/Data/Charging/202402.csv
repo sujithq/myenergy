@@ -1,3 +1,19 @@
-﻿PlugInDate;TotalMileage;SocPluggedin;UnplugDate;SocUnplugged;Cost;Charged;ChargedTime
-02/02/2024 21:41;26.977 km;34%;03/02/2024 12:12;80%;~ 15.04 EUR;~ 38 kWh;9h 04min
-02/02/2024 17:13;26.954 km;33%;02/02/2024 18:58;41%;~ 2.79 EUR;~ 7 kWh;1h 43min
+﻿Plug-in date;Total mileage;State of charge when plugged in;Unplug date;State of charge when unplugged;Charging location;Location address;US: Tag; Cost* ;Energy charged*;Energy rate 1;Energy rate 2;Charged time;Precondition for departure;;
+17/02/2024 22:21;28.364 km;54%;18/02/2024 09:17;80%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 8.05 EUR;~ 21 kWh;"0.39 EUR/kWh  (All day)";--;4h 54min;Off;;
+17/02/2024 19:58;28.357 km;46%;17/02/2024 22:07;56%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 3.54 EUR;~ 9 kWh;"0.39 EUR/kWh  (All day)";--;2h 09min;Off;;
+17/02/2024 16:51;28.353 km;41%;17/02/2024 18:08;47%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 2.06 EUR;~ 5 kWh;"0.39 EUR/kWh  (All day)";--;1h 16min;Off;;
+17/02/2024 10:14;28.277 km;54%;17/02/2024 11:40;60%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 2.36 EUR;~ 6 kWh;"0.39 EUR/kWh  (All day)";--;1h 25min;Off;;
+15/02/2024 18:50;28.181 km;43%;16/02/2024 10:51;80%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 12.06 EUR;~ 31 kWh;"0.39 EUR/kWh  (All day)";--;7h 22min;Off;;
+15/02/2024 16:32;28.176 km;34%;15/02/2024 18:37;44%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 3.35 EUR;~ 9 kWh;"0.39 EUR/kWh  (All day)";--;2h 03min;Off;;
+15/02/2024 13:00;28.025 km;39%;15/02/2024 14:02;76%;DC/AC LastMileSolutions;RUE DE LIÈGE 47 6941 BOMAL-SUR-OURTHE ;Public;-- EUR;~ 27 kWh;--;--;1h 00min;Off;;
+15/02/2024 12:56;28.025 km;37%;15/02/2024 12:59;39%;DC/AC LastMileSolutions;RUE DE LIÈGE 47 6941 BOMAL-SUR-OURTHE ;Public;-- EUR;< 2 kWh;--;--;2 min;Off;;
+14/02/2024 18:15;27.870 km;38%;15/02/2024 09:31;80%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 13.64 EUR;~ 35 kWh;"0.39 EUR/kWh  (All day)";--;8h 19min;Off;;
+13/02/2024 22:16;27.725 km;52%;14/02/2024 08:58;80%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 9.07 EUR;~ 23 kWh;"0.39 EUR/kWh  (All day)";--;5h 30min;Off;;
+12/02/2024 16:31;27.643 km;57%;13/02/2024 07:06;80%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 7.47 EUR;~ 19 kWh;"0.39 EUR/kWh  (All day)";--;4h 32min;On;;
+11/02/2024 23:08;27.607 km;27%;12/02/2024 07:32;66%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 13.80 EUR;~ 35 kWh;"0.39 EUR/kWh  (All day)";--;8h 22min;Off;;
+11/02/2024 11:05;27.434 km;33%;11/02/2024 11:37;80%;HPC/DC Certipower;Koksijdestraat 8 8630 Veurne ;Public;-- EUR;~ 34 kWh;--;--;31 min;Off;;
+08/02/2024 17:31;27.204 km;48%;09/02/2024 07:40;100%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 16.64 EUR;~ 42 kWh;"0.39 EUR/kWh  (All day)";--;10h 26min;On;;
+06/02/2024 16:38;27.129 km;51%;07/02/2024 08:15;80%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 9.25 EUR;~ 24 kWh;"0.39 EUR/kWh  (All day)";--;5h 40min;On;;
+06/02/2024 13:07;27.125 km;37%;06/02/2024 16:16;53%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 5.19 EUR;~ 13 kWh;"0.39 EUR/kWh  (All day)";--;3h 08min;Off;;
+02/02/2024 21:41;26.977 km;34%;03/02/2024 12:12;80%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 15.04 EUR;~ 38 kWh;"0.39 EUR/kWh (All day)";--;9h 04min;On;;
+02/02/2024 17:13;26.954 km;33%;02/02/2024 18:58;41%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 2.79 EUR;~ 7 kWh;"0.39 EUR/kWh  (All day)";--;1h 43min;Off;;

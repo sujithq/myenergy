@@ -1,5 +1,9 @@
-﻿PlugInDate;TotalMileage;SocPluggedin;UnplugDate;SocUnplugged;Cost;Charged;ChargedTime
-26/02/2023 22:19;10.469 km;23%;27/02/2023 07:08;80%;~ 17.78 EUR;~ 45 kWh;4h 15min
-17/02/2023 14:31;9.933 km;37%;17/02/2023 16:36;64%;~ 8.72 EUR;~ 22 kWh;2h 04min
-09/02/2023 21:20;9.627 km;15%;10/02/2023 06:37;80%;~ 20.27 EUR;~ 52 kWh;4h 50min
-04/02/2023 09:26;9.442 km;39%;04/02/2023 12:29;79%;~ 12.73 EUR;~ 32 kWh;3h 03min
+﻿Plug-in date;Total mileage;State of charge when plugged in;Unplug date;State of charge when unplugged;Charging location;Location address;US: Tag; Cost* ;Energy charged*;Energy rate 1;Energy rate 2;Charged time;Precondition for departure;;
+26/02/2023 22:19;10.469 km;23%;27/02/2023 07:08;80%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 17.78 EUR;~ 45 kWh;"0.39 EUR/kWh  (All day)";--;4h 15min;Off;;
+19/02/2023 16:45;10.299 km;21%;19/02/2023 17:28;80%;HPC/DC Powerland;MECHELSESTEENWEG 13 1910 KAMPENHOUT ;Public;-- EUR;~ 42 kWh;"0.79 EUR/kWh  (All day)";--;42 min;Off;;
+19/02/2023 14:23;10.143 km;43%;19/02/2023 14:46;68%;Koksijdestraat 8A;Koksijdestraat 8A, 8630 Veurne;--;-- EUR;~ 19 kWh;--;--;21 min;Off;;
+17/02/2023 21:43;10.105 km;9%;17/02/2023 22:04;56%;HPC/DC Allego;Diksmuidestraat 29 X1 8433 Middelkerke ;Public;-- EUR;~ 35 kWh;--;--;20 min;Off;;
+17/02/2023 14:31;9.933 km;37%;17/02/2023 16:36;64%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 8.72 EUR;~ 22 kWh;"0.39 EUR/kWh  (All day)";--;2h 04min;Off;;
+13/02/2023 18:46;9.791 km;26%;13/02/2023 19:28;80%;HPC/DC Powerland;MECHELSESTEENWEG 13 1910 KAMPENHOUT ;Public;-- EUR;~ 39 kWh;"0.79 EUR/kWh  (All day)";--;41 min;Off;;
+09/02/2023 21:20;9.627 km;15%;10/02/2023 06:37;80%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 20.27 EUR;~ 52 kWh;"0.39 EUR/kWh  (All day)";--;4h 50min;Off;;
+04/02/2023 09:26;9.442 km;39%;04/02/2023 12:29;79%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 12.73 EUR;~ 32 kWh;"0.39 EUR/kWh  (All day)";--;3h 03min;Off;;

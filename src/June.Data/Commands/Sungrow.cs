@@ -126,7 +126,7 @@ namespace Sungrow.Data.Commands
                             }
                             if (value.FindIndex(f => f.D == item.D) == -1)
                             {
-                                value.Add(new BarChartData(item.D, 0, 0, 0, false, false, new MeteoStatData(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), false, new AnomalyData(0, 0, 0, false), new QuarterData([], [], [], []), false));
+                                value.Add(new BarChartData(item.D, 0, 0, 0, false, false, new MeteoStatData(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), false, new AnomalyData(0, 0, 0, false), new QuarterData([], [], [], [], [], [], []), false));
                             }
 
                             var idx = value.FindIndex(f => f.D == item.D);
@@ -142,7 +142,7 @@ namespace Sungrow.Data.Commands
                                 P2.Add(val);
                             }
 
-                            var newQ = new QuarterData(d.Q.C, d.Q.I, d.Q.G, P2);
+                            var newQ = new QuarterData(d.Q.C, d.Q.I, d.Q.G, P2, d.Q.WRT, d.Q.WOT, d.Q.WP);
 
                             value[idx] = new BarChartData(d.D, production, d.U, d.I, d.J, item.Item4 >= currentDateInBelgium.Date.Minus(Period.FromDays(5)) ? false : true, d.MS, d.M, d.AS, newQ, d.C, d.SRS);
                         }

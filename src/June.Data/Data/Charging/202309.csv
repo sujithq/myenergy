@@ -1,6 +1,12 @@
-﻿PlugInDate;TotalMileage;SocPluggedin;UnplugDate;SocUnplugged;Cost;Charged;ChargedTime
-30/09/2023 20:30;20.434 km;34%;01/10/2023 08:24;80%;~ 15.18 EUR;~ 39 kWh;9h 10min
-30/09/2023 18:43;20.432 km;32%;30/09/2023 19:13;34%;~ 0.80 EUR;~ 2 kWh;29 min
-23/09/2023 22:12;20.202 km;71%;24/09/2023 10:30;80%;~ 3.11 EUR;~ 8 kWh;1h 53min
-23/09/2023 19:44;20.193 km;63%;23/09/2023 21:50;73%;~ 3.44 EUR;~ 9 kWh;2h 06min
-23/09/2023 11:03;20.178 km;64%;23/09/2023 11:34;66%;~ 0.84 EUR;~ 2 kWh;30 min
+﻿Plug-in date;Total mileage;State of charge when plugged in;Unplug date;State of charge when unplugged;Charging location;Location address;US: Tag; Cost* ;Energy charged*;Energy rate 1;Energy rate 2;Charged time;Precondition for departure;;
+30/09/2023 20:30;20.434 km;34%;01/10/2023 08:24;80%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 15.18 EUR;~ 39 kWh;"0.39 EUR/kWh  (All day)";--;9h 10min;Off;;
+30/09/2023 18:43;20.432 km;32%;30/09/2023 19:13;34%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 0.80 EUR;~ 2 kWh;"0.39 EUR/kWh  (All day)";--;29 min;Off;;
+30/09/2023 12:05;20.396 km;39%;30/09/2023 12:07;39%;Zeypestraat 28;Zeypestraat 28, 1910 Kampenhout;--;-- EUR;0 kWh;--;--;0 min;Off;;
+30/09/2023 12:04;20.396 km;39%;30/09/2023 12:05;39%;Zeypestraat 25;Zeypestraat 25, 1910 Kampenhout;--;-- EUR;0 kWh;--;--;0 min;Off;;
+23/09/2023 22:12;20.202 km;71%;24/09/2023 10:30;80%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 3.11 EUR;~ 8 kWh;"0.39 EUR/kWh  (All day)";--;1h 53min;Off;;
+23/09/2023 19:44;20.193 km;63%;23/09/2023 21:50;73%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 3.44 EUR;~ 9 kWh;"0.39 EUR/kWh  (All day)";--;2h 06min;Off;;
+23/09/2023 11:03;20.178 km;64%;23/09/2023 11:34;66%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 0.84 EUR;~ 2 kWh;"0.39 EUR/kWh  (All day)";--;30 min;Off;;
+20/09/2023 19:48;20.044 km;42%;20/09/2023 20:36;95%;HPC/DC Powerland;MECHELSESTEENWEG 13 1910 KAMPENHOUT ;Public;30.81 EUR;~ 39 kWh;"0.79 EUR/kWh  (All day)";--;46 min;Off;;
+17/09/2023 20:16;19.870 km;22%;17/09/2023 20:59;80%;HPC/DC Powerland;MECHELSESTEENWEG 13 1910 KAMPENHOUT ;Public;33.18 EUR;~ 42 kWh;"0.79 EUR/kWh  (All day)";--;42 min;Off;;
+12/09/2023 18:15;19.624 km;11%;12/09/2023 19:09;80%;HPC/DC Powerland;MECHELSESTEENWEG 13 1910 KAMPENHOUT ;Public;40.79 EUR;~ 51 kWh;"0.79 EUR/kWh  (All day)";--;53 min;Off;;
+04/09/2023 14:58;19.327 km;21%;04/09/2023 15:43;80%;HPC/DC Powerland;MECHELSESTEENWEG 13 1910 KAMPENHOUT ;Public;34.79 EUR;~ 44 kWh;"0.79 EUR/kWh  (All day)";--;44 min;Off;;

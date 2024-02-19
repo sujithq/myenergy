@@ -10,6 +10,42 @@ using System.Text.Json.Serialization;
 
 namespace June.Data.Commands
 {
+
+    public class JuneSettings
+    {
+        public required string username { get; set; }
+        public required string grant_type { get; set; }
+
+        private string? _password;
+        public string password
+        {
+            get => string.IsNullOrEmpty(_password) ? Environment.GetEnvironmentVariable("JUNE_PASSWORD")! : _password;
+            set => _password = value;
+
+        }
+        private string? _client_id;
+        public string client_id
+        {
+            get => string.IsNullOrEmpty(_client_id) ? Environment.GetEnvironmentVariable("JUNE_CLIENT_ID")! : _client_id;
+            set => _client_id = value;
+
+        }
+        private string? _client_secret;
+        public string client_secret
+        {
+            get => string.IsNullOrEmpty(_client_secret) ? Environment.GetEnvironmentVariable("JUNE_CLIENT_SECRET")! : _client_secret;
+            set => _client_secret = value;
+
+        }
+        private string? _contract;
+        public string contract
+        {
+            get => string.IsNullOrEmpty(_contract) ? Environment.GetEnvironmentVariable("JUNE_CONTRACT")! : _contract;
+            set => _contract = value;
+
+        }
+    }
+
     public class JuneRunSettings : BaseCommandSettings
     {
 
@@ -71,12 +107,12 @@ namespace June.Data.Commands
                         }
                         if (value.FindIndex(f => f.D == item.D) == -1)
                         {
-                            value.Add(new BarChartData(item.D, 0, 0, 0, false, false, new MeteoStatData(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), false, new AnomalyData(0, 0, 0, false), new QuarterData([], [], [], []), false));
+                            value.Add(new BarChartData(item.D, 0, 0, 0, false, false, new MeteoStatData(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), false, new AnomalyData(0, 0, 0, false), new QuarterData([], [], [], [], [], [], []), false));
                         }
 
                         var idx = value.FindIndex(f => f.D == item.D);
                         var d = value[idx];
-                        var qd = new QuarterData(jQ!.C, jQ.I, jQ.G, d.Q.P);
+                        var qd = new QuarterData(jQ!.C, jQ.I, jQ.G, d.Q.P, d.Q.WRT, d.Q.WOT, d.Q.WP);
 
                         value[idx] = new BarChartData(d.D, d.P, consumption, injection, item.Item4 >= currentDateInBelgium.Date.Minus(Period.FromDays(5)) ? false : true, d.S, d.MS, d.M, d.AS, qd, d.C, d.SRS);
                     }

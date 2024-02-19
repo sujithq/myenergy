@@ -43,10 +43,10 @@ namespace June.Data.Commands
                 using (var reader = new StreamReader(file))
                 using (var csv = new CsvReader(reader, config))
                 {
-                    csv.Context.RegisterClassMap<FooMap>();
+                    //csv.Context.RegisterClassMap<FooMap>();
                     var records = csv.GetRecords<Foo>();
 
-                    foreach (var r in records)
+                    foreach (var r in records.Where(w=>w.ChargingLocation.StartsWith("Provinciesteenweg")))
                     {
                         
                         Alert($"Processing start charging session on {r.PlugInDate}", "Info", ConsoleColor.Green);
@@ -88,65 +88,69 @@ namespace June.Data.Commands
             return Environment.ExitCode;
         }
 
-
-    }
-
-    [Delimiter(";")]
-    [CultureInfo("nl-BE")]
-    public class Foo
-    {
-
-        //28/01/2023 23:38
-        [Index(0)]
-        public DateTime PlugInDate { get; set; }
-
-        //9.331 km
-        [Index(1)]
-        public string TotalMileage { get; set; }
-        public int TotalMileage_ { get { return int.Parse(TotalMileage.Replace(" km", string.Empty).Replace(".", string.Empty)); } }
-
-        //23%
-        [Index(2)]
-        public string SocPluggedin { get; set; }
-        public int SocPluggedin_ { get { return int.Parse(SocPluggedin.Replace("%", string.Empty)); } }
-
-        //29/01/2023 14:00
-        [Index(3)]
-        public DateTime UnplugDate { get; set; }
-
-        //80%
-        [Index(4)]
-        public string SocUnplugged { get; set; }
-        public int SocUnplugged_ { get { return int.Parse(SocUnplugged.Replace("%", string.Empty)); } }
-
-        //~ 17.69 EUR
-        //[Index(5)]
-        //public string Cost { get; set; }
-
-        //~ 45 kWh
-        [Index(6)]
-        public string Charged { get; set; }
-        public int Charged_ { get { return int.Parse(Charged.Replace("~ ", string.Empty).Replace(" kWh", string.Empty)); } }
-
-        //4h 13min
-        [Index(7)]
-        public string ChargedTime { get; set; }
-        public TimeSpan ChargedTime_ { get { return ChargedTime.ToTimeSpan(); } }
-
-    }
-
-    public sealed class FooMap : ClassMap<Foo>
-    {
-        public FooMap()
+        [Delimiter(";")]
+        [CultureInfo("nl-BE")]
+        public class Foo
         {
-            Map(m => m.PlugInDate);
-            Map(m => m.TotalMileage);
-            Map(m => m.SocPluggedin);
-            Map(m => m.UnplugDate); 
-            Map(m => m.SocUnplugged);
-            //Map(m => m.CostRaw);
-            Map(m => m.Charged);
-            Map(m => m.ChargedTime);
+
+            //28/01/2023 23:38
+            [Index(0)]
+            public DateTime PlugInDate { get; set; }
+
+            //9.331 km
+            [Index(1)]
+            public string TotalMileage { get; set; }
+            public int TotalMileage_ { get { return int.Parse(TotalMileage.Replace(" km", string.Empty).Replace(".", string.Empty)); } }
+
+            //23%
+            [Index(2)]
+            public string SocPluggedin { get; set; }
+            public int SocPluggedin_ { get { return int.Parse(SocPluggedin.Replace("%", string.Empty)); } }
+
+            //29/01/2023 14:00
+            [Index(3)]
+            public DateTime UnplugDate { get; set; }
+
+            //80%
+            [Index(4)]
+            public string SocUnplugged { get; set; }
+            public int SocUnplugged_ { get { return int.Parse(SocUnplugged.Replace("%", string.Empty)); } }
+
+            //~ 17.69 EUR
+            //[Index(5)]
+            //public string Cost { get; set; }
+
+            //~ 45 kWh
+            [Index(9)]
+            public string Charged { get; set; }
+            public int Charged_ { get { return int.Parse(Charged.Replace("~ ", string.Empty).Replace(" kWh", string.Empty)); } }
+
+            //4h 13min
+            [Index(12)]
+            public string ChargedTime { get; set; }
+            public TimeSpan ChargedTime_ { get { return ChargedTime.ToTimeSpan(); } }
+
+            [Index(5)]
+            public string ChargingLocation { get; set; }
+
+
         }
+
+        //public sealed class FooMap : ClassMap<Foo>
+        //{
+        //    public FooMap()
+        //    {
+        //        Map(m => m.PlugInDate);
+        //        Map(m => m.TotalMileage);
+        //        Map(m => m.SocPluggedin);
+        //        Map(m => m.UnplugDate);
+        //        Map(m => m.SocUnplugged);
+        //        //Map(m => m.CostRaw);
+        //        Map(m => m.Charged);
+        //        Map(m => m.ChargedTime);
+        //    }
+        //}
     }
+
+    
 }

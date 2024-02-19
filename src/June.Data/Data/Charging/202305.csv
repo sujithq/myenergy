@@ -1,11 +1,16 @@
-﻿PlugInDate;TotalMileage;SocPluggedin;UnplugDate;SocUnplugged;Cost;Charged;ChargedTime
-29/05/2023 14:36;15.491 km;30%;29/05/2023 17:27;47%;~ 4.87 EUR;~ 12 kWh;2h 50min
-27/05/2023 12:38;15.241 km;55%;27/05/2023 14:49;65%;~ 3.73 EUR;~ 10 kWh;2h 10min
-23/05/2023 13:14;14.773 km;56%;23/05/2023 18:38;80%;~ 8.23 EUR;~ 21 kWh;4h 54min
-18/05/2023 22:32;14.662 km;50%;19/05/2023 09:39;80%;~ 9.90 EUR;~ 25 kWh;5h 59min
-17/05/2023 20:16;14.533 km;59%;18/05/2023 09:04;80%;~ 7.28 EUR;~ 19 kWh;4h 25min
-16/05/2023 20:44;14.443 km;45%;17/05/2023 06:36;80%;~ 12.09 EUR;~ 31 kWh;7h 23min
-14/05/2023 16:00;14.297 km;26%;15/05/2023 07:43;80%;~ 17.68 EUR;~ 45 kWh;10h 39min
-07/05/2023 20:46;14.073 km;43%;09/05/2023 07:07;80%;~ 12.07 EUR;~ 31 kWh;7h 20min
-07/05/2023 19:32;14.063 km;41%;07/05/2023 20:28;45%;~ 1.55 EUR;~ 4 kWh;56 min
-03/05/2023 11:01;13.913 km;49%;04/05/2023 07:53;80%;~ 10.15 EUR;~ 26 kWh;5h 59min
+﻿Plug-in date;Total mileage;State of charge when plugged in;Unplug date;State of charge when unplugged;Charging location;Location address;US: Tag; Cost* ;Energy charged*;Energy rate 1;Energy rate 2;Charged time;Precondition for departure;;
+30/05/2023 10:30;15.513 km;69%;30/05/2023 20:08;80%;Blarenberglaan 3;Blarenberglaan 3, 2800 Mechelen;--;-- EUR;~ 8 kWh;--;--;48 min;Off;;
+30/05/2023 07:56;15.513 km;41%;30/05/2023 10:18;69%;Blarenberglaan 15;Blarenberglaan 15, 2800 Mechelen;--;-- EUR;-- kWh;--;--;2h 21min;Off;;
+29/05/2023 14:36;15.491 km;30%;29/05/2023 17:27;47%;Provinciesteenweg 52;Provinciesteenweg 52, 3190 Boortmeerbeek;--;~ 4.87 EUR;~ 12 kWh;"0.39 EUR/kWh  (All day)";--;2h 50min;Off;;
+28/05/2023 18:31;15.485 km;9%;28/05/2023 20:18;31%;Leuvensesteenweg 135;Leuvensesteenweg 135, 3191 Boortmeerbeek;--;-- EUR;~ 19 kWh;--;--;1h 46min;Off;;
+27/05/2023 12:38;15.241 km;55%;27/05/2023 14:49;65%;Provinciesteenweg 52;Provinciesteenweg 52, 3190 Boortmeerbeek;--;~ 3.73 EUR;~ 10 kWh;"0.39 EUR/kWh  (All day)";--;2h 10min;On;;
+24/05/2023 16:49;15.135 km;28%;24/05/2023 17:28;80%;HPC/DC Powerland;MECHELSESTEENWEG 13 1910 KAMPENHOUT ;Public;-- EUR;~ 37 kWh;"0.79 EUR/kWh  (All day)";--;37 min;Off;;
+23/05/2023 20:30;14.928 km;37%;23/05/2023 20:58;80%;HPC/DC Allego;DIKSMUIDESTRAAT 29 8433 MIDDELKERKE ;Public;-- EUR;~ 32 kWh;--;--;27 min;Off;;
+23/05/2023 13:14;14.773 km;56%;23/05/2023 18:38;80%;Provinciesteenweg 52;Provinciesteenweg 52, 3190 Boortmeerbeek;--;~ 8.23 EUR;~ 21 kWh;"0.39 EUR/kWh  (All day)";--;4h 54min;Off;;
+18/05/2023 22:32;14.662 km;50%;19/05/2023 09:39;80%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 9.90 EUR;~ 25 kWh;"0.39 EUR/kWh  (All day)";--;5h 59min;Off;;
+17/05/2023 20:16;14.533 km;59%;18/05/2023 09:04;80%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 7.28 EUR;~ 19 kWh;"0.39 EUR/kWh  (All day)";--;4h 25min;Off;;
+16/05/2023 20:44;14.443 km;45%;17/05/2023 06:36;80%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 12.09 EUR;~ 31 kWh;"0.39 EUR/kWh  (All day)";--;7h 23min;Off;;
+14/05/2023 16:00;14.297 km;26%;15/05/2023 07:43;80%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 17.68 EUR;~ 45 kWh;"0.39 EUR/kWh  (All day)";--;10h 39min;Off;;
+07/05/2023 20:46;14.073 km;43%;09/05/2023 07:07;80%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 12.07 EUR;~ 31 kWh;"0.39 EUR/kWh  (All day)";--;7h 20min;Off;;
+07/05/2023 19:32;14.063 km;41%;07/05/2023 20:28;45%;Provinciesteenweg 52;Provinciesteenweg 52, 3190 Boortmeerbeek;--;~ 1.55 EUR;~ 4 kWh;"0.39 EUR/kWh  (All day)";--;56 min;Off;;
+03/05/2023 11:01;13.913 km;49%;04/05/2023 07:53;80%;Provinciesteenweg 54;Provinciesteenweg 54, 3190 Boortmeerbeek;--;~ 10.15 EUR;~ 26 kWh;"0.39 EUR/kWh  (All day)";--;5h 59min;Off;;
