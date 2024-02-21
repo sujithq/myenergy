@@ -321,7 +321,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -650,7 +653,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -979,7 +985,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -1308,7 +1317,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -1637,7 +1649,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -1966,7 +1981,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -2295,7 +2313,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -2624,7 +2645,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -2953,7 +2977,10 @@
           0,
           2.061
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -3282,7 +3309,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -3611,7 +3641,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -3940,7 +3973,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -4269,7 +4305,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -4598,7 +4637,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -4927,7 +4969,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -5256,7 +5301,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -5585,7 +5633,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -5914,7 +5965,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -6243,7 +6297,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -6572,7 +6629,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -6901,7 +6961,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -7230,7 +7293,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -7559,7 +7625,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -7888,7 +7957,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -7909,8 +7981,8 @@
         "tmax": 6.2,
         "prcp": 0,
         "snow": 0,
-        "wdir": 35,
-        "wspd": 4.5,
+        "wdir": 30,
+        "wspd": 4.4,
         "wpgt": 16.7,
         "pres": 1041.9,
         "tsun": 0
@@ -8217,7 +8289,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -8546,7 +8621,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -8875,7 +8953,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -9204,7 +9285,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -9533,7 +9617,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -9862,7 +9949,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -10191,7 +10281,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -10520,7 +10613,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -10849,7 +10945,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -11178,7 +11277,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -11507,7 +11609,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -11836,7 +11941,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -12165,7 +12273,10 @@
           0.782,
           0.801
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -12494,7 +12605,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -12823,7 +12937,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -13152,7 +13269,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -13481,7 +13601,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -13810,7 +13933,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -14139,7 +14265,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -14468,7 +14597,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -14797,7 +14929,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -15126,7 +15261,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -15455,7 +15593,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -15784,7 +15925,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -16113,7 +16257,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -16135,7 +16282,7 @@
         "prcp": 0,
         "snow": 0,
         "wdir": 35,
-        "wspd": 10.2,
+        "wspd": 10.1,
         "wpgt": 24.1,
         "pres": 1025.7,
         "tsun": 0
@@ -16442,7 +16589,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -16771,7 +16921,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -17100,7 +17253,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -17429,7 +17585,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -17758,7 +17917,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -18087,7 +18249,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -18416,7 +18581,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -18745,7 +18913,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -19074,7 +19245,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -19403,7 +19577,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -19732,7 +19909,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -20061,7 +20241,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -20390,7 +20573,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -20719,7 +20905,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -21048,7 +21237,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -21377,7 +21569,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -21706,7 +21901,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -22035,7 +22233,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -22364,7 +22565,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -22693,7 +22897,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -23022,7 +23229,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -23351,7 +23561,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -23680,7 +23893,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -23997,7 +24213,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -24326,7 +24545,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -24655,7 +24877,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -24984,7 +25209,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -25313,7 +25541,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -25642,7 +25873,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -25971,7 +26205,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -26300,9 +26537,12 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
-      "C": false,
+      "C": true,
       "SRS": {
         "R": "2023-04-02T05:13:46",
         "S": "2023-04-02T18:16:47"
@@ -26629,9 +26869,12 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
-      "C": false,
+      "C": true,
       "SRS": {
         "R": "2023-04-03T05:11:32",
         "S": "2023-04-03T18:18:25"
@@ -26958,7 +27201,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -27287,9 +27533,12 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
-      "C": false,
+      "C": true,
       "SRS": {
         "R": "2023-04-05T05:07:06",
         "S": "2023-04-05T18:21:42"
@@ -27616,7 +27865,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -27945,7 +28197,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -28274,9 +28529,12 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
-      "C": false,
+      "C": true,
       "SRS": {
         "R": "2023-04-08T05:00:29",
         "S": "2023-04-08T18:26:37"
@@ -28295,7 +28553,7 @@
         "tmax": 15.7,
         "prcp": 0,
         "snow": 0,
-        "wdir": 116,
+        "wdir": 117,
         "wspd": 6,
         "wpgt": 18.5,
         "pres": 1023.8,
@@ -28603,9 +28861,12 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
-      "C": false,
+      "C": true,
       "SRS": {
         "R": "2023-04-09T04:58:18",
         "S": "2023-04-09T18:28:15"
@@ -28932,7 +29193,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -28956,7 +29220,7 @@
         "wdir": 238,
         "wspd": 20.2,
         "wpgt": 44.5,
-        "pres": 1013,
+        "pres": 1013.1,
         "tsun": 0
       },
       "M": true,
@@ -29261,7 +29525,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -29590,9 +29857,12 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
-      "C": false,
+      "C": true,
       "SRS": {
         "R": "2023-04-12T04:51:48",
         "S": "2023-04-12T18:33:10"
@@ -29919,9 +30189,12 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
-      "C": false,
+      "C": true,
       "SRS": {
         "R": "2023-04-13T04:49:39",
         "S": "2023-04-13T18:34:48"
@@ -30248,9 +30521,12 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
-      "C": false,
+      "C": true,
       "SRS": {
         "R": "2023-04-14T04:47:30",
         "S": "2023-04-14T18:36:26"
@@ -30577,7 +30853,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -30906,9 +31185,12 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
-      "C": false,
+      "C": true,
       "SRS": {
         "R": "2023-04-16T04:43:16",
         "S": "2023-04-16T18:39:43"
@@ -31235,9 +31517,12 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
-      "C": false,
+      "C": true,
       "SRS": {
         "R": "2023-04-17T04:41:10",
         "S": "2023-04-17T18:41:21"
@@ -31564,9 +31849,12 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
-      "C": false,
+      "C": true,
       "SRS": {
         "R": "2023-04-18T04:39:04",
         "S": "2023-04-18T18:42:59"
@@ -31893,7 +32181,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -32222,9 +32513,12 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
-      "C": false,
+      "C": true,
       "SRS": {
         "R": "2023-04-20T04:34:56",
         "S": "2023-04-20T18:46:16"
@@ -32551,7 +32845,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -32880,9 +33177,12 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
-      "C": false,
+      "C": true,
       "SRS": {
         "R": "2023-04-22T04:30:51",
         "S": "2023-04-22T18:49:32"
@@ -33209,9 +33509,12 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
-      "C": false,
+      "C": true,
       "SRS": {
         "R": "2023-04-23T04:28:50",
         "S": "2023-04-23T18:51:10"
@@ -33538,9 +33841,12 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
-      "C": false,
+      "C": true,
       "SRS": {
         "R": "2023-04-24T04:26:50",
         "S": "2023-04-24T18:52:48"
@@ -33867,9 +34173,12 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
-      "C": false,
+      "C": true,
       "SRS": {
         "R": "2023-04-25T04:24:51",
         "S": "2023-04-25T18:54:26"
@@ -34196,9 +34505,12 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
-      "C": false,
+      "C": true,
       "SRS": {
         "R": "2023-04-26T04:22:54",
         "S": "2023-04-26T18:56:03"
@@ -34525,9 +34837,12 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
-      "C": false,
+      "C": true,
       "SRS": {
         "R": "2023-04-27T04:20:57",
         "S": "2023-04-27T18:57:41"
@@ -34854,9 +35169,12 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
-      "C": false,
+      "C": true,
       "SRS": {
         "R": "2023-04-28T04:19:01",
         "S": "2023-04-28T18:59:18"
@@ -35183,7 +35501,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -35512,9 +35833,12 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
-      "C": false,
+      "C": true,
       "SRS": {
         "R": "2023-04-30T04:15:14",
         "S": "2023-04-30T19:02:32"
@@ -35841,9 +36165,12 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
-      "C": false,
+      "C": true,
       "SRS": {
         "R": "2023-05-01T04:13:22",
         "S": "2023-05-01T19:04:09"
@@ -36170,7 +36497,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -36499,7 +36829,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -36828,7 +37161,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -37157,7 +37493,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -37486,7 +37825,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -37815,7 +38157,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -38144,7 +38489,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -38473,7 +38821,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -38802,7 +39153,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -39131,7 +39485,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -39460,7 +39817,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -39789,7 +40149,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -40118,7 +40481,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -40447,7 +40813,10 @@
           0,
           1.387
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -40776,7 +41145,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -41105,7 +41477,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -41434,7 +41809,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -41763,7 +42141,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -42092,7 +42473,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -42421,7 +42805,10 @@
           0,
           0
         ],
-        "P": []
+        "P": [],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -42781,7 +43168,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -43207,7 +43597,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -43633,7 +44026,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -44059,7 +44455,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -44485,7 +44884,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -44911,7 +45313,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -45337,7 +45742,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -45763,7 +46171,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -46189,7 +46600,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -46615,7 +47029,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -47041,7 +47458,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -47467,7 +47887,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -47893,7 +48316,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -48319,7 +48745,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -48745,7 +49174,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -49171,7 +49603,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -49597,7 +50032,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -50023,7 +50461,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -50449,7 +50890,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -50875,7 +51319,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -51301,7 +51748,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -51727,7 +52177,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -52153,7 +52606,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -52579,7 +53035,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -52601,7 +53060,7 @@
         "prcp": 0,
         "snow": 0,
         "wdir": 59,
-        "wspd": 7,
+        "wspd": 6.9,
         "wpgt": 25.9,
         "pres": 1019,
         "tsun": 0
@@ -53005,7 +53464,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -53431,7 +53893,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -53857,7 +54322,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -54283,7 +54751,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -54709,7 +55180,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -55135,7 +55609,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -55561,7 +56038,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -55987,7 +56467,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -56413,7 +56896,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -56839,7 +57325,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -57265,7 +57754,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -57691,7 +58183,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -58117,7 +58612,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -58543,7 +59041,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -58969,7 +59470,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -59395,7 +59899,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -59821,7 +60328,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -60247,7 +60757,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -60673,7 +61186,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -61099,7 +61615,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -61525,7 +62044,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -61951,7 +62473,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -62377,7 +62902,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -62803,7 +63331,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -63229,7 +63760,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -63250,7 +63784,7 @@
         "tmax": 26.4,
         "prcp": 0,
         "snow": 0,
-        "wdir": 243,
+        "wdir": 244,
         "wspd": 9.5,
         "wpgt": 25.9,
         "pres": 1021.4,
@@ -63655,7 +64189,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -64081,7 +64618,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -64507,7 +65047,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -64933,7 +65476,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -65359,7 +65905,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -65785,7 +66334,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -66211,7 +66763,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -66637,7 +67192,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -67063,7 +67621,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -67489,7 +68050,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -67915,7 +68479,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -68341,7 +68908,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -68767,7 +69337,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -69193,7 +69766,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -69619,7 +70195,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -70045,7 +70624,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -70471,7 +71053,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -70897,7 +71482,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -71323,7 +71911,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -71749,7 +72340,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -72175,7 +72769,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -72601,7 +73198,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -73027,7 +73627,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -73453,7 +74056,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -73879,7 +74485,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -74305,7 +74914,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -74731,7 +75343,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -75157,7 +75772,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -75173,15 +75791,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 15.3,
+        "tavg": 15.4,
         "tmin": 11.5,
         "tmax": 21,
         "prcp": 1.1,
         "snow": 0,
         "wdir": 275,
-        "wspd": 17.7,
+        "wspd": 17.9,
         "wpgt": 38.9,
-        "pres": 1018,
+        "pres": 1018.1,
         "tsun": 0
       },
       "M": true,
@@ -75583,7 +76201,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -76009,7 +76630,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -76435,7 +77059,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -76861,7 +77488,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -77287,7 +77917,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -77713,7 +78346,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -78139,7 +78775,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -78565,7 +79204,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -78991,7 +79633,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -79417,7 +80062,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -79435,11 +80083,11 @@
       "MS": {
         "tavg": 18.4,
         "tmin": 15.8,
-        "tmax": 21,
+        "tmax": 20.6,
         "prcp": 0,
         "snow": 0,
         "wdir": 38,
-        "wspd": 8.1,
+        "wspd": 8,
         "wpgt": 22.2,
         "pres": 1019.2,
         "tsun": 0
@@ -79843,7 +80491,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -80269,7 +80920,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -80695,7 +81349,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -81121,7 +81778,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -81547,7 +82207,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -81973,7 +82636,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -82399,7 +83065,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -82825,7 +83494,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -83251,7 +83923,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -83677,7 +84352,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -84103,7 +84781,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -84529,7 +85210,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -84955,7 +85639,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -85381,7 +86068,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -85807,7 +86497,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -86233,7 +86926,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -86659,7 +87355,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -87085,7 +87784,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -87511,7 +88213,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -87937,7 +88642,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -88363,7 +89071,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -88789,7 +89500,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -89215,7 +89929,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -89641,7 +90358,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -89662,7 +90382,7 @@
         "tmax": 30.9,
         "prcp": 0,
         "snow": 0,
-        "wdir": 157,
+        "wdir": 156,
         "wspd": 6.6,
         "wpgt": 20.4,
         "pres": 1016.8,
@@ -90067,7 +90787,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -90493,7 +91216,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -90514,7 +91240,7 @@
         "tmax": 23.8,
         "prcp": 7.5,
         "snow": 0,
-        "wdir": 300,
+        "wdir": 299,
         "wspd": 5.4,
         "wpgt": 20.4,
         "pres": 1013.6,
@@ -90919,7 +91645,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -91345,7 +92074,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -91771,7 +92503,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -92197,7 +92932,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -92623,7 +93361,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -93049,7 +93790,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -93475,7 +94219,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -93497,7 +94244,7 @@
         "prcp": 0,
         "snow": 0,
         "wdir": 221,
-        "wspd": 24.7,
+        "wspd": 24.4,
         "wpgt": 51.8,
         "pres": 1010.8,
         "tsun": 0
@@ -93901,7 +94648,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -93923,7 +94673,7 @@
         "prcp": 0,
         "snow": 0,
         "wdir": 199,
-        "wspd": 21.1,
+        "wspd": 21,
         "wpgt": 44.5,
         "pres": 1007,
         "tsun": 0
@@ -94327,7 +95077,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -94753,7 +95506,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -95179,7 +95935,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -95605,7 +96364,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -96031,7 +96793,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -96457,7 +97222,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -96883,7 +97651,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -97309,7 +98080,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -97735,7 +98509,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -97759,7 +98536,7 @@
         "wdir": 229,
         "wspd": 16.4,
         "wpgt": 42.6,
-        "pres": 1018.3,
+        "pres": 1018.2,
         "tsun": 0
       },
       "M": true,
@@ -98161,7 +98938,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -98587,7 +99367,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -99013,7 +99796,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -99439,7 +100225,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -99865,7 +100654,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -100291,7 +101083,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -100717,7 +101512,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -101143,7 +101941,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -101569,7 +102370,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -101995,7 +102799,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -102421,9 +103228,12 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
-      "C": false,
+      "C": true,
       "SRS": {
         "R": "2023-10-09T05:53:02",
         "S": "2023-10-09T17:04:53"
@@ -102847,7 +103657,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -103273,7 +104086,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -103699,7 +104515,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -104125,7 +104944,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -104551,7 +105373,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -104977,7 +105802,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -105403,7 +106231,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -105829,7 +106660,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -106255,7 +107089,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -106681,7 +107518,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -107107,7 +107947,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -107533,7 +108376,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -107959,7 +108805,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -108385,7 +109234,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -108811,7 +109663,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -109237,7 +110092,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -109663,7 +110521,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -110089,7 +110950,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -110515,7 +111379,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -110953,7 +111820,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -111379,7 +112249,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -111805,7 +112678,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -112231,7 +113107,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -112657,7 +113536,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -113083,7 +113965,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -113509,7 +114394,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -113935,7 +114823,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -114361,7 +115252,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -114787,7 +115681,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -115213,7 +116110,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -115639,7 +116539,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -116065,7 +116968,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -116491,7 +117397,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -116917,7 +117826,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -117343,7 +118255,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -117769,7 +118684,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -118195,7 +119113,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -118621,7 +119542,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -119047,7 +119971,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -119473,7 +120400,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -119899,7 +120829,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -120325,7 +121258,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -120751,7 +121687,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -121177,7 +122116,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -121603,7 +122545,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -122029,7 +122974,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -122455,7 +123403,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -122881,7 +123832,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -123307,7 +124261,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -123733,7 +124690,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -124159,7 +125119,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -124585,7 +125548,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -125011,7 +125977,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -125437,7 +126406,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -125863,7 +126835,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -126289,7 +127264,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -126715,7 +127693,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -127141,7 +128122,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -127567,7 +128551,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -127993,7 +128980,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -128419,7 +129409,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -128845,7 +129838,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -129271,7 +130267,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -129697,7 +130696,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -130123,7 +131125,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -130145,7 +131150,7 @@
         "prcp": 0,
         "snow": 0,
         "wdir": 301,
-        "wspd": 9.3,
+        "wspd": 9.2,
         "wpgt": 20.4,
         "pres": 1018.9,
         "tsun": 0
@@ -130549,7 +131554,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -130565,15 +131573,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 7.7,
-        "tmin": 6,
-        "tmax": 9,
+        "tavg": 7.6,
+        "tmin": 6.1,
+        "tmax": 8.9,
         "prcp": 0,
         "snow": 0,
-        "wdir": 244,
+        "wdir": 243,
         "wspd": 9.6,
         "wpgt": 18.5,
-        "pres": 1034.7,
+        "pres": 1034.8,
         "tsun": 0
       },
       "M": true,
@@ -130975,7 +131983,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -130993,13 +132004,13 @@
       "MS": {
         "tavg": 8.1,
         "tmin": 6,
-        "tmax": 9,
+        "tmax": 9.3,
         "prcp": 0,
         "snow": 0,
-        "wdir": 227,
-        "wspd": 14.9,
+        "wdir": 226,
+        "wspd": 15.5,
         "wpgt": 27.8,
-        "pres": 1039.8,
+        "pres": 1040.4,
         "tsun": 0
       },
       "M": true,
@@ -131401,7 +132412,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -131417,15 +132431,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 7.3,
-        "tmin": 5,
-        "tmax": 9,
+        "tavg": 7.4,
+        "tmin": 5.7,
+        "tmax": 8.9,
         "prcp": 0,
         "snow": 0,
         "wdir": 223,
-        "wspd": 14.9,
+        "wspd": 14.7,
         "wpgt": 29.6,
-        "pres": 1036.6,
+        "pres": 1037.5,
         "tsun": 0
       },
       "M": true,
@@ -131827,7 +132841,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -131844,14 +132861,14 @@
       "S": true,
       "MS": {
         "tavg": 4.6,
-        "tmin": 4,
-        "tmax": 5,
+        "tmin": 3.8,
+        "tmax": 5.4,
         "prcp": 0,
         "snow": 0,
-        "wdir": 218,
-        "wspd": 17.2,
+        "wdir": 219,
+        "wspd": 16.7,
         "wpgt": 40.8,
-        "pres": 1031.6,
+        "pres": 1032.5,
         "tsun": 0
       },
       "M": true,
@@ -132253,7 +133270,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -132270,14 +133290,14 @@
       "S": true,
       "MS": {
         "tavg": 6.8,
-        "tmin": 5,
-        "tmax": 8,
+        "tmin": 4.9,
+        "tmax": 8.4,
         "prcp": 8.9,
         "snow": 0,
-        "wdir": 229,
-        "wspd": 24.3,
+        "wdir": 227,
+        "wspd": 24.5,
         "wpgt": 48.2,
-        "pres": 1020.4,
+        "pres": 1021.5,
         "tsun": 0
       },
       "M": true,
@@ -132679,7 +133699,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -132695,15 +133718,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 7,
-        "tmin": 5,
-        "tmax": 9,
+        "tavg": 6.9,
+        "tmin": 4.6,
+        "tmax": 9.1,
         "prcp": 1.3,
         "snow": 0,
-        "wdir": 245,
-        "wspd": 21.5,
+        "wdir": 247,
+        "wspd": 21.3,
         "wpgt": 44.5,
-        "pres": 1016.3,
+        "pres": 1017.2,
         "tsun": 0
       },
       "M": true,
@@ -133105,7 +134128,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -133121,15 +134147,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 10.5,
-        "tmin": 9,
-        "tmax": 12,
+        "tavg": 10.6,
+        "tmin": 9.3,
+        "tmax": 11.9,
         "prcp": 2.5,
         "snow": 0,
-        "wdir": 264,
-        "wspd": 33.8,
+        "wdir": 262,
+        "wspd": 33.5,
         "wpgt": 64.8,
-        "pres": 1004.4,
+        "pres": 1005.2,
         "tsun": 0
       },
       "M": true,
@@ -133531,7 +134557,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -133548,14 +134577,14 @@
       "S": true,
       "MS": {
         "tavg": 9.9,
-        "tmin": 8,
+        "tmin": 7.9,
         "tmax": 11,
         "prcp": 2.2,
         "snow": 0,
         "wdir": 279,
-        "wspd": 33.1,
+        "wspd": 33.6,
         "wpgt": 57.4,
-        "pres": 1008,
+        "pres": 1008.3,
         "tsun": 0
       },
       "M": true,
@@ -133957,7 +134986,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -133975,13 +135007,13 @@
       "MS": {
         "tavg": 10.2,
         "tmin": 9,
-        "tmax": 11,
+        "tmax": 11.3,
         "prcp": 0,
         "snow": 0,
-        "wdir": 255,
-        "wspd": 30,
+        "wdir": 257,
+        "wspd": 30.5,
         "wpgt": 55.5,
-        "pres": 1011.9,
+        "pres": 1012.5,
         "tsun": 0
       },
       "M": true,
@@ -134383,7 +135415,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -134399,15 +135434,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 11.1,
-        "tmin": 10,
-        "tmax": 13,
+        "tavg": 11,
+        "tmin": 9.5,
+        "tmax": 12.8,
         "prcp": 5.8,
         "snow": 0,
         "wdir": 240,
-        "wspd": 33,
+        "wspd": 33.2,
         "wpgt": 61.1,
-        "pres": 1008,
+        "pres": 1008.5,
         "tsun": 0
       },
       "M": true,
@@ -134809,7 +135844,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -134825,15 +135863,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 11.1,
-        "tmin": 11,
-        "tmax": 12,
+        "tavg": 11.2,
+        "tmin": 10.8,
+        "tmax": 11.6,
         "prcp": 3.6,
         "snow": 0,
         "wdir": 235,
-        "wspd": 28.3,
+        "wspd": 27.9,
         "wpgt": 55.5,
-        "pres": 1009.2,
+        "pres": 1009.6,
         "tsun": 0
       },
       "M": true,
@@ -135235,7 +136273,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -135251,15 +136292,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 8.1,
-        "tmin": 4,
-        "tmax": 11,
+        "tavg": 8.3,
+        "tmin": 4.1,
+        "tmax": 10.7,
         "prcp": 1.8,
         "snow": 0,
-        "wdir": 238,
-        "wspd": 18.1,
+        "wdir": 240,
+        "wspd": 19.4,
         "wpgt": 51.8,
-        "pres": 1015.5,
+        "pres": 1015.6,
         "tsun": 0
       },
       "M": true,
@@ -135661,7 +136702,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -135677,15 +136721,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 8.5,
-        "tmin": 4,
-        "tmax": 11,
+        "tavg": 8.4,
+        "tmin": 4.6,
+        "tmax": 10.7,
         "prcp": 2.5,
         "snow": 0,
-        "wdir": 187,
-        "wspd": 20.3,
+        "wdir": 184,
+        "wspd": 19.7,
         "wpgt": 53.7,
-        "pres": 1013.9,
+        "pres": 1014.7,
         "tsun": 0
       },
       "M": true,
@@ -136087,7 +137131,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -136104,14 +137151,14 @@
       "S": true,
       "MS": {
         "tavg": 10.5,
-        "tmin": 10,
-        "tmax": 11,
+        "tmin": 9.8,
+        "tmax": 11.1,
         "prcp": 0,
         "snow": 0,
-        "wdir": 220,
-        "wspd": 32.5,
+        "wdir": 221,
+        "wspd": 32,
         "wpgt": 53.7,
-        "pres": 1011.4,
+        "pres": 1011.9,
         "tsun": 0
       },
       "M": true,
@@ -136513,7 +137560,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -136529,15 +137579,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 9.9,
+        "tavg": 10,
         "tmin": 9,
-        "tmax": 11,
+        "tmax": 10.7,
         "prcp": 1.1,
         "snow": 0,
-        "wdir": 233,
-        "wspd": 30.8,
+        "wdir": 234,
+        "wspd": 30,
         "wpgt": 61.1,
-        "pres": 1009.3,
+        "pres": 1009.9,
         "tsun": 0
       },
       "M": true,
@@ -136939,7 +137989,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -136956,14 +138009,14 @@
       "S": true,
       "MS": {
         "tavg": 8.8,
-        "tmin": 8,
-        "tmax": 10,
+        "tmin": 7.5,
+        "tmax": 9.9,
         "prcp": 0.1,
         "snow": 0,
-        "wdir": 210,
-        "wspd": 20.5,
+        "wdir": 212,
+        "wspd": 21,
         "wpgt": 40.8,
-        "pres": 1011,
+        "pres": 1011.9,
         "tsun": 0
       },
       "M": true,
@@ -137365,7 +138418,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -137381,15 +138437,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 9,
-        "tmin": 8,
-        "tmax": 10,
+        "tavg": 9.1,
+        "tmin": 8.2,
+        "tmax": 10.7,
         "prcp": 4.2,
         "snow": 0,
-        "wdir": 202,
-        "wspd": 31.1,
+        "wdir": 200,
+        "wspd": 29.7,
         "wpgt": 63,
-        "pres": 997.4,
+        "pres": 998.3,
         "tsun": 0
       },
       "M": true,
@@ -137791,7 +138847,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -137809,15 +138868,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 7.3,
-        "tmin": 6,
-        "tmax": 8,
+        "tavg": 7.2,
+        "tmin": 6.4,
+        "tmax": 8.4,
         "prcp": 0.4,
         "snow": 0,
-        "wdir": 216,
-        "wspd": 29,
+        "wdir": 217,
+        "wspd": 29.3,
         "wpgt": 68.5,
-        "pres": 1003.9,
+        "pres": 1004.4,
         "tsun": 0
       },
       "M": true,
@@ -138219,7 +139278,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -138235,15 +139297,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 10.8,
-        "tmin": 8,
-        "tmax": 12,
+        "tavg": 10.6,
+        "tmin": 7.8,
+        "tmax": 12.2,
         "prcp": 18.9,
         "snow": 0,
-        "wdir": 216,
-        "wspd": 33,
+        "wdir": 214,
+        "wspd": 32.1,
         "wpgt": 72.2,
-        "pres": 991.3,
+        "pres": 992.2,
         "tsun": 0
       },
       "M": true,
@@ -138645,7 +139707,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -138661,15 +139726,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 9.7,
-        "tmin": 9,
-        "tmax": 11,
+        "tavg": 9.9,
+        "tmin": 8.9,
+        "tmax": 11.1,
         "prcp": 3.8,
         "snow": 0,
-        "wdir": 238,
-        "wspd": 30.7,
+        "wdir": 237,
+        "wspd": 31.7,
         "wpgt": 66.7,
-        "pres": 992.3,
+        "pres": 992.7,
         "tsun": 0
       },
       "M": true,
@@ -139071,7 +140136,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -139087,15 +140155,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 8.8,
-        "tmin": 8,
-        "tmax": 10,
+        "tavg": 8.7,
+        "tmin": 7.5,
+        "tmax": 9.3,
         "prcp": 1.8,
         "snow": 0,
-        "wdir": 226,
-        "wspd": 19.3,
+        "wdir": 231,
+        "wspd": 19.7,
         "wpgt": 44.5,
-        "pres": 1002,
+        "pres": 1002.6,
         "tsun": 0
       },
       "M": true,
@@ -139497,7 +140565,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -139515,13 +140586,13 @@
       "MS": {
         "tavg": 7.5,
         "tmin": 6,
-        "tmax": 10,
+        "tmax": 9.9,
         "prcp": 10.1,
         "snow": 0,
-        "wdir": 231,
+        "wdir": 226,
         "wspd": 28.8,
         "wpgt": 59.3,
-        "pres": 998.3,
+        "pres": 998.7,
         "tsun": 0
       },
       "M": true,
@@ -139923,7 +140994,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -139939,15 +141013,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 4.6,
-        "tmin": 3,
-        "tmax": 6,
+        "tavg": 4.7,
+        "tmin": 2.7,
+        "tmax": 6.7,
         "prcp": 2.6,
         "snow": 0,
-        "wdir": 350,
+        "wdir": 348,
         "wspd": 14.1,
         "wpgt": 27.8,
-        "pres": 1010.8,
+        "pres": 1010.9,
         "tsun": 0
       },
       "M": true,
@@ -140349,7 +141423,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -140365,15 +141442,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 0.6,
-        "tmin": -2,
-        "tmax": 3,
+        "tavg": 0.8,
+        "tmin": -1.7,
+        "tmax": 2.7,
         "prcp": 0,
         "snow": 0,
         "wdir": 33,
-        "wspd": 18.1,
+        "wspd": 17.7,
         "wpgt": 31.5,
-        "pres": 1022.3,
+        "pres": 1022.7,
         "tsun": 0
       },
       "M": true,
@@ -140775,7 +141852,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -140791,15 +141871,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": -2.2,
-        "tmin": -4,
-        "tmax": -1,
+        "tavg": -2.1,
+        "tmin": -3.3,
+        "tmax": -1.1,
         "prcp": 0,
         "snow": 0,
-        "wdir": 55,
-        "wspd": 19.2,
+        "wdir": 54,
+        "wspd": 18.9,
         "wpgt": 33.3,
-        "pres": 1029.3,
+        "pres": 1030.1,
         "tsun": 0
       },
       "M": true,
@@ -141201,7 +142281,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -141218,14 +142301,14 @@
       "S": true,
       "MS": {
         "tavg": -3.5,
-        "tmin": -6,
-        "tmax": -1,
+        "tmin": -5.6,
+        "tmax": -0.7,
         "prcp": 0,
         "snow": 0,
-        "wdir": 66,
-        "wspd": 14.2,
+        "wdir": 67,
+        "wspd": 14.3,
         "wpgt": 33.3,
-        "pres": 1029.8,
+        "pres": 1030.8,
         "tsun": 0
       },
       "M": true,
@@ -141627,7 +142710,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -141643,15 +142729,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": -4.4,
-        "tmin": -7,
-        "tmax": -1,
+        "tavg": -4.3,
+        "tmin": -6.9,
+        "tmax": -0.6,
         "prcp": 0,
         "snow": 0,
-        "wdir": 69,
-        "wspd": 5.6,
+        "wdir": 65,
+        "wspd": 5.4,
         "wpgt": 20.4,
-        "pres": 1028.2,
+        "pres": 1029.1,
         "tsun": 0
       },
       "M": true,
@@ -142053,7 +143139,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -142069,15 +143158,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": -3,
-        "tmin": -7,
-        "tmax": 0,
+        "tavg": -3.2,
+        "tmin": -6.8,
+        "tmax": 0.2,
         "prcp": 0,
         "snow": 0,
-        "wdir": 20,
-        "wspd": 5.9,
+        "wdir": 21,
+        "wspd": 4.5,
         "wpgt": 18.5,
-        "pres": 1033,
+        "pres": 1034,
         "tsun": 0
       },
       "M": true,
@@ -142479,7 +143568,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -142496,14 +143588,14 @@
       "S": true,
       "MS": {
         "tavg": 1.5,
-        "tmin": 0,
-        "tmax": 3,
+        "tmin": -0.1,
+        "tmax": 2.5,
         "prcp": 0,
         "snow": 0,
-        "wdir": 331,
-        "wspd": 4.5,
+        "wdir": 5,
+        "wspd": 3.9,
         "wpgt": 11.1,
-        "pres": 1032.9,
+        "pres": 1033.8,
         "tsun": 0
       },
       "M": true,
@@ -142905,7 +143997,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -142921,15 +144016,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 1.7,
-        "tmin": 0,
-        "tmax": 3,
+        "tavg": 1.9,
+        "tmin": 0.4,
+        "tmax": 2.9,
         "prcp": 0,
         "snow": 0,
-        "wdir": 234,
-        "wspd": 12.7,
+        "wdir": 232,
+        "wspd": 12.3,
         "wpgt": 27.8,
-        "pres": 1024.3,
+        "pres": 1025.5,
         "tsun": 0
       },
       "M": true,
@@ -143331,7 +144426,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -143348,14 +144446,14 @@
       "S": true,
       "MS": {
         "tavg": 0.3,
-        "tmin": 0,
-        "tmax": 1,
+        "tmin": -0.2,
+        "tmax": 0.9,
         "prcp": 0.5,
         "snow": 0,
-        "wdir": 233,
-        "wspd": 19.1,
+        "wdir": 234,
+        "wspd": 18.5,
         "wpgt": 35.2,
-        "pres": 1011.7,
+        "pres": 1012.9,
         "tsun": 0
       },
       "M": true,
@@ -143757,7 +144855,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -143774,14 +144875,14 @@
       "S": true,
       "MS": {
         "tavg": 1.2,
-        "tmin": 0,
-        "tmax": 3,
+        "tmin": -0.3,
+        "tmax": 3.4,
         "prcp": 2,
         "snow": 0,
-        "wdir": 260,
-        "wspd": 18.8,
+        "wdir": 261,
+        "wspd": 18.2,
         "wpgt": 38.9,
-        "pres": 1006.3,
+        "pres": 1006.9,
         "tsun": 0
       },
       "M": true,
@@ -144183,7 +145284,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -144199,15 +145303,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": -0.9,
+        "tavg": -0.7,
         "tmin": -3,
-        "tmax": 2,
+        "tmax": 1.9,
         "prcp": 0,
         "snow": 0,
-        "wdir": 224,
-        "wspd": 13.5,
+        "wdir": 226,
+        "wspd": 13.8,
         "wpgt": 25.9,
-        "pres": 1008.4,
+        "pres": 1009.6,
         "tsun": 0
       },
       "M": true,
@@ -144609,7 +145713,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -144625,15 +145732,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": -2.6,
-        "tmin": -4,
-        "tmax": -2,
+        "tavg": -2.7,
+        "tmin": -4.4,
+        "tmax": -1.5,
         "prcp": 6.4,
         "snow": 0,
-        "wdir": 73,
-        "wspd": 5.7,
+        "wdir": 77,
+        "wspd": 5.1,
         "wpgt": 18.5,
-        "pres": 992.7,
+        "pres": 993.8,
         "tsun": 0
       },
       "M": true,
@@ -145035,7 +146142,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -145051,15 +146161,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": -1.5,
-        "tmin": -5,
-        "tmax": 2,
+        "tavg": -1.7,
+        "tmin": -6.8,
+        "tmax": 2.2,
         "prcp": 0.1,
         "snow": 0,
-        "wdir": 281,
-        "wspd": 7.6,
+        "wdir": 286,
+        "wspd": 6.9,
         "wpgt": 22.2,
-        "pres": 1002.2,
+        "pres": 1002.4,
         "tsun": 0
       },
       "M": true,
@@ -145461,7 +146571,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -145479,13 +146592,13 @@
       "MS": {
         "tavg": -1.8,
         "tmin": -4,
-        "tmax": 2,
+        "tmax": 1.7,
         "prcp": 0,
         "snow": 0,
-        "wdir": 222,
-        "wspd": 15.5,
+        "wdir": 224,
+        "wspd": 15.2,
         "wpgt": 29.6,
-        "pres": 1020.9,
+        "pres": 1021.5,
         "tsun": 0
       },
       "M": true,
@@ -145887,7 +147000,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -145905,13 +147021,13 @@
       "MS": {
         "tavg": -1.5,
         "tmin": -3,
-        "tmax": 0,
+        "tmax": 0.5,
         "prcp": 0,
         "snow": 0,
-        "wdir": 200,
-        "wspd": 15.1,
+        "wdir": 202,
+        "wspd": 15,
         "wpgt": 31.5,
-        "pres": 1027.8,
+        "pres": 1028.7,
         "tsun": 0
       },
       "M": true,
@@ -146313,7 +147429,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -146329,15 +147448,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 3.5,
-        "tmin": 0,
-        "tmax": 9,
+        "tavg": 3.1,
+        "tmin": -0.5,
+        "tmax": 8.2,
         "prcp": 0,
         "snow": 0,
-        "wdir": 200,
-        "wspd": 28.9,
+        "wdir": 198,
+        "wspd": 27.8,
         "wpgt": 61.1,
-        "pres": 1019,
+        "pres": 1020.2,
         "tsun": 0
       },
       "M": true,
@@ -146739,7 +147858,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -146755,15 +147877,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 10.3,
-        "tmin": 8,
-        "tmax": 12,
+        "tavg": 10.2,
+        "tmin": 8.4,
+        "tmax": 11.9,
         "prcp": 2.9,
         "snow": 0,
-        "wdir": 234,
-        "wspd": 37.3,
+        "wdir": 233,
+        "wspd": 37.7,
         "wpgt": 79.6,
-        "pres": 1010.8,
+        "pres": 1011.2,
         "tsun": 0
       },
       "M": true,
@@ -147165,7 +148287,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -147181,15 +148306,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 8.3,
-        "tmin": 5,
-        "tmax": 13,
+        "tavg": 8.1,
+        "tmin": 4.8,
+        "tmax": 12.5,
         "prcp": 2.8,
         "snow": 0,
-        "wdir": 230,
-        "wspd": 28.1,
+        "wdir": 231,
+        "wspd": 27.3,
         "wpgt": 66.7,
-        "pres": 1022.4,
+        "pres": 1023.1,
         "tsun": 0
       },
       "M": true,
@@ -147591,7 +148716,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -147607,15 +148735,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 11.1,
-        "tmin": 9,
-        "tmax": 13,
+        "tavg": 11.2,
+        "tmin": 9.1,
+        "tmax": 13.4,
         "prcp": 1.7,
         "snow": 0,
-        "wdir": 252,
-        "wspd": 32,
+        "wdir": 250,
+        "wspd": 33,
         "wpgt": 66.7,
-        "pres": 1023.3,
+        "pres": 1023.4,
         "tsun": 0
       },
       "M": true,
@@ -148017,7 +149145,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -148033,15 +149164,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 8,
-        "tmin": 4,
-        "tmax": 11,
+        "tavg": 7.9,
+        "tmin": 4.2,
+        "tmax": 10.6,
         "prcp": 0.2,
         "snow": 0,
-        "wdir": 215,
-        "wspd": 13.3,
+        "wdir": 216,
+        "wspd": 13.1,
         "wpgt": 31.5,
-        "pres": 1027.9,
+        "pres": 1028.7,
         "tsun": 0
       },
       "M": true,
@@ -148443,7 +149574,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -148459,15 +149593,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 8.4,
-        "tmin": 2,
-        "tmax": 12,
+        "tavg": 8.7,
+        "tmin": 2.7,
+        "tmax": 11.8,
         "prcp": 2.3,
         "snow": 0,
-        "wdir": 251,
-        "wspd": 23.1,
+        "wdir": 250,
+        "wspd": 22.7,
         "wpgt": 53.7,
-        "pres": 1027.2,
+        "pres": 1027.5,
         "tsun": 0
       },
       "M": true,
@@ -148869,7 +150003,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -148885,15 +150022,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 3.3,
-        "tmin": 0,
-        "tmax": 8,
+        "tavg": 3.4,
+        "tmin": 0.7,
+        "tmax": 8.1,
         "prcp": 0,
         "snow": 0,
-        "wdir": 192,
-        "wspd": 9.8,
+        "wdir": 196,
+        "wspd": 10.2,
         "wpgt": 18.5,
-        "pres": 1035,
+        "pres": 1036,
         "tsun": 0
       },
       "M": true,
@@ -149295,7 +150432,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -149311,15 +150451,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 5,
-        "tmin": -1,
-        "tmax": 12,
+        "tavg": 4.7,
+        "tmin": -0.8,
+        "tmax": 11.8,
         "prcp": 0,
         "snow": 0,
-        "wdir": 158,
-        "wspd": 9.1,
+        "wdir": 157,
+        "wspd": 9.6,
         "wpgt": 22.2,
-        "pres": 1027,
+        "pres": 1028.1,
         "tsun": 0
       },
       "M": true,
@@ -149721,7 +150861,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -149738,14 +150881,14 @@
       "S": true,
       "MS": {
         "tavg": 8.3,
-        "tmin": 4,
-        "tmax": 13,
+        "tmin": 3.7,
+        "tmax": 12.9,
         "prcp": 0,
         "snow": 0,
-        "wdir": 191,
-        "wspd": 12.3,
+        "wdir": 192,
+        "wspd": 11.7,
         "wpgt": 27.8,
-        "pres": 1025.8,
+        "pres": 1026.4,
         "tsun": 0
       },
       "M": true,
@@ -150147,7 +151290,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -150163,15 +151309,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 9.4,
+        "tavg": 9.5,
         "tmin": 7,
-        "tmax": 11,
+        "tmax": 11.3,
         "prcp": 0.1,
         "snow": 0,
-        "wdir": 233,
+        "wdir": 229,
         "wspd": 17.6,
         "wpgt": 37,
-        "pres": 1028.6,
+        "pres": 1028.9,
         "tsun": 0
       },
       "M": true,
@@ -150573,7 +151719,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -150589,15 +151738,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 7.1,
-        "tmin": 6,
-        "tmax": 9,
+        "tavg": 7,
+        "tmin": 5.9,
+        "tmax": 8.3,
         "prcp": 0,
         "snow": 0,
-        "wdir": 226,
-        "wspd": 14.6,
+        "wdir": 233,
+        "wspd": 13.5,
         "wpgt": 42.6,
-        "pres": 1031.7,
+        "pres": 1032.7,
         "tsun": 0
       },
       "M": true,
@@ -150999,7 +152148,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -151015,15 +152167,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 7,
-        "tmin": 4,
-        "tmax": 9,
+        "tavg": 7.2,
+        "tmin": 3.9,
+        "tmax": 9.1,
         "prcp": 6.9,
         "snow": 0,
-        "wdir": 279,
-        "wspd": 12.8,
+        "wdir": 278,
+        "wspd": 13.2,
         "wpgt": 38.9,
-        "pres": 1030.8,
+        "pres": 1031.3,
         "tsun": 0
       },
       "M": true,
@@ -151425,7 +152577,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -151441,15 +152596,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 6.7,
-        "tmin": 5,
-        "tmax": 9,
+        "tavg": 6.6,
+        "tmin": 4.6,
+        "tmax": 9.4,
         "prcp": 0,
         "snow": 0,
-        "wdir": 237,
-        "wspd": 23,
+        "wdir": 235,
+        "wspd": 22.4,
         "wpgt": 38.9,
-        "pres": 1029.9,
+        "pres": 1030.8,
         "tsun": 0
       },
       "M": true,
@@ -151851,7 +153006,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -151867,15 +153025,15 @@
       "J": true,
       "S": true,
       "MS": {
-        "tavg": 9.8,
-        "tmin": 9,
-        "tmax": 10,
+        "tavg": 9.9,
+        "tmin": 9.1,
+        "tmax": 10.4,
         "prcp": 0.6,
         "snow": 0,
-        "wdir": 242,
-        "wspd": 20.3,
+        "wdir": 243,
+        "wspd": 20.6,
         "wpgt": 38.9,
-        "pres": 1027.5,
+        "pres": 1028.2,
         "tsun": 0
       },
       "M": true,
@@ -152277,7 +153435,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": true,
       "SRS": {
@@ -152290,21 +153451,21 @@
       "P": 2.3,
       "U": 16.497,
       "I": 205,
-      "J": false,
-      "S": false,
+      "J": true,
+      "S": true,
       "MS": {
         "tavg": 10.5,
-        "tmin": 10,
-        "tmax": 11,
+        "tmin": 9.8,
+        "tmax": 11.1,
         "prcp": 0,
         "snow": 0,
-        "wdir": 249,
-        "wspd": 25.6,
+        "wdir": 248,
+        "wspd": 25.4,
         "wpgt": 50,
-        "pres": 1024.5,
+        "pres": 1025.1,
         "tsun": 0
       },
-      "M": false,
+      "M": true,
       "AS": {
         "P": 0,
         "U": 0,
@@ -152703,7 +153864,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -152716,21 +153880,21 @@
       "P": 6.2,
       "U": 6.11,
       "I": 4219,
-      "J": false,
-      "S": false,
+      "J": true,
+      "S": true,
       "MS": {
-        "tavg": 9.4,
-        "tmin": 9,
+        "tavg": 9.5,
+        "tmin": 8.4,
         "tmax": 10.4,
         "prcp": 0,
         "snow": 0,
         "wdir": 240,
-        "wspd": 29.8,
+        "wspd": 30.3,
         "wpgt": 53.7,
-        "pres": 1021.5,
+        "pres": 1022.1,
         "tsun": 0
       },
-      "M": false,
+      "M": true,
       "AS": {
         "P": 0,
         "U": 0,
@@ -153129,7 +154293,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -153142,21 +154309,21 @@
       "P": 3.6,
       "U": 42.181,
       "I": 746,
-      "J": false,
-      "S": false,
+      "J": true,
+      "S": true,
       "MS": {
         "tavg": 10.3,
-        "tmin": 9,
-        "tmax": 11.1,
-        "prcp": 0.3,
+        "tmin": 8.9,
+        "tmax": 11.3,
+        "prcp": 0.1,
         "snow": 0,
         "wdir": 231,
-        "wspd": 34.1,
-        "wpgt": 59.3,
-        "pres": 1013,
+        "wspd": 34.8,
+        "wpgt": 61.1,
+        "pres": 1013.4,
         "tsun": 0
       },
-      "M": false,
+      "M": true,
       "AS": {
         "P": 0,
         "U": 0,
@@ -153555,9 +154722,12 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
-      "C": false,
+      "C": true,
       "SRS": {
         "R": "2024-02-06T07:09:00",
         "S": "2024-02-06T16:42:16"
@@ -153568,21 +154738,21 @@
       "P": 3,
       "U": 9.995,
       "I": 734,
-      "J": false,
-      "S": false,
+      "J": true,
+      "S": true,
       "MS": {
-        "tavg": 8.2,
-        "tmin": 5.1,
+        "tavg": 5.9,
+        "tmin": 3.6,
         "tmax": 10.9,
-        "prcp": 10.2,
+        "prcp": 18.1,
         "snow": 0,
-        "wdir": 265,
+        "wdir": 79,
         "wspd": 16.8,
-        "wpgt": 59.3,
-        "pres": 1004.4,
+        "wpgt": 61.1,
+        "pres": 1005.6,
         "tsun": 0
       },
-      "M": false,
+      "M": true,
       "AS": {
         "P": 0,
         "U": 0,
@@ -153981,7 +155151,10 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
@@ -153994,21 +155167,21 @@
       "P": 1.6,
       "U": 39.673,
       "I": 62,
-      "J": false,
-      "S": false,
+      "J": true,
+      "S": true,
       "MS": {
-        "tavg": 7,
-        "tmin": 4.6,
-        "tmax": 9.8,
-        "prcp": 0,
+        "tavg": 6.7,
+        "tmin": 3,
+        "tmax": 11.9,
+        "prcp": 13.8,
         "snow": 0,
-        "wdir": 194,
-        "wspd": 14.6,
-        "wpgt": 38.9,
-        "pres": 997.5,
+        "wdir": 131,
+        "wspd": 13.5,
+        "wpgt": 48.2,
+        "pres": 997.3,
         "tsun": 0
       },
-      "M": false,
+      "M": true,
       "AS": {
         "P": 0,
         "U": 0,
@@ -154407,9 +155580,12 @@
           0,
           0,
           0
-        ]
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
-      "C": false,
+      "C": true,
       "SRS": {
         "R": "2024-02-08T07:05:40",
         "S": "2024-02-08T16:45:50"
@@ -154417,24 +155593,24 @@
     },
     {
       "D": 40,
-      "P": 1.6,
-      "U": 18.438,
-      "I": 929,
-      "J": false,
-      "S": false,
+      "P": 6,
+      "U": 20.41,
+      "I": 3233,
+      "J": true,
+      "S": true,
       "MS": {
-        "tavg": 11,
-        "tmin": 9.6,
-        "tmax": 13,
-        "prcp": 0,
+        "tavg": 11.4,
+        "tmin": 10.1,
+        "tmax": 13.1,
+        "prcp": 1.6,
         "snow": 0,
-        "wdir": 194,
-        "wspd": 22.8,
-        "wpgt": 48.2,
-        "pres": 985.5,
+        "wdir": 193,
+        "wspd": 21.8,
+        "wpgt": 46.3,
+        "pres": 985,
         "tsun": 0
       },
-      "M": false,
+      "M": true,
       "AS": {
         "P": 0,
         "U": 0,
@@ -154493,52 +155669,52 @@
           0,
           0,
           0,
+          0.004,
+          0.049,
+          0,
+          0,
+          0.052,
+          0.052,
+          0,
+          0.108,
+          0.021,
           0,
           0,
           0,
           0,
+          0.449,
+          0.145,
+          0.007,
           0,
           0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
+          0.017,
+          0.024,
+          0.029,
+          0.029,
+          0.032,
+          0.03,
+          0.03,
+          0.03,
+          0.056,
+          0.072,
+          0.056,
+          0.052,
+          0.028,
+          0.029,
+          0.028,
+          0.03,
+          0.03,
+          0.032,
+          0.04,
+          0.038,
+          0.055,
+          0.034,
+          0.03,
+          0.031,
+          0.057,
+          0.056,
+          0.058,
+          0.052
         ],
         "I": [
           0,
@@ -154586,29 +155762,29 @@
           0.144,
           0.142,
           0.244,
+          0.248,
+          0.199,
+          0.134,
+          0.108,
+          0.08,
+          0.103,
+          0.1,
+          0.079,
+          0.1,
+          0.11,
+          0.175,
+          0.225,
+          0.063,
+          0.157,
+          0.071,
+          0.11,
+          0.058,
+          0.12,
+          0.001,
           0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
+          0.02,
+          0.037,
+          0.006,
           0,
           0,
           0,
@@ -154684,6 +155860,435 @@
           0.94,
           0.928,
           0.94,
+          0.94,
+          0.94,
+          0.928,
+          0.928,
+          0.94,
+          0.916,
+          0.928,
+          0.928,
+          0.916,
+          0.928,
+          0.928,
+          0.058,
+          0,
+          0.255,
+          1.264,
+          0.974,
+          0.94,
+          0.928,
+          0.94,
+          0.8,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "P": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.217,
+          0.481,
+          0.465,
+          0.324,
+          0.402,
+          0.592,
+          0.815,
+          0.822,
+          0.845,
+          1.097,
+          1.209,
+          0.855,
+          1.038,
+          0.723,
+          0.543,
+          0.978,
+          0.688,
+          0.565,
+          0.807,
+          1.727,
+          1.094,
+          0.8,
+          1.327,
+          0.847,
+          1.169,
+          0.549,
+          0.624,
+          0.658,
+          0.246,
+          0.244,
+          0.308,
+          0.262,
+          0.196,
+          0.057,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
+      },
+      "C": true,
+      "SRS": {
+        "R": "2024-02-09T07:03:57",
+        "S": "2024-02-09T16:47:37"
+      }
+    },
+    {
+      "D": 41,
+      "P": 8.6,
+      "U": 2.411,
+      "I": 7312,
+      "J": true,
+      "S": true,
+      "MS": {
+        "tavg": 10.7,
+        "tmin": 9,
+        "tmax": 12.6,
+        "prcp": 3.1,
+        "snow": 0,
+        "wdir": 149,
+        "wspd": 10.1,
+        "wpgt": 24.1,
+        "pres": 985.9,
+        "tsun": 0
+      },
+      "M": true,
+      "AS": {
+        "P": 0,
+        "U": 0,
+        "I": 0,
+        "A": false
+      },
+      "Q": {
+        "C": [
+          0.043,
+          0.034,
+          0.032,
+          0.031,
+          0.029,
+          0.029,
+          0.029,
+          0.034,
+          0.037,
+          0.031,
+          0.029,
+          0.044,
+          0.056,
+          0.064,
+          0.061,
+          0.036,
+          0.029,
+          0.029,
+          0.038,
+          0.032,
+          0.028,
+          0.029,
+          0.028,
+          0.036,
+          0.032,
+          0.029,
+          0.029,
+          0.032,
+          0.041,
+          0.04,
+          0.03,
+          0.04,
+          0.058,
+          0.057,
+          0.047,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.01,
+          0.018,
+          0.041,
+          0.053,
+          0.056,
+          0.06,
+          0.047,
+          0.03,
+          0.028,
+          0.03,
+          0.036,
+          0.039,
+          0.034,
+          0.031,
+          0.028,
+          0.035,
+          0.034,
+          0.029,
+          0.029,
+          0.029,
+          0.034,
+          0.064,
+          0.056,
+          0.057,
+          0.045,
+          0.028,
+          0.031,
+          0.038,
+          0.03,
+          0.028
+        ],
+        "I": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.049,
+          0.132,
+          0.189,
+          0.189,
+          0.193,
+          0.261,
+          0.289,
+          0.269,
+          0.25,
+          0.254,
+          0.284,
+          0.316,
+          0.331,
+          0.308,
+          0.299,
+          0.297,
+          0.328,
+          0.313,
+          0.318,
+          0.362,
+          0.318,
+          0.289,
+          0.207,
+          0.207,
+          0.249,
+          0.273,
+          0.241,
+          0.186,
+          0.082,
+          0.026,
+          0.003,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "G": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
           0,
           0,
           0,
@@ -154772,23 +156377,4745 @@
           0,
           0,
           0,
+          0.179,
+          0.416,
+          0.759,
+          0.804,
+          1.004,
+          0.871,
+          1.317,
+          1.268,
+          1.178,
+          1.09,
+          1.22,
+          1.318,
+          1.473,
+          1.417,
+          1.486,
+          1.441,
+          1.475,
+          1.581,
+          1.364,
+          1.45,
+          1.653,
+          1.403,
+          1.185,
+          0.966,
+          0.95,
+          1.217,
+          1.253,
+          1.104,
+          0.686,
+          0.35,
+          0.17,
+          0.145,
+          0.088,
+          0.049,
           0,
-          0.217,
-          0.481,
-          0.465,
-          0.324,
-          0.402,
-          0.592,
-          0.815,
-          0.822,
-          0.845,
-          1.097
-        ]
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
       },
       "C": false,
       "SRS": {
-        "R": "2024-02-09T07:03:57",
-        "S": "2024-02-09T16:47:37"
+        "R": "2024-02-10T07:02:13",
+        "S": "2024-02-10T16:49:24"
+      }
+    },
+    {
+      "D": 42,
+      "P": 5.2,
+      "U": 5.794,
+      "I": 3887,
+      "J": true,
+      "S": true,
+      "MS": {
+        "tavg": 9,
+        "tmin": 7.7,
+        "tmax": 10.6,
+        "prcp": 1.5,
+        "snow": 0,
+        "wdir": 216,
+        "wspd": 12.3,
+        "wpgt": 31.5,
+        "pres": 990.8,
+        "tsun": 0
+      },
+      "M": true,
+      "AS": {
+        "P": 0,
+        "U": 0,
+        "I": 0,
+        "A": false
+      },
+      "Q": {
+        "C": [
+          0.028,
+          0.034,
+          0.038,
+          0.039,
+          0.029,
+          0.029,
+          0.029,
+          0.029,
+          0.034,
+          0.036,
+          0.028,
+          0.046,
+          0.054,
+          0.054,
+          0.059,
+          0.041,
+          0.03,
+          0.028,
+          0.03,
+          0.029,
+          0.035,
+          0.033,
+          0.03,
+          0.028,
+          0.029,
+          0.028,
+          0.042,
+          0.04,
+          0.03,
+          0.03,
+          0.041,
+          0.055,
+          0.064,
+          0.058,
+          0.04,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.017,
+          0.032,
+          0.035,
+          0.037,
+          0.03,
+          0.033,
+          0.036,
+          0.029,
+          0,
+          0.05,
+          0.052,
+          0.057,
+          0.039,
+          0.03,
+          0.028,
+          0.03,
+          0.028,
+          0.029,
+          0.036,
+          0.032,
+          0.028,
+          0.029,
+          0.028,
+          0.403,
+          1.117,
+          1.091,
+          1.074
+        ],
+        "I": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.001,
+          0.013,
+          0.012,
+          0.059,
+          0.031,
+          0.051,
+          0.071,
+          0.074,
+          0.091,
+          0.111,
+          0.097,
+          0.133,
+          0.4,
+          0.25,
+          0.178,
+          0.056,
+          0.043,
+          0.092,
+          0.166,
+          0.222,
+          0.188,
+          0.145,
+          0.221,
+          0.158,
+          0.156,
+          0.129,
+          0.175,
+          0.13,
+          0.141,
+          0.052,
+          0.033,
+          0.085,
+          0.081,
+          0.034,
+          0.007,
+          0.001,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "G": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          4.524,
+          4.199,
+          0.487
+        ],
+        "P": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.161,
+          0.181,
+          0.158,
+          0.533,
+          0.293,
+          0.403,
+          0.452,
+          0.431,
+          0.568,
+          0.56,
+          0.403,
+          0.774,
+          0.937,
+          0.893,
+          0.828,
+          0.26,
+          0.431,
+          0.565,
+          0.936,
+          1.026,
+          0.871,
+          0.868,
+          1.026,
+          0.898,
+          0.685,
+          1.035,
+          0.664,
+          0.668,
+          0.752,
+          0.287,
+          0.276,
+          0.49,
+          0.445,
+          0.147,
+          0.217,
+          0.047,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
+      },
+      "C": true,
+      "SRS": {
+        "R": "2024-02-11T07:00:27",
+        "S": "2024-02-11T16:51:11"
+      }
+    },
+    {
+      "D": 43,
+      "P": 17.1,
+      "U": 59.937,
+      "I": 13068,
+      "J": true,
+      "S": true,
+      "MS": {
+        "tavg": 7.2,
+        "tmin": 3.9,
+        "tmax": 9.9,
+        "prcp": 1.5,
+        "snow": 0,
+        "wdir": 247,
+        "wspd": 12.5,
+        "wpgt": 29.6,
+        "pres": 1005.3,
+        "tsun": 0
+      },
+      "M": true,
+      "AS": {
+        "P": 0,
+        "U": 59.9370002746582,
+        "I": 0,
+        "A": true
+      },
+      "Q": {
+        "C": [
+          1.08,
+          1.084,
+          1.085,
+          1.069,
+          1.067,
+          1.062,
+          1.064,
+          1.064,
+          1.064,
+          1.065,
+          1.072,
+          1.067,
+          1.066,
+          1.067,
+          1.067,
+          1.065,
+          1.075,
+          1.078,
+          1.095,
+          1.099,
+          1.089,
+          1.088,
+          1.078,
+          1.059,
+          1.056,
+          1.064,
+          1.073,
+          1.077,
+          1.12,
+          1.124,
+          0.246,
+          0.052,
+          0.053,
+          0.567,
+          0.014,
+          0.001,
+          0.014,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.718,
+          1.279,
+          1.994,
+          2.393,
+          1.468,
+          1.821,
+          1.354,
+          1.155,
+          1.186,
+          1.18,
+          1.143,
+          0,
+          1.65,
+          1.665,
+          1.425,
+          1.151,
+          1.139,
+          1.139,
+          0.397,
+          0.051,
+          0.07,
+          0.086,
+          0.073,
+          0.073,
+          0.065,
+          0.041,
+          0.036,
+          0.036,
+          0.042,
+          0.036
+        ],
+        "I": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.03,
+          0.046,
+          0.141,
+          0.149,
+          0.095,
+          0.182,
+          0.267,
+          0.369,
+          0.423,
+          0.533,
+          0.489,
+          0.277,
+          0.277,
+          0.278,
+          0.411,
+          0.557,
+          1.042,
+          0.822,
+          0.421,
+          0.94,
+          1.012,
+          1.071,
+          0.328,
+          0.848,
+          0.834,
+          0.113,
+          0.087,
+          0.091,
+          0.134,
+          0.363,
+          0.383,
+          0.055,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "G": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2.262,
+          7.053,
+          6.96,
+          6.856,
+          4.188,
+          0.371,
+          1.694,
+          1.856,
+          1.984,
+          2.03,
+          2.111,
+          1.833,
+          1.763,
+          1.74,
+          1.67,
+          1.682,
+          1.624,
+          1.543,
+          1.485,
+          1.404,
+          1.438,
+          1.473,
+          1.473,
+          1.473,
+          1.346,
+          1.322,
+          1.183,
+          1.148,
+          1.264,
+          1.09,
+          0.986,
+          0.94,
+          1.021,
+          0.951,
+          0.916,
+          1.044,
+          1.299,
+          1.369,
+          1.276,
+          1.195,
+          1.172,
+          1.357,
+          1.45,
+          1.543,
+          1.346,
+          1.38,
+          1.102,
+          1.021,
+          1.23,
+          1.346,
+          1.38,
+          1.415,
+          1.334,
+          1.288,
+          0.777,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "P": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.285,
+          0.605,
+          0.779,
+          1.108,
+          1.173,
+          1.049,
+          2.007,
+          1.377,
+          2.458,
+          1.223,
+          3.071,
+          2.381,
+          1.269,
+          1.195,
+          1.282,
+          2.752,
+          2.293,
+          4.895,
+          1.041,
+          3.795,
+          3.844,
+          2.694,
+          4.826,
+          1.908,
+          5.004,
+          2.097,
+          0.683,
+          0.652,
+          0.781,
+          0.814,
+          1.168,
+          0.484,
+          2.054,
+          1.614,
+          1.126,
+          0.185,
+          0.055,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
+      },
+      "C": true,
+      "SRS": {
+        "R": "2024-02-12T06:58:40",
+        "S": "2024-02-12T16:52:59"
+      }
+    },
+    {
+      "D": 44,
+      "P": 16.2,
+      "U": 14.043,
+      "I": 13142,
+      "J": true,
+      "S": true,
+      "MS": {
+        "tavg": 6.4,
+        "tmin": 2.9,
+        "tmax": 9.5,
+        "prcp": 0.2,
+        "snow": 0,
+        "wdir": 205,
+        "wspd": 18.2,
+        "wpgt": 48.2,
+        "pres": 1016.8,
+        "tsun": 0
+      },
+      "M": true,
+      "AS": {
+        "P": 0,
+        "U": 0,
+        "I": 0,
+        "A": false
+      },
+      "Q": {
+        "C": [
+          0.032,
+          0.033,
+          0.033,
+          0.04,
+          0.008,
+          0.033,
+          0.032,
+          0.032,
+          0.037,
+          0.038,
+          0.034,
+          0.045,
+          0.062,
+          0.06,
+          0.064,
+          0.037,
+          0.032,
+          0.034,
+          0.033,
+          0.033,
+          0.046,
+          0.036,
+          0.035,
+          0.032,
+          0.033,
+          0.032,
+          0.103,
+          1.097,
+          0.538,
+          0.063,
+          0.081,
+          0.075,
+          0.071,
+          0.101,
+          0,
+          0.05,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.206,
+          0.011,
+          0,
+          0.037,
+          0.057,
+          0,
+          0.002,
+          0.503,
+          0.302,
+          0.272,
+          0,
+          0,
+          0.031,
+          0.037,
+          0.028,
+          0.042,
+          0.075,
+          0.069,
+          0.058,
+          0.061,
+          0.078,
+          0.084,
+          0.1,
+          0.118,
+          0.133,
+          0,
+          0.065,
+          0.057,
+          0.072,
+          0.053,
+          0.056,
+          0.06,
+          0.062,
+          0.073,
+          0.092,
+          0.086,
+          0.099,
+          0.981,
+          1.115,
+          1.129,
+          1.133,
+          1.12,
+          1.106,
+          1.096
+        ],
+        "I": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.038,
+          0.076,
+          0.171,
+          0.238,
+          0.318,
+          0.296,
+          0.458,
+          0.566,
+          0.608,
+          0.703,
+          0.694,
+          0.777,
+          0.866,
+          0.974,
+          0.89,
+          0.914,
+          0.951,
+          0.435,
+          0.107,
+          0.382,
+          0.751,
+          0.335,
+          0.386,
+          0.851,
+          0.132,
+          0.004,
+          0,
+          0.026,
+          0.153,
+          0.039,
+          0.003,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "G": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2.158,
+          0.882,
+          0,
+          0,
+          0,
+          0,
+          2.262,
+          7.018,
+          6.844,
+          4.466,
+          2.482,
+          1.926,
+          1.868,
+          1.926,
+          1.984,
+          1.844,
+          1.844,
+          1.705,
+          1.647,
+          1.462,
+          1.45,
+          1.52,
+          1.543,
+          1.38,
+          1.241,
+          1.241,
+          1.114,
+          0.661,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2.796,
+          4.025,
+          2.123,
+          1.241,
+          1.056,
+          1.125,
+          1.183,
+          1.23,
+          1.334,
+          1.369,
+          1.206,
+          1.148,
+          0.998,
+          1.346,
+          2.401,
+          1.531,
+          1.38,
+          1.276,
+          1.241,
+          1.253,
+          1.241,
+          0.684,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "P": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.22,
+          0.382,
+          0.69,
+          1.086,
+          1.272,
+          1.748,
+          0.614,
+          2.302,
+          2.673,
+          2.655,
+          3.257,
+          3.211,
+          3.201,
+          3.652,
+          4.089,
+          4.085,
+          4.399,
+          5.037,
+          1.275,
+          1.578,
+          2.035,
+          4.103,
+          4.266,
+          1.698,
+          5.038,
+          0.684,
+          0.997,
+          1.301,
+          0.74,
+          0.843,
+          0.361,
+          0.216,
+          0.212,
+          0.146,
+          0.094,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
+      },
+      "C": true,
+      "SRS": {
+        "R": "2024-02-13T06:56:51",
+        "S": "2024-02-13T16:54:46"
+      }
+    },
+    {
+      "D": 45,
+      "P": 2.3,
+      "U": 49.302,
+      "I": 616,
+      "J": true,
+      "S": true,
+      "MS": {
+        "tavg": 10.8,
+        "tmin": 8.3,
+        "tmax": 12.7,
+        "prcp": 7.9,
+        "snow": 0,
+        "wdir": 213,
+        "wspd": 22.7,
+        "wpgt": 44.5,
+        "pres": 1016.8,
+        "tsun": 0
+      },
+      "M": true,
+      "AS": {
+        "P": 0,
+        "U": 0,
+        "I": 0,
+        "A": false
+      },
+      "Q": {
+        "C": [
+          1.097,
+          1.102,
+          1.114,
+          1.113,
+          1.106,
+          1.1,
+          1.067,
+          1.098,
+          1.098,
+          1.095,
+          1.083,
+          1.072,
+          1.081,
+          1.077,
+          1.073,
+          0.187,
+          0.028,
+          0.035,
+          0.034,
+          0.028,
+          0.035,
+          0.032,
+          0.03,
+          0.037,
+          0.029,
+          0.05,
+          0.064,
+          0.067,
+          0.068,
+          0.041,
+          0.038,
+          0.036,
+          0.034,
+          0.06,
+          0.683,
+          0.298,
+          0.019,
+          0.051,
+          0.211,
+          0.711,
+          0.555,
+          0.423,
+          0.105,
+          0.073,
+          0.042,
+          0.136,
+          0.874,
+          0.473,
+          0,
+          0,
+          0.021,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.004,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.005,
+          0.011,
+          0.023,
+          0.033,
+          0.034,
+          0.035,
+          0.041,
+          1.963,
+          1.871,
+          1.63,
+          1.621,
+          0,
+          1.362,
+          1.069,
+          1.105,
+          1.113,
+          1.078,
+          1.073,
+          1.075,
+          1.077,
+          1.083,
+          1.091,
+          1.099,
+          1.113,
+          1.144,
+          1.138,
+          1.113,
+          1.103,
+          1.107,
+          1.104
+        ],
+        "I": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.001,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.005,
+          0.037,
+          0.024,
+          0.014,
+          0.05,
+          0.047,
+          0.094,
+          0.055,
+          0.039,
+          0.048,
+          0.007,
+          0.008,
+          0.009,
+          0.005,
+          0.008,
+          0.015,
+          0.034,
+          0.089,
+          0.026,
+          0,
+          0.001,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "G": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2.32,
+          1.914,
+          0,
+          0,
+          0,
+          0,
+          2.134,
+          7.018,
+          4.93,
+          2.216,
+          1.322,
+          1.241,
+          1.276,
+          1.299,
+          1.427,
+          1.322,
+          1.23,
+          1.206,
+          1.241,
+          1.241,
+          1.195,
+          1.218,
+          1.253,
+          2.738,
+          2.935,
+          1.786,
+          1.728,
+          1.311,
+          1.102,
+          1.125,
+          1.09,
+          1.09,
+          1.114,
+          1.125,
+          1.067,
+          1.032,
+          0.974,
+          0.986,
+          1.056,
+          0.998,
+          0.974,
+          1.009,
+          0.998,
+          0.986,
+          0.974,
+          0.963,
+          0.928,
+          0.951,
+          0.974,
+          0.951,
+          0.928,
+          0.928,
+          0.951,
+          1.032,
+          1.044,
+          0.916,
+          0.905,
+          0.916,
+          0.905,
+          0.905,
+          0,
+          0.499,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "P": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.166,
+          0.091,
+          0.139,
+          0.242,
+          0.154,
+          0.214,
+          0.179,
+          0.269,
+          0.21,
+          0.446,
+          0.433,
+          0.545,
+          0.353,
+          0.357,
+          0.412,
+          0.424,
+          0.323,
+          0.538,
+          0.358,
+          0.366,
+          0.359,
+          0.211,
+          0.275,
+          0.263,
+          0.253,
+          0.321,
+          0.343,
+          0.374,
+          0.492,
+          0.234,
+          0.148,
+          0.071,
+          0.045,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
+      },
+      "C": true,
+      "SRS": {
+        "R": "2024-02-14T06:55:01",
+        "S": "2024-02-14T16:56:33"
+      }
+    },
+    {
+      "D": 46,
+      "P": 9.7,
+      "U": 50.524,
+      "I": 6867,
+      "J": true,
+      "S": true,
+      "MS": {
+        "tavg": 13.6,
+        "tmin": 11.7,
+        "tmax": 16.8,
+        "prcp": 1.3,
+        "snow": 0,
+        "wdir": 183,
+        "wspd": 15.8,
+        "wpgt": 33.3,
+        "pres": 1014,
+        "tsun": 0
+      },
+      "M": true,
+      "AS": {
+        "P": 0,
+        "U": 0,
+        "I": 0,
+        "A": false
+      },
+      "Q": {
+        "C": [
+          1.128,
+          1.095,
+          1.11,
+          1.092,
+          1.066,
+          1.066,
+          1.067,
+          1.067,
+          1.069,
+          1.069,
+          1.069,
+          0.382,
+          0.038,
+          0.034,
+          0.031,
+          0.066,
+          0.067,
+          0.054,
+          0.051,
+          0.037,
+          0.035,
+          0.033,
+          0.028,
+          0.028,
+          0.032,
+          0.037,
+          0.029,
+          0.038,
+          0.525,
+          0.64,
+          0.043,
+          0.098,
+          0.079,
+          0.087,
+          0.07,
+          0.066,
+          0.03,
+          0.015,
+          0.245,
+          0.239,
+          0,
+          0.089,
+          0.168,
+          0,
+          0,
+          0,
+          0,
+          0.151,
+          0.127,
+          0,
+          0,
+          0,
+          0.014,
+          0.001,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1.07,
+          1.618,
+          1.226,
+          1.703,
+          1.669,
+          1.118,
+          1.088,
+          1.064,
+          0.539,
+          1.47,
+          1.76,
+          1.808,
+          1.394,
+          1.148,
+          1.134,
+          1.089,
+          1.068,
+          1.098,
+          1.068,
+          1.071,
+          1.074,
+          1.085,
+          1.094,
+          1.099,
+          1.095,
+          1.083,
+          1.066,
+          1.059,
+          1.061
+        ],
+        "I": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.002,
+          0.036,
+          0.093,
+          0.093,
+          0.076,
+          0.2,
+          0.253,
+          0.317,
+          0.151,
+          0.087,
+          0.129,
+          0.456,
+          0.341,
+          0.309,
+          0.336,
+          0.255,
+          0.286,
+          0.149,
+          0.238,
+          0.363,
+          0.26,
+          0.409,
+          0.447,
+          0.708,
+          0.299,
+          0.209,
+          0.169,
+          0.112,
+          0.071,
+          0.013,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "G": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1.949,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1.96,
+          6.113,
+          3.144,
+          1.334,
+          0.963,
+          0,
+          0.603,
+          0.928,
+          0.94,
+          0.94,
+          0.916,
+          0.916,
+          0.905,
+          0.916,
+          0,
+          0.58,
+          0,
+          1.241,
+          0.58,
+          0.916,
+          0.905,
+          0,
+          0,
+          0,
+          0,
+          0.429,
+          0,
+          0.603,
+          0.916,
+          0.905,
+          0.928,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1.612,
+          0,
+          0.998,
+          1.009,
+          0,
+          0.603,
+          0.916,
+          0,
+          0.58,
+          0.452,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "P": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.142,
+          0.22,
+          0.357,
+          0.566,
+          0.693,
+          0.888,
+          0.917,
+          1.253,
+          1.266,
+          1.694,
+          0.905,
+          1.043,
+          2.297,
+          1.763,
+          1.455,
+          1.374,
+          1.33,
+          1.323,
+          1.408,
+          0.68,
+          1.246,
+          1.708,
+          1.188,
+          1.995,
+          2.742,
+          2.368,
+          1.485,
+          0.98,
+          1.189,
+          0.596,
+          0.544,
+          0.738,
+          0.399,
+          0.29,
+          0.144,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
+      },
+      "C": true,
+      "SRS": {
+        "R": "2024-02-15T06:53:10",
+        "S": "2024-02-15T16:58:19"
+      }
+    },
+    {
+      "D": 47,
+      "P": 3.3,
+      "U": 16.627,
+      "I": 1412,
+      "J": false,
+      "S": false,
+      "MS": {
+        "tavg": 12.4,
+        "tmin": 9,
+        "tmax": 13.8,
+        "prcp": 3.3,
+        "snow": 0,
+        "wdir": 233,
+        "wspd": 16.9,
+        "wpgt": 33.3,
+        "pres": 1014.8,
+        "tsun": 0
+      },
+      "M": false,
+      "AS": {
+        "P": 0,
+        "U": 0,
+        "I": 0,
+        "A": false
+      },
+      "Q": {
+        "C": [
+          1.055,
+          1.059,
+          1.062,
+          1.058,
+          1.061,
+          1.064,
+          1.066,
+          1.068,
+          1.09,
+          0.903,
+          0.06,
+          0.059,
+          0.03,
+          0.029,
+          0.028,
+          0.028,
+          0.028,
+          0.028,
+          0.028,
+          0.033,
+          0.036,
+          0.035,
+          0.028,
+          0.041,
+          0.053,
+          0.052,
+          0.053,
+          0.051,
+          0.041,
+          0.033,
+          0.034,
+          0.039,
+          0.035,
+          0.035,
+          0.036,
+          0.075,
+          0.033,
+          0.012,
+          0.04,
+          0.04,
+          0.093,
+          0.238,
+          0.079,
+          0.014,
+          0.017,
+          0.022,
+          0.004,
+          0,
+          0.005,
+          0.027,
+          0.006,
+          0.001,
+          0,
+          0.026,
+          0,
+          0.004,
+          0.007,
+          0.007,
+          0,
+          0.088,
+          0.026,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.005,
+          0.026,
+          0.059,
+          0.062,
+          0.066,
+          0.325,
+          0.392,
+          0.509,
+          0.091,
+          0.045,
+          0.041,
+          0.454,
+          0.127,
+          0.062,
+          0.394,
+          0.09,
+          0.062,
+          0.054,
+          0.067,
+          0.118,
+          0.587,
+          0.328,
+          0.186,
+          0.065,
+          0.05,
+          0.029,
+          0.03
+        ],
+        "I": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.002,
+          0,
+          0.003,
+          0.012,
+          0.035,
+          0.073,
+          0.002,
+          0,
+          0.009,
+          0.005,
+          0.028,
+          0.027,
+          0.012,
+          0.041,
+          0.004,
+          0,
+          0.044,
+          0.054,
+          0.122,
+          0.171,
+          0.115,
+          0.115,
+          0.139,
+          0.093,
+          0.175,
+          0.111,
+          0.017,
+          0.003,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "G": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2.018,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1.798,
+          5.475,
+          0,
+          0.638,
+          0,
+          1.253,
+          0.58,
+          0.928,
+          0.916,
+          0.928,
+          0,
+          0.557,
+          0,
+          1.23,
+          0.963,
+          0.592,
+          0.916,
+          0,
+          0.603,
+          0,
+          0.557,
+          0,
+          1.879,
+          0,
+          0.22,
+          0,
+          1.543,
+          0.951,
+          0.568,
+          0,
+          4.466,
+          0.394,
+          1.09,
+          0.568,
+          0.928,
+          0.916,
+          0.928,
+          0.916,
+          0.742,
+          0,
+          0,
+          0,
+          2.749,
+          0,
+          1.38,
+          0.568,
+          0.928,
+          0,
+          0.557,
+          0,
+          0.081,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "P": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.096,
+          0.165,
+          0.108,
+          0.19,
+          0.236,
+          0.288,
+          0.202,
+          0.157,
+          0.215,
+          0.408,
+          0.498,
+          0.259,
+          0.233,
+          0.342,
+          0.211,
+          0.282,
+          0.271,
+          0.232,
+          0.521,
+          0.527,
+          0.356,
+          0.67,
+          0.573,
+          1.178,
+          0.82,
+          0.412,
+          0.455,
+          0.757,
+          0.547,
+          0.66,
+          0.41,
+          0.25,
+          0.155,
+          0.108,
+          0.043,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
+      },
+      "C": true,
+      "SRS": {
+        "R": "2024-02-16T06:51:17",
+        "S": "2024-02-16T17:00:06"
+      }
+    },
+    {
+      "D": 48,
+      "P": 13.6,
+      "U": 32.387,
+      "I": 8442,
+      "J": false,
+      "S": false,
+      "MS": {
+        "tavg": 10.5,
+        "tmin": 8,
+        "tmax": 13,
+        "prcp": 0,
+        "snow": 0,
+        "wdir": 230,
+        "wspd": 11.9,
+        "wpgt": 22.2,
+        "pres": 1030.7,
+        "tsun": 0
+      },
+      "M": false,
+      "AS": {
+        "P": 0,
+        "U": 0,
+        "I": 0,
+        "A": false
+      },
+      "Q": {
+        "C": [
+          0.031,
+          0.038,
+          0.037,
+          0.031,
+          0.031,
+          0.038,
+          0.032,
+          0.031,
+          0.056,
+          0.053,
+          0.059,
+          0.053,
+          0.028,
+          0.027,
+          0.029,
+          0.028,
+          0.029,
+          0.033,
+          0.037,
+          0.029,
+          0.028,
+          0.028,
+          0.031,
+          0.06,
+          0.055,
+          0.052,
+          0.03,
+          0.045,
+          0.044,
+          0.034,
+          0.034,
+          0.069,
+          0.039,
+          0.041,
+          0.037,
+          0.04,
+          0.016,
+          0.065,
+          0.525,
+          0.024,
+          0.002,
+          0.088,
+          1.228,
+          1.456,
+          0.883,
+          0.931,
+          0.857,
+          0.484,
+          0.41,
+          0.283,
+          0.119,
+          0.061,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.234,
+          0.375,
+          0.736,
+          1.07,
+          1.078,
+          1.7,
+          1.667,
+          0.897,
+          0.066,
+          0.048,
+          0.058,
+          0.04,
+          0.04,
+          0.049,
+          0.292,
+          1.109,
+          1.109,
+          1.07,
+          1.069,
+          1.062,
+          1.062,
+          1.061,
+          1.085,
+          0.478,
+          0.74,
+          1.069,
+          1.065,
+          1.057,
+          1.085,
+          1.087
+        ],
+        "I": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.002,
+          0.014,
+          0.048,
+          0.068,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.024,
+          0,
+          0.003,
+          0,
+          0.07,
+          0.365,
+          0.541,
+          0.773,
+          0.583,
+          0.433,
+          0.587,
+          0.726,
+          0.941,
+          0.706,
+          0.772,
+          0.233,
+          0.303,
+          0.615,
+          0.529,
+          0.106,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "G": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1.253,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1.949,
+          6.45,
+          3.41,
+          0,
+          1.833,
+          1.009,
+          0.673,
+          1.067,
+          1.102,
+          0,
+          0.673,
+          0,
+          1.357,
+          1.032,
+          0.684,
+          1.067,
+          0,
+          0.557,
+          0,
+          0.592,
+          0,
+          0.58,
+          0,
+          0.534,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1.821,
+          3.144,
+          1.717,
+          1.032,
+          0.847,
+          0.174,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "P": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.169,
+          0.198,
+          0.345,
+          0.405,
+          0.451,
+          0.574,
+          0.567,
+          0.727,
+          0.937,
+          1.231,
+          1.355,
+          1.816,
+          1.615,
+          1.526,
+          2.36,
+          1.99,
+          1.727,
+          2.45,
+          2.814,
+          2.207,
+          1.998,
+          2.414,
+          2.368,
+          4.474,
+          4.515,
+          3.261,
+          1.126,
+          1.595,
+          3.753,
+          2.849,
+          2.525,
+          0.466,
+          0.237,
+          0.181,
+          0.199,
+          0.138,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
+      },
+      "C": true,
+      "SRS": {
+        "R": "2024-02-17T06:49:23",
+        "S": "2024-02-17T17:01:53"
+      }
+    },
+    {
+      "D": 49,
+      "P": 2.6,
+      "U": 18.999,
+      "I": 1121,
+      "J": false,
+      "S": false,
+      "MS": {
+        "tavg": 10.1,
+        "tmin": 9,
+        "tmax": 12,
+        "prcp": 6.9,
+        "snow": 0,
+        "wdir": 224,
+        "wspd": 22.8,
+        "wpgt": 48.2,
+        "pres": 1026.5,
+        "tsun": 0
+      },
+      "M": false,
+      "AS": {
+        "P": 0,
+        "U": 0,
+        "I": 0,
+        "A": false
+      },
+      "Q": {
+        "C": [
+          1.091,
+          1.082,
+          1.065,
+          1.067,
+          1.065,
+          1.07,
+          1.065,
+          1.067,
+          1.065,
+          1.069,
+          1.074,
+          1.075,
+          1.092,
+          1.031,
+          0.054,
+          0.053,
+          0.041,
+          0.031,
+          0.029,
+          0.037,
+          0.036,
+          0.028,
+          0.028,
+          0.027,
+          0.027,
+          0.032,
+          0.037,
+          0.039,
+          0.037,
+          0.038,
+          0.038,
+          0.05,
+          0.062,
+          0.062,
+          0.09,
+          0.071,
+          0.033,
+          0.057,
+          0.008,
+          0,
+          0.001,
+          0.01,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.016,
+          0.012,
+          0,
+          0.016,
+          0.042,
+          0.055,
+          0.165,
+          0.336,
+          0.251,
+          0.206,
+          0.053,
+          0.044,
+          0.038,
+          0.078,
+          0.063,
+          0.055,
+          0.076,
+          0.063,
+          0.055,
+          0.054,
+          0.054,
+          0.055,
+          0.055,
+          0.132,
+          0.082,
+          0.05,
+          0.053,
+          0.07,
+          0.078,
+          0.076,
+          0.079,
+          0.095,
+          0.072,
+          0.052,
+          0.066,
+          0.052,
+          0.043,
+          0.03,
+          0.029,
+          0.029,
+          0.035
+        ],
+        "I": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.013,
+          0.004,
+          0,
+          0.08,
+          0.163,
+          0.158,
+          0.121,
+          0.134,
+          0.09,
+          0.025,
+          0.017,
+          0.013,
+          0.045,
+          0.121,
+          0.08,
+          0.029,
+          0.009,
+          0.001,
+          0.018,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "G": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          4.918,
+          5.29,
+          2.134,
+          2.297,
+          1.195,
+          1.241,
+          1.195,
+          1.125,
+          1.148,
+          1.114,
+          1.067,
+          1.102,
+          1.23,
+          1.056,
+          1.067,
+          0.51,
+          0,
+          1.241,
+          1.044,
+          0.986,
+          0.951,
+          0.626,
+          0,
+          1.427,
+          1.056,
+          0.998,
+          0.661,
+          0.58,
+          0,
+          1.334,
+          0.568,
+          1.079,
+          1.044,
+          1.056,
+          0.928,
+          0.986,
+          0.94,
+          0.986,
+          0.928,
+          0.963,
+          0.905,
+          0.905,
+          0.974,
+          0.87,
+          0.974,
+          0.882,
+          0.963,
+          0.51,
+          0.94,
+          0,
+          1.334,
+          0.847,
+          0.673,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "P": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.074,
+          0.14,
+          0.204,
+          0.146,
+          0.158,
+          0.528,
+          0.737,
+          0.761,
+          0.623,
+          0.602,
+          0.505,
+          0.36,
+          0.347,
+          0.28,
+          0.471,
+          0.787,
+          0.525,
+          0.275,
+          0.274,
+          0.263,
+          0.253,
+          0.215,
+          0.233,
+          0.328,
+          0.311,
+          0.291,
+          0.25,
+          0.244,
+          0.127,
+          0.111,
+          0.211,
+          0,
+          0,
+          0.097,
+          0.046,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
+      },
+      "C": true,
+      "SRS": {
+        "R": "2024-02-18T06:47:27",
+        "S": "2024-02-18T17:03:39"
+      }
+    },
+    {
+      "D": 50,
+      "P": 4.4,
+      "U": 4.022,
+      "I": 2115,
+      "J": false,
+      "S": false,
+      "MS": {
+        "tavg": 9,
+        "tmin": 7.5,
+        "tmax": 10,
+        "prcp": 1.3,
+        "snow": 0,
+        "wdir": 257,
+        "wspd": 16.1,
+        "wpgt": 37,
+        "pres": 1028.4,
+        "tsun": 0
+      },
+      "M": false,
+      "AS": {
+        "P": 0,
+        "U": 0,
+        "I": 0,
+        "A": false
+      },
+      "Q": {
+        "C": [
+          0.034,
+          0.027,
+          0.027,
+          0.027,
+          0.027,
+          0.046,
+          0.052,
+          0.052,
+          0.041,
+          0.035,
+          0.034,
+          0.027,
+          0.027,
+          0.031,
+          0.033,
+          0.039,
+          0.03,
+          0.028,
+          0.028,
+          0.057,
+          0.06,
+          0.067,
+          0.061,
+          0.03,
+          0.035,
+          0.029,
+          0.027,
+          0.046,
+          0.078,
+          0.122,
+          0.077,
+          0.07,
+          0.059,
+          0.056,
+          0.04,
+          0.028,
+          0,
+          0.001,
+          0.026,
+          0.002,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.086,
+          0.035,
+          0,
+          0.001,
+          0.022,
+          0.023,
+          0.01,
+          0,
+          0,
+          0,
+          0.004,
+          0.026,
+          0.012,
+          0.016,
+          0.008,
+          0.051,
+          0.031,
+          0.054,
+          0.076,
+          0.07,
+          0.053,
+          0.012,
+          0.035,
+          0.064,
+          0.08,
+          0.082,
+          0.086,
+          0.084,
+          0.065,
+          0.068,
+          0.076,
+          0.091,
+          0.09,
+          0.102,
+          0.064,
+          0.045,
+          0.041,
+          0.044,
+          0.066,
+          0.083,
+          0.094,
+          0.107,
+          0.084,
+          0.071,
+          0.069,
+          0.071,
+          0.054
+        ],
+        "I": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.095,
+          0.046,
+          0.229,
+          0.348,
+          0.131,
+          0.038,
+          0.087,
+          0.112,
+          0.146,
+          0.058,
+          0.09,
+          0.069,
+          0.036,
+          0.044,
+          0.058,
+          0.122,
+          0.026,
+          0,
+          0,
+          0.018,
+          0.078,
+          0.123,
+          0.12,
+          0.028,
+          0,
+          0.005,
+          0.005,
+          0.002,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.001,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "G": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2.366,
+          0,
+          0,
+          0,
+          0,
+          0,
+          4.582,
+          6.31,
+          2.401,
+          3.144,
+          1.253,
+          0.731,
+          0,
+          1.473,
+          1.114,
+          1.021,
+          1.079,
+          1.032,
+          0.963,
+          0.835,
+          0.928,
+          0.998,
+          0.882,
+          0.916,
+          0.905,
+          1.009,
+          0.928,
+          0.858,
+          0.974,
+          1.021,
+          1.067,
+          0.963,
+          0.87,
+          1.067,
+          0.951,
+          0.893,
+          0.963,
+          0.882,
+          0.905,
+          1.021,
+          0.824,
+          0.986,
+          0.916,
+          0.87,
+          0.916,
+          0.916,
+          1.009,
+          0.951,
+          0.858,
+          0.951,
+          0.847,
+          0.974,
+          0.986,
+          0.882,
+          0.986,
+          0.998,
+          0.94,
+          0.893,
+          0.916,
+          0.986,
+          0.104,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "P": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.177,
+          0.253,
+          1.016,
+          0.461,
+          1.526,
+          1.649,
+          0.677,
+          0.342,
+          0.687,
+          0.677,
+          0.922,
+          0.483,
+          0.907,
+          0.424,
+          0.423,
+          0.595,
+          0.363,
+          0.596,
+          0.45,
+          0.309,
+          0.201,
+          0.366,
+          0.375,
+          0.57,
+          0.757,
+          0.271,
+          0.106,
+          0.224,
+          0.143,
+          0.253,
+          0.078,
+          0.123,
+          0.143,
+          0.077,
+          0.076,
+          0,
+          0.241,
+          0.127,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "WRT": null,
+        "WOT": null,
+        "WP": null
+      },
+      "C": false,
+      "SRS": {
+        "R": "2024-02-19T06:45:31",
+        "S": "2024-02-19T17:05:25"
+      }
+    },
+    {
+      "D": 51,
+      "P": 12.9,
+      "U": 4.768,
+      "I": 10662,
+      "J": false,
+      "S": false,
+      "MS": {
+        "tavg": 8.4,
+        "tmin": 6.2,
+        "tmax": 10.3,
+        "prcp": 0,
+        "snow": 0,
+        "wdir": 232,
+        "wspd": 18.1,
+        "wpgt": 38.9,
+        "pres": 1027.4,
+        "tsun": 0
+      },
+      "M": false,
+      "AS": {
+        "P": 0,
+        "U": 0,
+        "I": 0,
+        "A": false
+      },
+      "Q": {
+        "C": [
+          0.064,
+          0.063,
+          0.058,
+          0.04,
+          0.047,
+          0.044,
+          0.03,
+          0.03,
+          0.028,
+          0.035,
+          0.033,
+          0.028,
+          0.031,
+          0.052,
+          0.072,
+          0.058,
+          0.047,
+          0.03,
+          0.031,
+          0.038,
+          0.031,
+          0.035,
+          0.029,
+          0.029,
+          0.035,
+          0.031,
+          0.034,
+          0.067,
+          0.09,
+          0.096,
+          0.098,
+          0.169,
+          0.11,
+          0.082,
+          0.047,
+          0.013,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.036,
+          0.035,
+          0.509,
+          0.499,
+          0.144,
+          0.04,
+          0.081,
+          0.11,
+          0.086,
+          0.143,
+          0.112,
+          0.073,
+          0.054,
+          0.063,
+          0.099,
+          0.082,
+          0.064,
+          0.085,
+          0.084,
+          0.082,
+          0.08,
+          0.069,
+          0.074,
+          0.058,
+          0.037,
+          0.029,
+          0.029,
+          0.028,
+          0.028
+        ],
+        "I": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.017,
+          0.09,
+          0.103,
+          0.16,
+          0.284,
+          0.319,
+          0.375,
+          0.392,
+          0.41,
+          0.453,
+          0.713,
+          0.89,
+          0.86,
+          0.808,
+          0.522,
+          0.659,
+          0.742,
+          0.596,
+          0.41,
+          0.302,
+          0.324,
+          0.249,
+          0.129,
+          0.112,
+          0.13,
+          0.177,
+          0.172,
+          0.111,
+          0.075,
+          0.057,
+          0.021,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "G": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2.494,
+          0,
+          0,
+          0,
+          0,
+          0,
+          4.976,
+          6.392,
+          3.898,
+          2.796,
+          2.656,
+          2.146,
+          1.972,
+          1.52,
+          1.404,
+          1.404,
+          1.531,
+          1.253,
+          1.241,
+          1.357,
+          1.079,
+          1.056,
+          1.09,
+          0.986,
+          1.044,
+          1.009,
+          1.09,
+          0.824,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2.111,
+          3.526,
+          2.262,
+          1.183,
+          1.114,
+          0.974,
+          1.102,
+          1.044,
+          1.056,
+          1.206,
+          1.206,
+          1.067,
+          0.858,
+          0.998,
+          0.986,
+          0.986,
+          0.986,
+          1.044,
+          0.951,
+          1.009,
+          1.044,
+          0.093,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1.322,
+          0.197,
+          0,
+          0,
+          0,
+          0
+        ],
+        "P": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.123,
+          0.201,
+          0.29,
+          0.615,
+          0.727,
+          1.024,
+          1.441,
+          1.452,
+          1.717,
+          1.757,
+          1.989,
+          1.868,
+          3.344,
+          3.914,
+          3.627,
+          3.784,
+          2.153,
+          2.778,
+          4.876,
+          3.161,
+          1.598,
+          1.357,
+          1.519,
+          1.217,
+          0.697,
+          0.687,
+          0.744,
+          1.006,
+          0.911,
+          0.613,
+          0.639,
+          0.391,
+          0.313,
+          0.209,
+          0.255,
+          0.292,
+          0.092,
+          0.056,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "WRT": [],
+        "WOT": [],
+        "WP": []
+      },
+      "C": false,
+      "SRS": {
+        "R": "2024-02-20T06:43:33",
+        "S": "2024-02-20T17:07:11"
+      }
+    },
+    {
+      "D": 52,
+      "P": 1.1,
+      "U": 2.278,
+      "I": 953,
+      "J": false,
+      "S": false,
+      "MS": {
+        "tavg": 9.9,
+        "tmin": 9.2,
+        "tmax": 10.5,
+        "prcp": 0,
+        "snow": 0,
+        "wdir": 213,
+        "wspd": 25.8,
+        "wpgt": 51.8,
+        "pres": 1013.2,
+        "tsun": 0
+      },
+      "M": false,
+      "AS": {
+        "P": 0,
+        "U": 0,
+        "I": 0,
+        "A": false
+      },
+      "Q": {
+        "C": [
+          0.029,
+          0.032,
+          0.037,
+          0.032,
+          0.029,
+          0.031,
+          0.03,
+          0.047,
+          0.062,
+          0.059,
+          0.045,
+          0.029,
+          0.03,
+          0.036,
+          0.033,
+          0.032,
+          0.03,
+          0.033,
+          0.037,
+          0.029,
+          0.03,
+          0.039,
+          0.062,
+          0.062,
+          0.054,
+          0.037,
+          0.035,
+          0.059,
+          0.062,
+          0.041,
+          0.076,
+          0.133,
+          0.063,
+          0.053,
+          0.05,
+          0.049,
+          0.058,
+          0.047,
+          0.069,
+          0.039,
+          0.008,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.285,
+          0.145,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "I": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.018,
+          0.089,
+          0.123,
+          0.16,
+          0.189,
+          0.221,
+          0.049,
+          0.104,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "G": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          3.236,
+          0.731,
+          0,
+          0,
+          0,
+          0,
+          5.116,
+          6.229,
+          3.144,
+          1.624,
+          1.067,
+          1.114,
+          1.253,
+          1.172,
+          1.23,
+          1.218,
+          1.357,
+          1.206,
+          1.195,
+          1.253,
+          1.032,
+          1.23,
+          1.09,
+          1.021,
+          1.032,
+          1.067,
+          1.125,
+          1.044,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "P": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.123,
+          0.175,
+          0.233,
+          0.321,
+          0.457,
+          0.674,
+          0.688,
+          0.925,
+          0.959
+        ],
+        "WRT": [],
+        "WOT": [],
+        "WP": []
+      },
+      "C": false,
+      "SRS": {
+        "R": "2024-02-21T06:41:34",
+        "S": "2024-02-21T17:08:57"
       }
     }
   ]
