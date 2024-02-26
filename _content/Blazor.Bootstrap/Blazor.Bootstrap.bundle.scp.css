@@ -1,3 +1,54 @@
+/* _content/Blazor.Bootstrap/Components/Callout/Callout.razor.rz.scp.css */
+.bb-callout[b-5p9xdwo7e3] {
+    --bs-link-color-rgb: var(--bb-callout-link);
+    --bs-code-color: var(--bb-callout-code-color);
+    padding: 1.25rem;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    color: var(--bb-callout-color, inherit);
+    background-color: var(--bb-callout-bg, var(--bs-gray-100));
+    border-left: 0.25rem solid var(--bb-callout-border, var(--bs-gray-300))
+}
+
+.bb-callout h4[b-5p9xdwo7e3] {
+    margin-bottom: .25rem;
+}
+
+.bb-callout > :last-child[b-5p9xdwo7e3] {
+    margin-bottom: 0 !important;
+}
+
+.bb-callout + .bb-callout[b-5p9xdwo7e3] {
+    margin-top: -.25rem;
+}
+
+.bb-callout .highlight[b-5p9xdwo7e3] {
+    background-color: rgba(0,0,0,0.05)
+}
+
+.bb-callout-info[b-5p9xdwo7e3] {
+    --bb-callout-color: var(--bs-info-text-emphasis);
+    --bb-callout-bg: var(--bs-info-bg-subtle);
+    --bb-callout-border: var(--bs-info-border-subtle)
+}
+
+.bb-callout-warning[b-5p9xdwo7e3] {
+    --bb-callout-color: var(--bs-warning-text-emphasis);
+    --bb-callout-bg: var(--bs-warning-bg-subtle);
+    --bb-callout-border: var(--bs-warning-border-subtle)
+}
+
+.bb-callout-danger[b-5p9xdwo7e3] {
+    --bb-callout-color: var(--bs-danger-text-emphasis);
+    --bb-callout-bg: var(--bs-danger-bg-subtle);
+    --bb-callout-border: var(--bs-danger-border-subtle)
+}
+
+.bb-callout-success[b-5p9xdwo7e3] {
+    --bb-callout-color: var(--bs-success-text-emphasis);
+    --bb-callout-bg: var(--bs-success-bg-subtle);
+    --bb-callout-border: var(--bs-success-border-subtle)
+}
 /* _content/Blazor.Bootstrap/Components/Form/AutoComplete/AutoComplete.razor.rz.scp.css */
 .autocomplete[b-zkhsnlgtvk] {
 }
@@ -161,3 +212,92 @@
     background-color: var(--bb-sidebar-nav-item-group-background-color);
 }
 /* _content/Blazor.Bootstrap/Components/Sidebar/SidebarItemGroup.razor.rz.scp.css */
+/* _content/Blazor.Bootstrap/Components/Spinner/Spinner.razor.rz.scp.css */
+/* scss-docs-start spinner-dots-keyframes */
+@keyframes spinner-dots-b-pp5swe6s25 {
+    0% {
+        opacity: 1;
+    }
+
+    50%, 100% {
+        opacity: .3;
+    }
+}
+
+/* scss-docs-end spinner-dots-keyframes */
+.spinner-dots[b-pp5swe6s25] {
+    user-select: none;
+}
+
+    .spinner-dots > circle:first-of-type[b-pp5swe6s25], 
+    .spinner-dots > circle:last-of-type[b-pp5swe6s25], 
+    .spinner-dots > circle:nth-of-type(2)[b-pp5swe6s25] {
+        fill: currentcolor;
+        animation: spinner-dots-b-pp5swe6s25 .75s infinite ease-in-out alternate;
+    }
+
+    .spinner-dots > circle:nth-of-type(2)[b-pp5swe6s25] {
+        animation-delay: .25s;
+    }
+
+    .spinner-dots > circle:last-of-type[b-pp5swe6s25] {
+        animation-delay: .5s;
+    }
+
+/* Size: START */
+
+/* default */
+.spinner-border-sm[b-pp5swe6s25] {
+    --bs-spinner-width: 1rem;
+    --bs-spinner-height: 1rem;
+    --bs-spinner-border-width: 0.25em;
+    --bs-spinner-vertical-align: -0.125em;
+}
+/* custom CSS classes */
+.spinner-border-md[b-pp5swe6s25] {
+    --bs-spinner-width: 2rem;
+    --bs-spinner-height: 2rem;
+    --bs-spinner-border-width: 0.25em;
+    --bs-spinner-vertical-align: -0.125em;
+}
+.spinner-border-lg[b-pp5swe6s25] {
+    --bs-spinner-width: 3rem;
+    --bs-spinner-height: 3rem;
+    --bs-spinner-border-width: 0.25em;
+    --bs-spinner-vertical-align: -0.125em;
+}
+.spinner-border-xl[b-pp5swe6s25] {
+    --bs-spinner-width: 4rem;
+    --bs-spinner-height: 4rem;
+    --bs-spinner-border-width: 0.25em;
+    --bs-spinner-vertical-align: -0.125em;
+}
+
+/* default */
+.spinner-grow-sm[b-pp5swe6s25] {
+    --bs-spinner-width: 1rem;
+    --bs-spinner-height: 1rem;
+    --bs-spinner-border-width: 0.25em;
+    --bs-spinner-vertical-align: -0.125em;
+}
+/* custom CSS classes */
+.spinner-grow-md[b-pp5swe6s25] {
+    --bs-spinner-width: 2rem;
+    --bs-spinner-height: 2rem;
+    --bs-spinner-border-width: 0.25em;
+    --bs-spinner-vertical-align: -0.125em;
+}
+.spinner-grow-lg[b-pp5swe6s25] {
+    --bs-spinner-width: 3rem;
+    --bs-spinner-height: 3rem;
+    --bs-spinner-border-width: 0.25em;
+    --bs-spinner-vertical-align: -0.125em;
+}
+.spinner-grow-xl[b-pp5swe6s25] {
+    --bs-spinner-width: 4rem;
+    --bs-spinner-height: 4rem;
+    --bs-spinner-border-width: 0.25em;
+    --bs-spinner-vertical-align: -0.125em;
+}
+
+/* Size: END */
