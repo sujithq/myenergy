@@ -28,6 +28,7 @@ jobs:
         uses: actions/dependency-review-action@v4
         with:
           head-ref: main
+          base-ref: main
   deploy-to-github-pages:
     needs: scan
     # use ubuntu-latest image to run steps on
