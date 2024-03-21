@@ -26,6 +26,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: 'Dependency Review'
         uses: actions/dependency-review-action@v4
+        with:
+          base-ref: main
   deploy-to-github-pages:
     needs: scan
     # use ubuntu-latest image to run steps on
