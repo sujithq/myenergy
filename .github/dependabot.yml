@@ -9,3 +9,15 @@ updates:
     directory: "src/Common" # Location of package manifests
     schedule:
       interval: "weekly"
+  - package-ecosystem: "nuget" # See documentation for possible values
+    directory: "src/myenergy" # Location of package manifests
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "nuget" # See documentation for possible values
+    directory: "src/myenergy.Test" # Location of package manifests
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "nuget" # See documentation for possible values
+    directory: "src/June.Data" # Location of package manifests
+    schedule:
+      interval: "weekly"
