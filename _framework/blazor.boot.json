@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "myenergy",
   "resources": {
-    "hash": "sha256-gQSm4swr0YAF5WDD/bVt+Qd59TINxtPRs0hCBK8xyHE=",
+    "hash": "sha256-y/2NOB7/Sg7HvV2N2+U0epd1VYvenbQ0Cgm0sUOE774=",
     "jsModuleNative": {
       "dotnet.native.8.0.7.pvkr2na9g4.js": "sha256-tFsxPBbhkdn6GKNBKvCRLzrfAHdyM86odYTe0MtrwMk="
     },
@@ -18,7 +18,7 @@
     },
     "assembly": {
       "BlazorBootstrap.wasm": "sha256-V0ozCRYxmIQ33AkuDi4UBSvqKsTNFLckzX5jrnrdxEs=",
-      "Common.wasm": "sha256-QhLDHi5AlDpvxJojnfqKI0OD0/4s2KGSVLKce9sKUwc=",
+      "Common.wasm": "sha256-leS2v7+JbNnmz4DrIrVhJRC2TvBg4zAn8TWIHCQeQEI=",
       "Microsoft.AspNetCore.Components.Forms.wasm": "sha256-NZsvLq1rFdJuXeJz+NJejVvXvxaXu/K4aTrExHJ7n/g=",
       "Microsoft.AspNetCore.Components.wasm": "sha256-9TEtxgbvNrVZMxPxAriTQHOvdsylZFDIlieJYIlgH5A=",
       "Microsoft.AspNetCore.Components.Web.wasm": "sha256-ZuIKjcGj/GKGOPDYvtqMx8WTLvLxuRfqB+9SGYMPCPY=",
@@ -44,7 +44,7 @@
       "Microsoft.ML.StandardTrainers.wasm": "sha256-0BcyZxw6yN9zIbMNGE+zq+FE75K4Iab9FolF0vQTWYw=",
       "Microsoft.ML.Transforms.wasm": "sha256-z0JYrQCxVvpd4xE6Lp+c/QJGa1JW+BVa3UuBTe5uNaU=",
       "Microsoft.ML.wasm": "sha256-n3Ff49ht1pdDBjiPwtU+goXJVSRH0p22wwT7w4Udg9U=",
-      "myenergy.wasm": "sha256-bPGqAxumeiHEaHOY4+V2k5+Ql6t2UdfDXSAagUjx8S8=",
+      "myenergy.wasm": "sha256-MrVm8obBylEIcerljtyX66vJjE78gxHFbH28nQ+DzWI=",
       "netstandard.wasm": "sha256-VGlKbs/oGNje0bDeG+2wpwsQQ018b9VBYQgA8ecYI4I=",
       "Newtonsoft.Json.wasm": "sha256-PaicHOw1U7HF05kEvZI0Rgg1nwdA8hrzbzdkw1qgUuU=",
       "NodaTime.wasm": "sha256-aIgE9TBhEsXVBK2SedGJkJqel7jF2n/hAWwmnBs1CgY=",
