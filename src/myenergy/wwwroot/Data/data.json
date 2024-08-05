@@ -229381,7 +229381,7 @@
         "pres": 1016.4,
         "tsun": 0
       },
-      "M": false,
+      "M": true,
       "AS": {
         "P": 0,
         "U": 0,
@@ -230657,15 +230657,15 @@
       "J": false,
       "S": false,
       "MS": {
-        "tavg": 20.7,
+        "tavg": 20.9,
         "tmin": 17,
-        "tmax": 24.5,
+        "tmax": 25,
         "prcp": 1.7,
         "snow": 0,
-        "wdir": 64,
-        "wspd": 5,
-        "wpgt": 14.8,
-        "pres": 1012.4,
+        "wdir": 89,
+        "wspd": 4.9,
+        "wpgt": 16.7,
+        "pres": 1012.3,
         "tsun": 0
       },
       "M": false,
@@ -231087,14 +231087,14 @@
       "S": false,
       "MS": {
         "tavg": 19.7,
-        "tmin": 17.1,
+        "tmin": 16,
         "tmax": 22,
-        "prcp": 0,
+        "prcp": 0.5,
         "snow": 0,
-        "wdir": 246,
-        "wspd": 13.8,
+        "wdir": 243,
+        "wspd": 12.7,
         "wpgt": 31.5,
-        "pres": 1012.9,
+        "pres": 1012.7,
         "tsun": 0
       },
       "M": false,
@@ -231515,15 +231515,15 @@
       "J": false,
       "S": false,
       "MS": {
-        "tavg": 19.3,
+        "tavg": 19,
         "tmin": 16.9,
-        "tmax": 21.8,
-        "prcp": 0.4,
+        "tmax": 21.1,
+        "prcp": 0.9,
         "snow": 0,
-        "wdir": 259,
-        "wspd": 10.5,
-        "wpgt": 25.9,
-        "pres": 1015,
+        "wdir": 280,
+        "wspd": 9.3,
+        "wpgt": 24.1,
+        "pres": 1015.1,
         "tsun": 0
       },
       "M": false,
@@ -231642,6 +231642,44 @@
         "R": "2024-08-04T04:10:59",
         "S": "2024-08-04T19:24:25"
       }
+    },
+    {
+      "D": 218,
+      "P": 0,
+      "U": 0,
+      "I": 0,
+      "J": false,
+      "S": false,
+      "MS": {
+        "tavg": 19.9,
+        "tmin": 14.5,
+        "tmax": 25.2,
+        "prcp": 0,
+        "snow": 0,
+        "wdir": 200,
+        "wspd": 7.2,
+        "wpgt": 20.4,
+        "pres": 1015,
+        "tsun": 0
+      },
+      "M": false,
+      "AS": {
+        "P": 0,
+        "U": 0,
+        "I": 0,
+        "A": false
+      },
+      "Q": {
+        "C": [],
+        "I": [],
+        "G": [],
+        "P": [],
+        "WRT": [],
+        "WOT": [],
+        "WP": []
+      },
+      "C": false,
+      "SRS": null
     }
   ]
 }
