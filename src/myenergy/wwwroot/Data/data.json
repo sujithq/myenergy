@@ -230668,7 +230668,7 @@
         "pres": 1012.3,
         "tsun": 0
       },
-      "M": false,
+      "M": true,
       "AS": {
         "P": 0,
         "U": 0,
@@ -231520,10 +231520,10 @@
         "tmax": 21,
         "prcp": 2,
         "snow": 0,
-        "wdir": 322,
+        "wdir": 320,
         "wspd": 4.5,
         "wpgt": 24.1,
-        "pres": 1015,
+        "pres": 1014.9,
         "tsun": 0
       },
       "M": false,
@@ -231944,15 +231944,15 @@
       "J": false,
       "S": false,
       "MS": {
-        "tavg": 19.3,
-        "tmin": 14.4,
-        "tmax": 24.4,
+        "tavg": 19.8,
+        "tmin": 15,
+        "tmax": 25,
         "prcp": 0,
         "snow": 0,
-        "wdir": 199,
-        "wspd": 7.1,
-        "wpgt": 20.4,
-        "pres": 1015,
+        "wdir": 224,
+        "wspd": 7.8,
+        "wpgt": 22.2,
+        "pres": 1014.8,
         "tsun": 0
       },
       "M": false,
@@ -232373,15 +232373,15 @@
       "J": false,
       "S": false,
       "MS": {
-        "tavg": 21.9,
-        "tmin": 16.7,
-        "tmax": 27.1,
+        "tavg": 22.5,
+        "tmin": 16,
+        "tmax": 28,
         "prcp": 0,
         "snow": 0,
-        "wdir": 201,
-        "wspd": 10.1,
-        "wpgt": 25.9,
-        "pres": 1011,
+        "wdir": 193,
+        "wspd": 10.3,
+        "wpgt": 29.6,
+        "pres": 1010.8,
         "tsun": 0
       },
       "M": false,
@@ -232802,15 +232802,15 @@
       "J": false,
       "S": false,
       "MS": {
-        "tavg": 19.1,
-        "tmin": 16.4,
-        "tmax": 21.8,
-        "prcp": 0,
+        "tavg": 19.5,
+        "tmin": 17.1,
+        "tmax": 22.1,
+        "prcp": 0.8,
         "snow": 0,
-        "wdir": 251,
-        "wspd": 13.4,
-        "wpgt": 29.6,
-        "pres": 1014,
+        "wdir": 267,
+        "wspd": 11,
+        "wpgt": 25.9,
+        "pres": 1013.1,
         "tsun": 0
       },
       "M": false,
@@ -233220,6 +233220,44 @@
         "R": "2024-08-07T04:15:32",
         "S": "2024-08-07T19:19:11"
       }
+    },
+    {
+      "D": 221,
+      "P": 0,
+      "U": 0,
+      "I": 0,
+      "J": false,
+      "S": false,
+      "MS": {
+        "tavg": 18.8,
+        "tmin": 14.9,
+        "tmax": 22.8,
+        "prcp": 0,
+        "snow": 0,
+        "wdir": 229,
+        "wspd": 12.2,
+        "wpgt": 27.8,
+        "pres": 1016.7,
+        "tsun": 0
+      },
+      "M": false,
+      "AS": {
+        "P": 0,
+        "U": 0,
+        "I": 0,
+        "A": false
+      },
+      "Q": {
+        "C": [],
+        "I": [],
+        "G": [],
+        "P": [],
+        "WRT": [],
+        "WOT": [],
+        "WP": []
+      },
+      "C": false,
+      "SRS": null
     }
   ]
 }
