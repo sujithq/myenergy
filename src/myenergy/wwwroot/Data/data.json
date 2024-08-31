@@ -240535,7 +240535,7 @@
         "pres": 1019.6,
         "tsun": 0
       },
-      "M": false,
+      "M": true,
       "AS": {
         "P": 0,
         "U": 0,
@@ -243096,15 +243096,15 @@
       "J": false,
       "S": false,
       "MS": {
-        "tavg": 0,
-        "tmin": 0,
-        "tmax": 0,
+        "tavg": 17.9,
+        "tmin": 13.3,
+        "tmax": 22.5,
         "prcp": 0,
         "snow": 0,
-        "wdir": 0,
-        "wspd": 0,
-        "wpgt": 0,
-        "pres": 0,
+        "wdir": 232,
+        "wspd": 7.5,
+        "wpgt": 22.2,
+        "pres": 1023.2,
         "tsun": 0
       },
       "M": false,
