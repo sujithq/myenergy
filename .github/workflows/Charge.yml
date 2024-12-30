@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 env:
-  GLOBAL_DOTNET_VERSION: '8.0.x'
+  GLOBAL_DOTNET_VERSION: '9.0.x'
   GLOBAL_COMMAND: 'Charge'
 
 jobs:

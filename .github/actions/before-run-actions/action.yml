@@ -2,9 +2,9 @@ name: Before Run Actions
 description: ''
 inputs:
     DOTNET-VERSION:
-        description: 'The version of the .NET Core SDK to use. Supported values are 8.0.x. The latest patch version of each minor version is used if the patch version is omitted.'
+        description: 'The version of the .NET Core SDK to use. Supported values are 9.0.x. The latest patch version of each minor version is used if the patch version is omitted.'
         required: true
-        default: '8.0.x'
+        default: '9.0.x'
 runs:
     using: composite
     steps:

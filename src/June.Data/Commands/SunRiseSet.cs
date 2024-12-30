@@ -54,10 +54,10 @@ namespace June.Data.Commands
                     var json = JObject.Parse(content);
 
 
-                    TimeOnly.TryParse(json["results"]["sunrise"].Value<string>(), CultureInfo.InvariantCulture, out var sunrise);
-                    TimeOnly.TryParse(json["results"]["sunset"].Value<string>(), CultureInfo.InvariantCulture, out var sunset);
+                    TimeOnly.TryParse(json["results"]!["sunrise"]!.Value<string>(), CultureInfo.InvariantCulture, out var sunrise);
+                    TimeOnly.TryParse(json["results"]!["sunset"]!.Value<string>(), CultureInfo.InvariantCulture, out var sunset);
 
-                    var idx = data[year].FindIndex(f => f.D == day.D);
+                    var idx = data![year].FindIndex(f => f.D == day.D);
                     var d = data[year][idx];
 
                     data[year][idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, d.MS, d.M, d.AS, d.Q, d.C, new SunRiseSet(localDate.ToDateTime(sunrise), localDate.ToDateTime(sunset)));

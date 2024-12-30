@@ -60,7 +60,7 @@ namespace June.Data.Commands
                         var year = d.Year;
                         var doy = d.DayOfYear;
                         var idx = d.GetQuarterHourIndex();
-                        var dd = data[year][doy];
+                        var dd = data![year][doy];
                         
                         var lwrt = dd.Q.WRT;
                         var lwot = dd.Q.WOT;

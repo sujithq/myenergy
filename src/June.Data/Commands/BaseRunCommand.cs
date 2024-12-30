@@ -80,18 +80,20 @@ namespace June.Data.Commands
 
                     double p = d.AS.P, u = d.AS.U, i = d.AS.I;
 
+                    var s = prediction.Scores?[1] ?? 0;
+
                     switch (inputColums[j])
                     {
                         case "P":
-                            p = prediction.Scores[1];
+                            p = s;
                             Alert($"-> ({inputColums[j]}/{prediction.Y}/{prediction.D}/{prediction.D.DayOfYearLocalDate(prediction.Y).ToString("yyyy-MM-dd", null)}) Prediction score of: {p:F2}", "Anomaly", ConsoleColor.Yellow);
                             break;
                         case "U":
-                            u = prediction.Scores[1];
+                            u = s;
                             Alert($"-> ({inputColums[j]}/{prediction.Y}/{prediction.D}/{prediction.D.DayOfYearLocalDate(prediction.Y).ToString("yyyy-MM-dd", null)}) Prediction score of: {u:F2}", "Anomaly", ConsoleColor.Yellow);
                             break;
                         case "I":
-                            i = prediction.Scores[1] / 1000;
+                            i = s / 1000;
                             Alert($"-> ({inputColums[j]}/{prediction.Y}/{prediction.D}/{prediction.D.DayOfYearLocalDate(prediction.Y).ToString("yyyy-MM-dd", null)}) Prediction score of: {i:F2}", "Anomaly", ConsoleColor.Yellow);
                             break;
                         default:
@@ -307,7 +309,7 @@ namespace June.Data.Commands
                         var date = new DateTime(prediction.Y, 1, 1).AddDays(prediction.D - 1).AddMinutes(15 * prediction.IDX);
 
 
-                        var p = prediction.Scores[1];
+                        var p = prediction.Scores?[1] ?? 0;
                         Alert($"-> ({prediction.T}/{prediction.Y}/{prediction.D}/{date.ToString("yyyy-MM-dd H:mm", null)}) Prediction score of: {p:F3} ({prediction.IDX})", "Anomaly Quarter", ConsoleColor.Yellow);
                     }
                 }

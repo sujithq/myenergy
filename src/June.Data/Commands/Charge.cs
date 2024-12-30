@@ -53,7 +53,7 @@ namespace June.Data.Commands
 
                         var doy = r.PlugInDate.ToLocalDateTime().DayOfYear;
                         var year = r.PlugInDate.Year;
-                        var idx = data[year].FindIndex(f => f.D == doy);
+                        var idx = data![year].FindIndex(f => f.D == doy);
 
                         if (idx != -1)
                         {
