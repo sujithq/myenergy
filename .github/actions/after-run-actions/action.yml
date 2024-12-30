@@ -16,8 +16,8 @@ runs:
     - name: Copy data file
       shell: bash
       run: |
-          cp ./src/June.Data/bin/Release/net8.0/Data/data.json ./src/myenergy/wwwroot/Data/data.json
-          cp ./src/June.Data/bin/Release/net8.0/Data/data.json ./src/June.Data/Data/data.json
+          cp ./src/June.Data/bin/Release/net9.0/Data/data.json ./src/myenergy/wwwroot/Data/data.json
+          cp ./src/June.Data/bin/Release/net9.0/Data/data.json ./src/June.Data/Data/data.json
             if [ $? -eq 0 ]; then
                 echo "Copy successful."
             else
