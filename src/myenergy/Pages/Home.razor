@@ -14,7 +14,7 @@
                         <Tab Title="Data">
                             <Content>
 
-                                @if (selectedDayOfYearData.C)
+                                @if (selectedDayOfYearData!.C)
                                 {
                                     <div class="row mb-4 d-none d-sm-block justify-content-center ">
                                         <div class="col-sm-10 mx-auto">
@@ -73,7 +73,7 @@
 
                     <div class="row justify-content-center mb-1">
                         <div class="col text-end p-0 d-none d-sm-block">
-                            <Button @ref="saveButton1" Color="ButtonColor.Primary" Size="Size.Small" @onclick="DecreaseDate">
+                            <Button @ref="saveButton1" Color="ButtonColor.Primary" Size="ButtonSize.Small" @onclick="DecreaseDate">
                                 <Icon Name="IconName.CalendarMinus"></Icon>
                             </Button>
                         </div>
@@ -82,7 +82,7 @@
                             <DateInput Value="currentDate" ValueExpression="() => currentDate" TValue="DateOnly" EnableMinMax="true" Min="@minDate" Max="@maxDate" Placeholder="Enter Date" ValueChanged="(value) => DayChanged(value)" />
                         </div>
                         <div class="col text-start p-0 d-none d-sm-block">
-                            <Button @ref="saveButton2" Color="ButtonColor.Success" Size="Size.Small" @onclick="IncreaseDate">
+                            <Button @ref="saveButton2" Color="ButtonColor.Success" Size="ButtonSize.Small" @onclick="IncreaseDate">
                                 <Icon Name="IconName.CalendarPlus"></Icon>
                             </Button>
                         </div>
@@ -347,7 +347,7 @@ else
 
     }
 
-    private async Task SolarPanelsAsync(List<string> labels, List<double> production, List<double> usage, List<double> injection, string title, bool init, BarChart barChart, string xTitle = "Months")
+    private async Task SolarPanelsAsync(List<string> labels, List<double?> production, List<double?> usage, List<double?> injection, string title, bool init, BarChart barChart, string xTitle = "Months")
     {
         if (barChart == null) return;
 
@@ -400,19 +400,20 @@ else
 
 
         options.Plugins!.Title!.Text = title;
-        options.Scales.X!.Title!.Text = xTitle;
+        options.Scales.X!.Title = new ChartAxesTitle() { Text = xTitle };
+            
 
         if (init)
         {
             options.Interaction.Mode = InteractionMode.Index;
             options.Plugins.Title.Display = true;
-            options.Plugins.Title.Font!.Size = 20;
+            options.Plugins.Title.Font = new ChartFont() { Size = 20 };
 
             options.Responsive = true;
 
             options.Scales.X.Title.Display = true;
 
-            options.Scales.Y!.Title!.Text = "kWh";
+            options.Scales.Y!.Title = new ChartAxesTitle() { Text = "kWh" } ;
             options.Scales.Y.Title.Display = true;
 
             await barChart.InitializeAsync(data, options);
@@ -423,13 +424,13 @@ else
             {
                 await barChart.UpdateAsync(data, options);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 await barChart.InitializeAsync(data, options);
             }
     }
 
-    private async Task SolarPanels15mAsync(List<string> labels, List<double> production, List<double> usage, List<double> injection, string title, bool init, BarChart barChart, string xTitle = "Months")
+    private async Task SolarPanels15mAsync(List<string> labels, List<double?> production, List<double?> usage, List<double?> injection, string title, bool init, BarChart barChart, string xTitle = "Months")
     {
         if (barChart == null) return;
 
@@ -495,13 +496,13 @@ else
             {
                 await barChart.UpdateAsync(data, options);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 await barChart.InitializeAsync(data, options);
             }
     }
 
-    private async Task SolarPanels15mAsync(List<string> labels, List<double> consumption, string title, bool init, BarChart barChart, string xTitle = "Months")
+    private async Task SolarPanels15mAsync(List<string> labels, List<double?> consumption, string title, bool init, BarChart barChart, string xTitle = "Months")
     {
         if (barChart == null) return;
 
@@ -545,7 +546,7 @@ else
             {
                 await barChart.UpdateAsync(data, options);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 await barChart.InitializeAsync(data, options);
             }
@@ -557,9 +558,9 @@ else
 
         await SolarPanelsAsync(
             dataService.Data.Keys.Select(s => s.ToString()).ToList(),
-            dataService.Data.Select(s => s.Value.Sum(ss => ss.P)).ToList(),
-            dataService.Data.Select(s => s.Value.Sum(ss => ss.U)).ToList(),
-            dataService.Data.Select(s => s.Value.Sum(ss => ss.I) / 1000).ToList(),
+            dataService.Data.Select(s => s.Value.Sum(ss => (double?)ss.P)).ToList(),
+            dataService.Data.Select(s => s.Value.Sum(ss => (double?)ss.U)).ToList(),
+            dataService.Data.Select(s => s.Value.Sum(ss => (double?)ss.I) / 1000).ToList(),
             titleAll, init, barChartAll!, "Year"
         );
 
@@ -583,9 +584,9 @@ else
 
         await SolarPanelsAsync(
             data.Select(s => s.Key.ToString()).ToList(),
-            data.Select(s => s.Sum(ss => ss.P)).ToList(),
-            data.Select(s => s.Sum(ss => ss.U)).ToList(),
-            data.Select(s => s.Sum(ss => ss.I) / 1000).ToList(),
+            data.Select(s => s.Sum(ss => (double?)ss.P)).ToList(),
+            data.Select(s => s.Sum(ss => (double?)ss.U)).ToList(),
+            data.Select(s => s.Sum(ss => (double?)ss.I) / 1000).ToList(),
             titleYear, init, barChartYear!, "Month"
         );
 
@@ -608,9 +609,9 @@ else
 
         await SolarPanelsAsync(
             data.Select(s => s.D.DayOfYearLocalDate(selectedYear).ToString("d/M", null)).ToList(),
-            data.Select(s => s.P).ToList(),
-            data.Select(s => s.U).ToList(),
-            data.Select(s => s.I / 1000).ToList(),
+            data.Select(s => (double?)s.P).ToList(),
+            data.Select(s => (double?)s.U).ToList(),
+            data.Select(s => (double?)s.I / 1000).ToList(),
             titleMonth, init, barChartMonth!, "Day"
         );
 
@@ -633,9 +634,9 @@ else
 
         await SolarPanelsAsync(
             data.Select(s => s.D.DayOfYearLocalDate(selectedYear).ToString("d/M", null)).ToList(),
-            data.Select(s => s.P).ToList(),
-            data.Select(s => s.U).ToList(),
-            data.Select(s => s.I / 1000).ToList(),
+            data.Select(s => (double?)s.P).ToList(),
+            data.Select(s => (double?)s.U).ToList(),
+            data.Select(s => (double?)s.I / 1000).ToList(),
             titleWeek, init, barChartWeek!, "Day"
         );
 
@@ -669,15 +670,15 @@ else
 
         await SolarPanels15mAsync(
             labels,
-            data.SelectMany(s => s.Q.P.Select(c => c)).ToList(),
-            data.SelectMany(s => s.Q.C.Select(c => c)).ToList(),
-            data.SelectMany(s => s.Q.I.Select(c => c)).ToList(),
+            data.SelectMany(s => s.Q.P.Select(c => (double?)c)).ToList(),
+            data.SelectMany(s => s.Q.C.Select(c => (double?)c)).ToList(),
+            data.SelectMany(s => s.Q.I.Select(c => (double?)c)).ToList(),
             title15mE, init, barChart15mE!, "15m"
         );
 
         await SolarPanels15mAsync(
             labels,
-            data.SelectMany(s => s.Q.G.Select(c => c)).ToList(),
+            data.SelectMany(s => s.Q.G.Select(c => (double?)c)).ToList(),
             title15mG, init, barChart15mG!, "15m"
         );
 
@@ -698,9 +699,9 @@ else
 
         await SolarPanelsAsync(
             data.Select(s => s.D.DayOfYearLocalDate(selectedYear).ToString("d/M", null)).ToList(),
-            data.Select(s => s.P).ToList(),
-            data.Select(s => s.U).ToList(),
-            data.Select(s => s.I / 1000).ToList(),
+            data.Select(s => (double?)s.P).ToList(),
+            data.Select(s => (double?)s.U).ToList(),
+            data.Select(s => (double?)s.I / 1000).ToList(),
             titleDay, init, barChartDay!, "Day"
         );
 
@@ -762,7 +763,7 @@ else
         await RenderSolarPanelsWeekAsync(selectedYearIndex, selectedWeekIndex, false);
     }
 
-    private void DayChanged(DateOnly dateOnly)
+    private async Task DayChanged(DateOnly dateOnly)
     {
         currentDate = dateOnly;
 
@@ -772,8 +773,8 @@ else
 
         // charged = selectedDayOfYearData!.C;
 
-        RenderSolarPanelsDayAsync(selectedYearIndex, selectedDayOfYear, false);
-        RenderSolarPanels15mAsync(selectedYearIndex, selectedDayOfYear, false);
+        await RenderSolarPanelsDayAsync(selectedYearIndex, selectedDayOfYear, false);
+        await RenderSolarPanels15mAsync(selectedYearIndex, selectedDayOfYear, false);
 
         StateHasChanged();
 

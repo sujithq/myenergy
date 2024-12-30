@@ -68,7 +68,9 @@ else
 
     private async Task<GridDataProviderResult<AnomalyModalData>> EmployeesDataProvider(GridDataProviderRequest<AnomalyModalData> request)
     {
-        return request.ApplyTo(dataService.Data.SelectMany(sm => sm.Value.Where(w => w.AS.A).Select(s => new AnomalyModalData(sm.Key, s.D, s.AS))).ToList());
+        return await Task.Run(() => 
+            request.ApplyTo(dataService.Data.SelectMany(sm => sm.Value.Where(w => w.AS.A).Select(s => new AnomalyModalData(sm.Key, s.D, s.AS))).ToList())
+        );
     }
 
     Modal modal = default!;
