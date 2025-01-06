@@ -66,12 +66,14 @@ namespace June.Data
         private byte[] EncryptAES(string data, string key)
         {
             using var aes = Aes.Create();
-            aes.Mode = CipherMode.ECB;
+            aes.Mode = CipherMode.CBC;
             aes.Padding = PaddingMode.PKCS7;
             aes.Key = Encoding.UTF8.GetBytes(key);
+            aes.GenerateIV();
 
             var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
             using var msEncrypt = new MemoryStream();
+            msEncrypt.Write(aes.IV, 0, aes.IV.Length); // Prepend IV to the ciphertext
             using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
             using (var swEncrypt = new StreamWriter(csEncrypt))
             {
@@ -84,12 +86,14 @@ namespace June.Data
         private string DecryptAES(byte[] cipherText, string key)
         {
             using var aes = Aes.Create();
-            aes.Mode = CipherMode.ECB;
+            aes.Mode = CipherMode.CBC;
             aes.Padding = PaddingMode.PKCS7;
             aes.Key = Encoding.UTF8.GetBytes(key);
 
-            var decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
             using var msDecrypt = new MemoryStream(cipherText);
+            byte[] iv = new byte[aes.BlockSize / 8];
+            msDecrypt.Read(iv, 0, iv.Length); // Read IV from the beginning of the ciphertext
+            var decryptor = aes.CreateDecryptor(aes.Key, iv);
             using var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
             using var srDecrypt = new StreamReader(csDecrypt);
             return srDecrypt.ReadToEnd();
