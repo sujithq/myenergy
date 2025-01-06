@@ -17,7 +17,8 @@ on:
   pull_request:
     branches: [ "main" ]
   schedule:
-    - cron: '40 5 * * 1'  
+    - cron: '40 5 * * 1'
+  workflow_dispatch:
 jobs:
   analyze:
     name: Analyze (${{ matrix.language }})
