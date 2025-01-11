@@ -88,13 +88,13 @@ namespace MeteoStat.Data.Commands
 
                     var obj = el.FirstOrDefault(item => item.GetProperty("date").GetString() == dateStr);
 
-                    if (obj.ValueKind != JsonValueKind.Null)
+                    if (obj.ValueKind != JsonValueKind.Null && obj.ValueKind != JsonValueKind.Undefined)
                     {
 
                         var msObj = obj.GetProperty("tavg");
                         double tavg = 0.0;
 
-                        if (msObj.ValueKind != JsonValueKind.Null)
+                        if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined)
                         {
                             msObj.TryGetDouble(out tavg);
                         }
@@ -102,7 +102,7 @@ namespace MeteoStat.Data.Commands
                         msObj = obj.GetProperty("tmin");
                         double tmin = 0.0;
 
-                        if (msObj.ValueKind != JsonValueKind.Null)
+                        if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined)
                         {
                             msObj.TryGetDouble(out tmin);
                         }
@@ -110,7 +110,7 @@ namespace MeteoStat.Data.Commands
                         msObj = obj.GetProperty("tmax");
                         double tmax = 0.0;
 
-                        if (msObj.ValueKind != JsonValueKind.Null)
+                        if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined)
                         {
                             msObj.TryGetDouble(out tmax);
                         }
@@ -118,7 +118,7 @@ namespace MeteoStat.Data.Commands
                         msObj = obj.GetProperty("tsun");
                         double tsun = 0.0;
 
-                        if (msObj.ValueKind != JsonValueKind.Null)
+                        if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined)
                         {
                             msObj.TryGetDouble(out tsun);
                         }
@@ -126,7 +126,7 @@ namespace MeteoStat.Data.Commands
                         msObj = obj.GetProperty("prcp");
                         double prcp = 0.0;
 
-                        if (msObj.ValueKind != JsonValueKind.Null)
+                        if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined)
                         {
                             msObj.TryGetDouble(out prcp);
                         }
@@ -134,7 +134,7 @@ namespace MeteoStat.Data.Commands
                         msObj = obj.GetProperty("snow");
                         double snow = 0.0;
 
-                        if (msObj.ValueKind != JsonValueKind.Null)
+                        if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined)
                         {
                             msObj.TryGetDouble(out snow);
                         }
@@ -142,7 +142,7 @@ namespace MeteoStat.Data.Commands
                         msObj = obj.GetProperty("wdir");
                         double wdir = 0.0;
 
-                        if (msObj.ValueKind != JsonValueKind.Null)
+                        if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined)
                         {
                             msObj.TryGetDouble(out wdir);
                         }
@@ -150,7 +150,7 @@ namespace MeteoStat.Data.Commands
                         msObj = obj.GetProperty("wspd");
                         double wspd = 0.0;
 
-                        if (msObj.ValueKind != JsonValueKind.Null)
+                        if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined)
                         {
                             msObj.TryGetDouble(out wspd);
                         }
@@ -158,7 +158,7 @@ namespace MeteoStat.Data.Commands
                         msObj = obj.GetProperty("wpgt");
                         double wpgt = 0.0;
 
-                        if (msObj.ValueKind != JsonValueKind.Null)
+                        if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined)
                         {
                             msObj.TryGetDouble(out wpgt);
                         }
@@ -166,7 +166,7 @@ namespace MeteoStat.Data.Commands
                         msObj = obj.GetProperty("pres");
                         double pres = 0.0;
 
-                        if (msObj.ValueKind != JsonValueKind.Null)
+                        if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined )
                         {
                             msObj.TryGetDouble(out pres);
                         }
