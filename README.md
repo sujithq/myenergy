@@ -48,6 +48,10 @@ I always had to check June Energy and ISolarCloud app to see how much energy I h
 
 ## Analysis
 
+### CodeQL
+
+[![CodeQL Advanced](https://github.com/sujithq/myenergy/actions/workflows/codeql.yml/badge.svg)](https://github.com/sujithq/myenergy/actions/workflows/codeql.yml)
+
 ### June Energy
 
 I needed the following information to use their API. (Found when logged in on the site)
