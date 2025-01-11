@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Before Run Actions
-      uses: sujithq/myenergy/.github/actions/before-run-actions@v1.0.0
+      uses: sujithq/myenergy/.github/actions/before-run-actions@b2c05091b1eaf2af63e10ed6ebea06c0d300e9df
       with:
         DOTNET-VERSION: ${{ env.GLOBAL_DOTNET_VERSION }}
 
@@ -48,7 +48,7 @@ jobs:
         SUNGROW_PS_ID: ${{ secrets.SUNGROW_PS_ID }}
 
     - name: After Run Actions
-      uses: sujithq/myenergy/.github/actions/after-run-actions@v1.0.0
+      uses: sujithq/myenergy/.github/actions/after-run-actions@d1d1ca875a3d7610e203a3a6d6140cf0620f1b2e
       with:
         COMMAND: ${{ env.GLOBAL_COMMAND }}
         APP_ID: ${{ secrets.APP_ID }}
