@@ -28,7 +28,7 @@ jobs:
   Run-Data:
     # needs: scan
     # use ubuntu-latest|self-hosted image to run steps on
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm # ubuntu-latest
     steps:
     - name: Before Run Actions
       uses: sujithq/myenergy/.github/actions/before-run-actions@b2c05091b1eaf2af63e10ed6ebea06c0d300e9df

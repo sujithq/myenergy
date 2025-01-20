@@ -32,7 +32,7 @@ jobs:
   deploy-to-github-pages:
     # needs: scan
     # use ubuntu-latest image to run steps on
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm # ubuntu-latest
     steps:
     # uses GitHub's checkout action to checkout code form the master branch
     - uses: actions/checkout@v4
