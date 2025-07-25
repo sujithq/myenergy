@@ -22,7 +22,7 @@ namespace June.Data.Commands
 
         protected static void Alert(string message, string type, ConsoleColor cc = ConsoleColor.Red)
         {
-            // AnsiConsole.MarkupLine($"[bold {cc}]{type}[/]: {message}");
+            AnsiConsole.MarkupLine($"[bold {cc}]{type}[/]: {message}");
         }
         protected static void DetectAnomaly(Dictionary<int, List<BarChartData>> data)
         {

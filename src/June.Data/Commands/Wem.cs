@@ -55,7 +55,7 @@ namespace June.Data.Commands
 
                         var d = r.Date.ToDateTime(r.Time);
 
-                        Console.WriteLine($"{d} -> {r.RoomTempHZK0} -> {r.OutTempHZK0} -> {r.PressureWE0}");
+                        Alert($"{d} -> {r.RoomTempHZK0} -> {r.OutTempHZK0} -> {r.PressureWE0}", "info");
 
                         var year = d.Year;
                         var doy = d.DayOfYear;

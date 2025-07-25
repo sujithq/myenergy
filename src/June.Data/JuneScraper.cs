@@ -1,6 +1,7 @@
 using June.Data.Commands;
 using Microsoft.Extensions.Options;
 using myenergy.Common;
+using Spectre.Console;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
@@ -29,7 +30,7 @@ namespace June.Data
             var response = await client.SendAsync(requestToken);
             if (!response.IsSuccessStatusCode)
             {
-                Console.WriteLine($"{response.StatusCode}: {await response.Content.ReadAsStringAsync()}");
+                Alert($"{response.StatusCode}: {await response.Content.ReadAsStringAsync()}", "info");
                 return default;
             }
 
@@ -47,7 +48,7 @@ namespace June.Data
             var code = loginDoc.RootElement.GetProperty("code").GetString();
             if (string.IsNullOrEmpty(code))
             {
-                Console.WriteLine("No login code returned.");
+                Alert("No login code returned.");
                 return default;
             }
 
@@ -60,7 +61,7 @@ namespace June.Data
                 return obj;
             }
 
-            Console.WriteLine("Could not retrieve Bearer token.");
+            Alert("Could not retrieve Bearer token.");
             return default;
         }
         public async Task<JsonDocument?> GetData(Dictionary<string, string> config, string? date_id)
@@ -104,7 +105,7 @@ namespace June.Data
             }
             else
             {
-                Console.WriteLine($"{dataResponse.StatusCode}: {await dataResponse.Content.ReadAsStringAsync()}");
+                Alert($"{dataResponse.StatusCode}: {await dataResponse.Content.ReadAsStringAsync()}");
             }
             return await Task.FromResult<JsonDocument?>(default);
         }
@@ -161,7 +162,7 @@ namespace June.Data
             }
             else
             {
-                Console.WriteLine($"Electricity: {dataResponseE.StatusCode}: {await dataResponseE.Content.ReadAsStringAsync()}");
+                Alert($"Electricity: {dataResponseE.StatusCode}: {await dataResponseE.Content.ReadAsStringAsync()}");
             }
 
             // If the response contains content we want to read it!
@@ -178,7 +179,7 @@ namespace June.Data
             }
             else
             {
-                Console.WriteLine($"Gas: {dataResponseE.StatusCode}: {await dataResponseE.Content.ReadAsStringAsync()}");
+                Alert($"Gas: {dataResponseE.StatusCode}: {await dataResponseE.Content.ReadAsStringAsync()}");
             }
 
             return dataE == default && dataG == default ? await Task.FromResult<QuarterData?>(default) : ConvertToQuarterData2(dataE, dataG);
@@ -229,7 +230,7 @@ namespace June.Data
             string? buildId = ExtractBuildIdFromNextData(loginPageHtml);
             if (buildId == null)
             {
-                Console.WriteLine("Could not extract buildId from login page.");
+                Alert("Could not extract buildId from login page.");
                 return null;
             }
 
@@ -237,7 +238,7 @@ namespace June.Data
             var callbackResponse = await client.GetAsync(callbackUrl);
             if (!callbackResponse.IsSuccessStatusCode)
             {
-                Console.WriteLine($"Failed to fetch callback: {callbackResponse.StatusCode} - {await callbackResponse.Content.ReadAsStringAsync()}");
+                Alert($"Failed to fetch callback: {callbackResponse.StatusCode} - {await callbackResponse.Content.ReadAsStringAsync()}");
                 return null;
             }
             string callbackJson = await callbackResponse.Content.ReadAsStringAsync();
@@ -255,7 +256,7 @@ namespace June.Data
             if (nestedToken != null)
                 return nestedToken;
 
-            Console.WriteLine("Token not found in callback JSON.");
+            Alert("Token not found in callback JSON.");
             return null;
         }
 
@@ -306,6 +307,11 @@ namespace June.Data
                 return buildIdElem.GetString();
 
             return null;
+        }
+
+        protected static void Alert(string message, string type = "info", ConsoleColor cc = ConsoleColor.Red)
+        {
+            AnsiConsole.MarkupLine($"[bold {cc}]{type}[/]: {message}");
         }
     }
 

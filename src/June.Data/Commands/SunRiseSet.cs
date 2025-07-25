@@ -48,7 +48,7 @@ namespace June.Data.Commands
                     var localDate = day.D.DayOfYearLocalDate(year).ToDateOnly();
                     var query = localDate.ToString("yyyy-MM-dd", null);
 
-                    Console.WriteLine($"Get data for {query}");
+                    Alert($"Get data for {query}", "info");
                     var response = client.GetAsync($"json?lat=50.9746&lng=4.5917&date={query}").GetAwaiter().GetResult();
                     var content = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
                     var json = JObject.Parse(content);
