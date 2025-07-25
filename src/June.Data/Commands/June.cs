@@ -85,7 +85,7 @@ namespace June.Data.Commands
             var juneLogin = Scraper.LoginAsync().GetAwaiter().GetResult();
             if (juneLogin != default)
             {
-                var token_name = "access_token";
+                var token_name = "token";
                 var token = juneLogin!.RootElement.GetProperty(token_name).GetString();
 
                 foreach (var item in listForJuneProcessed)
