@@ -82,96 +82,143 @@ namespace MeteoStat.Data.Commands
                 Alert("Process Meteo Stat Data", "Info", ConsoleColor.Green);
                 var el = mdata.RootElement.GetProperty("data").EnumerateArray();
 
+                // Suppose 'mdata' is your JsonDocument
+                var dataElement = mdata.RootElement.GetProperty("data");
+                var json = dataElement.GetRawText();
+                var meteoList = JsonSerializer.Deserialize<List<MeteoData>>(json);
+
+
                 foreach (var item in listForMeteoStatProcessed)
                 {
                     var dateStr = item.Item3.ToString("yyyy-MM-dd", null);
 
-                    var obj = el.FirstOrDefault(item => item.GetProperty("date").GetString() == dateStr);
+                    MeteoData? obj = meteoList.FirstOrDefault(x => x.date.StartsWith(dateStr));
 
-                    if (obj.ValueKind != JsonValueKind.Null && obj.ValueKind != JsonValueKind.Undefined)
+                    if (obj != default)
                     {
 
-                        var msObj = obj.GetProperty("tavg");
                         double tavg = 0.0;
 
-                        if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined)
+                        if (obj.tavg != null)
                         {
-                            msObj.TryGetDouble(out tavg);
+                            tavg = obj.tavg.Value;
                         }
 
-                        msObj = obj.GetProperty("tmin");
                         double tmin = 0.0;
 
-                        if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined)
+                        if (obj.tmin != null)
                         {
-                            msObj.TryGetDouble(out tmin);
+                            tmin = obj.tmin.Value;
                         }
 
-                        msObj = obj.GetProperty("tmax");
                         double tmax = 0.0;
-
-                        if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined)
+                        if (obj.tmax != null)
                         {
-                            msObj.TryGetDouble(out tmax);
+                            tmax = obj.tmax.Value;
                         }
 
-                        msObj = obj.GetProperty("tsun");
-                        double tsun = 0.0;
-
-                        if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined)
-                        {
-                            msObj.TryGetDouble(out tsun);
-                        }
-
-                        msObj = obj.GetProperty("prcp");
                         double prcp = 0.0;
-
-                        if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined)
+                        if (obj.prcp != null)
                         {
-                            msObj.TryGetDouble(out prcp);
+                            prcp = obj.prcp.Value;
                         }
 
-                        msObj = obj.GetProperty("snow");
                         double snow = 0.0;
-
-                        if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined)
+                        if (obj.snow != null)
                         {
-                            msObj.TryGetDouble(out snow);
+                            snow = obj.snow.Value;
                         }
 
-                        msObj = obj.GetProperty("wdir");
                         double wdir = 0.0;
-
-                        if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined)
+                        if (obj.wdir != null)
                         {
-                            msObj.TryGetDouble(out wdir);
+                            wdir = obj.wdir.Value;
                         }
 
-                        msObj = obj.GetProperty("wspd");
                         double wspd = 0.0;
-
-                        if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined)
+                        if (obj.wspd != null)
                         {
-                            msObj.TryGetDouble(out wspd);
+                            wspd = obj.wspd.Value;
                         }
 
-                        msObj = obj.GetProperty("wpgt");
                         double wpgt = 0.0;
-
-                        if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined)
+                        if (obj.wpgt != null)
                         {
-                            msObj.TryGetDouble(out wpgt);
+                            wpgt = obj.wpgt.Value;
                         }
-
-                        msObj = obj.GetProperty("pres");
                         double pres = 0.0;
-
-                        if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined )
+                        if (obj.pres != null)
                         {
-                            msObj.TryGetDouble(out pres);
+                            pres = obj.pres.Value;
+                        }
+                        double tsun = 0.0;
+                        if (obj.tsun != null)
+                        {
+                            tsun = obj.tsun.Value;
                         }
 
-                        MeteoStatData msd = new(tavg, tmin, tmax, prcp, snow, wdir, wspd, wpgt, pres, tsun);
+                        //    msObj = obj.GetProperty("tmax");
+                        //    double tmax = 0.0;
+
+                        //    if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined)
+                        //    {
+                        //        msObj.TryParse(msObj, out tmax);
+                        //    }
+
+                        //    msObj = obj.GetProperty("tsun");
+                        //    double tsun = 0.0;
+
+                        //    if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined)
+                        //    {
+                        //        msObj.TryParse(msObj, out tsun);
+                        //    }
+
+                        //    msObj = obj.GetProperty("prcp");
+                        //    double prcp = 0.0;
+
+                        //    if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined)
+                        //    {
+                        //        msObj.TryParse(msObj, out prcp);
+                        //    }
+
+                        //    msObj = obj.GetProperty("snow");
+                        //    double snow = 0.0;
+
+                        //    if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined)
+                        //    {
+                        //        msObj.TryParse(msObj, out snow);
+                        //    }
+
+                        //    msObj = obj.GetProperty("wdir");
+                        //    double wdir = 0.0;
+
+                        //    if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined)
+                        //    {
+                        //        msObj.TryParse(msObj, out wdir);
+                        //    }
+
+                        //    msObj = obj.GetProperty("wspd");
+                        //    double wspd = 0.0;
+
+                        //    if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined)
+                        //    {
+                        //        msObj.TryParse(msObj, out wspd);
+                        //    }
+
+                        //    msObj = obj.GetProperty("wpgt");
+                        //    double wpgt = 0.0;
+
+                        //    if (msObj.ValueKind != JsonValueKind.Null && msObj.ValueKind != JsonValueKind.Undefined)
+                        //    {
+                        //        msObj.TryParse(msObj, out wpgt);
+                        //    }
+
+                        //    msObj = obj.pres;
+                        //    double pres = 0.0;
+
+                        //    double.TryParse(msObj, out pres);
+
+                        MeteoStatData msd = new(tavg, tmin, tmax , prcp, snow, wdir, wspd, wpgt, pres, tsun);
 
                         if (!data!.TryGetValue(item.Key, out List<BarChartData>? value))
                         {
@@ -180,12 +227,13 @@ namespace MeteoStat.Data.Commands
                         }
                         if (value.FindIndex(f => f.D == item.D) == -1)
                         {
-                            value.Add(new BarChartData(item.D, 0, 0, 0, false, false, msd, false, new AnomalyData(0, 0, 0, false),  new QuarterData([], [], [], [], [], [], []), false));
+                            value.Add(new BarChartData(item.D, 0, 0, 0, false, false, msd, false, new AnomalyData(0, 0, 0, false), new QuarterData([], [], [], [], [], [], []), false));
                         }
 
                         var idx = value.FindIndex(f => f.D == item.D);
                         var d = value[idx];
                         value[idx] = new BarChartData(d.D, d.P, d.U, d.I, d.J, d.S, msd, item.Item3 >= currentDateInBelgium.Date.Minus(Period.FromDays(5)) ? false : true, d.AS, d.Q, d.C, d.SRS);
+
 
                     }
                 }
@@ -202,5 +250,21 @@ namespace MeteoStat.Data.Commands
             return Environment.ExitCode;
         }
     }
+
+    public class MeteoData
+    {
+        public string date { get; set; } = default!;
+        public double? tavg { get; set; }
+        public double? tmin { get; set; }
+        public double? tmax { get; set; }
+        public double? prcp { get; set; }
+        public double? snow { get; set; }
+        public double? wdir { get; set; }
+        public double? wspd { get; set; }
+        public double? wpgt { get; set; }
+        public double? pres { get; set; }
+        public double? tsun { get; set; }
+    }
+
 
 }
