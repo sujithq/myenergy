@@ -28,6 +28,12 @@ runs:
         else
             echo "Copy failed."
         fi
+        cp ./src/myenergy/wwwroot/Data/consolidated.json ./src/June.Data/Data/consolidated.json
+        if [ $? -eq 0 ]; then
+            echo "Copy successful."
+        else
+            echo "Copy failed."
+        fi
     # Build Data
     - name: Build Data
       shell: bash
