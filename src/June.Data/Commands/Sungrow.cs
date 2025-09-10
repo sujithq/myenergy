@@ -162,6 +162,13 @@ namespace Sungrow.Data.Commands
 
             File.WriteAllText(Path.Combine(AppContext.BaseDirectory, "Data/data.json"), JsonSerializer.Serialize(data, JsonSerializerOptions));
 
+            var totalP = data!.SelectMany(sm => sm.Value.Select(s => s.P)).Sum();
+            var totalU = data!.SelectMany(sm => sm.Value.Select(s => s.U)).Sum();
+            var totalI = data!.SelectMany(sm => sm.Value.Select(s => s.I)).Sum() / 1000.0;
+            var consolidated = new Consolidated(totalP, totalU, totalI);
+
+            File.WriteAllText(Path.Combine(AppContext.BaseDirectory, "Data/consolidated.json"), JsonSerializer.Serialize(consolidated, JsonSerializerOptions));
+
             if (failed)
             {
                 Environment.ExitCode = 1;
