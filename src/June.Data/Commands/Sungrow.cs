@@ -160,12 +160,17 @@ namespace Sungrow.Data.Commands
 
             DetectAnomaly(data!);
 
+            Alert("Saving data.json", "Info");
+
             File.WriteAllText(Path.Combine(AppContext.BaseDirectory, "Data/data.json"), JsonSerializer.Serialize(data, JsonSerializerOptions));
 
+            Alert("Calculate consolidation", "Info");
             var totalP = data!.SelectMany(sm => sm.Value.Select(s => s.P)).Sum();
             var totalU = data!.SelectMany(sm => sm.Value.Select(s => s.U)).Sum();
             var totalI = data!.SelectMany(sm => sm.Value.Select(s => s.I)).Sum() / 1000.0;
             var consolidated = new Consolidated(totalP, totalU, totalI);
+
+            Alert("Saving consolidated.json", "Info");
 
             File.WriteAllText(Path.Combine(AppContext.BaseDirectory, "Data/consolidated.json"), JsonSerializer.Serialize(consolidated, JsonSerializerOptions));
 
