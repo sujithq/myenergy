@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-24.04-arm # ubuntu-latest
     steps:
     - name: Before Run Actions
-      uses: sujithq/myenergy/.github/actions/before-run-actions@b2c05091b1eaf2af63e10ed6ebea06c0d300e9df
+      uses: sujithq/myenergy/.github/actions/before-run-actions
       with:
         DOTNET-VERSION: ${{ env.GLOBAL_DOTNET_VERSION }}
 
@@ -47,7 +47,7 @@ jobs:
         JUNE_CONTRACT: ${{ secrets.JUNE_CONTRACT }}
 
     - name: After Run Actions
-      uses: sujithq/myenergy/.github/actions/after-run-actions@5e460da68ebcd07b42012962196fa231e1d6c66a
+      uses: sujithq/myenergy/.github/actions/after-run-actions
       with:
         COMMAND: ${{ env.GLOBAL_COMMAND }}
         APP_ID: ${{ secrets.APP_ID }}
