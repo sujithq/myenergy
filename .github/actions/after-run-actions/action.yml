@@ -13,27 +13,29 @@ inputs:
 runs:
     using: composite
     steps:
-    - name: Copy data file
+    - name: Copy data files
       shell: bash
       run: |
-          cp ./src/June.Data/bin/Release/net9.0/Data/data.json ./src/myenergy/wwwroot/Data/data.json
-            if [ $? -eq 0 ]; then
-                echo "Copy successful."
-            else
-                echo "Copy failed."
-            fi
-          cp ./src/June.Data/bin/Release/net9.0/Data/consolidated.json ./src/myenergy/wwwroot/Data/consolidated.json
-            if [ $? -eq 0 ]; then
-                echo "Copy successful."
-            else
-                echo "Copy failed."
-            fi
-          cp ./src/June.Data/bin/Release/net9.0/Data/data.json ./src/June.Data/Data/data.json
-            if [ $? -eq 0 ]; then
-                echo "Copy successful."
-            else
-                echo "Copy failed."
-            fi
+        set -Eeuo pipefail
+
+        copy() {
+          local SRC="$1"
+          local DEST="$2"
+          echo "• $SRC → $DEST"
+          if [[ -f "$SRC" ]]; then
+            mkdir -p "$(dirname "$DEST")"
+            cp "$SRC" "$DEST"
+            echo "  ✅ Copy successful: $DEST"
+          else
+            echo "  ❌ Source file missing: $SRC"
+            # exit 1   # remove or change to 'return 0' if you want to skip missing files
+          fi
+        }
+
+        copy "./src/June.Data/bin/Release/net9.0/Data/data.json" "./src/myenergy/wwwroot/Data/data.json"
+        copy "./src/June.Data/bin/Release/net9.0/Data/consolidated.json" "./src/myenergy/wwwroot/Data/consolidated.json"
+        copy "./src/June.Data/bin/Release/net9.0/Data/data.json" "./src/June.Data/Data/data.json"
+
     - name: Generate a token
       id: generate_token
       uses: actions/create-github-app-token@v2
