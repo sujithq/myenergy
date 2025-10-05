@@ -28,11 +28,15 @@ runs:
         else
             echo "Copy failed."
         fi
-        cp ./src/myenergy/wwwroot/Data/consolidated.json ./src/June.Data/Data/consolidated.json
-        if [ $? -eq 0 ]; then
-            echo "Copy successful."
+        if [ -f ./src/myenergy/wwwroot/Data/consolidated.json ]; then
+            cp ./src/myenergy/wwwroot/Data/consolidated.json ./src/June.Data/Data/consolidated.json
+            if [ $? -eq 0 ]; then
+                echo "Copy successful."
+            else
+                echo "Copy failed."
+            fi
         else
-            echo "Copy failed."
+            echo "consolidated.json not found in source, skipping copy."
         fi
     # Build Data
     - name: Build Data
