@@ -22,7 +22,7 @@ public class EnergyDataService
 
         try
         {
-            var json = await _http.GetStringAsync("data/data.json");
+            var json = await _http.GetStringAsync("Data/data.json");
             _rawData = JsonSerializer.Deserialize<Dictionary<int, List<BarChartData>>>(json);
             
             if (_rawData != null)
