@@ -1,0 +1,491 @@
+@page "/day-type-analysis"
+@using myenergy.Services
+@using myenergy.Models
+@inject EnergyDataService DataService
+@inject AppConfigurationService ConfigService
+@inject IJSRuntime JS
+
+<PageTitle>Day Type Analysis - myenergy</PageTitle>
+
+<div class="container-fluid">
+    <h1 class="mb-4">
+        <i class="bi bi-calendar2-week-fill"></i> Day Type Analysis
+    </h1>
+
+    @if (isLoading)
+    {
+        <div class="text-center my-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- Analysis Type Selection -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <label class="form-label fw-bold">Analysis Type</label>
+                <select class="form-select" @bind="analysisType" @bind:after="UpdateVisualization">
+                    <option value="weekday">Weekday vs Weekend</option>
+                    @if (ConfigService.IsSunshineDataEnabled)
+                    {
+                        <option value="weather">Sunny vs Cloudy Days</option>
+                    }
+                    <option value="season">Seasonal Day Patterns</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-bold">Year</label>
+                <select class="form-select" @bind="selectedYear" @bind:after="UpdateVisualization">
+                    <option value="all">All Years</option>
+                    @foreach (var year in availableYears.OrderByDescending(y => y))
+                    {
+                        <option value="@year">@year</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        @if (analysisType == "weekday")
+        {
+            <!-- Weekday vs Weekend Comparison -->
+            <div class="row mb-4">
+                <div class="col-md-6 mb-3">
+                    <div class="card h-100">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0"><i class="bi bi-briefcase-fill"></i> Weekday Average</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row text-center">
+                                <div class="col-6 mb-3">
+                                    <h6 class="text-muted">Production</h6>
+                                    <h3 class="text-success">@weekdayData.AvgProduction.ToString("N1") kWh</h3>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <h6 class="text-muted">Consumption</h6>
+                                    <h3 class="text-danger">@weekdayData.AvgConsumption.ToString("N1") kWh</h3>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <h6 class="text-muted">Import</h6>
+                                    <h3 class="text-info">@weekdayData.AvgImport.ToString("N1") kWh</h3>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <h6 class="text-muted">Export</h6>
+                                    <h3 class="text-warning">@weekdayData.AvgExport.ToString("N1") kWh</h3>
+                                </div>
+                                <div class="col-12">
+                                    <div class="p-3 bg-light rounded">
+                                        <h6 class="text-muted mb-2">Autarky</h6>
+                                        <h4 class="mb-0">@weekdayData.AvgAutarky.ToString("N1")%</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card h-100">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0"><i class="bi bi-house-fill"></i> Weekend Average</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row text-center">
+                                <div class="col-6 mb-3">
+                                    <h6 class="text-muted">Production</h6>
+                                    <h3 class="text-success">@weekendData.AvgProduction.ToString("N1") kWh</h3>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <h6 class="text-muted">Consumption</h6>
+                                    <h3 class="text-danger">@weekendData.AvgConsumption.ToString("N1") kWh</h3>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <h6 class="text-muted">Import</h6>
+                                    <h3 class="text-info">@weekendData.AvgImport.ToString("N1") kWh</h3>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <h6 class="text-muted">Export</h6>
+                                    <h3 class="text-warning">@weekendData.AvgExport.ToString("N1") kWh</h3>
+                                </div>
+                                <div class="col-12">
+                                    <div class="p-3 bg-light rounded">
+                                        <h6 class="text-muted mb-2">Autarky</h6>
+                                        <h4 class="mb-0">@weekendData.AvgAutarky.ToString("N1")%</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="mb-0">Weekday vs Weekend Comparison</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="weekdayComparisonChart" style="max-height: 400px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Insights -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-warning text-dark">
+                            <h5 class="mb-0"><i class="bi bi-lightbulb-fill"></i> Insights</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="mb-0">
+                                @if (weekendData.AvgConsumption > weekdayData.AvgConsumption)
+                                {
+                                    <li>Weekend consumption is <strong>@((weekendData.AvgConsumption - weekdayData.AvgConsumption).ToString("N1")) kWh</strong> higher than weekdays (@(((weekendData.AvgConsumption - weekdayData.AvgConsumption) / weekdayData.AvgConsumption * 100).ToString("N1"))% increase)</li>
+                                }
+                                else
+                                {
+                                    <li>Weekday consumption is <strong>@((weekdayData.AvgConsumption - weekendData.AvgConsumption).ToString("N1")) kWh</strong> higher than weekends (@(((weekdayData.AvgConsumption - weekendData.AvgConsumption) / weekendData.AvgConsumption * 100).ToString("N1"))% increase)</li>
+                                }
+                                
+                                @if (weekendData.AvgAutarky > weekdayData.AvgAutarky)
+                                {
+                                    <li>Weekend autarky is <strong>@((weekendData.AvgAutarky - weekdayData.AvgAutarky).ToString("N1"))%</strong> better than weekdays</li>
+                                }
+                                else if (weekdayData.AvgAutarky > weekendData.AvgAutarky)
+                                {
+                                    <li>Weekday autarky is <strong>@((weekdayData.AvgAutarky - weekendData.AvgAutarky).ToString("N1"))%</strong> better than weekends</li>
+                                }
+                                
+                                <li>Total weekday samples: <strong>@weekdayData.DayCount</strong> days</li>
+                                <li>Total weekend samples: <strong>@weekendData.DayCount</strong> days</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (analysisType == "weather" && ConfigService.IsSunshineDataEnabled)
+        {
+            <!-- Sunny vs Cloudy Comparison -->
+            <div class="row mb-4">
+                <div class="col-md-6 mb-3">
+                    <div class="card h-100">
+                        <div class="card-header bg-warning text-dark">
+                            <h5 class="mb-0"><i class="bi bi-brightness-high-fill"></i> Sunny Days (&gt;6h sun)</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row text-center">
+                                <div class="col-6 mb-3">
+                                    <h6 class="text-muted">Production</h6>
+                                    <h3 class="text-success">@sunnyData.AvgProduction.ToString("N1") kWh</h3>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <h6 class="text-muted">Consumption</h6>
+                                    <h3 class="text-danger">@sunnyData.AvgConsumption.ToString("N1") kWh</h3>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <h6 class="text-muted">Self-Consumption</h6>
+                                    <h3 class="text-warning">@sunnyData.AvgSelfConsumption.ToString("N1") kWh</h3>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <h6 class="text-muted">Export</h6>
+                                    <h3 class="text-info">@sunnyData.AvgExport.ToString("N1") kWh</h3>
+                                </div>
+                                <div class="col-12">
+                                    <div class="p-3 bg-light rounded">
+                                        <h6 class="text-muted mb-2">Days</h6>
+                                        <h4 class="mb-0">@sunnyData.DayCount</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card h-100">
+                        <div class="card-header bg-secondary text-white">
+                            <h5 class="mb-0"><i class="bi bi-cloud-fill"></i> Cloudy Days (&lt;6h sun)</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row text-center">
+                                <div class="col-6 mb-3">
+                                    <h6 class="text-muted">Production</h6>
+                                    <h3 class="text-success">@cloudyData.AvgProduction.ToString("N1") kWh</h3>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <h6 class="text-muted">Consumption</h6>
+                                    <h3 class="text-danger">@cloudyData.AvgConsumption.ToString("N1") kWh</h3>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <h6 class="text-muted">Self-Consumption</h6>
+                                    <h3 class="text-warning">@cloudyData.AvgSelfConsumption.ToString("N1") kWh</h3>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <h6 class="text-muted">Import</h6>
+                                    <h3 class="text-info">@cloudyData.AvgImport.ToString("N1") kWh</h3>
+                                </div>
+                                <div class="col-12">
+                                    <div class="p-3 bg-light rounded">
+                                        <h6 class="text-muted mb-2">Days</h6>
+                                        <h4 class="mb-0">@cloudyData.DayCount</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Weather Condition Comparison</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="weatherComparisonChart" style="max-height: 400px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (analysisType == "season")
+        {
+            <!-- Seasonal Day Patterns -->
+            <div class="row mb-4">
+                @foreach (var season in seasonalPatterns.OrderBy(s => GetSeasonOrder(s.Season)))
+                {
+                    <div class="col-md-6 col-lg-3 mb-3">
+                        <div class="card h-100">
+                            <div class="card-header" style="background-color: @GetSeasonColor(season.Season); color: white;">
+                                <h6 class="mb-0">
+                                    <i class="@GetSeasonIcon(season.Season)"></i> @season.Season
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-2">
+                                    <small class="text-muted">Avg Production</small>
+                                    <div class="text-success fw-bold">@season.AvgProduction.ToString("N1") kWh</div>
+                                </div>
+                                <div class="mb-2">
+                                    <small class="text-muted">Avg Consumption</small>
+                                    <div class="text-danger fw-bold">@season.AvgConsumption.ToString("N1") kWh</div>
+                                </div>
+                                <div class="mb-2">
+                                    <small class="text-muted">Autarky</small>
+                                    <div>@season.AvgAutarky.ToString("N1")%</div>
+                                </div>
+                                <div>
+                                    <small class="text-muted">Days</small>
+                                    <div>@season.DayCount</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0">Seasonal Energy Patterns</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="seasonalPatternsChart" style="max-height: 400px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+@code {
+    private bool isLoading = true;
+    private string analysisType = "weekday";
+    private string selectedYear = "all";
+    private List<int> availableYears = new();
+
+    private DayTypeData weekdayData = new();
+    private DayTypeData weekendData = new();
+    private DayTypeData sunnyData = new();
+    private DayTypeData cloudyData = new();
+    private List<SeasonalPattern> seasonalPatterns = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await DataService.LoadDataAsync();
+        availableYears = DataService.GetAvailableYears();
+        CalculateAnalysis();
+        isLoading = false;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await UpdateVisualization();
+        }
+    }
+
+    private void CalculateAnalysis()
+    {
+        var data = selectedYear == "all" 
+            ? DataService.GetDailyData()
+            : DataService.GetDailyDataForYear(int.Parse(selectedYear));
+
+        if (!data.Any()) return;
+
+        // Weekday vs Weekend
+        var weekdays = data.Where(d => d.Date.DayOfWeek != DayOfWeek.Saturday && d.Date.DayOfWeek != DayOfWeek.Sunday).ToList();
+        var weekends = data.Where(d => d.Date.DayOfWeek == DayOfWeek.Saturday || d.Date.DayOfWeek == DayOfWeek.Sunday).ToList();
+
+        weekdayData = CalculateDayTypeData(weekdays);
+        weekendData = CalculateDayTypeData(weekends);
+
+        // TODO: Implement sunny vs cloudy analysis when sunshine data is available
+        sunnyData = new DayTypeData();
+        cloudyData = new DayTypeData();
+
+        // Seasonal patterns
+        seasonalPatterns = data
+            .GroupBy(d => GetSeason(d.Date.Month))
+            .Select(g => new SeasonalPattern
+            {
+                Season = g.Key,
+                AvgProduction = g.Average(d => d.Production),
+                AvgConsumption = g.Average(d => d.Consumption),
+                AvgImport = g.Average(d => d.Import),
+                AvgExport = g.Average(d => d.Export),
+                AvgAutarky = g.Average(d => d.Autarky),
+                DayCount = g.Count()
+            })
+            .ToList();
+    }
+
+    private DayTypeData CalculateDayTypeData(List<DailySummary> days)
+    {
+        if (!days.Any()) return new DayTypeData();
+
+        return new DayTypeData
+        {
+            AvgProduction = days.Average(d => d.Production),
+            AvgConsumption = days.Average(d => d.Consumption),
+            AvgImport = days.Average(d => d.Import),
+            AvgExport = days.Average(d => d.Export),
+            AvgSelfConsumption = days.Average(d => d.Production - d.Export),
+            AvgAutarky = days.Average(d => d.Autarky),
+            DayCount = days.Count
+        };
+    }
+
+    private async Task UpdateVisualization()
+    {
+        CalculateAnalysis();
+        await Task.Delay(100);
+
+        if (analysisType == "weekday")
+        {
+            await RenderWeekdayComparison();
+        }
+        else if (analysisType == "weather" && ConfigService.IsSunshineDataEnabled)
+        {
+            await RenderWeatherComparison();
+        }
+        else if (analysisType == "season")
+        {
+            await RenderSeasonalPatterns();
+        }
+
+        StateHasChanged();
+    }
+
+    private async Task RenderWeekdayComparison()
+    {
+        var labels = new[] { "Production", "Consumption", "Import", "Export" };
+        var weekdayValues = new[] { weekdayData.AvgProduction, weekdayData.AvgConsumption, weekdayData.AvgImport, weekdayData.AvgExport };
+        var weekendValues = new[] { weekendData.AvgProduction, weekendData.AvgConsumption, weekendData.AvgImport, weekendData.AvgExport };
+        
+        await JS.InvokeVoidAsync("renderDayTypeComparisonChart", "weekdayComparisonChart", labels, weekdayValues, weekendValues, "Weekday", "Weekend");
+    }
+
+    private async Task RenderWeatherComparison()
+    {
+        var labels = new[] { "Production", "Consumption", "Self-Consumption", "Import/Export" };
+        var sunnyValues = new[] { sunnyData.AvgProduction, sunnyData.AvgConsumption, sunnyData.AvgSelfConsumption, sunnyData.AvgExport };
+        var cloudyValues = new[] { cloudyData.AvgProduction, cloudyData.AvgConsumption, cloudyData.AvgSelfConsumption, cloudyData.AvgImport };
+        
+        await JS.InvokeVoidAsync("renderDayTypeComparisonChart", "weatherComparisonChart", labels, sunnyValues, cloudyValues, "Sunny Days", "Cloudy Days");
+    }
+
+    private async Task RenderSeasonalPatterns()
+    {
+        var seasons = seasonalPatterns.OrderBy(s => GetSeasonOrder(s.Season)).Select(s => s.Season).ToArray();
+        var productions = seasonalPatterns.OrderBy(s => GetSeasonOrder(s.Season)).Select(s => s.AvgProduction).ToArray();
+        var consumptions = seasonalPatterns.OrderBy(s => GetSeasonOrder(s.Season)).Select(s => s.AvgConsumption).ToArray();
+        
+        await JS.InvokeVoidAsync("renderSeasonalPatternsChart", "seasonalPatternsChart", seasons, productions, consumptions);
+    }
+
+    private string GetSeason(int month) => month switch
+    {
+        12 or 1 or 2 => "Winter",
+        3 or 4 or 5 => "Spring",
+        6 or 7 or 8 => "Summer",
+        9 or 10 or 11 => "Autumn",
+        _ => "Unknown"
+    };
+
+    private int GetSeasonOrder(string season) => season switch
+    {
+        "Winter" => 1,
+        "Spring" => 2,
+        "Summer" => 3,
+        "Autumn" => 4,
+        _ => 5
+    };
+
+    private string GetSeasonColor(string season) => season switch
+    {
+        "Winter" => "#6c757d",
+        "Spring" => "#198754",
+        "Summer" => "#ffc107",
+        "Autumn" => "#fd7e14",
+        _ => "#0d6efd"
+    };
+
+    private string GetSeasonIcon(string season) => season switch
+    {
+        "Winter" => "bi bi-snow",
+        "Spring" => "bi bi-flower1",
+        "Summer" => "bi bi-brightness-high",
+        "Autumn" => "bi bi-tree",
+        _ => "bi bi-calendar3"
+    };
+
+    private class DayTypeData
+    {
+        public double AvgProduction { get; set; }
+        public double AvgConsumption { get; set; }
+        public double AvgImport { get; set; }
+        public double AvgExport { get; set; }
+        public double AvgSelfConsumption { get; set; }
+        public double AvgAutarky { get; set; }
+        public int DayCount { get; set; }
+    }
+
+    private class SeasonalPattern
+    {
+        public string Season { get; set; } = "";
+        public double AvgProduction { get; set; }
+        public double AvgConsumption { get; set; }
+        public double AvgImport { get; set; }
+        public double AvgExport { get; set; }
+        public double AvgAutarky { get; set; }
+        public int DayCount { get; set; }
+    }
+}

@@ -1,0 +1,418 @@
+@page "/cost-savings"
+@using myenergy.Services
+@using myenergy.Models
+@inject EnergyDataService DataService
+@inject IJSRuntime JS
+
+<PageTitle>Cost & Savings - myenergy</PageTitle>
+
+<div class="container-fluid">
+    <h1 class="mb-4">
+        <i class="bi bi-currency-dollar"></i> Cost & Savings Dashboard
+    </h1>
+
+    @if (isLoading)
+    {
+        <div class="text-center my-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- Configuration Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="mb-0"><i class="bi bi-gear-fill"></i> Energy Cost Settings</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Grid Import Cost</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" @bind="importCostPerKwh" @bind:after="RecalculateSavings" step="0.01" min="0" />
+                                    <span class="input-group-text">€/kWh</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Export Compensation</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" @bind="exportCompensationPerKwh" @bind:after="RecalculateSavings" step="0.01" min="0" />
+                                    <span class="input-group-text">€/kWh</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">System Cost</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" @bind="systemCost" @bind:after="RecalculateSavings" step="100" min="0" />
+                                    <span class="input-group-text">€</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Installation Date</label>
+                                <input type="date" class="form-control" @bind="installationDate" @bind:after="RecalculateSavings" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Metrics Row -->
+        <div class="row mb-4">
+            <div class="col-md-3 mb-3">
+                <div class="card h-100 border-success">
+                    <div class="card-body">
+                        <h6 class="text-muted mb-2">Total Savings</h6>
+                        <h2 class="text-success mb-0">€@totalSavings.ToString("N2")</h2>
+                        <small class="text-muted">Since installation</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card h-100 border-info">
+                    <div class="card-body">
+                        <h6 class="text-muted mb-2">Monthly Average</h6>
+                        <h2 class="text-info mb-0">€@monthlyAverageSavings.ToString("N2")</h2>
+                        <small class="text-muted">Per month</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card h-100 border-warning">
+                    <div class="card-body">
+                        <h6 class="text-muted mb-2">Payback Progress</h6>
+                        <h2 class="text-warning mb-0">@paybackProgress.ToString("N1")%</h2>
+                        <small class="text-muted">€@totalSavings.ToString("N0") of €@systemCost.ToString("N0")</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card h-100 border-danger">
+                    <div class="card-body">
+                        <h6 class="text-muted mb-2">Est. Payback Date</h6>
+                        <h2 class="text-danger mb-0">@estimatedPaybackDate.ToString("MMM yyyy")</h2>
+                        <small class="text-muted">@yearsToPayback.ToString("N1") years total</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Savings Accumulation Chart -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">Cumulative Savings Over Time</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="savingsAccumulationChart" style="max-height: 400px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Monthly Breakdown -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">Monthly Savings Breakdown</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="monthlySavingsChart" style="max-height: 350px;"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0">Cost Comparison</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center mb-3">
+                            <div class="col-6">
+                                <div class="p-3 bg-light rounded">
+                                    <h6 class="text-muted">Without Solar</h6>
+                                    <h3 class="text-danger">€@costWithoutSolar.ToString("N2")</h3>
+                                    <small>Total energy cost</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-3 bg-light rounded">
+                                    <h6 class="text-muted">With Solar</h6>
+                                    <h3 class="text-success">€@costWithSolar.ToString("N2")</h3>
+                                    <small>Actual cost paid</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="progress" style="height: 30px;">
+                            <div class="progress-bar bg-success" role="progressbar" 
+                                 style="width: @savingsPercentage.ToString("N1")%" 
+                                 aria-valuenow="@savingsPercentage" aria-valuemin="0" aria-valuemax="100">
+                                @savingsPercentage.ToString("N1")% Saved
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <canvas id="costComparisonChart" style="max-height: 200px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Savings Table -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Yearly Savings Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Year</th>
+                                        <th class="text-end">Production Value</th>
+                                        <th class="text-end">Export Income</th>
+                                        <th class="text-end">Grid Costs Saved</th>
+                                        <th class="text-end">Total Savings</th>
+                                        <th class="text-end">Cumulative</th>
+                                        <th class="text-end">ROI Progress</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var yearly in yearlySavingsData.OrderByDescending(y => y.Year))
+                                    {
+                                        <tr>
+                                            <td><strong>@yearly.Year</strong></td>
+                                            <td class="text-end text-success">€@yearly.ProductionValue.ToString("N2")</td>
+                                            <td class="text-end text-info">€@yearly.ExportIncome.ToString("N2")</td>
+                                            <td class="text-end text-warning">€@yearly.GridCostsSaved.ToString("N2")</td>
+                                            <td class="text-end fw-bold">€@yearly.TotalSavings.ToString("N2")</td>
+                                            <td class="text-end fw-bold text-success">€@yearly.CumulativeSavings.ToString("N2")</td>
+                                            <td class="text-end">
+                                                <span class="badge" style="background-color: @GetRoiColor(yearly.RoiProgress)">
+                                                    @yearly.RoiProgress.ToString("N1")%
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot class="table-light">
+                                    <tr class="fw-bold">
+                                        <td>Total</td>
+                                        <td class="text-end text-success">€@yearlySavingsData.Sum(y => y.ProductionValue).ToString("N2")</td>
+                                        <td class="text-end text-info">€@yearlySavingsData.Sum(y => y.ExportIncome).ToString("N2")</td>
+                                        <td class="text-end text-warning">€@yearlySavingsData.Sum(y => y.GridCostsSaved).ToString("N2")</td>
+                                        <td class="text-end">€@totalSavings.ToString("N2")</td>
+                                        <td class="text-end text-success">€@totalSavings.ToString("N2")</td>
+                                        <td class="text-end">@paybackProgress.ToString("N1")%</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private bool isLoading = true;
+    
+    // Configuration
+    private double importCostPerKwh = 0.30; // €/kWh
+    private double exportCompensationPerKwh = 0.08; // €/kWh
+    private double systemCost = 10000; // €
+    private DateTime installationDate = new DateTime(2022, 1, 1);
+    
+    // Calculated metrics
+    private double totalSavings;
+    private double monthlyAverageSavings;
+    private double paybackProgress;
+    private DateTime estimatedPaybackDate;
+    private double yearsToPayback;
+    private double costWithoutSolar;
+    private double costWithSolar;
+    private double savingsPercentage;
+    
+    private List<YearlySavingsData> yearlySavingsData = new();
+    private List<MonthlySavingsData> monthlySavingsData = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await DataService.LoadDataAsync();
+        
+        var availableDates = DataService.GetAvailableDates();
+        if (availableDates.Any())
+        {
+            // Set installation date to first available data date
+            installationDate = availableDates.OrderBy(d => d).First();
+        }
+        
+        CalculateSavings();
+        isLoading = false;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await RenderCharts();
+        }
+    }
+
+    private void RecalculateSavings()
+    {
+        CalculateSavings();
+        _ = RenderCharts();
+    }
+
+    private void CalculateSavings()
+    {
+        var dailyData = DataService.GetDailyData()
+            .Where(d => d.Date >= installationDate)
+            .OrderBy(d => d.Date)
+            .ToList();
+        
+        if (!dailyData.Any()) return;
+
+        // Calculate yearly savings
+        yearlySavingsData = dailyData
+            .GroupBy(d => d.Date.Year)
+            .Select(g => {
+                var yearProduction = g.Sum(d => d.Production);
+                var yearExport = g.Sum(d => d.Export);
+                var yearSelfConsumption = yearProduction - yearExport;
+                
+                var productionValue = yearProduction * importCostPerKwh;
+                var exportIncome = yearExport * exportCompensationPerKwh;
+                var gridCostsSaved = yearSelfConsumption * importCostPerKwh;
+                var totalYearlySavings = gridCostsSaved + exportIncome;
+                
+                return new YearlySavingsData
+                {
+                    Year = g.Key,
+                    ProductionValue = productionValue,
+                    ExportIncome = exportIncome,
+                    GridCostsSaved = gridCostsSaved,
+                    TotalSavings = totalYearlySavings
+                };
+            })
+            .OrderBy(y => y.Year)
+            .ToList();
+
+        // Calculate cumulative savings
+        double cumulative = 0;
+        foreach (var yearData in yearlySavingsData)
+        {
+            cumulative += yearData.TotalSavings;
+            yearData.CumulativeSavings = cumulative;
+            yearData.RoiProgress = systemCost > 0 ? (cumulative / systemCost * 100) : 0;
+        }
+
+        // Calculate monthly savings for the most recent 12 months
+        var recentData = dailyData.OrderByDescending(d => d.Date).Take(365).ToList();
+        monthlySavingsData = recentData
+            .GroupBy(d => new { d.Date.Year, d.Date.Month })
+            .Select(g => {
+                var monthProduction = g.Sum(d => d.Production);
+                var monthExport = g.Sum(d => d.Export);
+                var monthSelfConsumption = monthProduction - monthExport;
+                var monthImport = g.Sum(d => d.Import);
+                
+                var gridCostsSaved = monthSelfConsumption * importCostPerKwh;
+                var exportIncome = monthExport * exportCompensationPerKwh;
+                var importCosts = monthImport * importCostPerKwh;
+                
+                return new MonthlySavingsData
+                {
+                    Year = g.Key.Year,
+                    Month = g.Key.Month,
+                    Date = new DateTime(g.Key.Year, g.Key.Month, 1),
+                    Savings = gridCostsSaved + exportIncome,
+                    ImportCosts = importCosts,
+                    ExportIncome = exportIncome
+                };
+            })
+            .OrderBy(m => m.Date)
+            .ToList();
+
+        // Calculate totals
+        totalSavings = yearlySavingsData.Sum(y => y.TotalSavings);
+        
+        var monthsElapsed = ((DateTime.Now.Year - installationDate.Year) * 12) + 
+                           (DateTime.Now.Month - installationDate.Month);
+        monthlyAverageSavings = monthsElapsed > 0 ? totalSavings / monthsElapsed : 0;
+        
+        paybackProgress = systemCost > 0 ? (totalSavings / systemCost * 100) : 0;
+        
+        if (monthlyAverageSavings > 0)
+        {
+            var monthsToPayback = systemCost / monthlyAverageSavings;
+            yearsToPayback = monthsToPayback / 12;
+            estimatedPaybackDate = installationDate.AddMonths((int)monthsToPayback);
+        }
+        
+        // Cost comparison
+        var totalConsumption = dailyData.Sum(d => d.Consumption);
+        costWithoutSolar = totalConsumption * importCostPerKwh;
+        costWithSolar = costWithoutSolar - totalSavings;
+        savingsPercentage = costWithoutSolar > 0 ? (totalSavings / costWithoutSolar * 100) : 0;
+    }
+
+    private async Task RenderCharts()
+    {
+        await Task.Delay(100);
+        
+        // Cumulative savings chart
+        var years = yearlySavingsData.Select(y => y.Year.ToString()).ToArray();
+        var cumulativeSavings = yearlySavingsData.Select(y => y.CumulativeSavings).ToArray();
+        await JS.InvokeVoidAsync("renderCumulativeSavingsChart", "savingsAccumulationChart", years, cumulativeSavings, systemCost);
+        
+        // Monthly savings chart
+        var monthLabels = monthlySavingsData.Select(m => m.Date.ToString("MMM yyyy")).ToArray();
+        var monthlySavings = monthlySavingsData.Select(m => m.Savings).ToArray();
+        var monthlyImports = monthlySavingsData.Select(m => m.ImportCosts).ToArray();
+        await JS.InvokeVoidAsync("renderMonthlySavingsChart", "monthlySavingsChart", monthLabels, monthlySavings, monthlyImports);
+        
+        // Cost comparison chart
+        await JS.InvokeVoidAsync("renderCostComparisonChart", "costComparisonChart", costWithoutSolar, costWithSolar, totalSavings);
+    }
+
+    private string GetRoiColor(double progress)
+    {
+        if (progress >= 100) return "#198754"; // Green - fully paid back
+        if (progress >= 75) return "#28a745";
+        if (progress >= 50) return "#ffc107";  // Yellow
+        if (progress >= 25) return "#fd7e14";  // Orange
+        return "#dc3545"; // Red
+    }
+
+    private class YearlySavingsData
+    {
+        public int Year { get; set; }
+        public double ProductionValue { get; set; }
+        public double ExportIncome { get; set; }
+        public double GridCostsSaved { get; set; }
+        public double TotalSavings { get; set; }
+        public double CumulativeSavings { get; set; }
+        public double RoiProgress { get; set; }
+    }
+
+    private class MonthlySavingsData
+    {
+        public int Year { get; set; }
+        public int Month { get; set; }
+        public DateTime Date { get; set; }
+        public double Savings { get; set; }
+        public double ImportCosts { get; set; }
+        public double ExportIncome { get; set; }
+    }
+}

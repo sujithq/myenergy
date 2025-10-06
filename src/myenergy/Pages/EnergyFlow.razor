@@ -1,0 +1,489 @@
+@page "/energy-flow"
+@using myenergy.Services
+@using myenergy.Models
+@inject EnergyDataService DataService
+@inject IJSRuntime JS
+
+<PageTitle>Energy Flow - myenergy</PageTitle>
+
+<div class="container-fluid">
+    <h1 class="mb-4">
+        <i class="bi bi-diagram-3-fill"></i> Energy Flow Analysis
+    </h1>
+
+    @if (isLoading)
+    {
+        <div class="text-center my-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- Period Selection -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <label class="form-label fw-bold">Time Period</label>
+                <select class="form-select" @bind="selectedPeriod" @bind:after="UpdateVisualization">
+                    <option value="total">All Time</option>
+                    @foreach (var year in availableYears.OrderByDescending(y => y))
+                    {
+                        <option value="@year">@year</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-bold">View Type</label>
+                <select class="form-select" @bind="viewType" @bind:after="UpdateVisualization">
+                    <option value="sankey">Energy Flow (Sankey)</option>
+                    <option value="balance">Import/Export Balance</option>
+                    <option value="daily">Daily Flow Pattern</option>
+                </select>
+            </div>
+        </div>
+
+        @if (viewType == "sankey")
+        {
+            <!-- Energy Flow Visualization (Sankey-style) -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Energy Flow Diagram</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="energy-flow-container">
+                                <!-- Solar Production -->
+                                <div class="flow-stage">
+                                    <div class="flow-box bg-success text-white">
+                                        <h6>Solar Production</h6>
+                                        <h3>@totalProduction.ToString("N0") kWh</h3>
+                                        <small>100%</small>
+                                    </div>
+                                </div>
+
+                                <!-- Flow arrows and splits -->
+                                <div class="flow-arrows">
+                                    <div class="arrow-branch">
+                                        <div class="arrow-line" style="height: @selfConsumptionPercent%;">
+                                            <span class="arrow-label">@selfConsumption.ToString("N0") kWh</span>
+                                        </div>
+                                    </div>
+                                    <div class="arrow-branch">
+                                        <div class="arrow-line export-arrow" style="height: @exportPercent%;">
+                                            <span class="arrow-label">@totalExport.ToString("N0") kWh</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Self-Consumption & Export -->
+                                <div class="flow-stage">
+                                    <div class="flow-box bg-warning text-dark mb-3">
+                                        <h6>Self-Consumption</h6>
+                                        <h3>@selfConsumption.ToString("N0") kWh</h3>
+                                        <small>@selfConsumptionPercent.ToString("N1")%</small>
+                                    </div>
+                                    <div class="flow-box bg-info text-white">
+                                        <h6>Exported to Grid</h6>
+                                        <h3>@totalExport.ToString("N0") kWh</h3>
+                                        <small>@exportPercent.ToString("N1")%</small>
+                                    </div>
+                                </div>
+
+                                <!-- Import from Grid -->
+                                <div class="flow-arrows">
+                                    <div class="arrow-branch import-arrow">
+                                        <div class="arrow-line" style="height: 100%;">
+                                            <span class="arrow-label">@totalImport.ToString("N0") kWh</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Total Consumption -->
+                                <div class="flow-stage">
+                                    <div class="flow-box bg-danger text-white">
+                                        <h6>Total Consumption</h6>
+                                        <h3>@totalConsumption.ToString("N0") kWh</h3>
+                                        <small>Self: @autarkyPercent.ToString("N1")%</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Summary Stats -->
+                            <div class="row mt-4">
+                                <div class="col-md-3">
+                                    <div class="text-center p-3 bg-light rounded">
+                                        <h6 class="text-muted mb-2">Autarky Rate</h6>
+                                        <h4 class="mb-0">@autarkyPercent.ToString("N1")%</h4>
+                                        <small>Energy independence</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="text-center p-3 bg-light rounded">
+                                        <h6 class="text-muted mb-2">Self-Consumption</h6>
+                                        <h4 class="mb-0">@selfConsumptionRate.ToString("N1")%</h4>
+                                        <small>Solar usage rate</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="text-center p-3 bg-light rounded">
+                                        <h6 class="text-muted mb-2">Grid Dependency</h6>
+                                        <h4 class="mb-0">@gridDependency.ToString("N1")%</h4>
+                                        <small>Import rate</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="text-center p-3 bg-light rounded">
+                                        <h6 class="text-muted mb-2">Energy Balance</h6>
+                                        <h4 class="mb-0 @(energyBalance >= 0 ? "text-success" : "text-danger")">
+                                            @(energyBalance >= 0 ? "+" : "")@energyBalance.ToString("N0") kWh
+                                        </h4>
+                                        <small>Production - Consumption</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (viewType == "balance")
+        {
+            <!-- Import/Export Balance Chart -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="mb-0">Monthly Import vs Export Balance</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="balanceChart" style="max-height: 400px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Balance Table -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-secondary text-white">
+                            <h5 class="mb-0">Monthly Balance Details</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Month</th>
+                                            <th class="text-end">Import</th>
+                                            <th class="text-end">Export</th>
+                                            <th class="text-end">Net Balance</th>
+                                            <th class="text-end">Autarky</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var month in monthlyBalanceData.OrderByDescending(m => m.Date))
+                                        {
+                                            <tr>
+                                                <td><strong>@month.Date.ToString("MMM yyyy")</strong></td>
+                                                <td class="text-end text-info">@month.Import.ToString("N1") kWh</td>
+                                                <td class="text-end text-warning">@month.Export.ToString("N1") kWh</td>
+                                                <td class="text-end @(month.NetBalance >= 0 ? "text-success" : "text-danger")">
+                                                    @(month.NetBalance >= 0 ? "+" : "")@month.NetBalance.ToString("N1") kWh
+                                                </td>
+                                                <td class="text-end">
+                                                    <span class="badge" style="background-color: @GetAutarkyColor(month.Autarky)">
+                                                        @month.Autarky.ToString("N1")%
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (viewType == "daily")
+        {
+            <!-- Daily Flow Pattern -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-warning text-dark">
+                            <h5 class="mb-0">Average Daily Energy Flow Pattern</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="dailyFlowChart" style="max-height: 400px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stacked Energy Flow Chart -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0">Energy Source Distribution</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="energySourceChart" style="max-height: 300px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<style>
+.energy-flow-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 2rem;
+    min-height: 400px;
+}
+
+.flow-stage {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    z-index: 1;
+}
+
+.flow-box {
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    min-width: 200px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.flow-box h6 {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.flow-box h3 {
+    margin: 0.5rem 0;
+    font-weight: bold;
+}
+
+.flow-arrows {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    position: relative;
+}
+
+.arrow-branch {
+    position: relative;
+    width: 100px;
+}
+
+.arrow-line {
+    background: linear-gradient(to right, #ffc107, #ffc107);
+    border-radius: 4px;
+    position: relative;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.arrow-line.export-arrow {
+    background: linear-gradient(to right, #0dcaf0, #0dcaf0);
+}
+
+.arrow-line.import-arrow {
+    background: linear-gradient(to right, #0d6efd, #0d6efd);
+}
+
+.arrow-line::after {
+    content: '▶';
+    position: absolute;
+    right: -10px;
+    font-size: 1.5rem;
+    color: inherit;
+}
+
+.arrow-label {
+    color: white;
+    font-weight: bold;
+    font-size: 0.85rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+@@media (max-width: 768px) {
+    .energy-flow-container {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .arrow-line {
+        width: 60px;
+        transform: rotate(90deg);
+    }
+}
+</style>
+
+@code {
+    private bool isLoading = true;
+    private string selectedPeriod = "total";
+    private string viewType = "sankey";
+    private List<int> availableYears = new();
+
+    // Sankey data
+    private double totalProduction;
+    private double totalConsumption;
+    private double totalImport;
+    private double totalExport;
+    private double selfConsumption;
+    private double selfConsumptionPercent;
+    private double exportPercent;
+    private double autarkyPercent;
+    private double selfConsumptionRate;
+    private double gridDependency;
+    private double energyBalance;
+
+    // Balance data
+    private List<MonthlyBalanceData> monthlyBalanceData = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await DataService.LoadDataAsync();
+        availableYears = DataService.GetAvailableYears();
+        CalculateFlowData();
+        isLoading = false;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await UpdateVisualization();
+        }
+    }
+
+    private void CalculateFlowData()
+    {
+        var data = selectedPeriod == "total" 
+            ? DataService.GetDailyData()
+            : DataService.GetDailyDataForYear(int.Parse(selectedPeriod));
+
+        if (!data.Any()) return;
+
+        totalProduction = data.Sum(d => d.Production);
+        totalConsumption = data.Sum(d => d.Consumption);
+        totalImport = data.Sum(d => d.Import);
+        totalExport = data.Sum(d => d.Export);
+        
+        selfConsumption = totalProduction - totalExport;
+        selfConsumptionPercent = totalProduction > 0 ? (selfConsumption / totalProduction * 100) : 0;
+        exportPercent = totalProduction > 0 ? (totalExport / totalProduction * 100) : 0;
+        
+        autarkyPercent = totalConsumption > 0 ? ((totalConsumption - totalImport) / totalConsumption * 100) : 0;
+        selfConsumptionRate = totalProduction > 0 ? (selfConsumption / totalProduction * 100) : 0;
+        gridDependency = totalConsumption > 0 ? (totalImport / totalConsumption * 100) : 0;
+        energyBalance = totalProduction - totalConsumption;
+
+        // Calculate monthly balance data
+        monthlyBalanceData = data
+            .GroupBy(d => new { d.Date.Year, d.Date.Month })
+            .Select(g => new MonthlyBalanceData
+            {
+                Date = new DateTime(g.Key.Year, g.Key.Month, 1),
+                Import = g.Sum(d => d.Import),
+                Export = g.Sum(d => d.Export),
+                Production = g.Sum(d => d.Production),
+                Consumption = g.Sum(d => d.Consumption),
+                NetBalance = g.Sum(d => d.Export - d.Import),
+                Autarky = g.Sum(d => d.Consumption) > 0 
+                    ? ((g.Sum(d => d.Consumption) - g.Sum(d => d.Import)) / g.Sum(d => d.Consumption) * 100) 
+                    : 0
+            })
+            .OrderBy(m => m.Date)
+            .ToList();
+    }
+
+    private async Task UpdateVisualization()
+    {
+        CalculateFlowData();
+        await Task.Delay(100);
+
+        if (viewType == "balance")
+        {
+            await RenderBalanceChart();
+        }
+        else if (viewType == "daily")
+        {
+            await RenderDailyFlowChart();
+            await RenderEnergySourceChart();
+        }
+
+        StateHasChanged();
+    }
+
+    private async Task RenderBalanceChart()
+    {
+        var labels = monthlyBalanceData.Select(m => m.Date.ToString("MMM yyyy")).ToArray();
+        var imports = monthlyBalanceData.Select(m => -m.Import).ToArray(); // Negative for display
+        var exports = monthlyBalanceData.Select(m => m.Export).ToArray();
+        
+        await JS.InvokeVoidAsync("renderBalanceChart", "balanceChart", labels, imports, exports);
+    }
+
+    private async Task RenderDailyFlowChart()
+    {
+        // Calculate average daily pattern across all data
+        var data = selectedPeriod == "total" 
+            ? DataService.GetDailyData()
+            : DataService.GetDailyDataForYear(int.Parse(selectedPeriod));
+
+        if (!data.Any()) return;
+
+        var avgProduction = data.Average(d => d.Production);
+        var avgConsumption = data.Average(d => d.Consumption);
+        var avgImport = data.Average(d => d.Import);
+        var avgExport = data.Average(d => d.Export);
+
+        await JS.InvokeVoidAsync("renderDailyFlowChart", "dailyFlowChart", 
+            avgProduction, avgConsumption, avgImport, avgExport);
+    }
+
+    private async Task RenderEnergySourceChart()
+    {
+        var selfConsumptionValue = selfConsumption;
+        var importValue = totalImport;
+        
+        await JS.InvokeVoidAsync("renderEnergySourceChart", "energySourceChart", 
+            selfConsumptionValue, importValue);
+    }
+
+    private string GetAutarkyColor(double autarky)
+    {
+        if (autarky >= 80) return "#198754";
+        if (autarky >= 60) return "#28a745";
+        if (autarky >= 40) return "#ffc107";
+        if (autarky >= 20) return "#fd7e14";
+        return "#dc3545";
+    }
+
+    private class MonthlyBalanceData
+    {
+        public DateTime Date { get; set; }
+        public double Import { get; set; }
+        public double Export { get; set; }
+        public double Production { get; set; }
+        public double Consumption { get; set; }
+        public double NetBalance { get; set; }
+        public double Autarky { get; set; }
+    }
+}
