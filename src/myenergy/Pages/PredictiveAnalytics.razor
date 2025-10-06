@@ -1,0 +1,488 @@
+@page "/predictive-analytics"
+@using myenergy.Services
+@using myenergy.Models
+@inject EnergyDataService DataService
+@inject IJSRuntime JS
+
+<PageTitle>Predictive Analytics - myenergy</PageTitle>
+
+<div class="container-fluid">
+    <h1 class="mb-4">
+        <i class="bi bi-graph-up-arrow"></i> Predictive Analytics & Forecasting
+    </h1>
+
+    @if (isLoading)
+    {
+        <div class="text-center my-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- Forecast Type Selection -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <label class="form-label fw-bold">Forecast Type</label>
+                <select class="form-select" @bind="forecastType" @bind:after="UpdateForecasts">
+                    <option value="daily">Next 7 Days</option>
+                    <option value="monthly">Next 12 Months</option>
+                    <option value="yearly">Next Year Projection</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-bold">Prediction Model</label>
+                <select class="form-select" @bind="predictionModel" @bind:after="UpdateForecasts">
+                    <option value="historical">Historical Average</option>
+                    <option value="trend">Trend Analysis</option>
+                    <option value="seasonal">Seasonal Pattern</option>
+                </select>
+            </div>
+        </div>
+
+        @if (forecastType == "daily")
+        {
+            <!-- Next 7 Days Forecast -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">7-Day Production Forecast</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="dailyForecastChart" style="max-height: 400px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Daily Forecast Cards -->
+            <div class="row">
+                @foreach (var forecast in dailyForecasts.Take(7))
+                {
+                    <div class="col-md-6 col-lg-3 mb-3">
+                        <div class="card h-100">
+                            <div class="card-header @GetForecastHeaderClass(forecast.Date)">
+                                <h6 class="mb-0">
+                                    @forecast.Date.ToString("ddd, MMM dd")
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-2">
+                                    <small class="text-muted">Predicted Production</small>
+                                    <h4 class="text-success mb-0">@forecast.PredictedProduction.ToString("N1") kWh</h4>
+                                </div>
+                                <div class="mb-2">
+                                    <small class="text-muted">Confidence Range</small>
+                                    <div class="text-muted small">
+                                        @forecast.LowerBound.ToString("N1") - @forecast.UpperBound.ToString("N1") kWh
+                                    </div>
+                                </div>
+                                <div>
+                                    <small class="text-muted">Confidence</small>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-info" style="width: @forecast.Confidence%"></div>
+                                    </div>
+                                    <small>@forecast.Confidence.ToString("N0")%</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else if (forecastType == "monthly")
+        {
+            <!-- Next 12 Months Forecast -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0">12-Month Production Projection</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="monthlyForecastChart" style="max-height: 400px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monthly Projections Table -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="mb-0">Monthly Projection Details</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Month</th>
+                                            <th class="text-end">Predicted Production</th>
+                                            <th class="text-end">Expected Range</th>
+                                            <th class="text-end">vs Historical Avg</th>
+                                            <th class="text-end">Confidence</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var forecast in monthlyForecasts.Take(12))
+                                        {
+                                            <tr>
+                                                <td><strong>@forecast.Date.ToString("MMM yyyy")</strong></td>
+                                                <td class="text-end text-success">@forecast.PredictedProduction.ToString("N0") kWh</td>
+                                                <td class="text-end text-muted">
+                                                    @forecast.LowerBound.ToString("N0") - @forecast.UpperBound.ToString("N0") kWh
+                                                </td>
+                                                <td class="text-end">
+                                                    <span class="@(forecast.VsHistorical >= 0 ? "text-success" : "text-danger")">
+                                                        @(forecast.VsHistorical >= 0 ? "+" : "")@forecast.VsHistorical.ToString("N1")%
+                                                    </span>
+                                                </td>
+                                                <td class="text-end">
+                                                    <span class="badge @GetConfidenceBadge(forecast.Confidence)">
+                                                        @forecast.Confidence.ToString("N0")%
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (forecastType == "yearly")
+        {
+            <!-- Yearly Projection -->
+            <div class="row mb-4">
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 border-success">
+                        <div class="card-body text-center">
+                            <h6 class="text-muted mb-2">Next Year Projection</h6>
+                            <h2 class="text-success mb-1">@yearlyForecast.PredictedProduction.ToString("N0") kWh</h2>
+                            <small class="text-muted">Expected total production</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 border-info">
+                        <div class="card-body text-center">
+                            <h6 class="text-muted mb-2">Growth Projection</h6>
+                            <h2 class="@(yearlyForecast.VsHistorical >= 0 ? "text-success" : "text-danger") mb-1">
+                                @(yearlyForecast.VsHistorical >= 0 ? "+" : "")@yearlyForecast.VsHistorical.ToString("N1")%
+                            </h2>
+                            <small class="text-muted">vs previous year avg</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 border-warning">
+                        <div class="card-body text-center">
+                            <h6 class="text-muted mb-2">Forecast Confidence</h6>
+                            <h2 class="text-warning mb-1">@yearlyForecast.Confidence.ToString("N0")%</h2>
+                            <small class="text-muted">Prediction accuracy</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-warning text-dark">
+                            <h5 class="mb-0">Year Projection Trends</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="yearlyTrendChart" style="max-height: 400px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- Insights & Trends -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="mb-0"><i class="bi bi-lightbulb-fill"></i> Predictive Insights</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="mb-0">
+                            @foreach (var insight in GetInsights())
+                            {
+                                <li>@insight</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private bool isLoading = true;
+    private string forecastType = "daily";
+    private string predictionModel = "seasonal";
+    
+    private List<DailyForecast> dailyForecasts = new();
+    private List<MonthlyForecast> monthlyForecasts = new();
+    private YearlyForecast yearlyForecast = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await DataService.LoadDataAsync();
+        GenerateForecasts();
+        isLoading = false;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await UpdateForecasts();
+        }
+    }
+
+    private void GenerateForecasts()
+    {
+        var historicalData = DataService.GetDailyData();
+        if (!historicalData.Any()) return;
+
+        var today = DateTime.Today;
+
+        // Generate daily forecasts (7 days)
+        dailyForecasts = Enumerable.Range(1, 7).Select(i => {
+            var date = today.AddDays(i);
+            var historicalSameDayOfWeek = historicalData
+                .Where(d => d.Date.DayOfWeek == date.DayOfWeek && d.Date.Month == date.Month)
+                .ToList();
+            
+            var avgProduction = historicalSameDayOfWeek.Any() 
+                ? historicalSameDayOfWeek.Average(d => d.Production)
+                : historicalData.Average(d => d.Production);
+            
+            var stdDev = historicalSameDayOfWeek.Any() && historicalSameDayOfWeek.Count > 1
+                ? Math.Sqrt(historicalSameDayOfWeek.Average(d => Math.Pow(d.Production - avgProduction, 2)))
+                : avgProduction * 0.2;
+
+            return new DailyForecast
+            {
+                Date = date,
+                PredictedProduction = avgProduction,
+                LowerBound = Math.Max(0, avgProduction - stdDev * 1.5),
+                UpperBound = avgProduction + stdDev * 1.5,
+                Confidence = 85 - (i * 5) // Decreasing confidence
+            };
+        }).ToList();
+
+        // Generate monthly forecasts (12 months)
+        monthlyForecasts = Enumerable.Range(1, 12).Select(i => {
+            var date = today.AddMonths(i);
+            var historicalSameMonth = historicalData
+                .Where(d => d.Date.Month == date.Month)
+                .ToList();
+            
+            var avgProduction = historicalSameMonth.Any()
+                ? historicalSameMonth.GroupBy(d => new { d.Date.Year, d.Date.Month })
+                    .Average(g => g.Sum(d => d.Production))
+                : historicalData.GroupBy(d => new { d.Date.Year, d.Date.Month })
+                    .Average(g => g.Sum(d => d.Production));
+            
+            var monthlyAvg = historicalData
+                .GroupBy(d => new { d.Date.Year, d.Date.Month })
+                .Average(g => g.Sum(d => d.Production));
+            
+            var variance = historicalSameMonth.Any()
+                ? historicalSameMonth.GroupBy(d => new { d.Date.Year, d.Date.Month })
+                    .Select(g => g.Sum(d => d.Production))
+                    .Average(p => Math.Pow(p - avgProduction, 2))
+                : avgProduction * avgProduction * 0.1;
+            
+            var stdDev = Math.Sqrt(variance);
+            var vsHistorical = monthlyAvg > 0 ? ((avgProduction - monthlyAvg) / monthlyAvg * 100) : 0;
+
+            return new MonthlyForecast
+            {
+                Date = new DateTime(date.Year, date.Month, 1),
+                PredictedProduction = avgProduction,
+                LowerBound = Math.Max(0, avgProduction - stdDev),
+                UpperBound = avgProduction + stdDev,
+                VsHistorical = vsHistorical,
+                Confidence = 90 - (i * 3)
+            };
+        }).ToList();
+
+        // Generate yearly forecast
+        var yearlyHistorical = historicalData
+            .GroupBy(d => d.Date.Year)
+            .Select(g => g.Sum(d => d.Production))
+            .ToList();
+        
+        var yearlyAvg = yearlyHistorical.Any() ? yearlyHistorical.Average() : 0;
+        var yearlyTrend = yearlyHistorical.Count > 1
+            ? (yearlyHistorical.Last() - yearlyHistorical.First()) / yearlyHistorical.Count
+            : 0;
+        
+        var projectedYearly = yearlyAvg + yearlyTrend;
+        var vsYearlyAvg = yearlyAvg > 0 ? ((projectedYearly - yearlyAvg) / yearlyAvg * 100) : 0;
+
+        yearlyForecast = new YearlyForecast
+        {
+            Year = today.Year + 1,
+            PredictedProduction = projectedYearly,
+            LowerBound = Math.Max(0, projectedYearly * 0.9),
+            UpperBound = projectedYearly * 1.1,
+            VsHistorical = vsYearlyAvg,
+            Confidence = 75
+        };
+    }
+
+    private async Task UpdateForecasts()
+    {
+        GenerateForecasts();
+        await Task.Delay(100);
+
+        if (forecastType == "daily")
+        {
+            await RenderDailyForecast();
+        }
+        else if (forecastType == "monthly")
+        {
+            await RenderMonthlyForecast();
+        }
+        else if (forecastType == "yearly")
+        {
+            await RenderYearlyTrend();
+        }
+
+        StateHasChanged();
+    }
+
+    private async Task RenderDailyForecast()
+    {
+        var labels = dailyForecasts.Select(f => f.Date.ToString("ddd MMM dd")).ToArray();
+        var predictions = dailyForecasts.Select(f => f.PredictedProduction).ToArray();
+        var lowerBounds = dailyForecasts.Select(f => f.LowerBound).ToArray();
+        var upperBounds = dailyForecasts.Select(f => f.UpperBound).ToArray();
+        
+        await JS.InvokeVoidAsync("renderForecastChart", "dailyForecastChart", labels, predictions, lowerBounds, upperBounds);
+    }
+
+    private async Task RenderMonthlyForecast()
+    {
+        var labels = monthlyForecasts.Select(f => f.Date.ToString("MMM yyyy")).ToArray();
+        var predictions = monthlyForecasts.Select(f => f.PredictedProduction).ToArray();
+        var lowerBounds = monthlyForecasts.Select(f => f.LowerBound).ToArray();
+        var upperBounds = monthlyForecasts.Select(f => f.UpperBound).ToArray();
+        
+        await JS.InvokeVoidAsync("renderForecastChart", "monthlyForecastChart", labels, predictions, lowerBounds, upperBounds);
+    }
+
+    private async Task RenderYearlyTrend()
+    {
+        var historicalData = DataService.GetDailyData();
+        var years = historicalData
+            .GroupBy(d => d.Date.Year)
+            .OrderBy(g => g.Key)
+            .Select(g => g.Key.ToString())
+            .ToList();
+        
+        var productions = historicalData
+            .GroupBy(d => d.Date.Year)
+            .OrderBy(g => g.Key)
+            .Select(g => g.Sum(d => d.Production))
+            .ToList();
+        
+        years.Add(yearlyForecast.Year.ToString());
+        productions.Add(yearlyForecast.PredictedProduction);
+        
+        await JS.InvokeVoidAsync("renderYearlyTrendForecast", "yearlyTrendChart", 
+            years.ToArray(), productions.ToArray(), historicalData.GroupBy(d => d.Date.Year).Count());
+    }
+
+    private List<string> GetInsights()
+    {
+        var insights = new List<string>();
+        
+        if (forecastType == "daily")
+        {
+            var avgPrediction = dailyForecasts.Average(f => f.PredictedProduction);
+            insights.Add($"Next 7 days average predicted production: {avgPrediction:N1} kWh/day");
+            
+            var bestDay = dailyForecasts.OrderByDescending(f => f.PredictedProduction).First();
+            insights.Add($"Best expected production on {bestDay.Date:dddd, MMM dd} with {bestDay.PredictedProduction:N1} kWh");
+        }
+        else if (forecastType == "monthly")
+        {
+            var totalProjection = monthlyForecasts.Sum(f => f.PredictedProduction);
+            insights.Add($"Next 12 months total projection: {totalProjection:N0} kWh");
+            
+            var bestMonth = monthlyForecasts.OrderByDescending(f => f.PredictedProduction).First();
+            insights.Add($"Peak production expected in {bestMonth.Date:MMMM yyyy} with {bestMonth.PredictedProduction:N0} kWh");
+            
+            var improvingMonths = monthlyForecasts.Count(f => f.VsHistorical > 0);
+            insights.Add($"{improvingMonths} out of 12 months projected to exceed historical averages");
+        }
+        else if (forecastType == "yearly")
+        {
+            insights.Add($"Next year projection: {yearlyForecast.PredictedProduction:N0} kWh");
+            
+            if (yearlyForecast.VsHistorical > 0)
+                insights.Add($"Expected growth of {yearlyForecast.VsHistorical:N1}% compared to historical average");
+            else
+                insights.Add($"Projected decline of {Math.Abs(yearlyForecast.VsHistorical):N1}% compared to historical average");
+        }
+        
+        insights.Add($"Forecast confidence: {(forecastType == "daily" ? dailyForecasts.Average(f => f.Confidence) : forecastType == "monthly" ? monthlyForecasts.Average(f => f.Confidence) : yearlyForecast.Confidence):N0}% based on {predictionModel} model");
+        
+        return insights;
+    }
+
+    private string GetForecastHeaderClass(DateTime date)
+    {
+        return date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday
+            ? "bg-success text-white"
+            : "bg-primary text-white";
+    }
+
+    private string GetConfidenceBadge(double confidence)
+    {
+        return confidence >= 80 ? "bg-success" : confidence >= 60 ? "bg-info" : "bg-warning";
+    }
+
+    private class DailyForecast
+    {
+        public DateTime Date { get; set; }
+        public double PredictedProduction { get; set; }
+        public double LowerBound { get; set; }
+        public double UpperBound { get; set; }
+        public double Confidence { get; set; }
+    }
+
+    private class MonthlyForecast
+    {
+        public DateTime Date { get; set; }
+        public double PredictedProduction { get; set; }
+        public double LowerBound { get; set; }
+        public double UpperBound { get; set; }
+        public double VsHistorical { get; set; }
+        public double Confidence { get; set; }
+    }
+
+    private class YearlyForecast
+    {
+        public int Year { get; set; }
+        public double PredictedProduction { get; set; }
+        public double LowerBound { get; set; }
+        public double UpperBound { get; set; }
+        public double VsHistorical { get; set; }
+        public double Confidence { get; set; }
+    }
+}

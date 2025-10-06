@@ -1,0 +1,622 @@
+@page "/efficiency-metrics"
+@using myenergy.Services
+@using myenergy.Models
+@inject EnergyDataService DataService
+@inject IJSRuntime JS
+
+<PageTitle>Efficiency Metrics - myenergy</PageTitle>
+
+<div class="container-fluid">
+    <h1 class="mb-4">
+        <i class="bi bi-speedometer2"></i> System Efficiency Metrics
+    </h1>
+
+    @if (isLoading)
+    {
+        <div class="text-center my-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- System Configuration -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="mb-0"><i class="bi bi-gear-fill"></i> System Configuration</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">System Capacity</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" @bind="systemCapacityKwp" @bind:after="RecalculateMetrics" step="0.1" min="0" />
+                                    <span class="input-group-text">kWp</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Time Period</label>
+                                <select class="form-select" @bind="selectedPeriod" @bind:after="RecalculateMetrics">
+                                    <option value="all">All Time</option>
+                                    @foreach (var year in availableYears.OrderByDescending(y => y))
+                                    {
+                                        <option value="@year">@year</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Metric Type</label>
+                                <select class="form-select" @bind="metricType" @bind:after="UpdateVisualization">
+                                    <option value="capacity">Capacity Factor</option>
+                                    <option value="performance">Performance Ratio</option>
+                                    <option value="efficiency">Overall Efficiency</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">View</label>
+                                <select class="form-select" @bind="viewType" @bind:after="UpdateVisualization">
+                                    <option value="trend">Trend Over Time</option>
+                                    <option value="comparison">Period Comparison</option>
+                                    <option value="health">System Health</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Performance Indicators -->
+        <div class="row mb-4">
+            <div class="col-md-3 mb-3">
+                <div class="card h-100 border-success">
+                    <div class="card-body text-center">
+                        <h6 class="text-muted mb-2">Capacity Factor</h6>
+                        <h2 class="text-success mb-1">@capacityFactor.ToString("N1")%</h2>
+                        <small class="text-muted">Actual vs Theoretical</small>
+                        <div class="progress mt-2" style="height: 8px;">
+                            <div class="progress-bar bg-success" style="width: @capacityFactor%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card h-100 border-info">
+                    <div class="card-body text-center">
+                        <h6 class="text-muted mb-2">Performance Ratio</h6>
+                        <h2 class="text-info mb-1">@performanceRatio.ToString("N1")%</h2>
+                        <small class="text-muted">System efficiency</small>
+                        <div class="progress mt-2" style="height: 8px;">
+                            <div class="progress-bar bg-info" style="width: @performanceRatio%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card h-100 border-warning">
+                    <div class="card-body text-center">
+                        <h6 class="text-muted mb-2">Specific Yield</h6>
+                        <h2 class="text-warning mb-1">@specificYield.ToString("N0")</h2>
+                        <small class="text-muted">kWh/kWp/year</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card h-100 border-danger">
+                    <div class="card-body text-center">
+                        <h6 class="text-muted mb-2">System Health</h6>
+                        <h2 class="@GetHealthClass(systemHealth) mb-1">@systemHealth.ToString("N0")</h2>
+                        <small class="text-muted">Health Score</small>
+                        <div class="mt-2">
+                            <span class="badge @GetHealthBadgeClass(systemHealth)">@GetHealthStatus(systemHealth)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (viewType == "trend")
+        {
+            <!-- Efficiency Trend Chart -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">@GetMetricTitle() Trend Over Time</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="efficiencyTrendChart" style="max-height: 400px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monthly Details Table -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="mb-0">Monthly Performance Details</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Month</th>
+                                            <th class="text-end">Production</th>
+                                            <th class="text-end">Capacity Factor</th>
+                                            <th class="text-end">Performance Ratio</th>
+                                            <th class="text-end">Specific Yield</th>
+                                            <th class="text-end">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var month in monthlyMetrics.OrderByDescending(m => m.Date))
+                                        {
+                                            <tr>
+                                                <td><strong>@month.Date.ToString("MMM yyyy")</strong></td>
+                                                <td class="text-end">@month.Production.ToString("N0") kWh</td>
+                                                <td class="text-end">@month.CapacityFactor.ToString("N1")%</td>
+                                                <td class="text-end">@month.PerformanceRatio.ToString("N1")%</td>
+                                                <td class="text-end">@month.SpecificYield.ToString("N0") kWh/kWp</td>
+                                                <td class="text-end">
+                                                    <span class="badge @GetHealthBadgeClass(month.HealthScore)">
+                                                        @GetHealthStatus(month.HealthScore)
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (viewType == "comparison")
+        {
+            <!-- Period Comparison -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0">Seasonal Performance Comparison</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="seasonalComparisonChart" style="max-height: 400px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Yearly Comparison -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-warning text-dark">
+                            <h5 class="mb-0">Year-over-Year Performance</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Year</th>
+                                            <th class="text-end">Total Production</th>
+                                            <th class="text-end">Avg Capacity Factor</th>
+                                            <th class="text-end">Avg Performance</th>
+                                            <th class="text-end">Specific Yield</th>
+                                            <th class="text-end">vs Previous Year</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int i = 0; i < yearlyMetrics.Count; i++)
+                                        {
+                                            var year = yearlyMetrics[i];
+                                            var growth = i > 0 ? ((year.Production - yearlyMetrics[i-1].Production) / yearlyMetrics[i-1].Production * 100) : (double?)null;
+                                            
+                                            <tr>
+                                                <td><strong>@year.Year</strong></td>
+                                                <td class="text-end">@year.Production.ToString("N0") kWh</td>
+                                                <td class="text-end">@year.AvgCapacityFactor.ToString("N1")%</td>
+                                                <td class="text-end">@year.AvgPerformance.ToString("N1")%</td>
+                                                <td class="text-end">@year.SpecificYield.ToString("N0") kWh/kWp</td>
+                                                <td class="text-end">
+                                                    @if (growth.HasValue)
+                                                    {
+                                                        <span class="@(growth.Value >= 0 ? "text-success" : "text-danger")">
+                                                            @(growth.Value >= 0 ? "+" : "")@growth.Value.ToString("N1")%
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="text-muted">-</span>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (viewType == "health")
+        {
+            <!-- System Health Dashboard -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-header bg-danger text-white">
+                            <h5 class="mb-0">System Health Indicators</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Production Consistency</span>
+                                    <strong>@productionConsistency.ToString("N0")/100</strong>
+                                </div>
+                                <div class="progress" style="height: 20px;">
+                                    <div class="progress-bar @GetProgressBarClass(productionConsistency)" 
+                                         style="width: @productionConsistency%">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Performance Stability</span>
+                                    <strong>@performanceStability.ToString("N0")/100</strong>
+                                </div>
+                                <div class="progress" style="height: 20px;">
+                                    <div class="progress-bar @GetProgressBarClass(performanceStability)" 
+                                         style="width: @performanceStability%">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Efficiency Rating</span>
+                                    <strong>@efficiencyRating.ToString("N0")/100</strong>
+                                </div>
+                                <div class="progress" style="height: 20px;">
+                                    <div class="progress-bar @GetProgressBarClass(efficiencyRating)" 
+                                         style="width: @efficiencyRating%">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Health Score Distribution</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="healthScoreChart" style="max-height: 300px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendations -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="mb-0"><i class="bi bi-lightbulb-fill"></i> System Recommendations</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="mb-0">
+                                @foreach (var recommendation in GetRecommendations())
+                                {
+                                    <li>@recommendation</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+@code {
+    private bool isLoading = true;
+    private double systemCapacityKwp = 5.0; // Default 5 kWp system
+    private string selectedPeriod = "all";
+    private string metricType = "capacity";
+    private string viewType = "trend";
+    private List<int> availableYears = new();
+
+    // Calculated metrics
+    private double capacityFactor;
+    private double performanceRatio;
+    private double specificYield;
+    private double systemHealth;
+    private double productionConsistency;
+    private double performanceStability;
+    private double efficiencyRating;
+
+    private List<MonthlyMetric> monthlyMetrics = new();
+    private List<YearlyMetric> yearlyMetrics = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await DataService.LoadDataAsync();
+        availableYears = DataService.GetAvailableYears();
+        CalculateMetrics();
+        isLoading = false;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await UpdateVisualization();
+        }
+    }
+
+    private void RecalculateMetrics()
+    {
+        CalculateMetrics();
+        _ = UpdateVisualization();
+    }
+
+    private void CalculateMetrics()
+    {
+        var data = selectedPeriod == "all" 
+            ? DataService.GetDailyData()
+            : DataService.GetDailyDataForYear(int.Parse(selectedPeriod));
+
+        if (!data.Any() || systemCapacityKwp <= 0) return;
+
+        var totalProduction = data.Sum(d => d.Production);
+        var days = data.Count();
+        var years = days / 365.25;
+
+        // Capacity Factor: Actual production vs theoretical maximum
+        var theoreticalProduction = systemCapacityKwp * 24 * days; // kWp * 24h * days
+        capacityFactor = theoreticalProduction > 0 ? (totalProduction / theoreticalProduction * 100) : 0;
+
+        // Performance Ratio: Typical range 75-85% for healthy systems
+        // Using industry standard calculation: actual yield / reference yield
+        // Assuming reference irradiation of 1000 W/m² (1 kWh/m²/day peak sun hours * days)
+        var referencePeakSunHours = 4.0; // Average peak sun hours per day
+        var referenceYield = systemCapacityKwp * referencePeakSunHours * days;
+        performanceRatio = referenceYield > 0 ? (totalProduction / referenceYield * 100) : 0;
+
+        // Specific Yield: kWh per kWp per year
+        specificYield = years > 0 ? (totalProduction / systemCapacityKwp / years) : 0;
+
+        // System Health Score (0-100): composite score
+        var cfScore = Math.Min(capacityFactor / 20.0 * 100, 100); // 20% CF = 100 score
+        var prScore = Math.Min(performanceRatio / 0.85 * 100, 100); // 85% PR = 100 score
+        var syScore = Math.Min(specificYield / 1000.0 * 100, 100); // 1000 kWh/kWp/year = 100 score
+        systemHealth = (cfScore + prScore + syScore) / 3;
+
+        // Calculate health indicators
+        productionConsistency = CalculateProductionConsistency(data);
+        performanceStability = CalculatePerformanceStability(data);
+        efficiencyRating = (capacityFactor + performanceRatio) / 2;
+
+        // Calculate monthly metrics
+        monthlyMetrics = data
+            .GroupBy(d => new { d.Date.Year, d.Date.Month })
+            .Select(g => {
+                var monthProduction = g.Sum(d => d.Production);
+                var monthDays = g.Count();
+                var monthTheoretical = systemCapacityKwp * 24 * monthDays;
+                var monthReference = systemCapacityKwp * 4.0 * monthDays;
+                var monthYears = monthDays / 365.25;
+                
+                var cf = monthTheoretical > 0 ? (monthProduction / monthTheoretical * 100) : 0;
+                var pr = monthReference > 0 ? (monthProduction / monthReference * 100) : 0;
+                var sy = monthYears > 0 ? (monthProduction / systemCapacityKwp / monthYears) : 0;
+                
+                return new MonthlyMetric
+                {
+                    Date = new DateTime(g.Key.Year, g.Key.Month, 1),
+                    Production = monthProduction,
+                    CapacityFactor = cf,
+                    PerformanceRatio = pr,
+                    SpecificYield = sy,
+                    HealthScore = (Math.Min(cf / 20.0 * 100, 100) + Math.Min(pr / 0.85 * 100, 100)) / 2
+                };
+            })
+            .OrderBy(m => m.Date)
+            .ToList();
+
+        // Calculate yearly metrics
+        yearlyMetrics = data
+            .GroupBy(d => d.Date.Year)
+            .Select(g => {
+                var yearProduction = g.Sum(d => d.Production);
+                var avgCF = g.Average(d => {
+                    var theoretical = systemCapacityKwp * 24;
+                    return theoretical > 0 ? (d.Production / theoretical * 100) : 0;
+                });
+                var avgPerf = monthlyMetrics.Where(m => m.Date.Year == g.Key).Average(m => m.PerformanceRatio);
+                
+                return new YearlyMetric
+                {
+                    Year = g.Key,
+                    Production = yearProduction,
+                    AvgCapacityFactor = avgCF,
+                    AvgPerformance = avgPerf,
+                    SpecificYield = yearProduction / systemCapacityKwp
+                };
+            })
+            .OrderBy(y => y.Year)
+            .ToList();
+    }
+
+    private double CalculateProductionConsistency(List<DailySummary> data)
+    {
+        if (data.Count < 2) return 100;
+        
+        var avgProduction = data.Average(d => d.Production);
+        var variance = data.Average(d => Math.Pow(d.Production - avgProduction, 2));
+        var stdDev = Math.Sqrt(variance);
+        var coefficientOfVariation = avgProduction > 0 ? (stdDev / avgProduction) : 0;
+        
+        // Lower CV = higher consistency. Score 100 for CV < 0.5, decreasing linearly
+        return Math.Max(0, Math.Min(100, (1 - coefficientOfVariation) * 100));
+    }
+
+    private double CalculatePerformanceStability(List<DailySummary> data)
+    {
+        if (!monthlyMetrics.Any()) return 100;
+        
+        var avgPR = monthlyMetrics.Average(m => m.PerformanceRatio);
+        var variance = monthlyMetrics.Average(m => Math.Pow(m.PerformanceRatio - avgPR, 2));
+        var stdDev = Math.Sqrt(variance);
+        
+        // Lower std dev = higher stability. Score based on 5% threshold
+        return Math.Max(0, Math.Min(100, (1 - stdDev / 5.0) * 100));
+    }
+
+    private async Task UpdateVisualization()
+    {
+        await Task.Delay(100);
+
+        if (viewType == "trend")
+        {
+            await RenderEfficiencyTrend();
+        }
+        else if (viewType == "comparison")
+        {
+            await RenderSeasonalComparison();
+        }
+        else if (viewType == "health")
+        {
+            await RenderHealthScore();
+        }
+
+        StateHasChanged();
+    }
+
+    private async Task RenderEfficiencyTrend()
+    {
+        var labels = monthlyMetrics.Select(m => m.Date.ToString("MMM yyyy")).ToArray();
+        var values = metricType switch
+        {
+            "capacity" => monthlyMetrics.Select(m => m.CapacityFactor).ToArray(),
+            "performance" => monthlyMetrics.Select(m => m.PerformanceRatio).ToArray(),
+            _ => monthlyMetrics.Select(m => (m.CapacityFactor + m.PerformanceRatio) / 2).ToArray()
+        };
+        
+        await JS.InvokeVoidAsync("renderEfficiencyTrendChart", "efficiencyTrendChart", labels, values, GetMetricTitle());
+    }
+
+    private async Task RenderSeasonalComparison()
+    {
+        var seasons = new[] { "Winter", "Spring", "Summer", "Autumn" };
+        var seasonalData = monthlyMetrics
+            .GroupBy(m => GetSeason(m.Date.Month))
+            .ToDictionary(g => g.Key, g => new {
+                AvgCF = g.Average(m => m.CapacityFactor),
+                AvgPR = g.Average(m => m.PerformanceRatio)
+            });
+        
+        var cfValues = seasons.Select(s => seasonalData.ContainsKey(s) ? seasonalData[s].AvgCF : 0).ToArray();
+        var prValues = seasons.Select(s => seasonalData.ContainsKey(s) ? seasonalData[s].AvgPR : 0).ToArray();
+        
+        await JS.InvokeVoidAsync("renderSeasonalEfficiencyChart", "seasonalComparisonChart", seasons, cfValues, prValues);
+    }
+
+    private async Task RenderHealthScore()
+    {
+        var excellent = monthlyMetrics.Count(m => m.HealthScore >= 80);
+        var good = monthlyMetrics.Count(m => m.HealthScore >= 60 && m.HealthScore < 80);
+        var fair = monthlyMetrics.Count(m => m.HealthScore >= 40 && m.HealthScore < 60);
+        var poor = monthlyMetrics.Count(m => m.HealthScore < 40);
+        
+        await JS.InvokeVoidAsync("renderHealthScoreDistribution", "healthScoreChart", 
+            new[] { excellent, good, fair, poor });
+    }
+
+    private string GetMetricTitle() => metricType switch
+    {
+        "capacity" => "Capacity Factor",
+        "performance" => "Performance Ratio",
+        _ => "Overall Efficiency"
+    };
+
+    private string GetSeason(int month) => month switch
+    {
+        12 or 1 or 2 => "Winter",
+        3 or 4 or 5 => "Spring",
+        6 or 7 or 8 => "Summer",
+        9 or 10 or 11 => "Autumn",
+        _ => "Unknown"
+    };
+
+    private string GetHealthClass(double health) => health >= 80 ? "text-success" : 
+        health >= 60 ? "text-info" : health >= 40 ? "text-warning" : "text-danger";
+
+    private string GetHealthBadgeClass(double health) => health >= 80 ? "bg-success" : 
+        health >= 60 ? "bg-info" : health >= 40 ? "bg-warning" : "bg-danger";
+
+    private string GetHealthStatus(double health) => health >= 80 ? "Excellent" : 
+        health >= 60 ? "Good" : health >= 40 ? "Fair" : "Poor";
+
+    private string GetProgressBarClass(double value) => value >= 80 ? "bg-success" : 
+        value >= 60 ? "bg-info" : value >= 40 ? "bg-warning" : "bg-danger";
+
+    private List<string> GetRecommendations()
+    {
+        var recommendations = new List<string>();
+        
+        if (capacityFactor < 15)
+            recommendations.Add("Low capacity factor detected. Check for shading, panel orientation, or equipment issues.");
+        
+        if (performanceRatio < 75)
+            recommendations.Add("Performance ratio below industry standard (75-85%). Consider system inspection.");
+        
+        if (productionConsistency < 70)
+            recommendations.Add("High production variability detected. Investigate potential equipment issues or environmental factors.");
+        
+        if (specificYield < 800)
+            recommendations.Add("Specific yield is below typical range (900-1200 kWh/kWp/year). Review system specifications.");
+        
+        if (systemHealth >= 80)
+            recommendations.Add("System is performing excellently! Continue regular maintenance schedule.");
+        else if (systemHealth >= 60)
+            recommendations.Add("System is performing well. Monitor for any declining trends.");
+        
+        if (recommendations.Count == 0)
+            recommendations.Add("No specific issues detected. System is operating within normal parameters.");
+        
+        return recommendations;
+    }
+
+    private class MonthlyMetric
+    {
+        public DateTime Date { get; set; }
+        public double Production { get; set; }
+        public double CapacityFactor { get; set; }
+        public double PerformanceRatio { get; set; }
+        public double SpecificYield { get; set; }
+        public double HealthScore { get; set; }
+    }
+
+    private class YearlyMetric
+    {
+        public int Year { get; set; }
+        public double Production { get; set; }
+        public double AvgCapacityFactor { get; set; }
+        public double AvgPerformance { get; set; }
+        public double SpecificYield { get; set; }
+    }
+}

@@ -1,0 +1,416 @@
+@page "/rankings"
+@using myenergy.Services
+@using myenergy.Models
+@inject EnergyDataService DataService
+@inject IJSRuntime JS
+
+<PageTitle>Rankings & Achievements - myenergy</PageTitle>
+
+<div class="container-fluid">
+    <h1 class="mb-4">
+        <i class="bi bi-trophy-fill"></i> Rankings & Achievements
+    </h1>
+
+    @if (isLoading)
+    {
+        <div class="text-center my-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- Achievement Badges -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0"><i class="bi bi-award-fill"></i> Unlocked Achievements</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            @foreach (var achievement in achievements.Where(a => a.IsUnlocked))
+                            {
+                                <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
+                                    <div class="card h-100 border-success">
+                                        <div class="card-body text-center">
+                                            <div class="achievement-icon text-warning mb-2">
+                                                <i class="bi @achievement.Icon" style="font-size: 3rem;"></i>
+                                            </div>
+                                            <h6 class="mb-1">@achievement.Name</h6>
+                                            <small class="text-muted">@achievement.Description</small>
+                                            <div class="mt-2">
+                                                <span class="badge bg-success">Unlocked!</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        @if (!achievements.Any(a => a.IsUnlocked))
+                        {
+                            <p class="text-muted text-center mb-0">Keep producing solar energy to unlock achievements!</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Records -->
+        <div class="row mb-4">
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="bi bi-star-fill"></i> Top Production Days</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Rank</th>
+                                        <th>Date</th>
+                                        <th class="text-end">Production</th>
+                                        <th class="text-end">Percentile</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < Math.Min(10, topProductionDays.Count); i++)
+                                    {
+                                        var day = topProductionDays[i];
+                                        <tr>
+                                            <td>
+                                                @if (i == 0) { <i class="bi bi-trophy-fill text-warning"></i> }
+                                                else if (i == 1) { <i class="bi bi-trophy-fill text-secondary"></i> }
+                                                else if (i == 2) { <i class="bi bi-trophy-fill" style="color: #cd7f32;"></i> }
+                                                else { <span>@(i + 1)</span> }
+                                            </td>
+                                            <td>@day.Date.ToString("MMM dd, yyyy")</td>
+                                            <td class="text-end text-success fw-bold">@day.Production.ToString("N1") kWh</td>
+                                            <td class="text-end">
+                                                <span class="badge bg-success">@day.Percentile.ToString("N1")%</span>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="bi bi-lightning-fill"></i> Best Autarky Days</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Rank</th>
+                                        <th>Date</th>
+                                        <th class="text-end">Autarky</th>
+                                        <th class="text-end">Self-Consumption</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < Math.Min(10, topAutarkyDays.Count); i++)
+                                    {
+                                        var day = topAutarkyDays[i];
+                                        <tr>
+                                            <td>
+                                                @if (i == 0) { <i class="bi bi-trophy-fill text-warning"></i> }
+                                                else if (i == 1) { <i class="bi bi-trophy-fill text-secondary"></i> }
+                                                else if (i == 2) { <i class="bi bi-trophy-fill" style="color: #cd7f32;"></i> }
+                                                else { <span>@(i + 1)</span> }
+                                            </td>
+                                            <td>@day.Date.ToString("MMM dd, yyyy")</td>
+                                            <td class="text-end text-info fw-bold">@day.Autarky.ToString("N1")%</td>
+                                            <td class="text-end">@day.SelfConsumption.ToString("N1")%</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Distribution -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Performance Distribution & Percentiles</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="distributionChart" style="max-height: 400px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Percentile Analysis -->
+        <div class="row mb-4">
+            <div class="col-md-3 mb-3">
+                <div class="card h-100 border-warning">
+                    <div class="card-body text-center">
+                        <h6 class="text-muted mb-2">Top 10% Days</h6>
+                        <h2 class="text-warning mb-1">@percentileStats.Top10Days</h2>
+                        <small class="text-muted">Production &gt; @percentileStats.Top10Threshold.ToString("N1") kWh</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card h-100 border-success">
+                    <div class="card-body text-center">
+                        <h6 class="text-muted mb-2">Top 25% Days</h6>
+                        <h2 class="text-success mb-1">@percentileStats.Top25Days</h2>
+                        <small class="text-muted">Production &gt; @percentileStats.Top25Threshold.ToString("N1") kWh</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card h-100 border-info">
+                    <div class="card-body text-center">
+                        <h6 class="text-muted mb-2">Median Production</h6>
+                        <h2 class="text-info mb-1">@percentileStats.MedianProduction.ToString("N1") kWh</h2>
+                        <small class="text-muted">50th percentile</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card h-100 border-danger">
+                    <div class="card-body text-center">
+                        <h6 class="text-muted mb-2">Bottom 25% Days</h6>
+                        <h2 class="text-danger mb-1">@percentileStats.Bottom25Days</h2>
+                        <small class="text-muted">Production &lt; @percentileStats.Bottom25Threshold.ToString("N1") kWh</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Milestones -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="mb-0"><i class="bi bi-flag-fill"></i> Milestones & Records</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-3 mb-3">
+                                <div class="milestone-card text-center p-3 bg-light rounded">
+                                    <i class="bi bi-sun-fill text-warning" style="font-size: 2rem;"></i>
+                                    <h4 class="mt-2 mb-1">@totalProduction.ToString("N0") kWh</h4>
+                                    <small class="text-muted">Total Production</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 mb-3">
+                                <div class="milestone-card text-center p-3 bg-light rounded">
+                                    <i class="bi bi-calendar-check text-success" style="font-size: 2rem;"></i>
+                                    <h4 class="mt-2 mb-1">@totalDays</h4>
+                                    <small class="text-muted">Days Tracked</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 mb-3">
+                                <div class="milestone-card text-center p-3 bg-light rounded">
+                                    <i class="bi bi-award text-primary" style="font-size: 2rem;"></i>
+                                    <h4 class="mt-2 mb-1">@recordDays</h4>
+                                    <small class="text-muted">Record-Breaking Days</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 mb-3">
+                                <div class="milestone-card text-center p-3 bg-light rounded">
+                                    <i class="bi bi-graph-up text-info" style="font-size: 2rem;"></i>
+                                    <h4 class="mt-2 mb-1">@avgDailyProduction.ToString("N1") kWh</h4>
+                                    <small class="text-muted">Daily Average</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private bool isLoading = true;
+    
+    private List<Achievement> achievements = new();
+    private List<DayRanking> topProductionDays = new();
+    private List<DayRanking> topAutarkyDays = new();
+    private PercentileStats percentileStats = new();
+    
+    private double totalProduction;
+    private int totalDays;
+    private int recordDays;
+    private double avgDailyProduction;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await DataService.LoadDataAsync();
+        CalculateRankings();
+        isLoading = false;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await RenderDistribution();
+        }
+    }
+
+    private void CalculateRankings()
+    {
+        var dailyData = DataService.GetDailyData();
+        if (!dailyData.Any()) return;
+
+        totalProduction = dailyData.Sum(d => d.Production);
+        totalDays = dailyData.Count;
+        avgDailyProduction = dailyData.Average(d => d.Production);
+
+        // Top production days with percentile
+        topProductionDays = dailyData
+            .OrderByDescending(d => d.Production)
+            .Take(10)
+            .Select(d => new DayRanking
+            {
+                Date = d.Date,
+                Production = d.Production,
+                Autarky = d.Autarky,
+                SelfConsumption = d.Production > 0 ? ((d.Production - d.Export) / d.Production * 100) : 0,
+                Percentile = CalculatePercentile(dailyData, d.Production)
+            })
+            .ToList();
+
+        // Top autarky days
+        topAutarkyDays = dailyData
+            .Where(d => d.Consumption > 0)
+            .OrderByDescending(d => d.Autarky)
+            .Take(10)
+            .Select(d => new DayRanking
+            {
+                Date = d.Date,
+                Production = d.Production,
+                Autarky = d.Autarky,
+                SelfConsumption = d.Production > 0 ? ((d.Production - d.Export) / d.Production * 100) : 0,
+                Percentile = CalculatePercentile(dailyData, d.Production)
+            })
+            .ToList();
+
+        // Calculate percentile statistics
+        var sortedProductions = dailyData.OrderBy(d => d.Production).Select(d => d.Production).ToList();
+        percentileStats = new PercentileStats
+        {
+            Top10Threshold = GetPercentile(sortedProductions, 90),
+            Top10Days = dailyData.Count(d => d.Production >= GetPercentile(sortedProductions, 90)),
+            Top25Threshold = GetPercentile(sortedProductions, 75),
+            Top25Days = dailyData.Count(d => d.Production >= GetPercentile(sortedProductions, 75)),
+            MedianProduction = GetPercentile(sortedProductions, 50),
+            Bottom25Threshold = GetPercentile(sortedProductions, 25),
+            Bottom25Days = dailyData.Count(d => d.Production <= GetPercentile(sortedProductions, 25))
+        };
+
+        // Count record-breaking days (days that set a new production record)
+        recordDays = 0;
+        double currentRecord = 0;
+        foreach (var day in dailyData.OrderBy(d => d.Date))
+        {
+            if (day.Production > currentRecord)
+            {
+                recordDays++;
+                currentRecord = day.Production;
+            }
+        }
+
+        // Calculate achievements
+        achievements = new List<Achievement>
+        {
+            new Achievement { Name = "First kWh", Description = "Generated your first kilowatt-hour", Icon = "bi-lightning", IsUnlocked = totalProduction >= 1 },
+            new Achievement { Name = "Century Mark", Description = "100 kWh total production", Icon = "bi-100-circle", IsUnlocked = totalProduction >= 100 },
+            new Achievement { Name = "Kilowatt King", Description = "1,000 kWh total production", Icon = "bi-trophy", IsUnlocked = totalProduction >= 1000 },
+            new Achievement { Name = "Megawatt Master", Description = "10,000 kWh total production", Icon = "bi-trophy-fill", IsUnlocked = totalProduction >= 10000 },
+            new Achievement { Name = "Solar Superstar", Description = "100,000 kWh total production", Icon = "bi-star-fill", IsUnlocked = totalProduction >= 100000 },
+            new Achievement { Name = "Daily Double Digits", Description = "10+ kWh in a single day", Icon = "bi-brightness-high", IsUnlocked = topProductionDays.Any(d => d.Production >= 10) },
+            new Achievement { Name = "Power Producer", Description = "25+ kWh in a single day", Icon = "bi-brightness-high-fill", IsUnlocked = topProductionDays.Any(d => d.Production >= 25) },
+            new Achievement { Name = "Solar Champion", Description = "50+ kWh in a single day", Icon = "bi-sun", IsUnlocked = topProductionDays.Any(d => d.Production >= 50) },
+            new Achievement { Name = "Energy Independent", Description = "Achieved 100% autarky", Icon = "bi-battery-full", IsUnlocked = topAutarkyDays.Any(d => d.Autarky >= 100) },
+            new Achievement { Name = "Week Warrior", Description = "7 consecutive days tracked", Icon = "bi-calendar-week", IsUnlocked = totalDays >= 7 },
+            new Achievement { Name = "Monthly Monitor", Description = "30 consecutive days tracked", Icon = "bi-calendar-month", IsUnlocked = totalDays >= 30 },
+            new Achievement { Name = "Year Round", Description = "365 days tracked", Icon = "bi-calendar", IsUnlocked = totalDays >= 365 },
+            new Achievement { Name = "Consistency King", Description = "Top 25% for 30+ days", Icon = "bi-graph-up", IsUnlocked = percentileStats.Top25Days >= 30 },
+            new Achievement { Name = "Record Breaker", Description = "Set 10+ production records", Icon = "bi-award", IsUnlocked = recordDays >= 10 }
+        };
+    }
+
+    private double CalculatePercentile(List<DailySummary> data, double value)
+    {
+        var sorted = data.OrderBy(d => d.Production).ToList();
+        var index = sorted.FindIndex(d => d.Production >= value);
+        return index >= 0 ? ((double)index / sorted.Count * 100) : 0;
+    }
+
+    private double GetPercentile(List<double> sortedData, int percentile)
+    {
+        if (!sortedData.Any()) return 0;
+        
+        var index = (int)Math.Ceiling(sortedData.Count * percentile / 100.0) - 1;
+        index = Math.Max(0, Math.Min(sortedData.Count - 1, index));
+        return sortedData[index];
+    }
+
+    private async Task RenderDistribution()
+    {
+        var dailyData = DataService.GetDailyData();
+        if (!dailyData.Any()) return;
+
+        // Create histogram bins
+        var maxProduction = dailyData.Max(d => d.Production);
+        var binSize = maxProduction / 20; // 20 bins
+        var bins = Enumerable.Range(0, 20).Select(i => new
+        {
+            Label = $"{(i * binSize):N0}-{((i + 1) * binSize):N0}",
+            Count = dailyData.Count(d => d.Production >= i * binSize && d.Production < (i + 1) * binSize)
+        }).ToList();
+
+        var labels = bins.Select(b => b.Label).ToArray();
+        var counts = bins.Select(b => b.Count).ToArray();
+
+        await JS.InvokeVoidAsync("renderProductionDistribution", "distributionChart", labels, counts);
+    }
+
+    private class Achievement
+    {
+        public string Name { get; set; } = "";
+        public string Description { get; set; } = "";
+        public string Icon { get; set; } = "";
+        public bool IsUnlocked { get; set; }
+    }
+
+    private class DayRanking
+    {
+        public DateTime Date { get; set; }
+        public double Production { get; set; }
+        public double Autarky { get; set; }
+        public double SelfConsumption { get; set; }
+        public double Percentile { get; set; }
+    }
+
+    private class PercentileStats
+    {
+        public double Top10Threshold { get; set; }
+        public int Top10Days { get; set; }
+        public double Top25Threshold { get; set; }
+        public int Top25Days { get; set; }
+        public double MedianProduction { get; set; }
+        public double Bottom25Threshold { get; set; }
+        public int Bottom25Days { get; set; }
+    }
+}
