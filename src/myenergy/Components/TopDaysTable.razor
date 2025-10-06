@@ -1,0 +1,32 @@
+@using myenergy.Models
+
+<div class="table-responsive">
+    <table class="table table-hover table-sm">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Date</th>
+                <th class="text-end">Production</th>
+                <th class="text-end">Consumption</th>
+                <th class="text-end">Export</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var (day, index) in Data.Select((d, i) => (d, i + 1)))
+            {
+                <tr>
+                    <td>@index</td>
+                    <td>@day.Date.ToString("yyyy-MM-dd")</td>
+                    <td class="text-end text-success fw-bold">@day.Production.ToString("N2") kWh</td>
+                    <td class="text-end text-danger">@day.Consumption.ToString("N2") kWh</td>
+                    <td class="text-end text-warning">@day.Export.ToString("N2") kWh</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    [Parameter]
+    public List<DailySummary> Data { get; set; } = new();
+}

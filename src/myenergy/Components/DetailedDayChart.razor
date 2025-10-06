@@ -1,0 +1,351 @@
+@using myenergy.Models
+@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h5 class="card-title mb-0">⏱️ 15-Minute Interval Data - @DetailData.Date.ToString("dddd, MMMM dd, yyyy")</h5>
+    </div>
+    <div class="card-body">
+        <!-- Chart Controls -->
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="chartView" class="form-label">View:</label>
+                <select id="chartView" class="form-select form-select-sm" @bind="SelectedView" @bind:after="UpdateChart">
+                    <option value="@ChartView.Production">Solar Production</option>
+                    <option value="@ChartView.Consumption">Total Consumption</option>
+                    <option value="@ChartView.Grid">Grid Usage & Injection</option>
+                    <option value="@ChartView.All">All Metrics</option>
+                    <option value="@ChartView.Gas">Gas Usage</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="chartStyle" class="form-label">Style:</label>
+                <select id="chartStyle" class="form-select form-select-sm" @bind="ChartStyle" @bind:after="UpdateChart">
+                    <option value="line">Line Chart</option>
+                    <option value="bar">Bar Chart</option>
+                    <option value="area">Area Chart</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <div class="form-check mt-4">
+                    <input class="form-check-input" type="checkbox" id="showSunrise" @bind="ShowSunriseSunset" @bind:after="UpdateChart">
+                    <label class="form-check-label" for="showSunrise">
+                        Show Sunrise/Sunset
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart Container -->
+        <div class="chart-container" style="position: relative; height: 450px;">
+            <canvas id="@ChartCanvasId" style="max-height: 450px;"></canvas>
+        </div>
+
+        <!-- Summary Stats -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <h6 class="card-title">Daily Summary</h6>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <strong>Total Production:</strong><br/>
+                                <span class="text-success">@DetailData.TotalProduction.ToString("N2") kWh</span><br/>
+                                <small class="text-muted">Peak: @DetailData.PeakProduction.ToString("N2") kWh/15min</small>
+                            </div>
+                            <div class="col-md-3">
+                                <strong>Total Consumption:</strong><br/>
+                                <span class="text-danger">@DetailData.TotalConsumption.ToString("N2") kWh</span><br/>
+                                <small class="text-muted">Peak: @DetailData.PeakConsumption.ToString("N2") kWh/15min</small>
+                            </div>
+                            <div class="col-md-3">
+                                <strong>Grid Import:</strong><br/>
+                                <span class="text-info">@DetailData.TotalGridImport.ToString("N2") kWh</span><br/>
+                                <small class="text-muted">Injection: @DetailData.TotalInjection.ToString("N2") kWh</small>
+                            </div>
+                            <div class="col-md-3">
+                                <strong>Gas Usage:</strong><br/>
+                                <span class="text-danger">@DetailData.TotalGasUsage.ToString("N2") m³</span><br/>
+                                @if (DetailData.SunTimes != null)
+                                {
+                                    <small class="text-muted">☀️ @DetailData.SunTimes.R.ToString("HH:mm") - @DetailData.SunTimes.S.ToString("HH:mm")</small>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weather Info -->
+        @if (DetailData.Weather != null)
+        {
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <h6 class="card-title">Weather Conditions</h6>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <strong>Temperature:</strong><br/>
+                                    <span>Avg: @DetailData.Weather.tavg.ToString("N1")°C</span><br/>
+                                    <small class="text-muted">@DetailData.Weather.tmin.ToString("N1")°C - @DetailData.Weather.tmax.ToString("N1")°C</small>
+                                </div>
+                                <div class="col-md-2">
+                                    <strong>Precipitation:</strong><br/>
+                                    <span>@DetailData.Weather.prcp.ToString("N1") mm</span>
+                                </div>
+                                <div class="col-md-2">
+                                    <strong>Wind:</strong><br/>
+                                    <span>@DetailData.Weather.wspd.ToString("N1") km/h</span><br/>
+                                    <small class="text-muted">Gust: @DetailData.Weather.wpgt.ToString("N1") km/h</small>
+                                </div>
+                                <div class="col-md-2">
+                                    <strong>Pressure:</strong><br/>
+                                    <span>@DetailData.Weather.pres.ToString("N1") hPa</span>
+                                </div>
+                                <div class="col-md-2">
+                                    <strong>Sunshine:</strong><br/>
+                                    <span>@((DetailData.Weather.tsun / 60).ToString("N1")) hours</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public DailyDetailData DetailData { get; set; } = default!;
+    
+    private string ChartCanvasId = Guid.NewGuid().ToString();
+    private ChartView SelectedView = ChartView.All;
+    private string ChartStyle = "line";
+    private bool ShowSunriseSunset = true;
+
+    public enum ChartView
+    {
+        Production,
+        Consumption,
+        Grid,
+        All,
+        Gas
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await CreateChart();
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await CreateChart();
+    }
+
+    private async Task UpdateChart()
+    {
+        await CreateChart();
+    }
+
+    private async Task CreateChart()
+    {
+        if (DetailData == null || !DetailData.QuarterHours.Any())
+            return;
+
+        try
+        {
+            var chartConfig = GenerateChartConfig();
+            await JSRuntime.InvokeVoidAsync("createChart", ChartCanvasId, chartConfig);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error creating chart: {ex.Message}");
+        }
+    }
+
+    private object GenerateChartConfig()
+    {
+        var labels = DetailData.QuarterHours.Select(q => q.Time.ToString("HH:mm")).ToArray();
+        var datasets = new List<object>();
+
+        var fill = ChartStyle == "area";
+
+        if (SelectedView == ChartView.Production || SelectedView == ChartView.All)
+        {
+            datasets.Add(new {
+                label = "Solar Production (kWh/15min)",
+                data = DetailData.QuarterHours.Select(q => q.ActualProduction).ToArray(),
+                borderColor = "rgb(255, 255, 0)",
+                backgroundColor = ChartStyle == "area" ? "rgba(255, 255, 0, 0.3)" : "rgba(255, 255, 0, 0.8)",
+                borderWidth = ChartStyle == "bar" ? 0 : 3,
+                fill = fill,
+                tension = 0.1
+            });
+        }
+
+        if (SelectedView == ChartView.Consumption || SelectedView == ChartView.All)
+        {
+            datasets.Add(new {
+                label = "Total Consumption (kWh/15min)",
+                data = DetailData.QuarterHours.Select(q => q.TotalConsumption).ToArray(),
+                borderColor = "rgb(0, 0, 255)",
+                backgroundColor = ChartStyle == "area" ? "rgba(0, 0, 255, 0.3)" : "rgba(0, 0, 255, 0.8)",
+                borderWidth = ChartStyle == "bar" ? 0 : 2,
+                fill = fill,
+                tension = 0.1
+            });
+        }
+
+        if (SelectedView == ChartView.Grid || SelectedView == ChartView.All)
+        {
+            datasets.Add(new {
+                label = "Grid Import (kWh/15min)",
+                data = DetailData.QuarterHours.Select(q => q.ActualGridImport).ToArray(),
+                borderColor = "rgb(255, 0, 0)",
+                backgroundColor = ChartStyle == "area" ? "rgba(255, 0, 0, 0.3)" : "rgba(255, 0, 0, 0.8)",
+                borderWidth = ChartStyle == "bar" ? 0 : 2,
+                fill = fill,
+                tension = 0.1
+            });
+
+            datasets.Add(new {
+                label = "Grid Injection (kWh/15min)",
+                data = DetailData.QuarterHours.Select(q => q.ActualInjection).ToArray(),
+                borderColor = "rgb(0, 255, 0)",
+                backgroundColor = ChartStyle == "area" ? "rgba(0, 255, 0, 0.3)" : "rgba(0, 255, 0, 0.8)",
+                borderWidth = ChartStyle == "bar" ? 0 : 3,
+                fill = fill,
+                tension = 0.1
+            });
+        }
+
+        if (SelectedView == ChartView.Gas || SelectedView == ChartView.All)
+        {
+            datasets.Add(new {
+                label = "Gas Usage (m³/15min)",
+                data = DetailData.QuarterHours.Select(q => q.ActualGasUsage).ToArray(),
+                borderColor = "rgb(255, 165, 0)",
+                backgroundColor = ChartStyle == "area" ? "rgba(255, 165, 0, 0.3)" : "rgba(255, 165, 0, 0.8)",
+                borderWidth = ChartStyle == "bar" ? 0 : 2,
+                fill = fill,
+                tension = 0.1,
+                yAxisID = "y1"
+            });
+        }
+
+        // Add sunrise/sunset markers if enabled
+        var annotations = new List<object>();
+        if (ShowSunriseSunset && DetailData.SunTimes != null)
+        {
+            var sunriseLabel = DetailData.SunTimes.R.ToString("HH:mm");
+            var sunsetLabel = DetailData.SunTimes.S.ToString("HH:mm");
+
+            annotations.Add(new {
+                type = "line",
+                xMin = sunriseLabel,
+                xMax = sunriseLabel,
+                borderColor = "rgba(255, 193, 7, 0.8)",
+                borderWidth = 2,
+                borderDash = new[] { 5, 5 },
+                label = new {
+                    display = true,
+                    content = "☀️ Sunrise",
+                    position = "start"
+                }
+            });
+
+            annotations.Add(new {
+                type = "line",
+                xMin = sunsetLabel,
+                xMax = sunsetLabel,
+                borderColor = "rgba(255, 152, 0, 0.8)",
+                borderWidth = 2,
+                borderDash = new[] { 5, 5 },
+                label = new {
+                    display = true,
+                    content = "🌅 Sunset",
+                    position = "end"
+                }
+            });
+        }
+
+        object scales;
+        
+        if (SelectedView == ChartView.Gas || (SelectedView == ChartView.All && DetailData.TotalGasUsage > 0))
+        {
+            scales = new {
+                y = new {
+                    beginAtZero = true,
+                    title = new {
+                        display = true,
+                        text = "Energy (kWh/15min)"
+                    }
+                },
+                y1 = new {
+                    type = "linear",
+                    display = true,
+                    position = "right",
+                    beginAtZero = true,
+                    title = new {
+                        display = true,
+                        text = "Gas (m³/15min)"
+                    },
+                    grid = new {
+                        drawOnChartArea = false
+                    }
+                }
+            };
+        }
+        else
+        {
+            scales = new {
+                y = new {
+                    beginAtZero = true,
+                    title = new {
+                        display = true,
+                        text = "Energy (kWh/15min)"
+                    }
+                }
+            };
+        }
+
+        return new {
+            type = ChartStyle == "area" ? "line" : ChartStyle,
+            data = new {
+                labels = labels,
+                datasets = datasets.ToArray()
+            },
+            options = new {
+                responsive = true,
+                maintainAspectRatio = false,
+                interaction = new {
+                    mode = "index",
+                    intersect = false
+                },
+                plugins = new {
+                    title = new {
+                        display = true,
+                        text = $"15-Minute Energy Data - {DetailData.Date:yyyy-MM-dd}"
+                    },
+                    legend = new {
+                        display = true,
+                        position = "top"
+                    },
+                    tooltip = new {
+                        callbacks = new { }
+                    },
+                    annotation = new {
+                        annotations = annotations.ToArray()
+                    }
+                },
+                scales = scales
+            }
+        };
+    }
+}
