@@ -154,4 +154,174 @@ window.renderTrendsChart = (canvasId, labels, autarkyData, selfConsumptionData) 
     window.createChart(canvasId, config);
 };
 
+// Render Heatmap Chart (Matrix visualization)
+window.renderHeatmapChart = (canvasId, data, maxValue, color) => {
+    const labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const hours = Array.from({length: 24}, (_, i) => `${i}:00`);
+    
+    // Transform flat array into matrix format for Chart.js Matrix
+    const matrixData = [];
+    for (let h = 0; h < 24; h++) {
+        for (let d = 0; d < 7; d++) {
+            const value = data[h * 7 + d];
+            matrixData.push({
+                x: labels[d],
+                y: hours[h],
+                v: value
+            });
+        }
+    }
+
+    const config = {
+        type: 'bar',
+        data: {
+            labels: hours,
+            datasets: labels.map((day, dayIdx) => ({
+                label: day,
+                data: Array.from({length: 24}, (_, h) => data[h * 7 + dayIdx]),
+                backgroundColor: color.replace('rgb', 'rgba').replace(')', ', 0.6)'),
+                borderColor: color,
+                borderWidth: 1
+            }))
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.parsed.y.toFixed(2) + ' kWh';
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Hour of Day'
+                    },
+                    stacked: false
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Energy (kWh)'
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+// Render Hourly Distribution Chart
+window.renderHourlyDistributionChart = (canvasId, data, color) => {
+    const hours = Array.from({length: 24}, (_, i) => `${i}:00`);
+    
+    const config = {
+        type: 'bar',
+        data: {
+            labels: hours,
+            datasets: [{
+                label: 'Average by Hour',
+                data: data,
+                backgroundColor: color.replace('rgb', 'rgba').replace(')', ', 0.6)'),
+                borderColor: color,
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return 'Average: ' + context.parsed.y.toFixed(2) + ' kWh';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Average Energy (kWh)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Hour of Day'
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+// Render Day of Week Distribution Chart
+window.renderDayOfWeekChart = (canvasId, labels, data, color) => {
+    const config = {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Average by Day',
+                data: data,
+                backgroundColor: color.replace('rgb', 'rgba').replace(')', ', 0.6)'),
+                borderColor: color,
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return 'Average: ' + context.parsed.y.toFixed(2) + ' kWh';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Average Energy (kWh)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Day of Week'
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
 console.log('Chart.js helper functions loaded successfully');

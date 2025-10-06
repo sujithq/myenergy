@@ -1,0 +1,547 @@
+@page "/peak-analysis"
+@using myenergy.Models
+@using myenergy.Services
+@using Microsoft.JSInterop
+@inject EnergyDataService DataService
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Peak Power Analysis - SolarViz</PageTitle>
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2>⚡ Peak Power Analysis</h2>
+            <p class="text-muted">Discover your energy patterns by hour and day of week</p>
+        </div>
+    </div>
+
+    @if (_loading)
+    {
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-3">Loading peak power data...</p>
+        </div>
+    }
+    else
+    {
+        <!-- Filter Options -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <label class="form-label fw-bold">Metric:</label>
+                <select class="form-select form-select-lg" @bind="SelectedMetric" @bind:after="UpdateHeatmap">
+                    <option value="production">Solar Production</option>
+                    <option value="consumption">Consumption</option>
+                    <option value="import">Grid Import</option>
+                    <option value="injection">Grid Injection</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label fw-bold">Year:</label>
+                <select class="form-select form-select-lg" @bind="SelectedYear" @bind:after="LoadData">
+                    <option value="">All Years</option>
+                    @foreach (var year in _availableYears)
+                    {
+                        <option value="@year">@year</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label fw-bold">Month:</label>
+                <select class="form-select form-select-lg" @bind="SelectedMonth" @bind:after="LoadData">
+                    <option value="">All Months</option>
+                    @foreach (var month in _months)
+                    {
+                        <option value="@month.Key">@month.Value</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label fw-bold">View Type:</label>
+                <select class="form-select form-select-lg" @bind="ViewType" @bind:after="UpdateHeatmap">
+                    <option value="average">Average</option>
+                    <option value="peak">Peak</option>
+                    <option value="total">Total</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Peak Stats Cards -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <div class="card border-success">
+                    <div class="card-body text-center">
+                        <h6 class="card-subtitle mb-2 text-muted">Peak Hour</h6>
+                        <h3 class="text-success mb-0">@_peakHour:00</h3>
+                        <small class="text-muted">@_peakValue.ToString("N2") kWh</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-info">
+                    <div class="card-body text-center">
+                        <h6 class="card-subtitle mb-2 text-muted">Peak Day</h6>
+                        <h3 class="text-info mb-0">@_peakDay</h3>
+                        <small class="text-muted">@_peakDayValue.ToString("N2") kWh</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-warning">
+                    <div class="card-body text-center">
+                        <h6 class="card-subtitle mb-2 text-muted">Lowest Hour</h6>
+                        <h3 class="text-warning mb-0">@_minHour:00</h3>
+                        <small class="text-muted">@_minValue.ToString("N2") kWh</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-danger">
+                    <div class="card-body text-center">
+                        <h6 class="card-subtitle mb-2 text-muted">Total Data Points</h6>
+                        <h3 class="text-danger mb-0">@_totalDataPoints</h3>
+                        <small class="text-muted">15-min intervals</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hourly Heatmap -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">🔥 @GetMetricName() Heatmap - @GetViewTypeName() by Hour & Day of Week</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="heatmapChart" style="max-height: 500px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hourly Distribution Chart -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">📊 Hourly Distribution</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="hourlyDistributionChart" style="max-height: 300px;"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">📅 Day of Week Distribution</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="dayOfWeekChart" style="max-height: 300px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Hourly Table -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="mb-0">📋 Detailed Hourly Breakdown</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover table-sm">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Hour</th>
+                                        <th class="text-end">Mon</th>
+                                        <th class="text-end">Tue</th>
+                                        <th class="text-end">Wed</th>
+                                        <th class="text-end">Thu</th>
+                                        <th class="text-end">Fri</th>
+                                        <th class="text-end">Sat</th>
+                                        <th class="text-end">Sun</th>
+                                        <th class="text-end">Avg</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int hour = 0; hour < 24; hour++)
+                                    {
+                                        var hourData = GetHourData(hour);
+                                        var avg = hourData.Average();
+                                        <tr>
+                                            <td><strong>@hour:00</strong></td>
+                                            @for (int day = 1; day <= 7; day++)
+                                            {
+                                                var value = hourData[day - 1];
+                                                <td class="text-end" style="background-color: @GetCellColor(value, _maxValue)">
+                                                    @value.ToString("N2")
+                                                </td>
+                                            }
+                                            <td class="text-end"><strong>@avg.ToString("N2")</strong></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot class="table-secondary">
+                                    <tr>
+                                        <th>Avg</th>
+                                        @for (int day = 1; day <= 7; day++)
+                                        {
+                                            var dayAvg = GetDayAverage(day);
+                                            <th class="text-end">@dayAvg.ToString("N2")</th>
+                                        }
+                                        <th class="text-end">@_overallAverage.ToString("N2")</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private bool _loading = true;
+    private string SelectedMetric = "production";
+    private string? SelectedYear;
+    private string? SelectedMonth;
+    private string ViewType = "average";
+    private List<int> _availableYears = new();
+    private Dictionary<string, string> _months = new()
+    {
+        { "1", "January" }, { "2", "February" }, { "3", "March" }, { "4", "April" },
+        { "5", "May" }, { "6", "June" }, { "7", "July" }, { "8", "August" },
+        { "9", "September" }, { "10", "October" }, { "11", "November" }, { "12", "December" }
+    };
+
+    // Heatmap data: [hour][dayOfWeek] = value
+    private double[,] _heatmapData = new double[24, 7];
+    private double _maxValue;
+    private double _minValue;
+    private double _overallAverage;
+    private int _peakHour;
+    private double _peakValue;
+    private string _peakDay = "";
+    private double _peakDayValue;
+    private int _minHour;
+    private int _totalDataPoints;
+
+    private List<DailyDetailData> _detailDataCache = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await DataService.LoadDataAsync();
+        _availableYears = DataService.GetAvailableYears();
+        await LoadData();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!_loading && _heatmapData != null)
+        {
+            await RenderCharts();
+        }
+    }
+
+    private async Task LoadData()
+    {
+        _loading = true;
+        StateHasChanged();
+
+        await Task.Delay(1);
+
+        // Get all available dates
+        var dates = DataService.GetAvailableDates();
+        
+        // Filter by year and month if selected
+        if (!string.IsNullOrEmpty(SelectedYear))
+        {
+            dates = dates.Where(d => d.Year == int.Parse(SelectedYear)).ToList();
+        }
+        if (!string.IsNullOrEmpty(SelectedMonth))
+        {
+            dates = dates.Where(d => d.Month == int.Parse(SelectedMonth)).ToList();
+        }
+
+        // Load detail data for all dates
+        _detailDataCache = dates.Select(date => DataService.GetDailyDetailData(date))
+                                .Where(data => data != null)
+                                .ToList()!;
+
+        _totalDataPoints = _detailDataCache.Sum(d => d.QuarterHours.Count);
+
+        ProcessHeatmapData();
+        
+        _loading = false;
+        StateHasChanged();
+    }
+
+    private void ProcessHeatmapData()
+    {
+        // Initialize heatmap data
+        _heatmapData = new double[24, 7];
+        var counts = new int[24, 7];
+
+        foreach (var dayData in _detailDataCache)
+        {
+            int dayOfWeek = ((int)dayData.Date.DayOfWeek + 6) % 7; // Convert to Monday=0, Sunday=6
+
+            foreach (var quarter in dayData.QuarterHours)
+            {
+                int hour = quarter.Time.Hour;
+                double value = GetMetricValue(quarter);
+
+                if (ViewType == "average")
+                {
+                    _heatmapData[hour, dayOfWeek] += value;
+                    counts[hour, dayOfWeek]++;
+                }
+                else if (ViewType == "peak")
+                {
+                    _heatmapData[hour, dayOfWeek] = Math.Max(_heatmapData[hour, dayOfWeek], value);
+                }
+                else // total
+                {
+                    _heatmapData[hour, dayOfWeek] += value;
+                }
+            }
+        }
+
+        // Calculate averages if needed
+        if (ViewType == "average")
+        {
+            for (int h = 0; h < 24; h++)
+            {
+                for (int d = 0; d < 7; d++)
+                {
+                    if (counts[h, d] > 0)
+                    {
+                        _heatmapData[h, d] /= counts[h, d];
+                    }
+                }
+            }
+        }
+
+        CalculateStats();
+    }
+
+    private double GetMetricValue(QuarterHourData quarter)
+    {
+        return SelectedMetric switch
+        {
+            "production" => quarter.ActualProduction,
+            "consumption" => quarter.TotalConsumption,
+            "import" => quarter.ActualGridImport,
+            "injection" => quarter.ActualInjection,
+            _ => 0
+        };
+    }
+
+    private void CalculateStats()
+    {
+        _maxValue = double.MinValue;
+        _minValue = double.MaxValue;
+        double sum = 0;
+        int count = 0;
+        _peakHour = 0;
+        _peakValue = 0;
+        int peakDayIndex = 0;
+        _peakDayValue = 0;
+
+        var dayTotals = new double[7];
+
+        for (int h = 0; h < 24; h++)
+        {
+            double hourTotal = 0;
+            for (int d = 0; d < 7; d++)
+            {
+                var value = _heatmapData[h, d];
+                if (value > 0)
+                {
+                    _maxValue = Math.Max(_maxValue, value);
+                    _minValue = Math.Min(_minValue, value);
+                    sum += value;
+                    count++;
+                    hourTotal += value;
+                    dayTotals[d] += value;
+                }
+            }
+
+            if (hourTotal > _peakValue)
+            {
+                _peakValue = hourTotal / 7;
+                _peakHour = h;
+            }
+        }
+
+        // Find peak day
+        for (int d = 0; d < 7; d++)
+        {
+            if (dayTotals[d] > _peakDayValue)
+            {
+                _peakDayValue = dayTotals[d] / 24;
+                peakDayIndex = d;
+            }
+        }
+
+        _peakDay = GetDayName(peakDayIndex + 1);
+        _overallAverage = count > 0 ? sum / count : 0;
+
+        // Find min hour
+        for (int h = 0; h < 24; h++)
+        {
+            double hourTotal = 0;
+            for (int d = 0; d < 7; d++)
+            {
+                hourTotal += _heatmapData[h, d];
+            }
+            if (hourTotal < _minValue * 7 && hourTotal > 0)
+            {
+                _minHour = h;
+            }
+        }
+    }
+
+    private double[] GetHourData(int hour)
+    {
+        var data = new double[7];
+        for (int d = 0; d < 7; d++)
+        {
+            data[d] = _heatmapData[hour, d];
+        }
+        return data;
+    }
+
+    private double GetDayAverage(int dayOfWeek)
+    {
+        double sum = 0;
+        for (int h = 0; h < 24; h++)
+        {
+            sum += _heatmapData[h, dayOfWeek - 1];
+        }
+        return sum / 24;
+    }
+
+    private string GetCellColor(double value, double max)
+    {
+        if (value == 0 || max == 0) return "transparent";
+        
+        var intensity = value / max;
+        var color = SelectedMetric switch
+        {
+            "production" => $"rgba(34, 197, 94, {intensity})",
+            "consumption" => $"rgba(239, 68, 68, {intensity})",
+            "import" => $"rgba(59, 130, 246, {intensity})",
+            "injection" => $"rgba(245, 158, 11, {intensity})",
+            _ => $"rgba(100, 100, 100, {intensity})"
+        };
+        
+        return color;
+    }
+
+    private string GetMetricName()
+    {
+        return SelectedMetric switch
+        {
+            "production" => "Solar Production",
+            "consumption" => "Consumption",
+            "import" => "Grid Import",
+            "injection" => "Grid Injection",
+            _ => "Energy"
+        };
+    }
+
+    private string GetViewTypeName()
+    {
+        return ViewType switch
+        {
+            "average" => "Average",
+            "peak" => "Peak",
+            "total" => "Total",
+            _ => ""
+        };
+    }
+
+    private string GetDayName(int dayIndex)
+    {
+        return dayIndex switch
+        {
+            1 => "Monday",
+            2 => "Tuesday",
+            3 => "Wednesday",
+            4 => "Thursday",
+            5 => "Friday",
+            6 => "Saturday",
+            7 => "Sunday",
+            _ => ""
+        };
+    }
+
+    private async Task UpdateHeatmap()
+    {
+        ProcessHeatmapData();
+        StateHasChanged();
+        await RenderCharts();
+    }
+
+    private async Task RenderCharts()
+    {
+        // Prepare data for heatmap
+        var labels = new[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
+        var heatmapDataFlat = new List<double>();
+        
+        for (int h = 0; h < 24; h++)
+        {
+            for (int d = 0; d < 7; d++)
+            {
+                heatmapDataFlat.Add(_heatmapData[h, d]);
+            }
+        }
+
+        // Hourly distribution
+        var hourlyData = new double[24];
+        for (int h = 0; h < 24; h++)
+        {
+            for (int d = 0; d < 7; d++)
+            {
+                hourlyData[h] += _heatmapData[h, d];
+            }
+            hourlyData[h] /= 7;
+        }
+
+        // Day of week distribution
+        var dayData = new double[7];
+        for (int d = 0; d < 7; d++)
+        {
+            for (int h = 0; h < 24; h++)
+            {
+                dayData[d] += _heatmapData[h, d];
+            }
+            dayData[d] /= 24;
+        }
+
+        var metricColor = GetMetricColor();
+
+        await JSRuntime.InvokeVoidAsync("renderHeatmapChart", "heatmapChart", heatmapDataFlat.ToArray(), _maxValue, metricColor);
+        await JSRuntime.InvokeVoidAsync("renderHourlyDistributionChart", "hourlyDistributionChart", hourlyData, metricColor);
+        await JSRuntime.InvokeVoidAsync("renderDayOfWeekChart", "dayOfWeekChart", labels, dayData, metricColor);
+    }
+
+    private string GetMetricColor()
+    {
+        return SelectedMetric switch
+        {
+            "production" => "rgb(34, 197, 94)",
+            "consumption" => "rgb(239, 68, 68)",
+            "import" => "rgb(59, 130, 246)",
+            "injection" => "rgb(245, 158, 11)",
+            _ => "rgb(100, 100, 100)"
+        };
+    }
+}
