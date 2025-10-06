@@ -1,0 +1,493 @@
+@page "/seasonal-comparison"
+@using myenergy.Services
+@using myenergy.Models
+@inject EnergyDataService DataService
+@inject IJSRuntime JS
+
+<PageTitle>Seasonal Comparison - myenergy</PageTitle>
+
+<div class="container-fluid">
+    <h1 class="mb-4">
+        <i class="bi bi-calendar3"></i> Monthly & Seasonal Comparisons
+    </h1>
+
+    @if (isLoading)
+    {
+        <div class="text-center my-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <label class="form-label fw-bold">Comparison Type</label>
+                <select class="form-select" @bind="comparisonType" @bind:after="UpdateVisualization">
+                    <option value="monthly">Monthly Overview</option>
+                    <option value="seasonal">Seasonal Patterns</option>
+                    <option value="yearOverYear">Year-over-Year</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-bold">Metric Focus</label>
+                <select class="form-select" @bind="selectedMetric" @bind:after="UpdateVisualization">
+                    <option value="all">All Metrics</option>
+                    <option value="production">Production Only</option>
+                    <option value="consumption">Consumption Only</option>
+                    <option value="efficiency">Efficiency Metrics</option>
+                </select>
+            </div>
+        </div>
+
+        @if (comparisonType == "monthly")
+        {
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Monthly Average Comparison</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="radarChart" style="max-height: 400px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="mb-0">Monthly Details</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Month</th>
+                                            <th class="text-end">Avg Production</th>
+                                            <th class="text-end">Avg Consumption</th>
+                                            <th class="text-end">Avg Import</th>
+                                            <th class="text-end">Avg Export</th>
+                                            <th class="text-end">Avg Autarky</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var month in monthlyAverages.OrderBy(m => m.Month))
+                                        {
+                                            <tr>
+                                                <td><strong>@GetMonthName(month.Month)</strong></td>
+                                                <td class="text-end text-success">@month.AvgProduction.ToString("N1") kWh</td>
+                                                <td class="text-end text-danger">@month.AvgConsumption.ToString("N1") kWh</td>
+                                                <td class="text-end text-info">@month.AvgImport.ToString("N1") kWh</td>
+                                                <td class="text-end text-warning">@month.AvgExport.ToString("N1") kWh</td>
+                                                <td class="text-end">
+                                                    <span class="badge" style="background-color: @GetAutarkyColor(month.AvgAutarky)">
+                                                        @month.AvgAutarky.ToString("N1")%
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (comparisonType == "seasonal")
+        {
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-warning text-dark">
+                            <h5 class="mb-0">Seasonal Distribution</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="seasonalChart" style="max-height: 400px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                @foreach (var season in seasonalData.OrderBy(s => GetSeasonOrder(s.Season)))
+                {
+                    <div class="col-md-6 col-lg-3 mb-3">
+                        <div class="card h-100">
+                            <div class="card-header" style="background-color: @GetSeasonColor(season.Season); color: white;">
+                                <h6 class="mb-0">
+                                    <i class="@GetSeasonIcon(season.Season)"></i> @season.Season
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-2">
+                                    <small class="text-muted">Total Production</small>
+                                    <div class="text-success fw-bold">@season.TotalProduction.ToString("N0") kWh</div>
+                                </div>
+                                <div class="mb-2">
+                                    <small class="text-muted">Total Consumption</small>
+                                    <div class="text-danger fw-bold">@season.TotalConsumption.ToString("N0") kWh</div>
+                                </div>
+                                <div class="mb-2">
+                                    <small class="text-muted">Avg Daily Production</small>
+                                    <div>@season.AvgDailyProduction.ToString("N1") kWh</div>
+                                </div>
+                                <div>
+                                    <small class="text-muted">Energy Balance</small>
+                                    <div class="@(season.EnergyBalance >= 0 ? "text-success" : "text-danger") fw-bold">
+                                        @(season.EnergyBalance >= 0 ? "+" : "")@season.EnergyBalance.ToString("N0") kWh
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else if (comparisonType == "yearOverYear")
+        {
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-danger text-white">
+                            <h5 class="mb-0">Year-over-Year Monthly Comparison</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="yearOverYearChart" style="max-height: 500px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-secondary text-white">
+                            <h5 class="mb-0">Growth Analysis</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Month</th>
+                                            @foreach (var year in availableYears.OrderBy(y => y))
+                                            {
+                                                <th class="text-end">@year Production</th>
+                                            }
+                                            @if (availableYears.Count >= 2)
+                                            {
+                                                <th class="text-end">Growth</th>
+                                            }
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int month = 1; month <= 12; month++)
+                                        {
+                                            var monthData = GetMonthDataAcrossYears(month);
+                                            if (monthData.Any())
+                                            {
+                                                <tr>
+                                                    <td><strong>@GetMonthName(month)</strong></td>
+                                                    @foreach (var year in availableYears.OrderBy(y => y))
+                                                    {
+                                                        var yearData = monthData.FirstOrDefault(m => m.Year == year);
+                                                        <td class="text-end">
+                                                            @if (yearData != null)
+                                                            {
+                                                                <span>@yearData.Production.ToString("N0") kWh</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-muted">-</span>
+                                                            }
+                                                        </td>
+                                                    }
+                                                    @if (availableYears.Count >= 2)
+                                                    {
+                                                        var growth = CalculateMonthGrowth(monthData);
+                                                        <td class="text-end">
+                                                            @if (growth.HasValue)
+                                                            {
+                                                                <span class="@(growth.Value >= 0 ? "text-success" : "text-danger")">
+                                                                    @(growth.Value >= 0 ? "+" : "")@growth.Value.ToString("N1")%
+                                                                </span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-muted">-</span>
+                                                            }
+                                                        </td>
+                                                    }
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+@code {
+    private bool isLoading = true;
+    private string comparisonType = "monthly";
+    private string selectedMetric = "all";
+    private List<int> availableYears = new();
+    private List<MonthlySummary> monthlyData = new();
+    private List<MonthlyAverage> monthlyAverages = new();
+    private List<SeasonalSummary> seasonalData = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await DataService.LoadDataAsync();
+        availableYears = DataService.GetAvailableYears();
+        monthlyData = DataService.GetMonthlyData();
+        CalculateMonthlyAverages();
+        CalculateSeasonalData();
+        isLoading = false;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await UpdateVisualization();
+        }
+    }
+
+    private void CalculateMonthlyAverages()
+    {
+        monthlyAverages = monthlyData
+            .GroupBy(m => m.Month)
+            .Select(g => new MonthlyAverage
+            {
+                Month = g.Key,
+                AvgProduction = g.Average(m => m.Production),
+                AvgConsumption = g.Average(m => m.Consumption),
+                AvgImport = g.Average(m => m.Import),
+                AvgExport = g.Average(m => m.Export),
+                AvgAutarky = g.Average(m => m.Consumption > 0 ? ((m.Consumption - m.Import) / m.Consumption * 100) : 0),
+                Years = g.Select(m => m.Year).ToList()
+            })
+            .ToList();
+    }
+
+    private void CalculateSeasonalData()
+    {
+        var dailyData = DataService.GetDailyData();
+        
+        seasonalData = dailyData
+            .GroupBy(d => GetSeason(d.Date.Month))
+            .Select(g => new SeasonalSummary
+            {
+                Season = g.Key,
+                TotalProduction = g.Sum(d => d.Production),
+                TotalConsumption = g.Sum(d => d.Consumption),
+                TotalImport = g.Sum(d => d.Import),
+                TotalExport = g.Sum(d => d.Export),
+                DayCount = g.Count(),
+                AvgDailyProduction = g.Average(d => d.Production),
+                AvgDailyConsumption = g.Average(d => d.Consumption),
+                EnergyBalance = g.Sum(d => d.Production - d.Consumption)
+            })
+            .ToList();
+    }
+
+    private async Task UpdateVisualization()
+    {
+        await Task.Delay(100); // Allow UI to update
+
+        if (comparisonType == "monthly")
+        {
+            await RenderRadarChart();
+        }
+        else if (comparisonType == "seasonal")
+        {
+            await RenderSeasonalChart();
+        }
+        else if (comparisonType == "yearOverYear")
+        {
+            await RenderYearOverYearChart();
+        }
+    }
+
+    private async Task RenderRadarChart()
+    {
+        var labels = monthlyAverages.OrderBy(m => m.Month).Select(m => GetMonthName(m.Month)).ToArray();
+        
+        var datasets = new List<object>();
+
+        if (selectedMetric == "all" || selectedMetric == "production")
+        {
+            datasets.Add(new
+            {
+                label = "Production",
+                data = monthlyAverages.OrderBy(m => m.Month).Select(m => m.AvgProduction).ToArray(),
+                borderColor = "#198754",
+                backgroundColor = "rgba(25, 135, 84, 0.1)",
+                pointBackgroundColor = "#198754"
+            });
+        }
+
+        if (selectedMetric == "all" || selectedMetric == "consumption")
+        {
+            datasets.Add(new
+            {
+                label = "Consumption",
+                data = monthlyAverages.OrderBy(m => m.Month).Select(m => m.AvgConsumption).ToArray(),
+                borderColor = "#dc3545",
+                backgroundColor = "rgba(220, 53, 69, 0.1)",
+                pointBackgroundColor = "#dc3545"
+            });
+        }
+
+        if (selectedMetric == "efficiency")
+        {
+            datasets.Add(new
+            {
+                label = "Autarky %",
+                data = monthlyAverages.OrderBy(m => m.Month).Select(m => m.AvgAutarky).ToArray(),
+                borderColor = "#0d6efd",
+                backgroundColor = "rgba(13, 110, 253, 0.1)",
+                pointBackgroundColor = "#0d6efd"
+            });
+        }
+
+        await JS.InvokeVoidAsync("renderRadarChart", "radarChart", labels, datasets);
+    }
+
+    private async Task RenderSeasonalChart()
+    {
+        var seasons = new[] { "Winter", "Spring", "Summer", "Autumn" };
+        var productionData = seasons.Select(s => seasonalData.FirstOrDefault(sd => sd.Season == s)?.TotalProduction ?? 0).ToArray();
+        var consumptionData = seasons.Select(s => seasonalData.FirstOrDefault(sd => sd.Season == s)?.TotalConsumption ?? 0).ToArray();
+
+        await JS.InvokeVoidAsync("renderSeasonalChart", "seasonalChart", seasons, productionData, consumptionData);
+    }
+
+    private async Task RenderYearOverYearChart()
+    {
+        var months = Enumerable.Range(1, 12).Select(m => GetMonthName(m)).ToArray();
+        
+        var datasets = availableYears.OrderBy(y => y).Select(year => new
+        {
+            label = year.ToString(),
+            data = Enumerable.Range(1, 12).Select(month =>
+            {
+                var data = monthlyData.FirstOrDefault(m => m.Year == year && m.Month == month);
+                return data?.Production ?? 0;
+            }).ToArray(),
+            borderColor = GetYearColor(year),
+            backgroundColor = GetYearColor(year),
+            tension = 0.4
+        }).ToArray();
+
+        await JS.InvokeVoidAsync("renderYearOverYearChart", "yearOverYearChart", months, datasets);
+    }
+
+    private string GetSeason(int month) => month switch
+    {
+        12 or 1 or 2 => "Winter",
+        3 or 4 or 5 => "Spring",
+        6 or 7 or 8 => "Summer",
+        9 or 10 or 11 => "Autumn",
+        _ => "Unknown"
+    };
+
+    private int GetSeasonOrder(string season) => season switch
+    {
+        "Winter" => 1,
+        "Spring" => 2,
+        "Summer" => 3,
+        "Autumn" => 4,
+        _ => 5
+    };
+
+    private string GetSeasonColor(string season) => season switch
+    {
+        "Winter" => "#6c757d",
+        "Spring" => "#198754",
+        "Summer" => "#ffc107",
+        "Autumn" => "#fd7e14",
+        _ => "#0d6efd"
+    };
+
+    private string GetSeasonIcon(string season) => season switch
+    {
+        "Winter" => "bi bi-snow",
+        "Spring" => "bi bi-flower1",
+        "Summer" => "bi bi-brightness-high",
+        "Autumn" => "bi bi-tree",
+        _ => "bi bi-calendar3"
+    };
+
+    private string GetMonthName(int month) => new DateTime(2000, month, 1).ToString("MMMM");
+
+    private string GetAutarkyColor(double autarky)
+    {
+        if (autarky >= 80) return "#198754";
+        if (autarky >= 60) return "#28a745";
+        if (autarky >= 40) return "#ffc107";
+        if (autarky >= 20) return "#fd7e14";
+        return "#dc3545";
+    }
+
+    private string GetYearColor(int year)
+    {
+        var colors = new[] { "#0d6efd", "#6610f2", "#6f42c1", "#d63384", "#dc3545", "#fd7e14", "#ffc107", "#198754", "#20c997", "#0dcaf0" };
+        var index = availableYears.OrderBy(y => y).ToList().IndexOf(year);
+        return colors[index % colors.Length];
+    }
+
+    private List<MonthlySummary> GetMonthDataAcrossYears(int month)
+    {
+        return monthlyData.Where(m => m.Month == month).OrderBy(m => m.Year).ToList();
+    }
+
+    private double? CalculateMonthGrowth(List<MonthlySummary> monthData)
+    {
+        if (monthData.Count < 2) return null;
+        
+        var sorted = monthData.OrderBy(m => m.Year).ToList();
+        var first = sorted.First().Production;
+        var last = sorted.Last().Production;
+        
+        if (first == 0) return null;
+        
+        return ((last - first) / first) * 100;
+    }
+
+    private class MonthlyAverage
+    {
+        public int Month { get; set; }
+        public double AvgProduction { get; set; }
+        public double AvgConsumption { get; set; }
+        public double AvgImport { get; set; }
+        public double AvgExport { get; set; }
+        public double AvgAutarky { get; set; }
+        public List<int> Years { get; set; } = new();
+    }
+
+    private class SeasonalSummary
+    {
+        public string Season { get; set; } = "";
+        public double TotalProduction { get; set; }
+        public double TotalConsumption { get; set; }
+        public double TotalImport { get; set; }
+        public double TotalExport { get; set; }
+        public int DayCount { get; set; }
+        public double AvgDailyProduction { get; set; }
+        public double AvgDailyConsumption { get; set; }
+        public double EnergyBalance { get; set; }
+    }
+}

@@ -1,6 +1,8 @@
 @using myenergy.Models
+@using myenergy.Services
 @using Microsoft.JSInterop
 @inject IJSRuntime JSRuntime
+@inject AppConfigurationService ConfigService
 
 <div class="card">
     <div class="card-header bg-primary text-white">
@@ -67,7 +69,7 @@
                             <div class="col-md-3">
                                 <strong>Gas Usage:</strong><br/>
                                 <span class="text-danger">@DetailData.TotalGasUsage.ToString("N2") m³</span><br/>
-                                @if (DetailData.SunTimes != null)
+                                @if (ConfigService.IsSunTimesDisplayEnabled && DetailData.SunTimes != null)
                                 {
                                     <small class="text-muted">☀️ @DetailData.SunTimes.R.ToString("HH:mm") - @DetailData.SunTimes.S.ToString("HH:mm")</small>
                                 }

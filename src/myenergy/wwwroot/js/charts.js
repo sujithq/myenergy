@@ -324,4 +324,422 @@ window.renderDayOfWeekChart = (canvasId, labels, data, color) => {
     window.createChart(canvasId, config);
 };
 
+// Render Scatter Chart for Weather Correlation
+window.renderScatterChart = (canvasId, weatherValues, productions, weatherName, unit) => {
+    const scatterData = weatherValues.map((w, i) => ({
+        x: w,
+        y: productions[i]
+    }));
+
+    const config = {
+        type: 'scatter',
+        data: {
+            datasets: [{
+                label: 'Production vs ' + weatherName,
+                data: scatterData,
+                backgroundColor: 'rgba(59, 130, 246, 0.6)',
+                borderColor: 'rgb(59, 130, 246)',
+                pointRadius: 5,
+                pointHoverRadius: 7
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return weatherName + ': ' + context.parsed.x.toFixed(1) + ' ' + unit + 
+                                   ', Production: ' + context.parsed.y.toFixed(2) + ' kWh';
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: weatherName + ' (' + unit + ')'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Solar Production (kWh)'
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+// Render Timeline Chart with dual Y-axes
+window.renderTimelineChart = (canvasId, dates, productions, weatherValues, weatherName) => {
+    const config = {
+        type: 'line',
+        data: {
+            labels: dates,
+            datasets: [
+                {
+                    label: 'Production (kWh)',
+                    data: productions,
+                    borderColor: 'rgb(34, 197, 94)',
+                    backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: true,
+                    yAxisID: 'y'
+                },
+                {
+                    label: weatherName,
+                    data: weatherValues,
+                    borderColor: 'rgb(59, 130, 246)',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: true,
+                    yAxisID: 'y1'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            },
+            scales: {
+                y: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Production (kWh)'
+                    }
+                },
+                y1: {
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: weatherName
+                    },
+                    grid: {
+                        drawOnChartArea: false
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+// Render Weather Ranges Bar Chart
+window.renderWeatherRangesChart = (canvasId, labels, averages) => {
+    const config = {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Average Production',
+                data: averages,
+                backgroundColor: 'rgba(34, 197, 94, 0.6)',
+                borderColor: 'rgb(34, 197, 94)',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return 'Avg Production: ' + context.parsed.y.toFixed(2) + ' kWh';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Average Production (kWh)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Weather Range'
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+// Render Multi-Factor Correlation Radar/Bar Chart
+window.renderMultiFactorChart = (canvasId, labels, correlations) => {
+    // Convert correlations to absolute values for better visualization
+    const colors = correlations.map(c => 
+        c > 0.3 ? 'rgba(34, 197, 94, 0.6)' : 
+        c < -0.3 ? 'rgba(239, 68, 68, 0.6)' : 
+        'rgba(156, 163, 175, 0.6)'
+    );
+    
+    const borderColors = correlations.map(c => 
+        c > 0.3 ? 'rgb(34, 197, 94)' : 
+        c < -0.3 ? 'rgb(239, 68, 68)' : 
+        'rgb(156, 163, 175)'
+    );
+
+    const config = {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Correlation Coefficient',
+                data: correlations,
+                backgroundColor: colors,
+                borderColor: borderColors,
+                borderWidth: 2
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            var corr = context.parsed.x;
+                            var strength = Math.abs(corr) > 0.7 ? 'Strong' : 
+                                         Math.abs(corr) > 0.4 ? 'Moderate' : 
+                                         Math.abs(corr) > 0.2 ? 'Weak' : 'Very Weak';
+                            return 'r = ' + corr.toFixed(3) + ' (' + strength + ')';
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    min: -1,
+                    max: 1,
+                    title: {
+                        display: true,
+                        text: 'Correlation Coefficient (r)'
+                    },
+                    grid: {
+                        color: function(context) {
+                            if (context.tick.value === 0) {
+                                return 'rgb(0, 0, 0)';
+                            }
+                            return 'rgba(0, 0, 0, 0.1)';
+                        },
+                        lineWidth: function(context) {
+                            if (context.tick.value === 0) {
+                                return 2;
+                            }
+                            return 1;
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+// Render Radar Chart for Monthly Comparisons
+window.renderRadarChart = (canvasId, labels, datasets) => {
+    const config = {
+        type: 'radar',
+        data: {
+            labels: labels,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.parsed.r.toFixed(1) + ' kWh';
+                        }
+                    }
+                }
+            },
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return value.toFixed(0);
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+// Render Seasonal Comparison Chart
+window.renderSeasonalChart = (canvasId, seasons, productionData, consumptionData) => {
+    const config = {
+        type: 'bar',
+        data: {
+            labels: seasons,
+            datasets: [
+                {
+                    label: 'Production',
+                    data: productionData,
+                    backgroundColor: 'rgba(25, 135, 84, 0.6)',
+                    borderColor: 'rgb(25, 135, 84)',
+                    borderWidth: 2
+                },
+                {
+                    label: 'Consumption',
+                    data: consumptionData,
+                    backgroundColor: 'rgba(220, 53, 69, 0.6)',
+                    borderColor: 'rgb(220, 53, 69)',
+                    borderWidth: 2
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.parsed.y.toLocaleString() + ' kWh';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Total Energy (kWh)'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return value.toLocaleString();
+                        }
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Season'
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+// Render Year-over-Year Comparison Chart
+window.renderYearOverYearChart = (canvasId, months, datasets) => {
+    const config = {
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.parsed.y.toLocaleString() + ' kWh';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Production (kWh)'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return value.toLocaleString();
+                        }
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Month'
+                    }
+                }
+            },
+            interaction: {
+                mode: 'nearest',
+                axis: 'x',
+                intersect: false
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
 console.log('Chart.js helper functions loaded successfully');

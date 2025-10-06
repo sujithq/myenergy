@@ -1,0 +1,600 @@
+@page "/weather-correlation"
+@using myenergy.Models
+@using myenergy.Services
+@using Microsoft.JSInterop
+@inject EnergyDataService DataService
+@inject AppConfigurationService ConfigService
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Weather Correlation - SolarViz</PageTitle>
+
+<div class="container-fluid">
+    @if (!ConfigService.IsWeatherDataEnabled)
+    {
+        <div class="alert alert-info mt-4">
+            <h4 class="alert-heading">⚙️ Weather Data Not Yet Available</h4>
+            <p>Weather correlation features are currently disabled because weather data is not fully populated in the system.</p>
+            <hr/>
+            <p class="mb-0">
+                <strong>This page will automatically activate when:</strong>
+            </p>
+            <ul class="mb-0">
+                <li>Sunshine duration data (tsun) is properly recorded</li>
+                <li>Precipitation data (prcp) is properly recorded</li>
+                <li>Temperature and other weather metrics are validated</li>
+            </ul>
+            <hr/>
+            <p class="mb-0">
+                <small class="text-muted">To enable this feature, update the configuration in <code>AppConfigurationService</code> and set <code>EnableWeatherData = true</code></small>
+            </p>
+        </div>
+    }
+    else
+    {
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2>🌤️ Weather Correlation Analysis</h2>
+            <p class="text-muted">Discover how weather conditions impact your solar energy production</p>
+        </div>
+    </div>
+
+    @if (_loading)
+    {
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-3">Loading weather correlation data...</p>
+        </div>
+    }
+    else
+    {
+        <!-- Filter Options -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <label class="form-label fw-bold">Weather Factor:</label>
+                <select class="form-select form-select-lg" @bind="SelectedWeatherFactor" @bind:after="UpdateCharts">
+                    @foreach (var factor in _availableWeatherFactors)
+                    {
+                        <option value="@factor.value">@factor.name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-bold">Year:</label>
+                <select class="form-select form-select-lg" @bind="SelectedYear" @bind:after="LoadData">
+                    <option value="">All Years</option>
+                    @foreach (var year in _availableYears)
+                    {
+                        <option value="@year">@year</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-bold">Production Range:</label>
+                <select class="form-select form-select-lg" @bind="ProductionFilter" @bind:after="UpdateCharts">
+                    <option value="all">All Days</option>
+                    <option value="high">High Production (&gt;20 kWh)</option>
+                    <option value="medium">Medium (10-20 kWh)</option>
+                    <option value="low">Low Production (&lt;10 kWh)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Correlation Stats Cards -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <div class="card border-primary">
+                    <div class="card-body text-center">
+                        <h6 class="card-subtitle mb-2 text-muted">Correlation Coefficient</h6>
+                        <h3 class="@GetCorrelationClass(_correlationCoefficient) mb-0">@_correlationCoefficient.ToString("N3")</h3>
+                        <small class="text-muted">@GetCorrelationStrength()</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-success">
+                    <div class="card-body text-center">
+                        <h6 class="card-subtitle mb-2 text-muted">Best Weather Day</h6>
+                        <h3 class="text-success mb-0">@_bestWeatherProduction.ToString("N1") kWh</h3>
+                        <small class="text-muted">@_bestWeatherDate.ToString("MMM dd, yyyy")</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-warning">
+                    <div class="card-body text-center">
+                        <h6 class="card-subtitle mb-2 text-muted">Worst Weather Day</h6>
+                        <h3 class="text-warning mb-0">@_worstWeatherProduction.ToString("N1") kWh</h3>
+                        <small class="text-muted">@_worstWeatherDate.ToString("MMM dd, yyyy")</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-info">
+                    <div class="card-body text-center">
+                        <h6 class="card-subtitle mb-2 text-muted">Data Points</h6>
+                        <h3 class="text-info mb-0">@_filteredData.Count</h3>
+                        <small class="text-muted">Days analyzed</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Scatter Plot -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">📊 Scatter Plot: @GetWeatherFactorName() vs Solar Production</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="scatterChart" style="max-height: 500px;"></canvas>
+                        <div class="mt-3 text-center">
+                            <small class="text-muted">
+                                <strong>Interpretation:</strong> Each point represents one day. 
+                                Points trending upward indicate positive correlation between @GetWeatherFactorName().ToLower() and solar production.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Combined Weather Overlay Chart -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">📈 Production & Weather Over Time</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="timelineChart" style="max-height: 400px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weather Distribution Charts -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">🌡️ Production by Weather Ranges</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="weatherRangesChart" style="max-height: 300px;"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-warning text-white">
+                        <h5 class="mb-0">☀️ Multi-Factor Comparison</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="multiFactorChart" style="max-height: 300px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Weather Impact Table -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="mb-0">📋 Weather Impact Breakdown</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Date</th>
+                                        <th class="text-end">Production</th>
+                                        <th class="text-end">@GetWeatherFactorName()</th>
+                                        @if (ConfigService.IsTemperatureDataEnabled)
+                                        {
+                                            <th class="text-end">Temp (°C)</th>
+                                        }
+                                        @if (ConfigService.IsSunshineDataEnabled)
+                                        {
+                                            <th class="text-end">Sun (hrs)</th>
+                                        }
+                                        @if (ConfigService.IsPrecipitationDataEnabled)
+                                        {
+                                            <th class="text-end">Precip (mm)</th>
+                                        }
+                                        <th class="text-center">Efficiency</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in _filteredData.OrderByDescending(d => d.Production).Take(50))
+                                    {
+                                        var efficiency = CalculateEfficiency(item.Production, item.Weather.tsun);
+                                        <tr>
+                                            <td><strong>@item.Date.ToString("MMM dd, yyyy")</strong></td>
+                                            <td class="text-end text-success">@item.Production.ToString("N2") kWh</td>
+                                            <td class="text-end">@GetWeatherValue(item.Weather).ToString("N1") @GetWeatherUnit()</td>
+                                            @if (ConfigService.IsTemperatureDataEnabled)
+                                            {
+                                                <td class="text-end">@item.Weather.tavg.ToString("N1")°C</td>
+                                            }
+                                            @if (ConfigService.IsSunshineDataEnabled)
+                                            {
+                                                <td class="text-end">@(item.Weather.tsun / 60).ToString("N1") hrs</td>
+                                            }
+                                            @if (ConfigService.IsPrecipitationDataEnabled)
+                                            {
+                                                <td class="text-end">@item.Weather.prcp.ToString("N1") mm</td>
+                                            }
+                                            <td class="text-center">
+                                                <div class="progress" style="height: 20px;">
+                                                    <div class="progress-bar @GetEfficiencyColor(efficiency)" role="progressbar" 
+                                                         style="width: @efficiency%" 
+                                                         aria-valuenow="@efficiency" aria-valuemin="0" aria-valuemax="100">
+                                                        @efficiency.ToString("N0")%
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weather Insights -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0">💡 Key Insights</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>📈 Positive Correlations:</h6>
+                                <ul>
+                                    @foreach (var insight in _positiveInsights)
+                                    {
+                                        <li>@insight</li>
+                                    }
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>📉 Negative Correlations:</h6>
+                                <ul>
+                                    @foreach (var insight in _negativeInsights)
+                                    {
+                                        <li>@insight</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    }
+</div>
+
+@code {
+    private bool _loading = true;
+    private string SelectedWeatherFactor = "tavg"; // Default to temperature since it's always available
+    private string? SelectedYear;
+    private string ProductionFilter = "all";
+    private List<int> _availableYears = new();
+    private List<(string value, string name)> _availableWeatherFactors = new();
+    
+    private List<(DateTime Date, double Production, MeteoStatData Weather)> _allData = new();
+    private List<(DateTime Date, double Production, MeteoStatData Weather)> _filteredData = new();
+    
+    private double _correlationCoefficient;
+    private double _bestWeatherProduction;
+    private DateTime _bestWeatherDate;
+    private double _worstWeatherProduction;
+    private DateTime _worstWeatherDate;
+    
+    private List<string> _positiveInsights = new();
+    private List<string> _negativeInsights = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Get available weather factors based on configuration
+        _availableWeatherFactors = ConfigService.GetAvailableWeatherFactors();
+        
+        // Set default to first available factor
+        if (_availableWeatherFactors.Any())
+        {
+            SelectedWeatherFactor = _availableWeatherFactors.First().value;
+        }
+
+        await DataService.LoadDataAsync();
+        _availableYears = DataService.GetAvailableYears();
+        
+        if (ConfigService.IsWeatherDataEnabled)
+        {
+            await LoadData();
+        }
+        else
+        {
+            _loading = false;
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!_loading && _filteredData.Any())
+        {
+            await RenderCharts();
+        }
+    }
+
+    private async Task LoadData()
+    {
+        _loading = true;
+        StateHasChanged();
+
+        await Task.Delay(1);
+
+        // Get all available dates
+        var dates = DataService.GetAvailableDates();
+        
+        // Filter by year if selected
+        if (!string.IsNullOrEmpty(SelectedYear))
+        {
+            dates = dates.Where(d => d.Year == int.Parse(SelectedYear)).ToList();
+        }
+
+        // Load detail data with weather info
+        _allData = dates
+            .Select(date => DataService.GetDailyDetailData(date))
+            .Where(detail => detail != null)
+            .Select(detail => (detail!.Date, detail.TotalProduction, detail.Weather))
+            .ToList();
+
+        ApplyFilters();
+        CalculateCorrelations();
+        GenerateInsights();
+        
+        _loading = false;
+        StateHasChanged();
+    }
+
+    private void ApplyFilters()
+    {
+        _filteredData = ProductionFilter switch
+        {
+            "high" => _allData.Where(d => d.Production > 20).ToList(),
+            "medium" => _allData.Where(d => d.Production >= 10 && d.Production <= 20).ToList(),
+            "low" => _allData.Where(d => d.Production < 10).ToList(),
+            _ => _allData.ToList()
+        };
+    }
+
+    private void CalculateCorrelations()
+    {
+        if (_filteredData.Count < 2) return;
+
+        var productions = _filteredData.Select(d => d.Production).ToArray();
+        var weatherValues = _filteredData.Select(d => GetWeatherValue(d.Weather)).ToArray();
+
+        _correlationCoefficient = CalculatePearsonCorrelation(productions, weatherValues);
+
+        // Find best and worst
+        var sorted = _filteredData.OrderByDescending(d => d.Production).ToList();
+        if (sorted.Any())
+        {
+            _bestWeatherProduction = sorted.First().Production;
+            _bestWeatherDate = sorted.First().Date;
+            _worstWeatherProduction = sorted.Last().Production;
+            _worstWeatherDate = sorted.Last().Date;
+        }
+    }
+
+    private double CalculatePearsonCorrelation(double[] x, double[] y)
+    {
+        if (x.Length != y.Length || x.Length == 0) return 0;
+
+        var avgX = x.Average();
+        var avgY = y.Average();
+
+        var sumXY = 0.0;
+        var sumX2 = 0.0;
+        var sumY2 = 0.0;
+
+        for (int i = 0; i < x.Length; i++)
+        {
+            var dx = x[i] - avgX;
+            var dy = y[i] - avgY;
+            sumXY += dx * dy;
+            sumX2 += dx * dx;
+            sumY2 += dy * dy;
+        }
+
+        if (sumX2 == 0 || sumY2 == 0) return 0;
+        return sumXY / Math.Sqrt(sumX2 * sumY2);
+    }
+
+    private void GenerateInsights()
+    {
+        _positiveInsights.Clear();
+        _negativeInsights.Clear();
+
+        // Calculate correlations only for enabled factors
+        var factors = new Dictionary<string, double>();
+        var productions = _filteredData.Select(d => d.Production).ToArray();
+
+        if (ConfigService.IsSunshineDataEnabled)
+            factors["Sunshine Duration"] = CalculatePearsonCorrelation(productions, _filteredData.Select(d => d.Weather.tsun).ToArray());
+        
+        if (ConfigService.IsTemperatureDataEnabled)
+            factors["Temperature"] = CalculatePearsonCorrelation(productions, _filteredData.Select(d => d.Weather.tavg).ToArray());
+        
+        if (ConfigService.IsWindDataEnabled)
+            factors["Wind Speed"] = CalculatePearsonCorrelation(productions, _filteredData.Select(d => d.Weather.wspd).ToArray());
+        
+        if (ConfigService.IsPrecipitationDataEnabled)
+            factors["Precipitation"] = CalculatePearsonCorrelation(productions, _filteredData.Select(d => d.Weather.prcp).ToArray());
+        
+        if (ConfigService.IsPressureDataEnabled)
+            factors["Air Pressure"] = CalculatePearsonCorrelation(productions, _filteredData.Select(d => d.Weather.pres).ToArray());
+
+        foreach (var factor in factors.OrderByDescending(f => f.Value))
+        {
+            if (factor.Value > 0.3)
+            {
+                _positiveInsights.Add($"{factor.Key} shows strong positive correlation (r={factor.Value:N2})");
+            }
+            else if (factor.Value < -0.3)
+            {
+                _negativeInsights.Add($"{factor.Key} shows negative correlation (r={factor.Value:N2})");
+            }
+        }
+
+        if (!_positiveInsights.Any())
+        {
+            _positiveInsights.Add("No strong positive correlations detected in current data set");
+        }
+        if (!_negativeInsights.Any())
+        {
+            _negativeInsights.Add("No strong negative correlations detected in current data set");
+        }
+    }
+
+    private double GetWeatherValue(MeteoStatData weather)
+    {
+        return SelectedWeatherFactor switch
+        {
+            "tsun" => weather.tsun / 60.0, // Convert minutes to hours
+            "tavg" => weather.tavg,
+            "tmax" => weather.tmax,
+            "wspd" => weather.wspd,
+            "prcp" => weather.prcp,
+            "pres" => weather.pres,
+            _ => 0
+        };
+    }
+
+    private string GetWeatherFactorName()
+    {
+        return SelectedWeatherFactor switch
+        {
+            "tsun" => "Sunshine Duration",
+            "tavg" => "Average Temperature",
+            "tmax" => "Maximum Temperature",
+            "wspd" => "Wind Speed",
+            "prcp" => "Precipitation",
+            "pres" => "Air Pressure",
+            _ => "Weather Factor"
+        };
+    }
+
+    private string GetWeatherUnit()
+    {
+        return SelectedWeatherFactor switch
+        {
+            "tsun" => "hrs",
+            "tavg" => "°C",
+            "tmax" => "°C",
+            "wspd" => "km/h",
+            "prcp" => "mm",
+            "pres" => "hPa",
+            _ => ""
+        };
+    }
+
+    private string GetCorrelationClass(double r)
+    {
+        var abs = Math.Abs(r);
+        if (abs > 0.7) return "text-success";
+        if (abs > 0.4) return "text-info";
+        if (abs > 0.2) return "text-warning";
+        return "text-danger";
+    }
+
+    private string GetCorrelationStrength()
+    {
+        var abs = Math.Abs(_correlationCoefficient);
+        if (abs > 0.7) return "Strong";
+        if (abs > 0.4) return "Moderate";
+        if (abs > 0.2) return "Weak";
+        return "Very Weak";
+    }
+
+    private double CalculateEfficiency(double production, double sunshine)
+    {
+        if (sunshine == 0) return 0;
+        var sunHours = sunshine / 60.0;
+        var maxPossible = sunHours * 5; // 5 kW system
+        return production / maxPossible * 100;
+    }
+
+    private string GetEfficiencyColor(double efficiency)
+    {
+        if (efficiency >= 80) return "bg-success";
+        if (efficiency >= 60) return "bg-info";
+        if (efficiency >= 40) return "bg-warning";
+        return "bg-danger";
+    }
+
+    private async Task UpdateCharts()
+    {
+        ApplyFilters();
+        CalculateCorrelations();
+        GenerateInsights();
+        StateHasChanged();
+        await RenderCharts();
+    }
+
+    private async Task RenderCharts()
+    {
+        // Prepare scatter plot data
+        var weatherValues = _filteredData.Select(d => GetWeatherValue(d.Weather)).ToArray();
+        var productions = _filteredData.Select(d => d.Production).ToArray();
+
+        // Timeline data
+        var dates = _filteredData.OrderBy(d => d.Date).Select(d => d.Date.ToString("MMM dd")).ToArray();
+        var timelineProduction = _filteredData.OrderBy(d => d.Date).Select(d => d.Production).ToArray();
+        var timelineWeather = _filteredData.OrderBy(d => d.Date).Select(d => GetWeatherValue(d.Weather)).ToArray();
+
+        // Weather ranges data
+        var (rangeLabels, rangeProductions) = CalculateWeatherRanges();
+
+        // Multi-factor correlations
+        var factorLabels = new[] { "Sunshine", "Temp", "Wind", "Precip", "Pressure" };
+        var factorCorrelations = new double[]
+        {
+            CalculatePearsonCorrelation(productions, _filteredData.Select(d => d.Weather.tsun).ToArray()),
+            CalculatePearsonCorrelation(productions, _filteredData.Select(d => d.Weather.tavg).ToArray()),
+            CalculatePearsonCorrelation(productions, _filteredData.Select(d => d.Weather.wspd).ToArray()),
+            CalculatePearsonCorrelation(productions, _filteredData.Select(d => d.Weather.prcp).ToArray()),
+            CalculatePearsonCorrelation(productions, _filteredData.Select(d => d.Weather.pres).ToArray())
+        };
+
+        await JSRuntime.InvokeVoidAsync("renderScatterChart", "scatterChart", weatherValues, productions, GetWeatherFactorName(), GetWeatherUnit());
+        await JSRuntime.InvokeVoidAsync("renderTimelineChart", "timelineChart", dates, timelineProduction, timelineWeather, GetWeatherFactorName());
+        await JSRuntime.InvokeVoidAsync("renderWeatherRangesChart", "weatherRangesChart", rangeLabels, rangeProductions);
+        await JSRuntime.InvokeVoidAsync("renderMultiFactorChart", "multiFactorChart", factorLabels, factorCorrelations);
+    }
+
+    private (string[] labels, double[] averages) CalculateWeatherRanges()
+    {
+        var ranges = _filteredData
+            .GroupBy(d => Math.Floor(GetWeatherValue(d.Weather) / 5) * 5)
+            .OrderBy(g => g.Key)
+            .Select(g => (
+                Label: $"{g.Key:N0}-{(g.Key + 5):N0} {GetWeatherUnit()}",
+                Average: g.Average(d => d.Production)
+            ))
+            .ToArray();
+
+        return (ranges.Select(r => r.Label).ToArray(), ranges.Select(r => r.Average).ToArray());
+    }
+}
