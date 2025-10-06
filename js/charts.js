@@ -742,4 +742,469 @@ window.renderYearOverYearChart = (canvasId, months, datasets) => {
     window.createChart(canvasId, config);
 };
 
+// Render Cumulative Savings Chart with Payback Line
+window.renderCumulativeSavingsChart = (canvasId, years, cumulativeSavings, systemCost) => {
+    const config = {
+        type: 'line',
+        data: {
+            labels: years,
+            datasets: [
+                {
+                    label: 'Cumulative Savings',
+                    data: cumulativeSavings,
+                    borderColor: 'rgb(25, 135, 84)',
+                    backgroundColor: 'rgba(25, 135, 84, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 6,
+                    pointHoverRadius: 8
+                },
+                {
+                    label: 'System Cost (Payback Target)',
+                    data: Array(years.length).fill(systemCost),
+                    borderColor: 'rgb(220, 53, 69)',
+                    backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                    borderWidth: 2,
+                    borderDash: [10, 5],
+                    fill: false,
+                    pointRadius: 0
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': €' + context.parsed.y.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Amount (€)'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return '€' + value.toLocaleString();
+                        }
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Year'
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+// Render Monthly Savings Breakdown Chart
+window.renderMonthlySavingsChart = (canvasId, labels, savings, importCosts) => {
+    const config = {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Savings',
+                    data: savings,
+                    backgroundColor: 'rgba(25, 135, 84, 0.6)',
+                    borderColor: 'rgb(25, 135, 84)',
+                    borderWidth: 2
+                },
+                {
+                    label: 'Grid Import Costs',
+                    data: importCosts,
+                    backgroundColor: 'rgba(220, 53, 69, 0.6)',
+                    borderColor: 'rgb(220, 53, 69)',
+                    borderWidth: 2
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': €' + context.parsed.y.toFixed(2);
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Amount (€)'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return '€' + value.toFixed(0);
+                        }
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Month'
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+// Render Cost Comparison Chart (Doughnut)
+window.renderCostComparisonChart = (canvasId, costWithoutSolar, costWithSolar, savings) => {
+    const config = {
+        type: 'doughnut',
+        data: {
+            labels: ['Amount Saved', 'Actual Cost Paid'],
+            datasets: [{
+                data: [savings, costWithSolar],
+                backgroundColor: [
+                    'rgba(25, 135, 84, 0.8)',
+                    'rgba(220, 53, 69, 0.8)'
+                ],
+                borderColor: [
+                    'rgb(25, 135, 84)',
+                    'rgb(220, 53, 69)'
+                ],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            var label = context.label || '';
+                            var value = context.parsed;
+                            var total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            var percentage = ((value / total) * 100).toFixed(1);
+                            return label + ': €' + value.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' (' + percentage + '%)';
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+// Render Import/Export Balance Chart
+window.renderBalanceChart = (canvasId, labels, imports, exports) => {
+    const config = {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Grid Import',
+                    data: imports,
+                    backgroundColor: 'rgba(13, 110, 253, 0.6)',
+                    borderColor: 'rgb(13, 110, 253)',
+                    borderWidth: 2
+                },
+                {
+                    label: 'Grid Export',
+                    data: exports,
+                    backgroundColor: 'rgba(255, 193, 7, 0.6)',
+                    borderColor: 'rgb(255, 193, 7)',
+                    borderWidth: 2
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + Math.abs(context.parsed.y).toFixed(1) + ' kWh';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Energy (kWh)'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return Math.abs(value).toFixed(0);
+                        }
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Month'
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+// Render Daily Flow Pattern Chart
+window.renderDailyFlowChart = (canvasId, avgProduction, avgConsumption, avgImport, avgExport) => {
+    const config = {
+        type: 'bar',
+        data: {
+            labels: ['Production', 'Consumption', 'Import', 'Export'],
+            datasets: [{
+                label: 'Average Daily Energy',
+                data: [avgProduction, avgConsumption, avgImport, avgExport],
+                backgroundColor: [
+                    'rgba(25, 135, 84, 0.6)',
+                    'rgba(220, 53, 69, 0.6)',
+                    'rgba(13, 110, 253, 0.6)',
+                    'rgba(255, 193, 7, 0.6)'
+                ],
+                borderColor: [
+                    'rgb(25, 135, 84)',
+                    'rgb(220, 53, 69)',
+                    'rgb(13, 110, 253)',
+                    'rgb(255, 193, 7)'
+                ],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.label + ': ' + context.parsed.y.toFixed(2) + ' kWh/day';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Average Energy (kWh/day)'
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+// Render Energy Source Distribution Chart
+window.renderEnergySourceChart = (canvasId, selfConsumption, gridImport) => {
+    const config = {
+        type: 'doughnut',
+        data: {
+            labels: ['Self-Consumption (Solar)', 'Grid Import'],
+            datasets: [{
+                data: [selfConsumption, gridImport],
+                backgroundColor: [
+                    'rgba(255, 193, 7, 0.8)',
+                    'rgba(13, 110, 253, 0.8)'
+                ],
+                borderColor: [
+                    'rgb(255, 193, 7)',
+                    'rgb(13, 110, 253)'
+                ],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            var label = context.label || '';
+                            var value = context.parsed;
+                            var total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            var percentage = ((value / total) * 100).toFixed(1);
+                            return label + ': ' + value.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}) + ' kWh (' + percentage + '%)';
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+// Render Day Type Comparison Chart (Grouped Bar)
+window.renderDayTypeComparisonChart = (canvasId, labels, type1Values, type2Values, type1Label, type2Label) => {
+    const config = {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: type1Label,
+                    data: type1Values,
+                    backgroundColor: 'rgba(13, 110, 253, 0.6)',
+                    borderColor: 'rgb(13, 110, 253)',
+                    borderWidth: 2
+                },
+                {
+                    label: type2Label,
+                    data: type2Values,
+                    backgroundColor: 'rgba(25, 135, 84, 0.6)',
+                    borderColor: 'rgb(25, 135, 84)',
+                    borderWidth: 2
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.parsed.y.toFixed(2) + ' kWh';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Energy (kWh)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Metric'
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+// Render Seasonal Patterns Chart
+window.renderSeasonalPatternsChart = (canvasId, seasons, productions, consumptions) => {
+    const config = {
+        type: 'bar',
+        data: {
+            labels: seasons,
+            datasets: [
+                {
+                    label: 'Avg Production',
+                    data: productions,
+                    backgroundColor: 'rgba(25, 135, 84, 0.6)',
+                    borderColor: 'rgb(25, 135, 84)',
+                    borderWidth: 2
+                },
+                {
+                    label: 'Avg Consumption',
+                    data: consumptions,
+                    backgroundColor: 'rgba(220, 53, 69, 0.6)',
+                    borderColor: 'rgb(220, 53, 69)',
+                    borderWidth: 2
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.parsed.y.toFixed(1) + ' kWh/day';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Average Daily Energy (kWh)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Season'
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
 console.log('Chart.js helper functions loaded successfully');
