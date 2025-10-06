@@ -1,0 +1,248 @@
+@using myenergy.Models
+@using myenergy.Services
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title mb-0">📊 Period Data Visualization</h4>
+    </div>
+    <div class="card-body">
+        <!-- Controls -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <label for="yearSelect" class="form-label">Select Year:</label>
+                <select id="yearSelect" class="form-select" @bind="SelectedYear" @bind:after="OnSelectionChanged">
+                    <option value="">All Years</option>
+                    @foreach (var year in AvailableYears)
+                    {
+                        <option value="@year">@year</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="periodSelect" class="form-label">Period Type:</label>
+                <select id="periodSelect" class="form-select" @bind="SelectedPeriodType" @bind:after="OnSelectionChanged">
+                    <option value="@PeriodType.Daily">Daily</option>
+                    <option value="@PeriodType.Weekly">Weekly</option>
+                    <option value="@PeriodType.Monthly">Monthly</option>
+                    <option value="@PeriodType.Quarterly">Quarterly</option>
+                    <option value="@PeriodType.Yearly">Yearly</option>
+                    <option value="@PeriodType.Total">Total (All Time)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Chart Visualization -->
+        @if (PeriodData != null && PeriodData.Any())
+        {
+            <div class="row mb-4">
+                <div class="col-12">
+                    <EnergyChart PeriodData="@PeriodData" 
+                                 SelectedPeriodType="@SelectedPeriodType" 
+                                 SelectedYear="@SelectedYear" />
+                </div>
+            </div>
+        }
+
+        <!-- Data Table -->
+        @if (PeriodData != null && PeriodData.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Period</th>
+                            <th class="text-end">Production</th>
+                            <th class="text-end">Consumption</th>
+                            <th class="text-end">Import</th>
+                            <th class="text-end">Export</th>
+                            <th class="text-end">Balance</th>
+                            <th class="text-end">Autarky</th>
+                            <th class="text-end">Self Consumption</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var period in PeriodData)
+                        {
+                            var balance = period.Production - period.Consumption;
+                            
+                            <tr>
+                                <td><strong>@period.Label</strong></td>
+                                <td class="text-end text-success">@period.Production.ToString("N0") kWh</td>
+                                <td class="text-end text-danger">@period.Consumption.ToString("N0") kWh</td>
+                                <td class="text-end text-info">@period.Import.ToString("N0") kWh</td>
+                                <td class="text-end text-warning">@period.Export.ToString("N0") kWh</td>
+                                <td class="text-end @(balance >= 0 ? "text-success" : "text-danger")">
+                                    @balance.ToString("N0") kWh
+                                </td>
+                                <td class="text-end">
+                                    <span class="badge @GetAutarkyBadgeClass(period.AutarkyPercent)">
+                                        @period.AutarkyPercent.ToString("N1")%
+                                    </span>
+                                </td>
+                                <td class="text-end">
+                                    <span class="badge @GetSelfConsumptionBadgeClass(period.SelfConsumptionPercent)">
+                                        @period.SelfConsumptionPercent.ToString("N1")%
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    @if (PeriodData.Count > 1 && SelectedPeriodType != PeriodType.Total)
+                    {
+                        <tfoot class="table-secondary">
+                            <tr>
+                                <th>@GetTotalLabel()</th>
+                                <th class="text-end text-success">@TotalProduction.ToString("N0") kWh</th>
+                                <th class="text-end text-danger">@TotalConsumption.ToString("N0") kWh</th>
+                                <th class="text-end text-info">@TotalImport.ToString("N0") kWh</th>
+                                <th class="text-end text-warning">@TotalExport.ToString("N0") kWh</th>
+                                <th class="text-end @(TotalBalance >= 0 ? "text-success" : "text-danger")">
+                                    @TotalBalance.ToString("N0") kWh
+                                </th>
+                                <th class="text-end">
+                                    <span class="badge @GetAutarkyBadgeClass(TotalAutarky)">
+                                        @TotalAutarky.ToString("N1")%
+                                    </span>
+                                </th>
+                                <th class="text-end">
+                                    <span class="badge @GetSelfConsumptionBadgeClass(TotalSelfConsumption)">
+                                        @TotalSelfConsumption.ToString("N1")%
+                                    </span>
+                                </th>
+                            </tr>
+                        </tfoot>
+                    }
+                </table>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="row mt-4">
+                <div class="col-md-3">
+                    <div class="card bg-success text-white">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Total Production</h5>
+                            <h3>@TotalProduction.ToString("N0") kWh</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-info text-white">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Total Consumption</h5>
+                            <h3>@TotalConsumption.ToString("N0") kWh</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card @(TotalAutarky >= 80 ? "bg-success" : TotalAutarky >= 50 ? "bg-warning" : "bg-danger") text-white">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Energy Independence</h5>
+                            <h3>@TotalAutarky.ToString("N1")%</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card @(TotalSelfConsumption >= 80 ? "bg-success" : TotalSelfConsumption >= 50 ? "bg-warning" : "bg-danger") text-white">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Self Consumption</h5>
+                            <h3>@TotalSelfConsumption.ToString("N1")%</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> No data available for the selected period.
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public EnergyDataService DataService { get; set; } = default!;
+
+    private List<int> AvailableYears = new();
+    private int? SelectedYear = null;
+    private PeriodType SelectedPeriodType = PeriodType.Monthly;
+    private List<PeriodDataPoint> PeriodData = new();
+    private int CurrentYear = DateTime.Now.Year;
+    private int CurrentMonth = DateTime.Now.Month;
+    private int CurrentDay = DateTime.Now.Day;
+
+    // Calculated properties for totals
+    private double TotalProduction => PeriodData.Sum(p => p.Production);
+    private double TotalConsumption => PeriodData.Sum(p => p.Consumption);
+    private double TotalImport => PeriodData.Sum(p => p.Import);
+    private double TotalExport => PeriodData.Sum(p => p.Export);
+    private double TotalBalance => TotalProduction - TotalConsumption;
+    private double TotalAutarky => TotalConsumption > 0 ? ((TotalConsumption - TotalImport) / TotalConsumption * 100) : 0;
+    private double TotalSelfConsumption => TotalProduction > 0 ? ((TotalProduction - TotalExport) / TotalProduction * 100) : 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        AvailableYears = DataService.GetAvailableYears();
+        
+        // Default to current year if available
+        if (AvailableYears.Contains(CurrentYear))
+        {
+            SelectedYear = CurrentYear;
+        }
+        else if (AvailableYears.Any())
+        {
+            SelectedYear = AvailableYears.Last(); // Default to most recent year
+        }
+        
+        await OnSelectionChanged();
+    }
+
+    private Task OnSelectionChanged()
+    {
+        // For "Total" period type, ignore selected year
+        var yearToUse = SelectedPeriodType == PeriodType.Total ? null : SelectedYear;
+        PeriodData = DataService.GetPeriodData(yearToUse, SelectedPeriodType);
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    private string GetAutarkyBadgeClass(double autarky)
+    {
+        return autarky switch
+        {
+            >= 90 => "bg-success",
+            >= 70 => "bg-primary", 
+            >= 50 => "bg-warning",
+            _ => "bg-danger"
+        };
+    }
+
+    private string GetSelfConsumptionBadgeClass(double selfConsumption)
+    {
+        return selfConsumption switch
+        {
+            >= 80 => "bg-success",
+            >= 60 => "bg-primary",
+            >= 40 => "bg-warning", 
+            _ => "bg-danger"
+        };
+    }
+
+    private string GetTotalLabel()
+    {
+        return SelectedPeriodType switch
+        {
+            PeriodType.Daily => "Period Total",
+            PeriodType.Weekly => "Period Total",
+            PeriodType.Monthly => SelectedYear.HasValue ? $"{SelectedYear} Total" : "All Years Total",
+            PeriodType.Quarterly => SelectedYear.HasValue ? $"{SelectedYear} Total" : "All Years Total",
+            PeriodType.Yearly => "All Years Total",
+            _ => "Total"
+        };
+    }
+}

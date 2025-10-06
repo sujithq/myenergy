@@ -1,0 +1,561 @@
+@using myenergy.Models
+@using myenergy.Services
+@using Microsoft.JSInterop
+@using System.Text.Json
+@inject IJSRuntime JSRuntime
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title mb-0">📈 Energy Data Charts</h4>
+    </div>
+    <div class="card-body">
+        <!-- Chart Type Selector -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <label for="chartTypeSelect" class="form-label">Chart Type:</label>
+                <select id="chartTypeSelect" class="form-select" @bind="SelectedChartType" @bind:after="OnChartTypeChanged">
+                    <option value="@ChartType.Line">Line Chart</option>
+                    <option value="@ChartType.Bar">Bar Chart</option>
+                    <option value="@ChartType.StackedBar">Stacked Bar Chart</option>
+                    <option value="@ChartType.Pie">Pie Chart (Current Period)</option>
+                    <option value="@ChartType.Doughnut">Doughnut Chart (Current Period)</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="chartMetric" class="form-label">Metric:</label>
+                <select id="chartMetric" class="form-select" @bind="SelectedMetric" @bind:after="OnChartTypeChanged">
+                    <option value="@ChartMetric.All">All Metrics</option>
+                    <option value="@ChartMetric.Production">Production Only</option>
+                    <option value="@ChartMetric.Consumption">Consumption Only</option>
+                    <option value="@ChartMetric.Balance">Balance Only</option>
+                    <option value="@ChartMetric.Efficiency">Efficiency Metrics</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="showTotals" class="form-label">Display:</label>
+                <div class="form-check mt-2">
+                    <input class="form-check-input" type="checkbox" id="showTotals" @bind="ShowTotals" @bind:after="OnChartTypeChanged">
+                    <label class="form-check-label" for="showTotals">
+                        Show Cumulative Totals
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart Container -->
+        <div class="chart-container" style="position: relative; height: 400px; margin-bottom: 2rem;">
+            <canvas id="@ChartCanvasId" style="max-height: 400px;"></canvas>
+        </div>
+
+        <!-- Chart Legend/Info -->
+        @if (PeriodData != null && PeriodData.Any())
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="chart-info p-3 bg-light rounded">
+                        <h6>Chart Information:</h6>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <strong>Data Points:</strong> @PeriodData.Count
+                            </div>
+                            <div class="col-md-3">
+                                <strong>Period:</strong> @SelectedPeriodType.ToString()
+                            </div>
+                            <div class="col-md-3">
+                                <strong>Chart Type:</strong> @SelectedChartType.ToString()
+                            </div>
+                            <div class="col-md-3">
+                                <strong>Year:</strong> @(SelectedYear?.ToString() ?? "All Years")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public List<PeriodDataPoint> PeriodData { get; set; } = new();
+    [Parameter] public PeriodType SelectedPeriodType { get; set; } = PeriodType.Monthly;
+    [Parameter] public int? SelectedYear { get; set; }
+
+    private ChartType SelectedChartType = ChartType.Line;
+    private ChartMetric SelectedMetric = ChartMetric.All;
+    private bool ShowTotals = false;
+    private string ChartCanvasId = Guid.NewGuid().ToString();
+    private int CurrentYear = DateTime.Now.Year;
+
+    public enum ChartType
+    {
+        Line,
+        Bar,
+        StackedBar,
+        Pie,
+        Doughnut
+    }
+
+    public enum ChartMetric
+    {
+        All,
+        Production,
+        Consumption,
+        Balance,
+        Efficiency
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await CreateChart();
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (PeriodData != null && PeriodData.Any())
+        {
+            await CreateChart();
+        }
+    }
+
+    private async Task OnChartTypeChanged()
+    {
+        await CreateChart();
+    }
+
+    private async Task CreateChart()
+    {
+        if (PeriodData == null || !PeriodData.Any())
+            return;
+
+        try
+        {
+            var chartConfig = GenerateChartConfig();
+            await JSRuntime.InvokeVoidAsync("createChart", ChartCanvasId, chartConfig);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error creating chart: {ex.Message}");
+        }
+    }
+
+    private object GenerateChartConfig()
+    {
+        var sortedData = PeriodData.OrderBy(p => p.Date).ToList();
+        var labels = sortedData.Select(p => p.Label).ToArray();
+
+        return SelectedChartType switch
+        {
+            ChartType.Pie => GeneratePieChartConfig(sortedData),
+            ChartType.Doughnut => GenerateDoughnutChartConfig(sortedData),
+            ChartType.StackedBar => GenerateStackedBarChartConfig(sortedData, labels),
+            ChartType.Bar => GenerateBarChartConfig(sortedData, labels),
+            _ => GenerateLineChartConfig(sortedData, labels)
+        };
+    }
+
+    private object GenerateLineChartConfig(List<PeriodDataPoint> data, string[] labels)
+    {
+        var datasets = new List<object>();
+
+        if (SelectedMetric == ChartMetric.All || SelectedMetric == ChartMetric.Production)
+        {
+            datasets.Add(new {
+                label = "Production (kWh)",
+                data = ShowTotals ? GetCumulativeData(data.Select(d => d.Production)) : data.Select(d => d.Production).ToArray(),
+                borderColor = "rgb(34, 197, 94)",
+                backgroundColor = "rgba(34, 197, 94, 0.1)",
+                tension = 0.1,
+                fill = false
+            });
+        }
+
+        if (SelectedMetric == ChartMetric.All || SelectedMetric == ChartMetric.Consumption)
+        {
+            datasets.Add(new {
+                label = "Consumption (kWh)",
+                data = ShowTotals ? GetCumulativeData(data.Select(d => d.Consumption)) : data.Select(d => d.Consumption).ToArray(),
+                borderColor = "rgb(59, 130, 246)",
+                backgroundColor = "rgba(59, 130, 246, 0.1)",
+                tension = 0.1,
+                fill = false
+            });
+        }
+
+        if (SelectedMetric == ChartMetric.All || SelectedMetric == ChartMetric.Production || SelectedMetric == ChartMetric.Consumption)
+        {
+            datasets.Add(new {
+                label = "Import (kWh)",
+                data = ShowTotals ? GetCumulativeData(data.Select(d => d.Import)) : data.Select(d => d.Import).ToArray(),
+                borderColor = "rgb(245, 158, 11)",
+                backgroundColor = "rgba(245, 158, 11, 0.1)",
+                tension = 0.1,
+                fill = false
+            });
+
+            datasets.Add(new {
+                label = "Export (kWh)",
+                data = ShowTotals ? GetCumulativeData(data.Select(d => d.Export)) : data.Select(d => d.Export).ToArray(),
+                borderColor = "rgb(16, 185, 129)",
+                backgroundColor = "rgba(16, 185, 129, 0.1)",
+                tension = 0.1,
+                fill = false
+            });
+        }
+
+        if (SelectedMetric == ChartMetric.Balance)
+        {
+            datasets.Add(new {
+                label = "Balance (kWh)",
+                data = ShowTotals ? GetCumulativeData(data.Select(d => d.Production - d.Consumption)) : data.Select(d => d.Production - d.Consumption).ToArray(),
+                borderColor = "rgb(168, 85, 247)",
+                backgroundColor = "rgba(168, 85, 247, 0.1)",
+                tension = 0.1,
+                fill = false
+            });
+        }
+
+        if (SelectedMetric == ChartMetric.Efficiency)
+        {
+            datasets.Add(new {
+                label = "Autarky (%)",
+                data = data.Select(d => d.AutarkyPercent).ToArray(),
+                borderColor = "rgb(239, 68, 68)",
+                backgroundColor = "rgba(239, 68, 68, 0.1)",
+                tension = 0.1,
+                fill = false,
+                yAxisID = "y1"
+            });
+
+            datasets.Add(new {
+                label = "Self Consumption (%)",
+                data = data.Select(d => d.SelfConsumptionPercent).ToArray(),
+                borderColor = "rgb(147, 51, 234)",
+                backgroundColor = "rgba(147, 51, 234, 0.1)",
+                tension = 0.1,
+                fill = false,
+                yAxisID = "y1"
+            });
+        }
+
+        object scales;
+        
+        if (SelectedMetric == ChartMetric.Efficiency)
+        {
+            scales = new {
+                y = new {
+                    beginAtZero = true,
+                    title = new {
+                        display = true,
+                        text = "Energy (kWh)"
+                    }
+                },
+                y1 = new {
+                    type = "linear",
+                    display = true,
+                    position = "right",
+                    beginAtZero = true,
+                    max = 100,
+                    title = new {
+                        display = true,
+                        text = "Percentage (%)"
+                    },
+                    grid = new {
+                        drawOnChartArea = false
+                    }
+                }
+            };
+        }
+        else
+        {
+            scales = new {
+                y = new {
+                    beginAtZero = true,
+                    title = new {
+                        display = true,
+                        text = "Energy (kWh)"
+                    }
+                }
+            };
+        }
+
+        return new {
+            type = "line",
+            data = new {
+                labels = labels,
+                datasets = datasets.ToArray()
+            },
+            options = new {
+                responsive = true,
+                maintainAspectRatio = false,
+                plugins = new {
+                    title = new {
+                        display = true,
+                        text = $"Energy Data - {SelectedPeriodType} View"
+                    },
+                    legend = new {
+                        display = true,
+                        position = "top"
+                    }
+                },
+                scales = scales
+            }
+        };
+    }
+
+    private object GenerateBarChartConfig(List<PeriodDataPoint> data, string[] labels)
+    {
+        var datasets = new List<object>();
+
+        if (SelectedMetric == ChartMetric.All || SelectedMetric == ChartMetric.Production)
+        {
+            datasets.Add(new {
+                label = "Production (kWh)",
+                data = ShowTotals ? GetCumulativeData(data.Select(d => d.Production)) : data.Select(d => d.Production).ToArray(),
+                backgroundColor = "rgba(34, 197, 94, 0.8)",
+                borderColor = "rgb(34, 197, 94)",
+                borderWidth = 1
+            });
+        }
+
+        if (SelectedMetric == ChartMetric.All || SelectedMetric == ChartMetric.Consumption)
+        {
+            datasets.Add(new {
+                label = "Consumption (kWh)",
+                data = ShowTotals ? GetCumulativeData(data.Select(d => d.Consumption)) : data.Select(d => d.Consumption).ToArray(),
+                backgroundColor = "rgba(59, 130, 246, 0.8)",
+                borderColor = "rgb(59, 130, 246)",
+                borderWidth = 1
+            });
+        }
+
+        if (SelectedMetric == ChartMetric.All || SelectedMetric == ChartMetric.Production || SelectedMetric == ChartMetric.Consumption)
+        {
+            datasets.Add(new {
+                label = "Import (kWh)",
+                data = ShowTotals ? GetCumulativeData(data.Select(d => d.Import)) : data.Select(d => d.Import).ToArray(),
+                backgroundColor = "rgba(245, 158, 11, 0.8)",
+                borderColor = "rgb(245, 158, 11)",
+                borderWidth = 1
+            });
+
+            datasets.Add(new {
+                label = "Export (kWh)",
+                data = ShowTotals ? GetCumulativeData(data.Select(d => d.Export)) : data.Select(d => d.Export).ToArray(),
+                backgroundColor = "rgba(16, 185, 129, 0.8)",
+                borderColor = "rgb(16, 185, 129)",
+                borderWidth = 1
+            });
+        }
+
+        if (SelectedMetric == ChartMetric.Balance)
+        {
+            datasets.Add(new {
+                label = "Balance (kWh)",
+                data = ShowTotals ? GetCumulativeData(data.Select(d => d.Production - d.Consumption)) : data.Select(d => d.Production - d.Consumption).ToArray(),
+                backgroundColor = "rgba(168, 85, 247, 0.8)",
+                borderColor = "rgb(168, 85, 247)",
+                borderWidth = 1
+            });
+        }
+
+        return new {
+            type = "bar",
+            data = new {
+                labels = labels,
+                datasets = datasets.ToArray()
+            },
+            options = new {
+                responsive = true,
+                maintainAspectRatio = false,
+                plugins = new {
+                    title = new {
+                        display = true,
+                        text = $"Energy Data - {SelectedPeriodType} View"
+                    },
+                    legend = new {
+                        display = true,
+                        position = "top"
+                    }
+                },
+                scales = new {
+                    y = new {
+                        beginAtZero = true,
+                        title = new {
+                            display = true,
+                            text = "Energy (kWh)"
+                        }
+                    }
+                }
+            }
+        };
+    }
+
+    private object GenerateStackedBarChartConfig(List<PeriodDataPoint> data, string[] labels)
+    {
+        var datasets = new List<object>();
+
+        if (SelectedMetric == ChartMetric.All || SelectedMetric == ChartMetric.Production)
+        {
+            datasets.Add(new {
+                label = "Production",
+                data = data.Select(d => d.Production).ToArray(),
+                backgroundColor = "rgba(34, 197, 94, 0.8)",
+                stack = "energy"
+            });
+        }
+
+        if (SelectedMetric == ChartMetric.All || SelectedMetric == ChartMetric.Consumption)
+        {
+            datasets.Add(new {
+                label = "Consumption",
+                data = data.Select(d => d.Consumption).ToArray(),
+                backgroundColor = "rgba(59, 130, 246, 0.8)",
+                stack = "energy"
+            });
+        }
+
+        datasets.Add(new {
+            label = "Import",
+            data = data.Select(d => d.Import).ToArray(),
+            backgroundColor = "rgba(245, 158, 11, 0.8)",
+            stack = "grid"
+        });
+
+        datasets.Add(new {
+            label = "Export",
+            data = data.Select(d => d.Export).ToArray(),
+            backgroundColor = "rgba(16, 185, 129, 0.8)",
+            stack = "grid"
+        });
+
+        return new {
+            type = "bar",
+            data = new {
+                labels = labels,
+                datasets = datasets.ToArray()
+            },
+            options = new {
+                responsive = true,
+                maintainAspectRatio = false,
+                plugins = new {
+                    title = new {
+                        display = true,
+                        text = $"Energy Data (Stacked) - {SelectedPeriodType} View"
+                    }
+                },
+                scales = new {
+                    x = new {
+                        stacked = true
+                    },
+                    y = new {
+                        stacked = true,
+                        beginAtZero = true,
+                        title = new {
+                            display = true,
+                            text = "Energy (kWh)"
+                        }
+                    }
+                }
+            }
+        };
+    }
+
+    private object GeneratePieChartConfig(List<PeriodDataPoint> data)
+    {
+        var totals = new {
+            Production = data.Sum(d => d.Production),
+            Consumption = data.Sum(d => d.Consumption),
+            Import = data.Sum(d => d.Import),
+            Export = data.Sum(d => d.Export)
+        };
+
+        return new {
+            type = "pie",
+            data = new {
+                labels = new[] { "Production", "Consumption", "Import", "Export" },
+                datasets = new[] {
+                    new {
+                        data = new[] { totals.Production, totals.Consumption, totals.Import, totals.Export },
+                        backgroundColor = new[] {
+                            "rgb(34, 197, 94)",
+                            "rgb(59, 130, 246)",
+                            "rgb(245, 158, 11)",
+                            "rgb(16, 185, 129)"
+                        }
+                    }
+                }
+            },
+            options = new {
+                responsive = true,
+                maintainAspectRatio = false,
+                plugins = new {
+                    title = new {
+                        display = true,
+                        text = $"Energy Distribution - {SelectedPeriodType} Totals"
+                    },
+                    legend = new {
+                        position = "right"
+                    }
+                }
+            }
+        };
+    }
+
+    private object GenerateDoughnutChartConfig(List<PeriodDataPoint> data)
+    {
+        var totals = new {
+            Production = data.Sum(d => d.Production),
+            Consumption = data.Sum(d => d.Consumption),
+            Import = data.Sum(d => d.Import),
+            Export = data.Sum(d => d.Export)
+        };
+
+        return new {
+            type = "doughnut",
+            data = new {
+                labels = new[] { "Production", "Consumption", "Import", "Export" },
+                datasets = new[] {
+                    new {
+                        data = new[] { totals.Production, totals.Consumption, totals.Import, totals.Export },
+                        backgroundColor = new[] {
+                            "rgb(34, 197, 94)",
+                            "rgb(59, 130, 246)",
+                            "rgb(245, 158, 11)",
+                            "rgb(16, 185, 129)"
+                        }
+                    }
+                }
+            },
+            options = new {
+                responsive = true,
+                maintainAspectRatio = false,
+                plugins = new {
+                    title = new {
+                        display = true,
+                        text = $"Energy Distribution - {SelectedPeriodType} Totals"
+                    },
+                    legend = new {
+                        position = "right"
+                    }
+                }
+            }
+        };
+    }
+
+    private double[] GetCumulativeData(IEnumerable<double> data)
+    {
+        var cumulative = new List<double>();
+        double sum = 0;
+        
+        foreach (var value in data)
+        {
+            sum += value;
+            cumulative.Add(sum);
+        }
+        
+        return cumulative.ToArray();
+    }
+}

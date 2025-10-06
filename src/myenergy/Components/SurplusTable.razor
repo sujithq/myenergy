@@ -1,0 +1,26 @@
+<div class="table-responsive">
+    <table class="table table-hover table-sm">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Date</th>
+                <th class="text-end">Surplus</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ((date, surplus), index) in Data.Select((d, i) => (d, i + 1)))
+            {
+                <tr>
+                    <td>@index</td>
+                    <td>@date.ToString("yyyy-MM-dd")</td>
+                    <td class="text-end text-success fw-bold">@surplus.ToString("N2") kWh</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    [Parameter]
+    public List<(DateTime date, double surplus)> Data { get; set; } = new();
+}

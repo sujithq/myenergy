@@ -1,0 +1,143 @@
+@using myenergy.Models
+@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime
+
+<div class="card">
+    <div class="card-header bg-success text-white">
+        <h6 class="card-title mb-0">📊 Quick Chart</h6>
+    </div>
+    <div class="card-body p-2">
+        <div style="height: 200px;">
+            <canvas id="@ChartCanvasId" style="max-height: 200px;"></canvas>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public List<PeriodDataPoint> Data { get; set; } = new();
+    [Parameter] public string Title { get; set; } = "Energy Overview";
+    [Parameter] public string ChartType { get; set; } = "line"; // line, bar, doughnut
+    
+    private string ChartCanvasId = Guid.NewGuid().ToString();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && Data != null && Data.Any())
+        {
+            await CreateMiniChart();
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Data != null && Data.Any())
+        {
+            await CreateMiniChart();
+        }
+    }
+
+    private async Task CreateMiniChart()
+    {
+        try
+        {
+            var sortedData = Data.OrderBy(p => p.Date).Take(12).ToList(); // Show last 12 data points
+            var labels = sortedData.Select(p => p.Label).ToArray();
+
+            object chartConfig;
+
+            if (ChartType == "doughnut")
+            {
+                var totals = new {
+                    Production = sortedData.Sum(d => d.Production),
+                    Consumption = sortedData.Sum(d => d.Consumption),
+                    Import = sortedData.Sum(d => d.Import),
+                    Export = sortedData.Sum(d => d.Export)
+                };
+
+                chartConfig = new {
+                    type = "doughnut",
+                    data = new {
+                        labels = new[] { "Production", "Consumption", "Import", "Export" },
+                        datasets = new[] {
+                            new {
+                                data = new[] { totals.Production, totals.Consumption, totals.Import, totals.Export },
+                                backgroundColor = new[] {
+                                    "rgb(34, 197, 94)",
+                                    "rgb(59, 130, 246)",
+                                    "rgb(245, 158, 11)",
+                                    "rgb(16, 185, 129)"
+                                }
+                            }
+                        }
+                    },
+                    options = new {
+                        responsive = true,
+                        maintainAspectRatio = false,
+                        plugins = new {
+                            legend = new {
+                                display = false
+                            }
+                        }
+                    }
+                };
+            }
+            else
+            {
+                chartConfig = new {
+                    type = ChartType,
+                    data = new {
+                        labels = labels,
+                        datasets = new[] {
+                            new {
+                                label = "Production",
+                                data = sortedData.Select(d => d.Production).ToArray(),
+                                borderColor = "rgb(34, 197, 94)",
+                                backgroundColor = ChartType == "line" ? "rgba(34, 197, 94, 0.1)" : "rgba(34, 197, 94, 0.8)",
+                                tension = 0.1,
+                                fill = ChartType == "line"
+                            },
+                            new {
+                                label = "Consumption",
+                                data = sortedData.Select(d => d.Consumption).ToArray(),
+                                borderColor = "rgb(59, 130, 246)",
+                                backgroundColor = ChartType == "line" ? "rgba(59, 130, 246, 0.1)" : "rgba(59, 130, 246, 0.8)",
+                                tension = 0.1,
+                                fill = ChartType == "line"
+                            }
+                        }
+                    },
+                    options = new {
+                        responsive = true,
+                        maintainAspectRatio = false,
+                        plugins = new {
+                            legend = new {
+                                display = true,
+                                position = "bottom",
+                                labels = new {
+                                    boxWidth = 12,
+                                    font = new {
+                                        size = 10
+                                    }
+                                }
+                            }
+                        },
+                        scales = new {
+                            x = new {
+                                display = false
+                            },
+                            y = new {
+                                display = false
+                            }
+                        }
+                    }
+                };
+            }
+
+            await JSRuntime.InvokeVoidAsync("createChart", ChartCanvasId, chartConfig);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error creating mini chart: {ex.Message}");
+        }
+    }
+}

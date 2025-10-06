@@ -1,0 +1,65 @@
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Year</th>
+                <th class="text-end">Production</th>
+                <th class="text-end">Consumption</th>
+                <th class="text-end">Import</th>
+                <th class="text-end">Export</th>
+                <th class="text-end">Autarky</th>
+                <th class="text-end">Self Consumption</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var year in Data.OrderBy(x => x.Key))
+            {
+                var autarky = year.Value.consumption > 0 
+                    ? ((year.Value.consumption - year.Value.import) / year.Value.consumption * 100) 
+                    : 0;
+                var selfConsumption = year.Value.production > 0 
+                    ? ((year.Value.production - year.Value.export) / year.Value.production * 100) 
+                    : 0;
+
+                <tr>
+                    <td><strong>@year.Key</strong></td>
+                    <td class="text-end text-success">@year.Value.production.ToString("N0") kWh</td>
+                    <td class="text-end text-danger">@year.Value.consumption.ToString("N0") kWh</td>
+                    <td class="text-end text-info">@year.Value.import.ToString("N0") kWh</td>
+                    <td class="text-end text-warning">@year.Value.export.ToString("N0") kWh</td>
+                    <td class="text-end">@autarky.ToString("N1")%</td>
+                    <td class="text-end">@selfConsumption.ToString("N1")%</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot class="table-secondary">
+            <tr>
+                <th>Total</th>
+                <th class="text-end text-success">@TotalProduction.ToString("N0") kWh</th>
+                <th class="text-end text-danger">@TotalConsumption.ToString("N0") kWh</th>
+                <th class="text-end text-info">@TotalImport.ToString("N0") kWh</th>
+                <th class="text-end text-warning">@TotalExport.ToString("N0") kWh</th>
+                <th class="text-end">@TotalAutarky.ToString("N1")%</th>
+                <th class="text-end">@TotalSelfConsumption.ToString("N1")%</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+@code {
+    [Parameter]
+    public Dictionary<int, (double production, double consumption, double import, double export)> Data { get; set; } = new();
+
+    private double TotalProduction => Data.Sum(x => x.Value.production);
+    private double TotalConsumption => Data.Sum(x => x.Value.consumption);
+    private double TotalImport => Data.Sum(x => x.Value.import);
+    private double TotalExport => Data.Sum(x => x.Value.export);
+    
+    private double TotalAutarky => TotalConsumption > 0 
+        ? ((TotalConsumption - TotalImport) / TotalConsumption * 100) 
+        : 0;
+    
+    private double TotalSelfConsumption => TotalProduction > 0 
+        ? ((TotalProduction - TotalExport) / TotalProduction * 100) 
+        : 0;
+}
