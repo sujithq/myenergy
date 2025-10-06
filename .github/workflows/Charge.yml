@@ -37,7 +37,7 @@ jobs:
         fetch-depth: 0
         
     - name: Before Run Actions
-      uses: sujithq/myenergy/.github/actions/before-run-actions@72356dc197c787047b4137f712a91c814a21f470
+      uses: sujithq/myenergy/.github/actions/before-run-actions@f80f6078234e52ec30d9f9127dea6fd25809a0f2
       with:
         DOTNET-VERSION: ${{ env.GLOBAL_DOTNET_VERSION }}
 
@@ -48,7 +48,7 @@ jobs:
         NETCORE_ENVIRONMENT: Production
 
     - name: After Run Actions
-      uses: sujithq/myenergy/.github/actions/after-run-actions@72356dc197c787047b4137f712a91c814a21f470
+      uses: sujithq/myenergy/.github/actions/after-run-actions@f80f6078234e52ec30d9f9127dea6fd25809a0f2
       with:
         COMMAND: ${{ env.GLOBAL_COMMAND }}
         APP_ID: ${{ secrets.APP_ID }}
