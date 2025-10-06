@@ -1207,4 +1207,352 @@ window.renderSeasonalPatternsChart = (canvasId, seasons, productions, consumptio
     window.createChart(canvasId, config);
 };
 
+// Render Efficiency Trend Chart
+window.renderEfficiencyTrendChart = (canvasId, labels, values, metricTitle) => {
+    const config = {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: metricTitle,
+                data: values,
+                borderColor: 'rgb(13, 110, 253)',
+                backgroundColor: 'rgba(13, 110, 253, 0.1)',
+                borderWidth: 3,
+                tension: 0.4,
+                fill: true,
+                pointRadius: 4,
+                pointHoverRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return metricTitle + ': ' + context.parsed.y.toFixed(1) + '%';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'Percentage (%)'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Month'
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+// Render Seasonal Efficiency Comparison
+window.renderSeasonalEfficiencyChart = (canvasId, seasons, cfValues, prValues) => {
+    const config = {
+        type: 'bar',
+        data: {
+            labels: seasons,
+            datasets: [
+                {
+                    label: 'Capacity Factor',
+                    data: cfValues,
+                    backgroundColor: 'rgba(25, 135, 84, 0.6)',
+                    borderColor: 'rgb(25, 135, 84)',
+                    borderWidth: 2
+                },
+                {
+                    label: 'Performance Ratio',
+                    data: prValues,
+                    backgroundColor: 'rgba(13, 110, 253, 0.6)',
+                    borderColor: 'rgb(13, 110, 253)',
+                    borderWidth: 2
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.parsed.y.toFixed(1) + '%';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'Percentage (%)'
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+// Render Health Score Distribution
+window.renderHealthScoreDistribution = (canvasId, scores) => {
+    const config = {
+        type: 'doughnut',
+        data: {
+            labels: ['Excellent (80-100)', 'Good (60-80)', 'Fair (40-60)', 'Poor (0-40)'],
+            datasets: [{
+                data: scores,
+                backgroundColor: [
+                    'rgba(25, 135, 84, 0.8)',
+                    'rgba(13, 110, 253, 0.8)',
+                    'rgba(255, 193, 7, 0.8)',
+                    'rgba(220, 53, 69, 0.8)'
+                ],
+                borderColor: [
+                    'rgb(25, 135, 84)',
+                    'rgb(13, 110, 253)',
+                    'rgb(255, 193, 7)',
+                    'rgb(220, 53, 69)'
+                ],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.label + ': ' + context.parsed + ' days';
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+// Render Forecast Chart with Confidence Intervals
+window.renderForecastChart = (canvasId, labels, predictions, lowerBounds, upperBounds) => {
+    const config = {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Predicted Production',
+                    data: predictions,
+                    borderColor: 'rgb(13, 110, 253)',
+                    backgroundColor: 'rgba(13, 110, 253, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: false,
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                },
+                {
+                    label: 'Upper Bound',
+                    data: upperBounds,
+                    borderColor: 'rgba(13, 110, 253, 0.3)',
+                    backgroundColor: 'rgba(13, 110, 253, 0.05)',
+                    borderWidth: 1,
+                    borderDash: [5, 5],
+                    tension: 0.4,
+                    fill: '+1',
+                    pointRadius: 0
+                },
+                {
+                    label: 'Lower Bound',
+                    data: lowerBounds,
+                    borderColor: 'rgba(13, 110, 253, 0.3)',
+                    backgroundColor: 'rgba(13, 110, 253, 0.1)',
+                    borderWidth: 1,
+                    borderDash: [5, 5],
+                    tension: 0.4,
+                    fill: false,
+                    pointRadius: 0
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.parsed.y.toFixed(1) + ' kWh';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Production (kWh)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date'
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+// Render Yearly Trend Forecast
+window.renderYearlyTrendForecast = (canvasId, years, productions, historicalCount) => {
+    const config = {
+        type: 'bar',
+        data: {
+            labels: years,
+            datasets: [{
+                label: 'Production',
+                data: productions,
+                backgroundColor: productions.map((_, i) => 
+                    i < historicalCount ? 'rgba(25, 135, 84, 0.6)' : 'rgba(13, 110, 253, 0.6)'
+                ),
+                borderColor: productions.map((_, i) => 
+                    i < historicalCount ? 'rgb(25, 135, 84)' : 'rgb(13, 110, 253)'
+                ),
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            var label = context.dataIndex < historicalCount ? 'Historical' : 'Forecast';
+                            return label + ': ' + context.parsed.y.toLocaleString() + ' kWh';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Annual Production (kWh)'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return value.toLocaleString();
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+// Render Production Distribution Histogram
+window.renderProductionDistribution = (canvasId, labels, counts) => {
+    const config = {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Number of Days',
+                data: counts,
+                backgroundColor: 'rgba(13, 110, 253, 0.6)',
+                borderColor: 'rgb(13, 110, 253)',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.parsed.y + ' days';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Number of Days'
+                    },
+                    ticks: {
+                        precision: 0
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Production Range (kWh)'
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
 console.log('Chart.js helper functions loaded successfully');
