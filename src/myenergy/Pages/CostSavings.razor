@@ -380,7 +380,7 @@
         var monthLabels = monthlySavingsData.Select(m => m.Date.ToString("MMM yyyy")).ToArray();
         var monthlySavings = monthlySavingsData.Select(m => m.Savings).ToArray();
         var monthlyImports = monthlySavingsData.Select(m => m.ImportCosts).ToArray();
-        await JS.InvokeVoidAsync("renderMonthlySavingsChart", "monthlySavingsChart", monthLabels, monthlySavings, monthlyImports);
+        await JS.InvokeVoidAsync("renderCostSavingsMonthlySavingsChart", "monthlySavingsChart", monthLabels, monthlySavings, monthlyImports);
         
         // Cost comparison chart
         await JS.InvokeVoidAsync("renderCostComparisonChart", "costComparisonChart", costWithoutSolar, costWithSolar, totalSavings);

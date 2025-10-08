@@ -148,12 +148,12 @@ public class BatterySimulationService
 
         if (netDemand > 0) // Need power
         {
-            // First try to use battery if it's cheaper than importing
+            // ALWAYS use battery instead of importing (battery power is free!)
             var availableFromBattery = currentLevel;
             var maxDischarge = battery.MaxDischargeRateKw * quarterHourFraction;
             var canDischarge = Math.Min(availableFromBattery, Math.Min(maxDischarge, netDemand));
 
-            if (canDischarge > 0 && exportPrice < importPrice * 0.9) // Use battery if it makes economic sense
+            if (canDischarge > 0)
             {
                 discharge = canDischarge / battery.Efficiency; // Account for efficiency loss
                 var remaining = netDemand - canDischarge;
@@ -161,6 +161,7 @@ public class BatterySimulationService
             }
             else
             {
+                // Battery empty, must import
                 gridImport = netDemand;
             }
         }
@@ -168,21 +169,28 @@ public class BatterySimulationService
         {
             var surplus = -netDemand;
             
-            // Strategy: Store in battery if it's more valuable than exporting
-            // (Will use stored power later to avoid importing at high prices)
+            // Strategy: Store free solar energy in battery for later use
+            // Only makes sense if we'll actually use it to avoid future imports
+            // Considering round-trip efficiency: store only if (importPrice * efficiency²) > exportPrice
             var spaceInBattery = battery.UsableCapacity - currentLevel;
             var maxCharge = battery.MaxChargeRateKw * quarterHourFraction;
             var canStore = Math.Min(spaceInBattery, Math.Min(maxCharge, surplus));
 
-            if (canStore > 0 && importPrice > exportPrice * 1.1) // Store if importing is expensive
+            // Economic threshold: Store if future import savings (after losses) exceed immediate export revenue
+            // With 95% efficiency: need importPrice * 0.9025 > exportPrice
+            // Example: €0.30 * 0.9025 = €0.271 > €0.05 ✅ (worth storing)
+            var roundTripEfficiency = battery.Efficiency * battery.Efficiency;
+            var futureValue = importPrice * roundTripEfficiency;
+            
+            if (canStore > 0 && futureValue > exportPrice)
             {
-                charge = canStore * battery.Efficiency; // Account for efficiency
+                charge = canStore * battery.Efficiency; // Account for charging efficiency
                 var remaining = surplus - canStore;
                 gridExport = Math.Max(0, remaining);
             }
             else
             {
-                // Export all surplus
+                // Not economical to store, export all surplus immediately
                 gridExport = surplus;
             }
         }

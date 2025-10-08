@@ -288,7 +288,7 @@
             analysisStartDate = availableDates.First();
             analysisEndDate = availableDates.Last();
             solarInstallDate = availableDates.First();
-            batteryInstallDate = availableDates.First().AddMonths(6);
+            batteryInstallDate = availableDates.First(); // Same as solar install date
         }
 
         await RecalculateRoi();

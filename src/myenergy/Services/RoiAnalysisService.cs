@@ -37,6 +37,22 @@ public class RoiAnalysisService
         DateTime? batteryBreakEven = null;
         DateTime? combinedBreakEven = null;
 
+        // Pre-run battery simulations for all years (MUCH faster than per-day)
+        var batterySimulations = new Dictionary<int, SimulationResults>();
+        if (batteryInvestment != null)
+        {
+            var years = availableDates.Select(d => d.Year).Distinct().ToList();
+            foreach (var year in years)
+            {
+                var sim = await _simulationService.RunSimulation(
+                    year,
+                    batteryInvestment.CapacityKwh,
+                    fixedImportPrice,
+                    fixedExportPrice);
+                batterySimulations[year] = sim;
+            }
+        }
+
         foreach (var date in availableDates)
         {
             var dailyDetail = _energyService.GetDailyDetailData(date);
@@ -56,14 +72,35 @@ public class RoiAnalysisService
                 : baselineCost;
 
             // Calculate cost with solar + battery (if both active)
-            var solarAndBatteryCost = batteryActive && solarActive
-                ? await CalculateCostWithSolarAndBattery(date, batteryInvestment.CapacityKwh, fixedImportPrice, fixedExportPrice, useDynamicPricing)
-                : solarCost;
+            var solarAndBatteryCost = solarCost; // Default to solar-only cost
+            if (batteryActive && solarActive && batterySimulations.TryGetValue(date.Year, out var yearSim))
+            {
+                var dayResult = yearSim.DailyResults.FirstOrDefault(d => d.Date.Date == date.Date);
+                if (dayResult != null)
+                {
+                    solarAndBatteryCost = useDynamicPricing 
+                        ? dayResult.CostWithBatteryDynamic
+                        : dayResult.CostWithBatteryFixed;
+                }
+            }
 
             // Daily savings
             var solarDailySavings = solarActive ? (baselineCost - solarCost) : 0;
-            var batteryDailySavings = batteryActive ? (solarCost - solarAndBatteryCost) : 0;
+            // Battery savings only when both solar AND battery are active (battery needs solar to work)
+            var batteryDailySavings = (batteryActive && solarActive) ? (solarCost - solarAndBatteryCost) : 0;
             var totalDailySavings = baselineCost - solarAndBatteryCost;
+
+            // DEBUG: Log when battery is active and savings are negative or zero
+            if (batteryActive && solarActive && batteryDailySavings <= 0)
+            {
+                Console.WriteLine($"Date: {date:yyyy-MM-dd}");
+                Console.WriteLine($"  Baseline Cost: €{baselineCost:F2}");
+                Console.WriteLine($"  Solar Cost: €{solarCost:F2}");
+                Console.WriteLine($"  Solar+Battery Cost: €{solarAndBatteryCost:F2}");
+                Console.WriteLine($"  Solar Savings: €{solarDailySavings:F2}");
+                Console.WriteLine($"  Battery Savings: €{batteryDailySavings:F2} {(batteryDailySavings < 0 ? "❌" : "⚠️")}");
+                Console.WriteLine();
+            }
 
             // Cumulative savings
             solarCumulativeSavings += solarDailySavings;
@@ -161,27 +198,6 @@ public class RoiAnalysisService
 
         // For now, use fixed pricing (can enhance with dynamic later)
         return (gridImport * importPrice) - (gridExport * exportPrice);
-    }
-
-    private async Task<double> CalculateCostWithSolarAndBattery(
-        DateTime date,
-        double batteryCapacity,
-        double fixedImportPrice,
-        double fixedExportPrice,
-        bool useDynamic)
-    {
-        // Run simulation for this specific day
-        var simulation = await _simulationService.RunSimulation(
-            date.Year,
-            batteryCapacity,
-            fixedImportPrice,
-            fixedExportPrice);
-
-        var dayResult = simulation.DailyResults.FirstOrDefault(d => d.Date.Date == date.Date);
-        
-        return useDynamic 
-            ? (dayResult?.CostWithBatteryDynamic ?? 0)
-            : (dayResult?.CostWithBatteryFixed ?? 0);
     }
 
     private int CalculateMonthsDiff(DateTime start, DateTime end)

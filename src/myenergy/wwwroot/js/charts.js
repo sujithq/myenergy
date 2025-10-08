@@ -815,7 +815,7 @@ window.renderCumulativeSavingsChart = (canvasId, years, cumulativeSavings, syste
 };
 
 // Render Monthly Savings Breakdown Chart
-window.renderMonthlySavingsChart = (canvasId, labels, savings, importCosts) => {
+window.renderCostSavingsMonthlySavingsChart = (canvasId, labels, savings, importCosts) => {
     const config = {
         type: 'bar',
         data: {
