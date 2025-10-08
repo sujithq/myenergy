@@ -1,6 +1,6 @@
 # My Energy
 
-This repo contains the code for myenergy app. The app is hosted at [https://sujithq.github.io/myenergy/](https://sujithq.github.io/myenergy/)
+This repo contains the code for myenergy app. The app is hosted at [https://energy.quintelier.dev/](https://energy.quintelier.dev/)
 
 It is a simple app that shows the energy consumption of my household. The data is provided by [June Energy](https://www.june.energy/) and [ISolarCloud](https://www.isolarcloud.com/). The data is refreshed every hour between 05-23.
 
