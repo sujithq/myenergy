@@ -9,6 +9,9 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped<EnergyDataService>();
+builder.Services.AddScoped<OdsPricingService>();
+builder.Services.AddScoped<BatterySimulationService>();
+builder.Services.AddScoped<RoiAnalysisService>();
 builder.Services.AddSingleton<AppConfigurationService>();
 
 await builder.Build().RunAsync();
