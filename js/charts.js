@@ -1555,4 +1555,1017 @@ window.renderProductionDistribution = (canvasId, labels, counts) => {
     window.createChart(canvasId, config);
 };
 
+// Battery Simulation Charts
+
+window.renderCostComparisonChart = (costs) => {
+    const canvasId = 'costComparisonChart';
+    
+    const config = {
+        type: 'bar',
+        data: {
+            labels: ['Fixed (No Battery)', 'Dynamic (No Battery)', 'Fixed + Battery', 'Dynamic + Battery'],
+            datasets: [{
+                label: 'Annual Cost (€)',
+                data: costs,
+                backgroundColor: [
+                    'rgba(220, 53, 69, 0.8)',   // danger
+                    'rgba(255, 193, 7, 0.8)',   // warning
+                    'rgba(13, 110, 253, 0.8)',  // info
+                    'rgba(25, 135, 84, 0.8)'    // success
+                ],
+                borderColor: [
+                    'rgb(220, 53, 69)',
+                    'rgb(255, 193, 7)',
+                    'rgb(13, 110, 253)',
+                    'rgb(25, 135, 84)'
+                ],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => `€${context.parsed.y.toFixed(2)}`
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Annual Cost (€)'
+                    },
+                    ticks: {
+                        callback: (value) => `€${value}`
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+window.renderSavingsBreakdownChart = (savings) => {
+    const canvasId = 'savingsBreakdownChart';
+    
+    const config = {
+        type: 'doughnut',
+        data: {
+            labels: [
+                'Dynamic Pricing Benefit',
+                'Battery Benefit (Fixed)',
+                'Battery Benefit (Dynamic)',
+                'Total Savings'
+            ],
+            datasets: [{
+                data: savings,
+                backgroundColor: [
+                    'rgba(255, 193, 7, 0.8)',
+                    'rgba(13, 110, 253, 0.8)',
+                    'rgba(25, 135, 84, 0.8)',
+                    'rgba(111, 66, 193, 0.8)'
+                ],
+                borderColor: [
+                    'rgb(255, 193, 7)',
+                    'rgb(13, 110, 253)',
+                    'rgb(25, 135, 84)',
+                    'rgb(111, 66, 193)'
+                ],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => {
+                            const label = context.label || '';
+                            const value = context.parsed;
+                            return `${label}: €${value.toFixed(2)}`;
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+window.renderCumulativeCostChart = (labels, fixedCosts, dynamicNoBatCosts, dynamicWithBatCosts) => {
+    const canvasId = 'cumulativeCostChart';
+    
+    const config = {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Fixed Tariff (No Battery)',
+                    data: fixedCosts,
+                    borderColor: 'rgb(220, 53, 69)',
+                    backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                    borderWidth: 2,
+                    tension: 0.1
+                },
+                {
+                    label: 'Dynamic Tariff (No Battery)',
+                    data: dynamicNoBatCosts,
+                    borderColor: 'rgb(255, 193, 7)',
+                    backgroundColor: 'rgba(255, 193, 7, 0.1)',
+                    borderWidth: 2,
+                    tension: 0.1
+                },
+                {
+                    label: 'Dynamic Tariff + Battery',
+                    data: dynamicWithBatCosts,
+                    borderColor: 'rgb(25, 135, 84)',
+                    backgroundColor: 'rgba(25, 135, 84, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                legend: {
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => `${context.dataset.label}: €${context.parsed.y.toFixed(2)}`
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Cumulative Cost (€)'
+                    },
+                    ticks: {
+                        callback: (value) => `€${value}`
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date'
+                    },
+                    ticks: {
+                        maxTicksLimit: 20
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+window.renderBatterySocChart = (labels, socLevels, capacity) => {
+    const canvasId = 'batterySocChart';
+    
+    const config = {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Battery State of Charge (%)',
+                data: socLevels,
+                borderColor: 'rgb(13, 110, 253)',
+                backgroundColor: 'rgba(13, 110, 253, 0.2)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true
+                },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => `SoC: ${context.parsed.y.toFixed(1)}%`,
+                        afterLabel: (context) => {
+                            const kwh = (context.parsed.y / 100 * capacity).toFixed(2);
+                            return `(${kwh} kWh / ${capacity} kWh)`;
+                        }
+                    }
+                },
+                annotation: {
+                    annotations: {
+                        line1: {
+                            type: 'line',
+                            yMin: 90,
+                            yMax: 90,
+                            borderColor: 'rgb(25, 135, 84)',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            label: {
+                                display: true,
+                                content: 'Max Capacity (90%)',
+                                position: 'end'
+                            }
+                        },
+                        line2: {
+                            type: 'line',
+                            yMin: 10,
+                            yMax: 10,
+                            borderColor: 'rgb(220, 53, 69)',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            label: {
+                                display: true,
+                                content: 'Min Capacity (10%)',
+                                position: 'end'
+                            }
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'State of Charge (%)'
+                    },
+                    ticks: {
+                        callback: (value) => `${value}%`
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Time'
+                    },
+                    ticks: {
+                        maxTicksLimit: 30
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+// Daily Cost Analysis Charts
+
+window.renderDailyCostsChart = (labels, fixedCosts, dynamicNoBatCosts, dynamicWithBatCosts) => {
+    const canvasId = 'mainDailyChart';
+    
+    const config = {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Fixed (No Battery)',
+                    data: fixedCosts,
+                    borderColor: 'rgb(220, 53, 69)',
+                    backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                    borderWidth: 2,
+                    tension: 0.1,
+                    pointRadius: 2
+                },
+                {
+                    label: 'Dynamic (No Battery)',
+                    data: dynamicNoBatCosts,
+                    borderColor: 'rgb(255, 193, 7)',
+                    backgroundColor: 'rgba(255, 193, 7, 0.1)',
+                    borderWidth: 2,
+                    tension: 0.1,
+                    pointRadius: 2
+                },
+                {
+                    label: 'Dynamic + Battery',
+                    data: dynamicWithBatCosts,
+                    borderColor: 'rgb(25, 135, 84)',
+                    backgroundColor: 'rgba(25, 135, 84, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.1,
+                    pointRadius: 3
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                legend: {
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => `${context.dataset.label}: €${context.parsed.y.toFixed(2)}`
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Daily Cost (€)'
+                    },
+                    ticks: {
+                        callback: (value) => `€${value}`
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date'
+                    },
+                    ticks: {
+                        maxTicksLimit: 30
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+window.renderCumulativeDailyCostsChart = (labels, cumFixed, cumDynNoBat, cumDynWithBat) => {
+    const canvasId = 'mainDailyChart';
+    
+    const config = {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Fixed (No Battery)',
+                    data: cumFixed,
+                    borderColor: 'rgb(220, 53, 69)',
+                    backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.1
+                },
+                {
+                    label: 'Dynamic (No Battery)',
+                    data: cumDynNoBat,
+                    borderColor: 'rgb(255, 193, 7)',
+                    backgroundColor: 'rgba(255, 193, 7, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.1
+                },
+                {
+                    label: 'Dynamic + Battery',
+                    data: cumDynWithBat,
+                    borderColor: 'rgb(25, 135, 84)',
+                    backgroundColor: 'rgba(25, 135, 84, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                legend: {
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => `${context.dataset.label}: €${context.parsed.y.toFixed(2)}`
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Cumulative Cost (€)'
+                    },
+                    ticks: {
+                        callback: (value) => `€${value}`
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date'
+                    },
+                    ticks: {
+                        maxTicksLimit: 30
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+window.renderDailySavingsChart = (labels, totalSavings, batterySavings) => {
+    const canvasId = 'mainDailyChart';
+    
+    const config = {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Total Savings (vs Fixed)',
+                    data: totalSavings,
+                    backgroundColor: 'rgba(25, 135, 84, 0.7)',
+                    borderColor: 'rgb(25, 135, 84)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Battery Benefit',
+                    data: batterySavings,
+                    backgroundColor: 'rgba(13, 110, 253, 0.7)',
+                    borderColor: 'rgb(13, 110, 253)',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                legend: {
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => `${context.dataset.label}: €${context.parsed.y.toFixed(2)}`
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Daily Savings (€)'
+                    },
+                    ticks: {
+                        callback: (value) => `€${value}`
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date'
+                    },
+                    ticks: {
+                        maxTicksLimit: 30
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+window.renderAllMetricsChart = (labels, fixedCosts, dynamicNoBatCosts, dynamicWithBatCosts, totalSavings, batterySavings) => {
+    const canvasId = 'mainDailyChart';
+    
+    const config = {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Fixed (No Battery)',
+                    data: fixedCosts,
+                    borderColor: 'rgb(220, 53, 69)',
+                    backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                    borderWidth: 2,
+                    yAxisID: 'y',
+                    tension: 0.1
+                },
+                {
+                    label: 'Dynamic (No Battery)',
+                    data: dynamicNoBatCosts,
+                    borderColor: 'rgb(255, 193, 7)',
+                    backgroundColor: 'rgba(255, 193, 7, 0.1)',
+                    borderWidth: 2,
+                    yAxisID: 'y',
+                    tension: 0.1
+                },
+                {
+                    label: 'Dynamic + Battery',
+                    data: dynamicWithBatCosts,
+                    borderColor: 'rgb(25, 135, 84)',
+                    backgroundColor: 'rgba(25, 135, 84, 0.1)',
+                    borderWidth: 3,
+                    yAxisID: 'y',
+                    tension: 0.1
+                },
+                {
+                    label: 'Total Savings',
+                    data: totalSavings,
+                    borderColor: 'rgb(111, 66, 193)',
+                    backgroundColor: 'rgba(111, 66, 193, 0.1)',
+                    borderWidth: 2,
+                    borderDash: [5, 5],
+                    yAxisID: 'y1',
+                    tension: 0.1
+                },
+                {
+                    label: 'Battery Benefit',
+                    data: batterySavings,
+                    borderColor: 'rgb(13, 110, 253)',
+                    backgroundColor: 'rgba(13, 110, 253, 0.1)',
+                    borderWidth: 2,
+                    borderDash: [5, 5],
+                    yAxisID: 'y1',
+                    tension: 0.1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                legend: {
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => `${context.dataset.label}: €${context.parsed.y.toFixed(2)}`
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    title: {
+                        display: true,
+                        text: 'Daily Cost (€)'
+                    },
+                    ticks: {
+                        callback: (value) => `€${value}`
+                    }
+                },
+                y1: {
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    title: {
+                        display: true,
+                        text: 'Daily Savings (€)'
+                    },
+                    ticks: {
+                        callback: (value) => `€${value}`
+                    },
+                    grid: {
+                        drawOnChartArea: false
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date'
+                    },
+                    ticks: {
+                        maxTicksLimit: 30
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+window.renderMonthlySummaryChart = (monthNames, fixedCosts, dynamicNoBatCosts, dynamicWithBatCosts) => {
+    const canvasId = 'monthlySummaryChart';
+    
+    const config = {
+        type: 'bar',
+        data: {
+            labels: monthNames,
+            datasets: [
+                {
+                    label: 'Fixed (No Battery)',
+                    data: fixedCosts,
+                    backgroundColor: 'rgba(220, 53, 69, 0.7)',
+                    borderColor: 'rgb(220, 53, 69)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Dynamic (No Battery)',
+                    data: dynamicNoBatCosts,
+                    backgroundColor: 'rgba(255, 193, 7, 0.7)',
+                    borderColor: 'rgb(255, 193, 7)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Dynamic + Battery',
+                    data: dynamicWithBatCosts,
+                    backgroundColor: 'rgba(25, 135, 84, 0.7)',
+                    borderColor: 'rgb(25, 135, 84)',
+                    borderWidth: 2
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                legend: {
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => `${context.dataset.label}: €${context.parsed.y.toFixed(2)}`
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Monthly Cost (€)'
+                    },
+                    ticks: {
+                        callback: (value) => `€${value}`
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Month'
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+window.renderBatteryPerformanceChart = (labels, batteryCharged, batteryDischarged, batterySavings, batteryCapacity) => {
+    const canvasId = 'batteryPerformanceChart';
+    
+    // Create capacity reference line data (array filled with capacity value)
+    const capacityLine = new Array(labels.length).fill(batteryCapacity);
+    
+    const config = {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Daily Energy Charged (kWh)',
+                    data: batteryCharged,
+                    backgroundColor: 'rgba(13, 110, 253, 0.6)',
+                    borderColor: 'rgb(13, 110, 253)',
+                    borderWidth: 1,
+                    yAxisID: 'y'
+                },
+                {
+                    label: 'Daily Energy Discharged (kWh)',
+                    data: batteryDischarged,
+                    backgroundColor: 'rgba(255, 193, 7, 0.6)',
+                    borderColor: 'rgb(255, 193, 7)',
+                    borderWidth: 1,
+                    yAxisID: 'y'
+                },
+                {
+                    label: `Battery Capacity (${batteryCapacity} kWh)`,
+                    data: capacityLine,
+                    type: 'line',
+                    borderColor: 'rgba(220, 53, 69, 0.5)',
+                    backgroundColor: 'transparent',
+                    borderWidth: 2,
+                    borderDash: [5, 5],
+                    yAxisID: 'y',
+                    pointRadius: 0,
+                    order: 0
+                },
+                {
+                    label: 'Daily Battery Savings (€)',
+                    data: batterySavings,
+                    type: 'line',
+                    borderColor: 'rgb(25, 135, 84)',
+                    backgroundColor: 'rgba(25, 135, 84, 0.1)',
+                    borderWidth: 2,
+                    yAxisID: 'y1',
+                    tension: 0.1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                legend: {
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => {
+                            const label = context.dataset.label || '';
+                            const value = context.parsed.y;
+                            if (label.includes('€')) {
+                                return `${label}: €${value.toFixed(2)}`;
+                            } else if (label.includes('Capacity')) {
+                                return `${label} (Reference)`;
+                            } else {
+                                return `${label}: ${value.toFixed(2)} kWh`;
+                            }
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    title: {
+                        display: true,
+                        text: 'Daily Energy Throughput (kWh)'
+                    },
+                    ticks: {
+                        callback: (value) => `${value} kWh`
+                    }
+                },
+                y1: {
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    title: {
+                        display: true,
+                        text: 'Savings (€)'
+                    },
+                    ticks: {
+                        callback: (value) => `€${value}`
+                    },
+                    grid: {
+                        drawOnChartArea: false
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date'
+                    },
+                    ticks: {
+                        maxTicksLimit: 30
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+// ROI Analysis Charts
+window.renderRoiChart = (labels, solarNet, batteryNet, combinedNet, includeSolar, includeBattery) => {
+    const canvasId = 'roiChart';
+    
+    const datasets = [];
+    
+    if (includeSolar) {
+        datasets.push({
+            label: 'Solar Net Position',
+            data: solarNet,
+            borderColor: 'rgb(255, 193, 7)',
+            backgroundColor: 'rgba(255, 193, 7, 0.1)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.1
+        });
+    }
+    
+    if (includeBattery) {
+        datasets.push({
+            label: 'Battery Net Position',
+            data: batteryNet,
+            borderColor: 'rgb(25, 135, 84)',
+            backgroundColor: 'rgba(25, 135, 84, 0.1)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.1
+        });
+    }
+    
+    if (includeSolar || includeBattery) {
+        datasets.push({
+            label: 'Combined Net Position',
+            data: combinedNet,
+            borderColor: 'rgb(13, 110, 253)',
+            backgroundColor: 'rgba(13, 110, 253, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.1
+        });
+    }
+    
+    // Add break-even line at y=0
+    datasets.push({
+        label: 'Break-Even Point',
+        data: new Array(labels.length).fill(0),
+        borderColor: 'rgba(220, 53, 69, 0.5)',
+        backgroundColor: 'transparent',
+        borderWidth: 2,
+        borderDash: [10, 5],
+        pointRadius: 0,
+        fill: false
+    });
+    
+    const config = {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                legend: {
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => {
+                            const label = context.dataset.label || '';
+                            const value = context.parsed.y;
+                            if (label.includes('Break-Even')) {
+                                return 'Break-Even';
+                            }
+                            return `${label}: €${value.toFixed(2)}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Net Position (€)'
+                    },
+                    ticks: {
+                        callback: (value) => `€${value.toLocaleString()}`
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Time Period'
+                    },
+                    ticks: {
+                        maxTicksLimit: 24
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
+window.renderMonthlySavingsChart = (labels, solarSavings, batterySavings, includeSolar, includeBattery) => {
+    const canvasId = 'monthlySavingsChart';
+    
+    const datasets = [];
+    
+    if (includeSolar) {
+        datasets.push({
+            label: 'Solar Savings',
+            data: solarSavings,
+            backgroundColor: 'rgba(255, 193, 7, 0.8)',
+            borderColor: 'rgb(255, 193, 7)',
+            borderWidth: 1
+        });
+    }
+    
+    if (includeBattery) {
+        datasets.push({
+            label: 'Battery Savings',
+            data: batterySavings,
+            backgroundColor: 'rgba(25, 135, 84, 0.8)',
+            borderColor: 'rgb(25, 135, 84)',
+            borderWidth: 1
+        });
+    }
+    
+    const config = {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                legend: {
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => {
+                            const label = context.dataset.label || '';
+                            const value = context.parsed.y;
+                            return `${label}: €${value.toFixed(2)}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    stacked: includeSolar && includeBattery,
+                    title: {
+                        display: true,
+                        text: 'Monthly Savings (€)'
+                    },
+                    ticks: {
+                        callback: (value) => `€${value}`
+                    }
+                },
+                x: {
+                    stacked: includeSolar && includeBattery,
+                    title: {
+                        display: true,
+                        text: 'Month'
+                    },
+                    ticks: {
+                        maxTicksLimit: 24
+                    }
+                }
+            }
+        }
+    };
+
+    window.createChart(canvasId, config);
+};
+
 console.log('Chart.js helper functions loaded successfully');
