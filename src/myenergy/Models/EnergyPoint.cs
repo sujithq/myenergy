@@ -117,21 +117,39 @@ public record OdsPricing
 {
     public DateTime DateTime { get; init; }
     
+    // NEW FORMAT (ods134.json) - Marginal prices from Belgian ODS system
+    // These are the actual settlement prices used by the grid operator
+    public double? MarginalIncrementalPrice { get; init; }  // Import price when you use from grid (€/MWh)
+    public double? MarginalDecrementalPrice { get; init; }  // Export price when you inject to grid (€/MWh)
+    public double? ImbalancePrice { get; init; }            // System imbalance price (€/MWh)
+    public string? QualityStatus { get; init; }             // Data quality: NotValidated, DataIssue, etc.
+    
+    // OLD FORMAT (ods153.json) - Legacy aFRR/mFRR prices - kept for backward compatibility
     // Injection prices (when you export to grid) - in €/MWh
+    // POSITIVE = you get paid (revenue), NEGATIVE = you pay (cost during oversupply)
     public double? DownwardAvailableAfrrPrice { get; init; }  // aFRR injection price
     public double? DownwardAvailableMfrrPrice { get; init; }  // mFRR injection price
     
     // Grid import prices (when you use from grid) - in €/MWh
+    // Always positive = you pay (cost)
     public double? UpwardAvailableAfrrPrice { get; init; }    // aFRR import price
     public double? UpwardAvailableMfrrPrice { get; init; }    // mFRR import price
     
     public string ResolutionCode { get; init; } = "PT15M";
     
-    // Best available prices (use aFRR if available, fallback to mFRR)
-    public double InjectionPrice => DownwardAvailableAfrrPrice ?? DownwardAvailableMfrrPrice ?? 0;
-    public double ImportPrice => UpwardAvailableAfrrPrice ?? UpwardAvailableMfrrPrice ?? 0;
+    // Best available prices (prefer new format, fallback to old format)
+    public double InjectionPrice => MarginalDecrementalPrice 
+        ?? DownwardAvailableAfrrPrice 
+        ?? DownwardAvailableMfrrPrice 
+        ?? 0;
+        
+    public double ImportPrice => MarginalIncrementalPrice 
+        ?? UpwardAvailableAfrrPrice 
+        ?? UpwardAvailableMfrrPrice 
+        ?? 0;
     
-    // Convert €/MWh to €/kWh
+    // Convert €/MWh to €/kWh (divide by 1000)
+    // Signs are preserved: negative injection = you pay to export, positive = you earn
     public double InjectionPricePerKwh => InjectionPrice / 1000.0;
     public double ImportPricePerKwh => ImportPrice / 1000.0;
 }

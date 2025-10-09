@@ -17,7 +17,9 @@ public class BatterySimulationService
         int year,
         double batteryCapacityKwh,
         double fixedImportPrice,
-        double fixedExportPrice)
+        double fixedExportPrice,
+        bool useDynamicPricing = false,
+        DateTime? dynamicPricingStartDate = null)
     {
         await _energyService.LoadDataAsync();
         await _pricingService.LoadDataAsync();
@@ -43,7 +45,8 @@ public class BatterySimulationService
             if (dailyDetail == null || !dailyDetail.QuarterHours.Any())
                 continue;
 
-            var dailySim = SimulateDay(date, dailyDetail, batteryConfig, ref batteryLevel, fixedImportPrice, fixedExportPrice);
+            var dailySim = SimulateDay(date, dailyDetail, batteryConfig, ref batteryLevel, 
+                fixedImportPrice, fixedExportPrice, useDynamicPricing, dynamicPricingStartDate);
             dailyResults.Add(dailySim);
         }
 
@@ -63,7 +66,9 @@ public class BatterySimulationService
         BatteryConfig battery,
         ref double batteryLevel,
         double fixedImportPrice,
-        double fixedExportPrice)
+        double fixedExportPrice,
+        bool useDynamicPricing,
+        DateTime? dynamicPricingStartDate)
     {
         var intervals = new List<IntervalSimulation>();
         var dayPricing = _pricingService.GetPricingForDay(date);
@@ -74,30 +79,37 @@ public class BatterySimulationService
             var consumption = quarter.TotalConsumption;
             var netDemand = consumption - production;
 
-            // Get dynamic pricing for this interval
-            var pricing = _pricingService.GetPricingForInterval(quarter.Time);
-            var dynamicImportPrice = pricing?.ImportPricePerKwh ?? fixedImportPrice;
-            var dynamicExportPrice = pricing?.InjectionPricePerKwh ?? fixedExportPrice;
+            // Determine which prices to use for optimization
+            // Only use dynamic pricing if enabled AND we're past the start date AND ODS data exists
+            var shouldUseDynamicPricing = useDynamicPricing 
+                && dynamicPricingStartDate.HasValue 
+                && date >= dynamicPricingStartDate.Value;
+            
+            var pricing = shouldUseDynamicPricing ? _pricingService.GetPricingForInterval(quarter.Time) : null;
+            var optimizationImportPrice = pricing?.ImportPricePerKwh ?? fixedImportPrice;
+            var optimizationExportPrice = pricing?.InjectionPricePerKwh ?? fixedExportPrice;
 
             // Scenario 1: No battery
             var gridImportNoBattery = Math.Max(0, netDemand);
             var gridExportNoBattery = Math.Max(0, -netDemand);
 
-            // Scenario 2: With battery - Smart management
+            // Scenario 2: With battery - Smart management using the determined prices
             var (batteryCharge, batteryDischarge, gridImport, gridExport, newBatteryLevel) = 
                 OptimizeBatteryOperation(
                     production, 
                     consumption, 
                     batteryLevel, 
                     battery, 
-                    dynamicImportPrice, 
-                    dynamicExportPrice);
+                    optimizationImportPrice, 
+                    optimizationExportPrice);
 
             batteryLevel = newBatteryLevel;
 
-            // Calculate costs
-            var costNoBatteryDynamic = (gridImportNoBattery * dynamicImportPrice) - (gridExportNoBattery * dynamicExportPrice);
-            var costWithBatteryDynamic = (gridImport * dynamicImportPrice) - (gridExport * dynamicExportPrice);
+            // Calculate costs - always calculate both scenarios for comparison
+            // Dynamic costs use the actual prices (either ODS or fixed fallback)
+            var costNoBatteryDynamic = (gridImportNoBattery * optimizationImportPrice) - (gridExportNoBattery * optimizationExportPrice);
+            var costWithBatteryDynamic = (gridImport * optimizationImportPrice) - (gridExport * optimizationExportPrice);
+            // Fixed costs always use the fixed prices
             var costNoBatteryFixed = (gridImportNoBattery * fixedImportPrice) - (gridExportNoBattery * fixedExportPrice);
             var costWithBatteryFixed = (gridImport * fixedImportPrice) - (gridExport * fixedExportPrice);
 
@@ -114,8 +126,8 @@ public class BatterySimulationService
                 BatterySoC = (batteryLevel / battery.UsableCapacity) * 100,
                 GridImportWithBattery = gridImport,
                 GridExportWithBattery = gridExport,
-                ImportPrice = dynamicImportPrice,
-                ExportPrice = dynamicExportPrice,
+                ImportPrice = optimizationImportPrice,
+                ExportPrice = optimizationExportPrice,
                 CostNoBatteryDynamic = costNoBatteryDynamic,
                 CostWithBatteryDynamic = costWithBatteryDynamic,
                 CostNoBatteryFixed = costNoBatteryFixed,

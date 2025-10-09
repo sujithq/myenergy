@@ -5,22 +5,63 @@ namespace myenergy.Services;
 
 public class OdsPricingService
 {
+    private const string ELIA_API_URL = "https://opendata.elia.be/api/explore/v2.1/catalog/datasets/ods134/exports/json?lang=nl&timezone=Europe%2FBrussels";
+    private const string LOCAL_FILE_PATH = "Data/ods134.json";
+    
     private readonly HttpClient _http;
     private List<OdsPricing>? _pricingData;
     private Dictionary<DateTime, OdsPricing>? _pricingIndex;
+    private DateTime? _lastLoadTime;
+    private bool _isLoading;
 
     public OdsPricingService(HttpClient http)
     {
         _http = http;
     }
 
-    public async Task LoadDataAsync()
-    {
-        if (_pricingData != null) return; // Already loaded
+    public bool IsDataLoaded => _pricingData != null && _pricingData.Any();
+    public DateTime? LastLoadTime => _lastLoadTime;
 
+    /// <summary>
+    /// Load ODS pricing data. Tries local file first, falls back to Elia API if needed.
+    /// </summary>
+    /// <param name="forceRefresh">Force download from Elia API even if local data exists</param>
+    public async Task LoadDataAsync(bool forceRefresh = false)
+    {
+        if (_isLoading) return; // Prevent concurrent loading
+        if (_pricingData != null && !forceRefresh) return; // Already loaded
+
+        _isLoading = true;
         try
         {
-            var json = await _http.GetStringAsync("Data/ods153.json");
+            string json;
+            string source;
+
+            if (forceRefresh)
+            {
+                // Force download from Elia API
+                Console.WriteLine("Downloading ODS pricing data from Elia API...");
+                json = await DownloadFromEliaAsync();
+                source = "Elia API (forced refresh)";
+            }
+            else
+            {
+                // Try local file first
+                try
+                {
+                    Console.WriteLine("Loading ODS pricing data from local file...");
+                    json = await _http.GetStringAsync(LOCAL_FILE_PATH);
+                    source = "local file";
+                }
+                catch (Exception localEx)
+                {
+                    Console.WriteLine($"Local file not found or error: {localEx.Message}");
+                    Console.WriteLine("Downloading from Elia API...");
+                    json = await DownloadFromEliaAsync();
+                    source = "Elia API (fallback)";
+                }
+            }
+
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
@@ -33,13 +74,59 @@ public class OdsPricingService
                 .GroupBy(p => p.DateTime)
                 .ToDictionary(g => g.Key, g => g.First());
             
-            Console.WriteLine($"Loaded {_pricingData.Count} ODS pricing records");
+            _lastLoadTime = DateTime.Now;
+            
+            Console.WriteLine($"✅ Loaded {_pricingData.Count} ODS pricing records from {source}");
+            
+            // Log data range and sample prices
+            if (_pricingData.Any())
+            {
+                var minDate = _pricingData.Min(p => p.DateTime);
+                var maxDate = _pricingData.Max(p => p.DateTime);
+                var avgImport = _pricingData.Average(p => p.ImportPricePerKwh);
+                var avgExport = _pricingData.Average(p => p.InjectionPricePerKwh);
+                
+                Console.WriteLine($"📅 Date range: {minDate:yyyy-MM-dd HH:mm} to {maxDate:yyyy-MM-dd HH:mm}");
+                Console.WriteLine($"💶 Average import: €{avgImport:F4}/kWh (€{avgImport * 1000:F2}/MWh)");
+                Console.WriteLine($"💶 Average export: €{avgExport:F4}/kWh (€{avgExport * 1000:F2}/MWh)");
+            }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error loading ODS pricing data: {ex.Message}");
+            Console.WriteLine($"❌ Error loading ODS pricing data: {ex.Message}");
             _pricingData = new List<OdsPricing>();
             _pricingIndex = new Dictionary<DateTime, OdsPricing>();
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    /// <summary>
+    /// Refresh data from Elia API (can be called on-demand)
+    /// </summary>
+    public async Task RefreshFromEliaAsync()
+    {
+        Console.WriteLine("🔄 Refreshing ODS data from Elia API...");
+        _pricingData = null; // Clear existing data
+        await LoadDataAsync(forceRefresh: true);
+    }
+
+    private async Task<string> DownloadFromEliaAsync()
+    {
+        try
+        {
+            // Download from Elia API
+            // Dataset: ods134 - Operational Deviation Settlement prices (15-minute intervals)
+            var response = await _http.GetAsync(ELIA_API_URL);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsStringAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to download from Elia API: {ex.Message}");
+            throw new Exception($"Unable to download ODS pricing data from Elia: {ex.Message}", ex);
         }
     }
 

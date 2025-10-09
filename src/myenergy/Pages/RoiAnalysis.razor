@@ -3,6 +3,7 @@
 @using myenergy.Models
 @inject RoiAnalysisService RoiService
 @inject EnergyDataService EnergyService
+@inject OdsPricingService OdsService
 @inject IJSRuntime JS
 
 <PageTitle>ROI Analysis - myenergy</PageTitle>
@@ -113,20 +114,53 @@
                             </div>
                             <div class="col-md-2">
                                 <label class="form-label">Import Price (€/kWh)</label>
-                                <input type="number" class="form-control" step="0.01" @bind="fixedImportPrice" @bind:after="RecalculateRoi" />
+                                <input type="number" class="form-control" step="0.01" @bind="fixedImportPrice" @bind:after="RecalculateRoi" 
+                                       disabled="@useDynamicPricing" />
                             </div>
                             <div class="col-md-2">
                                 <label class="form-label">Export Price (€/kWh)</label>
-                                <input type="number" class="form-control" step="0.01" @bind="fixedExportPrice" @bind:after="RecalculateRoi" />
+                                <input type="number" class="form-control" step="0.01" @bind="fixedExportPrice" @bind:after="RecalculateRoi" 
+                                       disabled="@useDynamicPricing" />
                             </div>
                             <div class="col-md-2">
                                 <div class="form-check mt-4">
-                                    <input class="form-check-input" type="checkbox" @bind="useDynamicPricing" @bind:after="RecalculateRoi" id="useDynamic">
+                                    <input class="form-check-input" type="checkbox" @bind="useDynamicPricing" @bind:after="OnDynamicPricingToggled" id="useDynamic">
                                     <label class="form-check-label" for="useDynamic">
                                         Use Dynamic (ODS)
                                     </label>
                                 </div>
                             </div>
+                            @if (useDynamicPricing)
+                            {
+                                <div class="col-md-3">
+                                    <label class="form-label">Dynamic Pricing Start Date</label>
+                                    <input type="date" class="form-control" @bind="dynamicPricingStartDate" @bind:after="RecalculateRoi" 
+                                           min="@odsPricingMinDate" max="@odsPricingMaxDate" />
+                                    @if (!string.IsNullOrEmpty(odsPricingDateRange))
+                                    {
+                                        <small class="text-muted d-block">@odsPricingDateRange</small>
+                                    }
+                                    @if (odsPricingLastLoadTime.HasValue)
+                                    {
+                                        <small class="text-muted d-block">Last updated: @odsPricingLastLoadTime.Value.ToString("yyyy-MM-dd HH:mm")</small>
+                                    }
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">&nbsp;</label>
+                                    <button class="btn btn-outline-primary btn-sm d-block" @onclick="RefreshOdsData" disabled="@isRefreshingOds">
+                                        @if (isRefreshingOds)
+                                        {
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            <span> Refreshing...</span>
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-arrow-repeat"></i>
+                                            <span> Refresh ODS Data</span>
+                                        }
+                                    </button>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
@@ -255,6 +289,7 @@
 
 @code {
     private bool isLoading = true;
+    private bool isRefreshingOds = false;
     
     // Solar investment
     private bool includeSolar = true;
@@ -274,12 +309,23 @@
     private double fixedImportPrice = 0.30;
     private double fixedExportPrice = 0.05;
     private bool useDynamicPricing = false;
+    private DateTime dynamicPricingStartDate = DateTime.Today.AddYears(-2);
+    
+    // ODS pricing info for UI
+    private string odsPricingMinDate = "";
+    private string odsPricingMaxDate = "";
+    private string odsPricingDateRange = "";
+    private DateTime? odsPricingLastLoadTime;
     
     private Models.RoiAnalysis? roiAnalysis;
 
     protected override async Task OnInitializedAsync()
     {
         await EnergyService.LoadDataAsync();
+        await OdsService.LoadDataAsync();
+        
+        // Get ODS pricing date range and last load time
+        UpdateOdsPricingInfo();
         
         // Set default dates based on available data
         var availableDates = EnergyService.GetAvailableDates().OrderBy(d => d).ToList();
@@ -291,6 +337,66 @@
             batteryInstallDate = availableDates.First(); // Same as solar install date
         }
 
+        await RecalculateRoi();
+    }
+
+    private void UpdateOdsPricingInfo()
+    {
+        var odsRange = OdsService.GetDataRange();
+        odsPricingLastLoadTime = OdsService.LastLoadTime;
+        
+        if (odsRange.HasValue)
+        {
+            odsPricingMinDate = odsRange.Value.start.ToString("yyyy-MM-dd");
+            odsPricingMaxDate = odsRange.Value.end.ToString("yyyy-MM-dd");
+            odsPricingDateRange = $"Available: {odsRange.Value.start:dd/MM/yyyy} - {odsRange.Value.end:dd/MM/yyyy}";
+            
+            // Set default start date if not set or out of range
+            if (dynamicPricingStartDate < odsRange.Value.start || dynamicPricingStartDate > odsRange.Value.end)
+            {
+                dynamicPricingStartDate = odsRange.Value.start;
+            }
+        }
+    }
+
+    private async Task RefreshOdsData()
+    {
+        isRefreshingOds = true;
+        StateHasChanged();
+        
+        try
+        {
+            await OdsService.RefreshFromEliaAsync();
+            UpdateOdsPricingInfo();
+            
+            // Recalculate if using dynamic pricing
+            if (useDynamicPricing)
+            {
+                await RecalculateRoi();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error refreshing ODS data: {ex.Message}");
+        }
+        finally
+        {
+            isRefreshingOds = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task OnDynamicPricingToggled()
+    {
+        // When enabling dynamic pricing, reset the start date to first available
+        if (useDynamicPricing)
+        {
+            var odsRange = OdsService.GetDataRange();
+            if (odsRange.HasValue)
+            {
+                dynamicPricingStartDate = odsRange.Value.start;
+            }
+        }
         await RecalculateRoi();
     }
 
@@ -327,21 +433,46 @@
                 analysisEndDate,
                 fixedImportPrice,
                 fixedExportPrice,
-                useDynamicPricing);
+                useDynamicPricing,
+                useDynamicPricing ? dynamicPricingStartDate : null);
 
+            // Set loading to false FIRST to render the canvas elements
+            isLoading = false;
+            StateHasChanged();
+            
+            // Now render the charts after DOM is ready
             await RenderCharts();
         }
-        finally
+        catch (Exception ex)
         {
+            Console.WriteLine($"Error calculating ROI: {ex.Message}");
             isLoading = false;
         }
     }
 
     private async Task RenderCharts()
     {
-        if (roiAnalysis == null || !roiAnalysis.DailyData.Any()) return;
+        if (roiAnalysis == null || !roiAnalysis.DailyData.Any())
+        {
+            Console.WriteLine("RenderCharts: No data available");
+            return;
+        }
         
-        await Task.Delay(100); // Allow DOM to update
+        Console.WriteLine($"RenderCharts: Processing {roiAnalysis.DailyData.Count} days of data");
+        
+        // Wait longer for DOM to fully render
+        await Task.Delay(250);
+        
+        // Verify canvas elements exist before rendering
+        var roiCanvasExists = await JS.InvokeAsync<bool>("eval", "document.getElementById('roiChart') !== null");
+        var savingsCanvasExists = await JS.InvokeAsync<bool>("eval", "document.getElementById('monthlySavingsChart') !== null");
+        
+        if (!roiCanvasExists || !savingsCanvasExists)
+        {
+            Console.WriteLine($"Canvas elements not ready: roiChart={roiCanvasExists}, monthlySavingsChart={savingsCanvasExists}");
+            // Try again after another delay
+            await Task.Delay(500);
+        }
 
         // Prepare data for ROI chart
         var dates = roiAnalysis.DailyData.Select(d => d.Date.ToString("MMM yyyy")).ToArray();
@@ -349,8 +480,18 @@
         var batteryNet = roiAnalysis.DailyData.Select(d => d.BatteryNetPosition).ToArray();
         var combinedNet = roiAnalysis.DailyData.Select(d => d.CombinedNetPosition).ToArray();
 
-        await JS.InvokeVoidAsync("renderRoiChart", dates, solarNet, batteryNet, combinedNet, 
-            includeSolar, includeBattery);
+        Console.WriteLine($"ROI Chart: {dates.Length} data points, includeSolar={includeSolar}, includeBattery={includeBattery}");
+        Console.WriteLine($"Sample combined net: [{string.Join(", ", combinedNet.Take(5).Select(v => v.ToString("F2")))}...]");
+        
+        try
+        {
+            await JS.InvokeVoidAsync("renderRoiChart", dates, solarNet, batteryNet, combinedNet, 
+                includeSolar, includeBattery);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error rendering ROI chart: {ex.Message}");
+        }
 
         // Prepare monthly savings data
         var monthlySavings = roiAnalysis.DailyData
@@ -367,7 +508,17 @@
         var monthlySolar = monthlySavings.Select(m => m.SolarSavings).ToArray();
         var monthlyBattery = monthlySavings.Select(m => m.BatterySavings).ToArray();
 
-        await JS.InvokeVoidAsync("renderMonthlySavingsChart", monthLabels, monthlySolar, monthlyBattery,
-            includeSolar, includeBattery);
+        Console.WriteLine($"Monthly Savings Chart: {monthLabels.Length} months");
+        Console.WriteLine($"Sample solar savings: [{string.Join(", ", monthlySolar.Take(3).Select(v => v.ToString("F2")))}...]");
+        
+        try
+        {
+            await JS.InvokeVoidAsync("renderMonthlySavingsChart", monthLabels, monthlySolar, monthlyBattery,
+                includeSolar, includeBattery);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error rendering monthly savings chart: {ex.Message}");
+        }
     }
 }

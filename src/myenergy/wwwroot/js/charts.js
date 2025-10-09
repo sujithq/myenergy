@@ -2382,6 +2382,10 @@ window.renderBatteryPerformanceChart = (labels, batteryCharged, batteryDischarge
 window.renderRoiChart = (labels, solarNet, batteryNet, combinedNet, includeSolar, includeBattery) => {
     const canvasId = 'roiChart';
     
+    console.log(`renderRoiChart called: ${labels.length} labels, includeSolar=${includeSolar}, includeBattery=${includeBattery}`);
+    console.log(`First 3 labels: [${labels.slice(0, 3).join(', ')}]`);
+    console.log(`First 3 combined values: [${Array.from(combinedNet).slice(0, 3).join(', ')}]`);
+    
     const datasets = [];
     
     if (includeSolar) {
@@ -2485,11 +2489,18 @@ window.renderRoiChart = (labels, solarNet, batteryNet, combinedNet, includeSolar
         }
     };
 
+    console.log(`Creating ROI chart with ${datasets.length} datasets`);
+    datasets.forEach((ds, i) => console.log(`  Dataset ${i}: ${ds.label}, ${ds.data.length} points`));
+    
     window.createChart(canvasId, config);
 };
 
 window.renderMonthlySavingsChart = (labels, solarSavings, batterySavings, includeSolar, includeBattery) => {
     const canvasId = 'monthlySavingsChart';
+    
+    console.log(`renderMonthlySavingsChart called: ${labels.length} months, includeSolar=${includeSolar}, includeBattery=${includeBattery}`);
+    console.log(`First 3 months: [${labels.slice(0, 3).join(', ')}]`);
+    console.log(`First 3 solar savings: [${Array.from(solarSavings).slice(0, 3).join(', ')}]`);
     
     const datasets = [];
     
