@@ -2,10 +2,23 @@
 
 let chartInstances = {};
 
+// Log when this script loads
+console.log("charts.js loaded successfully");
+console.log("Chart.js available:", typeof Chart !== 'undefined');
+
 window.createChart = (canvasId, config) => {
     try {
+        console.log(`createChart called for: ${canvasId}`);
+        
+        // Check if Chart.js is available
+        if (typeof Chart === 'undefined') {
+            console.error("Chart.js library is not loaded!");
+            return;
+        }
+        
         // Destroy existing chart if it exists
         if (chartInstances[canvasId]) {
+            console.log(`Destroying existing chart: ${canvasId}`);
             chartInstances[canvasId].destroy();
             delete chartInstances[canvasId];
         }
@@ -16,6 +29,8 @@ window.createChart = (canvasId, config) => {
             console.error(`Canvas element with id '${canvasId}' not found`);
             return;
         }
+        
+        console.log(`Canvas element found: ${canvasId}, creating chart...`);
 
         // Create new chart
         chartInstances[canvasId] = new Chart(ctx, config);
@@ -1558,7 +1573,13 @@ window.renderProductionDistribution = (canvasId, labels, counts) => {
 // Battery Simulation Charts
 
 window.renderCostComparisonChart = (costs) => {
+    console.log("renderCostComparisonChart called with costs:", costs);
     const canvasId = 'costComparisonChart';
+    
+    if (!costs || costs.length !== 4) {
+        console.error("Invalid costs data:", costs);
+        return;
+    }
     
     const config = {
         type: 'bar',
@@ -1610,11 +1631,18 @@ window.renderCostComparisonChart = (costs) => {
         }
     };
 
+    console.log("Creating cost comparison chart...");
     window.createChart(canvasId, config);
 };
 
 window.renderSavingsBreakdownChart = (savings) => {
+    console.log("renderSavingsBreakdownChart called with savings:", savings);
     const canvasId = 'savingsBreakdownChart';
+    
+    if (!savings || savings.length !== 4) {
+        console.error("Invalid savings data:", savings);
+        return;
+    }
     
     const config = {
         type: 'doughnut',
@@ -1666,7 +1694,18 @@ window.renderSavingsBreakdownChart = (savings) => {
 };
 
 window.renderCumulativeCostChart = (labels, fixedCosts, dynamicNoBatCosts, dynamicWithBatCosts) => {
+    console.log("renderCumulativeCostChart called with:", {
+        labelCount: labels?.length,
+        fixedCount: fixedCosts?.length,
+        dynamicNoBatCount: dynamicNoBatCosts?.length,
+        dynamicWithBatCount: dynamicWithBatCosts?.length
+    });
     const canvasId = 'cumulativeCostChart';
+    
+    if (!labels || !fixedCosts || !dynamicNoBatCosts || !dynamicWithBatCosts) {
+        console.error("Invalid cumulative cost data");
+        return;
+    }
     
     const config = {
         type: 'line',
@@ -1690,7 +1729,7 @@ window.renderCumulativeCostChart = (labels, fixedCosts, dynamicNoBatCosts, dynam
                     tension: 0.1
                 },
                 {
-                    label: 'Dynamic Tariff + Battery',
+                    label: 'Dynamic Tariff + Battery)',
                     data: dynamicWithBatCosts,
                     borderColor: 'rgb(25, 135, 84)',
                     backgroundColor: 'rgba(25, 135, 84, 0.1)',
@@ -1744,7 +1783,17 @@ window.renderCumulativeCostChart = (labels, fixedCosts, dynamicNoBatCosts, dynam
 };
 
 window.renderBatterySocChart = (labels, socLevels, capacity) => {
+    console.log("renderBatterySocChart called with:", {
+        labelCount: labels?.length,
+        socCount: socLevels?.length,
+        capacity: capacity
+    });
     const canvasId = 'batterySocChart';
+    
+    if (!labels || !socLevels || !capacity) {
+        console.error("Invalid battery SoC data");
+        return;
+    }
     
     const config = {
         type: 'line',
