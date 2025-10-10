@@ -1,0 +1,897 @@
+@page "/smart-usage-advisor"
+@using myenergy.Models
+@using myenergy.Services
+@using Microsoft.JSInterop
+@inject EnergyDataService DataService
+@inject OdsPricingService OdsService
+@inject IJSRuntime JSRuntime
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h3>🤖 Smart Usage Advisor</h3>
+            <p class="text-muted">
+                AI-powered recommendations on when to use your household devices for maximum savings.
+                Based on solar production forecasts, dynamic pricing, and historical consumption patterns.
+            </p>
+        </div>
+    </div>
+
+    @if (!OdsService.IsDataLoaded)
+    {
+        <div class="alert alert-info">
+            <div class="spinner-border spinner-border-sm me-2"></div>
+            Loading pricing data...
+        </div>
+    }
+    else
+    {
+        <!-- Configuration Panel -->
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">⚙️ Settings</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="useDynamicPricing" 
+                                           @bind="UseDynamicPricing" @bind:after="RefreshRecommendations">
+                                    <label class="form-check-label" for="useDynamicPricing">
+                                        <strong>Use Dynamic Pricing</strong>
+                                    </label>
+                                </div>
+                                <small class="text-muted">Consider ODS prices in recommendations</small>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="prioritizeSolar" 
+                                           @bind="PrioritizeSolar" @bind:after="RefreshRecommendations">
+                                    <label class="form-check-label" for="prioritizeSolar">
+                                        <strong>Prioritize Solar</strong>
+                                    </label>
+                                </div>
+                                <small class="text-muted">Prefer using own solar production</small>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Forecast Horizon:</label>
+                                <select class="form-select form-select-sm" @bind="ForecastHours" @bind:after="RefreshRecommendations">
+                                    <option value="6">6 hours</option>
+                                    <option value="12">12 hours</option>
+                                    <option value="24">24 hours</option>
+                                    <option value="48">48 hours</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 d-flex align-items-end">
+                                <button class="btn btn-success w-100" @onclick="RefreshRecommendations" disabled="@isLoading">
+                                    @if (isLoading)
+                                    {
+                                        <span class="spinner-border spinner-border-sm me-2"></span>
+                                    }
+                                    <i class="bi bi-arrow-clockwise"></i> Refresh
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Current Status Banner -->
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <div class="alert @GetCurrentStatusClass() border-0" style="font-size: 1.2rem;">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <strong>@CurrentStatusIcon @CurrentStatusMessage</strong>
+                            <p class="mb-0 mt-2" style="font-size: 0.9rem;">@CurrentStatusDetails</p>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <div style="font-size: 2rem;">@CurrentRecommendationIcon</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Device Recommendations -->
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="card-title mb-0">🏠 Device Recommendations</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            @foreach (var device in DeviceRecommendations)
+                            {
+                                <div class="col-md-6 col-lg-4 mb-3">
+                                    <div class="card h-100 @GetDeviceCardClass(device)">
+                                        <div class="card-header">
+                                            <h6 class="mb-0">@device.Icon @device.Name</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="mb-2">
+                                                <strong>Recommendation:</strong>
+                                                <span class="badge @GetRecommendationBadgeClass(device.Recommendation) ms-2">
+                                                    @device.Recommendation
+                                                </span>
+                                            </div>
+                                            <div class="mb-2">
+                                                <strong>Energy Usage:</strong> 
+                                                <span class="text-primary">⚡ @device.EnergyUsed.ToString("F1") kWh</span>
+                                                <small class="text-muted">(@device.PowerKw.ToString("F1") kW × @device.DurationHours.ToString("F1")h)</small>
+                                            </div>
+                                            <div class="mb-2">
+                                                <strong>Best Time:</strong> @device.BestTimeSlot
+                                            </div>
+                                            <div class="mb-2">
+                                                <strong>Estimated Cost:</strong>
+                                                <span class="@(device.EstimatedSavings > 0 ? "text-success" : "")">
+                                                    €@device.EstimatedCostNow.ToString("F2")
+                                                </span>
+                                                @if (device.EstimatedSavings > 0)
+                                                {
+                                                    <br/>
+                                                    <small class="text-success">
+                                                        💰 Save €@device.EstimatedSavings.ToString("F2") if you wait!
+                                                    </small>
+                                                }
+                                            </div>
+                                            <div class="progress mb-2" style="height: 25px;">
+                                                <div class="progress-bar @GetProgressBarClass(device.Score)" 
+                                                     role="progressbar" 
+                                                     style="width: @device.Score%"
+                                                     aria-valuenow="@device.Score" 
+                                                     aria-valuemin="0" 
+                                                     aria-valuemax="100">
+                                                    @device.Score% Good
+                                                </div>
+                                            </div>
+                                            <small class="text-muted">@device.Reason</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Today's Timeline -->
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="card-title mb-0">⏰ Today's Optimal Usage Timeline</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container" style="position: relative; height: 300px;">
+                            <canvas id="@TimelineChartId" style="max-height: 300px;"></canvas>
+                        </div>
+                        <div class="mt-3">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <span class="badge bg-success">✅ Excellent (Score &gt; 80)</span>
+                                    <small class="d-block text-muted">High solar, low prices</small>
+                                </div>
+                                <div class="col-md-4">
+                                    <span class="badge bg-warning">⚠️ Fair (Score 50-80)</span>
+                                    <small class="d-block text-muted">Moderate conditions</small>
+                                </div>
+                                <div class="col-md-4">
+                                    <span class="badge bg-danger">❌ Poor (Score &lt; 50)</span>
+                                    <small class="d-block text-muted">Low solar, high prices</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Price Forecast Chart -->
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="card-title mb-0">📊 Price & Production Forecast</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container" style="position: relative; height: 350px;">
+                            <canvas id="@ForecastChartId" style="max-height: 350px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Historical Patterns -->
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">📈 Historical Patterns (Last 30 Days)</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Hour</th>
+                                        <th>Avg Solar (kWh)</th>
+                                        <th>Avg Export Price (€/kWh)</th>
+                                        <th>Avg Import Price (€/kWh)</th>
+                                        <th>Best for Usage?</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var pattern in HistoricalPatterns.OrderBy(p => p.Hour))
+                                    {
+                                        <tr class="@(pattern.IsOptimal ? "table-success" : "")">
+                                            <td>@pattern.Hour:00 - @((pattern.Hour + 1) % 24):00</td>
+                                            <td>@pattern.AvgSolarProduction.ToString("F2")</td>
+                                            <td class="@(pattern.AvgExportPrice < 0.05 ? "text-success" : "")">
+                                                €@pattern.AvgExportPrice.ToString("F4")
+                                            </td>
+                                            <td class="@(pattern.AvgImportPrice < 0.10 ? "text-success" : "text-danger")">
+                                                €@pattern.AvgImportPrice.ToString("F4")
+                                            </td>
+                                            <td>
+                                                @if (pattern.IsOptimal)
+                                                {
+                                                    <span class="badge bg-success">✅ Optimal</span>
+                                                }
+                                                else if (pattern.IsFair)
+                                                {
+                                                    <span class="badge bg-warning">⚠️ Fair</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-secondary">❌ Avoid</span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tips & Insights -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">💡 Smart Usage Tips</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>🔋 Best Practices:</h6>
+                                <ul>
+                                    <li><strong>Dishwasher/Washing Machine:</strong> Schedule for midday (11am-3pm) when solar production peaks</li>
+                                    <li><strong>EV Charging:</strong> Charge during lowest price hours (typically 2am-6am or midday on sunny days)</li>
+                                    <li><strong>Cooking:</strong> Use induction plates during high solar production for free energy</li>
+                                    <li><strong>High-Power Devices:</strong> Avoid evening peak hours (6pm-9pm) when prices are highest</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>📊 Your Patterns:</h6>
+                                <ul>
+                                    <li><strong>Peak Solar Hours:</strong> @PeakSolarHours</li>
+                                    <li><strong>Cheapest Import Times:</strong> @CheapestImportTimes</li>
+                                    <li><strong>Most Expensive Times:</strong> @MostExpensiveTimes</li>
+                                    <li><strong>Negative Price Hours (last 30 days):</strong> @NegativePriceHoursCount hours</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="alert alert-info mt-3">
+                            <strong>💰 Potential Monthly Savings:</strong> 
+                            By following these recommendations, you could save an estimated 
+                            <strong>€@EstimatedMonthlySavings.ToString("F2")</strong> per month 
+                            compared to random device usage timing.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    // Pricing constants
+    private const double FIXED_IMPORT_PRICE = 0.30; // €0.30/kWh - typical Belgian residential rate
+    private const double FIXED_EXPORT_PRICE = 0.05; // €0.05/kWh - typical feed-in tariff
+    
+    private bool UseDynamicPricing = true;
+    private bool PrioritizeSolar = true;
+    private int ForecastHours = 24;
+    private bool isLoading = false;
+
+    private string TimelineChartId = Guid.NewGuid().ToString();
+    private string ForecastChartId = Guid.NewGuid().ToString();
+
+    private List<DeviceRecommendation> DeviceRecommendations = new();
+    private List<HourlyPattern> HistoricalPatterns = new();
+    private List<TimeSlotScore> TimeSlotScores = new();
+
+    // Current status
+    private string CurrentStatusMessage = "";
+    private string CurrentStatusDetails = "";
+    private string CurrentStatusIcon = "";
+    private string CurrentRecommendationIcon = "";
+
+    // Statistics
+    private string PeakSolarHours = "";
+    private string CheapestImportTimes = "";
+    private string MostExpensiveTimes = "";
+    private int NegativePriceHoursCount = 0;
+    private double EstimatedMonthlySavings = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await OdsService.LoadDataAsync();
+        await RefreshRecommendations();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender && TimeSlotScores.Any())
+        {
+            await CreateCharts();
+        }
+    }
+
+    private async Task RefreshRecommendations()
+    {
+        isLoading = true;
+        try
+        {
+            await AnalyzeHistoricalPatterns();
+            CalculateCurrentStatus();
+            GenerateDeviceRecommendations();
+            CalculateTimeSlotScores();
+            CalculateStatistics();
+            await CreateCharts();
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task AnalyzeHistoricalPatterns()
+    {
+        HistoricalPatterns.Clear();
+        
+        // Analyze last 30 days
+        var endDate = DateTime.Today;
+        var startDate = endDate.AddDays(-30);
+        
+        var allData = new List<(int Hour, double Solar, double ImportPrice, double ExportPrice)>();
+
+        for (var date = startDate; date <= endDate; date = date.AddDays(1))
+        {
+            var dayData = DataService.GetDailyDetailData(date);
+            if (dayData == null || !dayData.QuarterHours.Any())
+                continue;
+
+            var odsPricing = OdsService.GetPricingForDay(date);
+            if (!odsPricing.Any())
+                continue;
+
+            foreach (var qh in dayData.QuarterHours)
+            {
+                var pricing = odsPricing.FirstOrDefault(p => 
+                    p.DateTime.Hour == qh.Time.Hour && 
+                    p.DateTime.Minute == qh.Time.Minute);
+
+                if (pricing != null)
+                {
+                    allData.Add((qh.Time.Hour, qh.ActualProduction, pricing.ImportPricePerKwh, pricing.InjectionPricePerKwh));
+                }
+            }
+        }
+
+        // Group by hour and calculate averages
+        HistoricalPatterns = allData
+            .GroupBy(d => d.Hour)
+            .Select(g => new HourlyPattern
+            {
+                Hour = g.Key,
+                AvgSolarProduction = g.Average(d => d.Solar),
+                AvgImportPrice = g.Average(d => d.ImportPrice),
+                AvgExportPrice = g.Average(d => d.ExportPrice),
+                DataPointCount = g.Count()
+            })
+            .ToList();
+
+        // Determine optimal hours
+        if (HistoricalPatterns.Any())
+        {
+            var maxSolar = HistoricalPatterns.Max(p => p.AvgSolarProduction);
+            var minImport = HistoricalPatterns.Min(p => p.AvgImportPrice);
+
+            foreach (var pattern in HistoricalPatterns)
+            {
+                double score = 0;
+
+                // Solar production contributes 50% to score
+                if (maxSolar > 0)
+                    score += (pattern.AvgSolarProduction / maxSolar) * 50;
+
+                // Low import price contributes 50% to score
+                if (UseDynamicPricing)
+                {
+                    score += (1 - (pattern.AvgImportPrice - minImport) / (HistoricalPatterns.Max(p => p.AvgImportPrice) - minImport)) * 50;
+                }
+                else
+                {
+                    score += (pattern.AvgSolarProduction > 0 ? 50 : 0);
+                }
+
+                pattern.IsOptimal = score >= 80;
+                pattern.IsFair = score >= 50 && score < 80;
+            }
+        }
+    }
+
+    private void CalculateCurrentStatus()
+    {
+        var now = DateTime.Now;
+        var currentHour = now.Hour;
+        var currentPattern = HistoricalPatterns.FirstOrDefault(p => p.Hour == currentHour);
+
+        if (currentPattern == null)
+        {
+            CurrentStatusMessage = "Analyzing current conditions...";
+            CurrentStatusDetails = "Gathering data to provide recommendations.";
+            CurrentStatusIcon = "⏳";
+            CurrentRecommendationIcon = "🤔";
+            return;
+        }
+
+        var todayData = DataService.GetDailyDetailData(DateTime.Today);
+        var currentPricing = OdsService.GetPricingForDay(DateTime.Today)
+            .Where(p => p.DateTime.Hour == currentHour)
+            .FirstOrDefault();
+
+        if (currentPattern.IsOptimal)
+        {
+            CurrentStatusMessage = "EXCELLENT TIME TO USE ENERGY!";
+            var priceInfo = UseDynamicPricing ? $"Import price: €{currentPattern.AvgImportPrice:F4}/kWh" : $"Fixed rate: €{FIXED_IMPORT_PRICE:F2}/kWh";
+            CurrentStatusDetails = $"High solar production ({currentPattern.AvgSolarProduction:F2} kWh avg) and favorable conditions. Perfect for running dishwasher, washing machine, or charging EV. {priceInfo}";
+            CurrentStatusIcon = "✅";
+            CurrentRecommendationIcon = "🎉";
+        }
+        else if (currentPattern.IsFair)
+        {
+            CurrentStatusMessage = "Fair time for energy usage";
+            var priceInfo = UseDynamicPricing ? $"Import price: €{currentPattern.AvgImportPrice:F4}/kWh" : $"Fixed rate: €{FIXED_IMPORT_PRICE:F2}/kWh";
+            CurrentStatusDetails = $"Moderate conditions. Consider delaying high-power devices if possible. {priceInfo}";
+            CurrentStatusIcon = "⚠️";
+            CurrentRecommendationIcon = "🤷";
+        }
+        else
+        {
+            CurrentStatusMessage = "NOT RECOMMENDED - Wait for better timing";
+            var priceInfo = UseDynamicPricing ? $"Import price: €{currentPattern.AvgImportPrice:F4}/kWh" : $"Fixed rate: €{FIXED_IMPORT_PRICE:F2}/kWh";
+            CurrentStatusDetails = $"Low solar production. Best to delay non-essential energy usage. {priceInfo}";
+            CurrentStatusIcon = "❌";
+            CurrentRecommendationIcon = "⛔";
+        }
+    }
+
+    private void GenerateDeviceRecommendations()
+    {
+        var devices = new List<(string Name, string Icon, double PowerKw, double DurationHours)>
+        {
+            ("Dishwasher", "🍽️", 1.5, 2.0),
+            ("Washing Machine", "🧺", 2.0, 1.5),
+            ("Tumble Dryer", "👕", 3.0, 1.0),
+            ("EV Charger", "🚗", 7.4, 4.0),
+            ("Induction Cooktop", "🍳", 3.5, 0.5),
+            ("Electric Oven", "🍕", 2.5, 1.0)
+        };
+
+        DeviceRecommendations.Clear();
+        var now = DateTime.Now;
+
+        foreach (var device in devices)
+        {
+            var recommendation = AnalyzeDeviceTiming(device.Name, device.PowerKw, device.DurationHours, now);
+            recommendation.Icon = device.Icon;
+            DeviceRecommendations.Add(recommendation);
+        }
+    }
+
+    private DeviceRecommendation AnalyzeDeviceTiming(string deviceName, double powerKw, double durationHours, DateTime now)
+    {
+        var currentHour = now.Hour;
+        var bestScore = 0.0;
+        var bestHour = currentHour;
+        var currentScore = 0.0;
+
+        // Analyze next ForecastHours hours
+        for (int hour = currentHour; hour < currentHour + ForecastHours && hour < 24; hour++)
+        {
+            var pattern = HistoricalPatterns.FirstOrDefault(p => p.Hour == hour);
+            if (pattern == null) continue;
+
+            double score = CalculateUsageScore(pattern, powerKw);
+
+            if (hour == currentHour)
+                currentScore = score;
+
+            if (score > bestScore)
+            {
+                bestScore = score;
+                bestHour = hour;
+            }
+        }
+
+        var energyUsed = powerKw * durationHours;
+        
+        // Use fixed pricing if dynamic pricing is disabled
+        double currentPrice, bestPrice;
+        if (UseDynamicPricing)
+        {
+            currentPrice = HistoricalPatterns.FirstOrDefault(p => p.Hour == currentHour)?.AvgImportPrice ?? FIXED_IMPORT_PRICE;
+            bestPrice = HistoricalPatterns.FirstOrDefault(p => p.Hour == bestHour)?.AvgImportPrice ?? FIXED_IMPORT_PRICE;
+        }
+        else
+        {
+            // Fixed tariff - cost is same regardless of time
+            currentPrice = FIXED_IMPORT_PRICE;
+            bestPrice = FIXED_IMPORT_PRICE;
+        }
+        
+        var currentCost = energyUsed * currentPrice;
+        var bestCost = energyUsed * bestPrice;
+        var savings = Math.Max(0, currentCost - bestCost);
+
+        string recommendation;
+        string reason;
+
+        if (currentScore >= 80)
+        {
+            recommendation = "START NOW";
+            reason = UseDynamicPricing 
+                ? "Excellent conditions - optimal solar and low prices" 
+                : "Excellent conditions - optimal solar production";
+        }
+        else if (currentScore >= 60)
+        {
+            recommendation = "OK TO START";
+            reason = UseDynamicPricing 
+                ? "Good conditions, but better prices may be available" 
+                : "Good conditions, but better solar times may be available";
+        }
+        else if (bestHour == currentHour)
+        {
+            recommendation = "START NOW";
+            reason = "This is the best time in the forecast window";
+        }
+        else
+        {
+            recommendation = "WAIT";
+            var savingsInfo = UseDynamicPricing ? $"for €{savings:F2} savings" : "for better solar coverage";
+            reason = $"Better to wait until {bestHour:D2}:00 {savingsInfo}";
+        }
+
+        // Format time window, handling midnight crossover
+        var endHour = bestHour + (int)Math.Ceiling(durationHours);
+        var endHourFormatted = endHour >= 24 ? endHour - 24 : endHour;
+        var nextDayIndicator = endHour >= 24 ? " (next day)" : "";
+        
+        return new DeviceRecommendation
+        {
+            Name = deviceName,
+            Recommendation = recommendation,
+            BestTimeSlot = $"{bestHour:D2}:00 - {endHourFormatted:D2}:00{nextDayIndicator}",
+            PowerKw = powerKw,
+            DurationHours = durationHours,
+            EnergyUsed = energyUsed,
+            EstimatedCostNow = currentCost,
+            EstimatedSavings = savings,
+            Score = (int)currentScore,
+            Reason = reason
+        };
+    }
+
+    private double CalculateUsageScore(HourlyPattern pattern, double powerKw)
+    {
+        double score = 0;
+
+        // Factor 1: Solar production availability (40%)
+        if (PrioritizeSolar && HistoricalPatterns.Any())
+        {
+            var maxSolar = HistoricalPatterns.Max(p => p.AvgSolarProduction);
+            if (maxSolar > 0)
+            {
+                var solarCoverage = Math.Min(1.0, pattern.AvgSolarProduction / powerKw);
+                score += solarCoverage * 40;
+            }
+        }
+
+        // Factor 2: Import price (40%)
+        if (UseDynamicPricing && HistoricalPatterns.Any())
+        {
+            var minPrice = HistoricalPatterns.Min(p => p.AvgImportPrice);
+            var maxPrice = HistoricalPatterns.Max(p => p.AvgImportPrice);
+            if (maxPrice > minPrice)
+            {
+                var priceScore = 1 - ((pattern.AvgImportPrice - minPrice) / (maxPrice - minPrice));
+                score += priceScore * 40;
+            }
+        }
+
+        // Factor 3: Export price consideration (20%)
+        if (UseDynamicPricing && pattern.AvgExportPrice < 0.05)
+        {
+            score += 20; // Bonus for very low/negative export prices (grid needs consumption)
+        }
+
+        return score;
+    }
+
+    private void CalculateTimeSlotScores()
+    {
+        TimeSlotScores.Clear();
+        var now = DateTime.Now;
+
+        for (int hour = 0; hour < 24; hour++)
+        {
+            var pattern = HistoricalPatterns.FirstOrDefault(p => p.Hour == hour);
+            if (pattern == null) continue;
+
+            var score = CalculateUsageScore(pattern, 2.0); // Use 2kW as average device
+
+            TimeSlotScores.Add(new TimeSlotScore
+            {
+                Hour = hour,
+                Score = score,
+                SolarProduction = pattern.AvgSolarProduction,
+                ImportPrice = pattern.AvgImportPrice,
+                ExportPrice = pattern.AvgExportPrice
+            });
+        }
+    }
+
+    private void CalculateStatistics()
+    {
+        if (!HistoricalPatterns.Any()) return;
+
+        // Peak solar hours
+        var peakSolar = HistoricalPatterns.OrderByDescending(p => p.AvgSolarProduction).Take(3);
+        PeakSolarHours = string.Join(", ", peakSolar.Select(p => $"{p.Hour:D2}:00"));
+
+        // Cheapest import times
+        var cheapest = HistoricalPatterns.OrderBy(p => p.AvgImportPrice).Take(3);
+        CheapestImportTimes = string.Join(", ", cheapest.Select(p => $"{p.Hour:D2}:00"));
+
+        // Most expensive times
+        var expensive = HistoricalPatterns.OrderByDescending(p => p.AvgImportPrice).Take(3);
+        MostExpensiveTimes = string.Join(", ", expensive.Select(p => $"{p.Hour:D2}:00"));
+
+        // Calculate potential savings
+        var avgHighPrice = expensive.Average(p => p.AvgImportPrice);
+        var avgLowPrice = cheapest.Average(p => p.AvgImportPrice);
+        var dailyUsage = 5.0; // Assume 5 kWh/day of shiftable load
+        EstimatedMonthlySavings = (avgHighPrice - avgLowPrice) * dailyUsage * 30;
+    }
+
+    private async Task CreateCharts()
+    {
+        if (!TimeSlotScores.Any()) return;
+
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("createChart", TimelineChartId, GenerateTimelineChartConfig());
+            await JSRuntime.InvokeVoidAsync("createChart", ForecastChartId, GenerateForecastChartConfig());
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error creating charts: {ex.Message}");
+        }
+    }
+
+    private object GenerateTimelineChartConfig()
+    {
+        var labels = TimeSlotScores.Select(t => $"{t.Hour:D2}:00").ToArray();
+
+        var scoreData = new
+        {
+            label = "Usage Score",
+            data = TimeSlotScores.Select(t => t.Score).ToArray(),
+            backgroundColor = TimeSlotScores.Select(t => 
+                t.Score >= 80 ? "rgba(40, 167, 69, 0.7)" :
+                t.Score >= 50 ? "rgba(255, 193, 7, 0.7)" :
+                "rgba(220, 53, 69, 0.7)"
+            ).ToArray(),
+            borderColor = TimeSlotScores.Select(t => 
+                t.Score >= 80 ? "rgb(40, 167, 69)" :
+                t.Score >= 50 ? "rgb(255, 193, 7)" :
+                "rgb(220, 53, 69)"
+            ).ToArray(),
+            borderWidth = 2
+        };
+
+        return new
+        {
+            type = "bar",
+            data = new { labels, datasets = new[] { scoreData } },
+            options = new
+            {
+                responsive = true,
+                maintainAspectRatio = false,
+                plugins = new
+                {
+                    title = new { display = true, text = "Optimal Usage Timeline - Today" },
+                    legend = new { display = false }
+                },
+                scales = new
+                {
+                    y = new
+                    {
+                        beginAtZero = true,
+                        max = 100,
+                        title = new { display = true, text = "Usage Score (0-100)" }
+                    }
+                }
+            }
+        };
+    }
+
+    private object GenerateForecastChartConfig()
+    {
+        var labels = TimeSlotScores.Select(t => $"{t.Hour:D2}:00").ToArray();
+
+        var solarData = new
+        {
+            label = "Solar Production (kWh)",
+            data = TimeSlotScores.Select(t => t.SolarProduction).ToArray(),
+            borderColor = "rgb(255, 193, 7)",
+            backgroundColor = "rgba(255, 193, 7, 0.1)",
+            borderWidth = 2,
+            fill = true,
+            tension = 0.4,
+            yAxisID = "y"
+        };
+
+        var importData = new
+        {
+            label = "Import Price (€/kWh)",
+            data = TimeSlotScores.Select(t => t.ImportPrice).ToArray(),
+            borderColor = "rgb(220, 53, 69)",
+            backgroundColor = "rgba(220, 53, 69, 0.1)",
+            borderWidth = 2,
+            fill = false,
+            tension = 0.4,
+            yAxisID = "y1"
+        };
+
+        var exportData = new
+        {
+            label = "Export Price (€/kWh)",
+            data = TimeSlotScores.Select(t => t.ExportPrice).ToArray(),
+            borderColor = "rgb(40, 167, 69)",
+            backgroundColor = "rgba(40, 167, 69, 0.1)",
+            borderWidth = 2,
+            fill = false,
+            tension = 0.4,
+            yAxisID = "y1"
+        };
+
+        return new
+        {
+            type = "line",
+            data = new { labels, datasets = new[] { solarData, importData, exportData } },
+            options = new
+            {
+                responsive = true,
+                maintainAspectRatio = false,
+                interaction = new { mode = "index", intersect = false },
+                plugins = new
+                {
+                    title = new { display = true, text = "24-Hour Forecast: Production & Prices" },
+                    legend = new { display = true, position = "top" }
+                },
+                scales = new
+                {
+                    y = new
+                    {
+                        type = "linear",
+                        display = true,
+                        position = "left",
+                        title = new { display = true, text = "Solar Production (kWh)" }
+                    },
+                    y1 = new
+                    {
+                        type = "linear",
+                        display = true,
+                        position = "right",
+                        title = new { display = true, text = "Price (€/kWh)" },
+                        grid = new { drawOnChartArea = false }
+                    }
+                }
+            }
+        };
+    }
+
+    private string GetCurrentStatusClass()
+    {
+        if (CurrentStatusIcon == "✅") return "alert-success";
+        if (CurrentStatusIcon == "⚠️") return "alert-warning";
+        if (CurrentStatusIcon == "❌") return "alert-danger";
+        return "alert-info";
+    }
+
+    private string GetDeviceCardClass(DeviceRecommendation device)
+    {
+        if (device.Recommendation == "START NOW") return "border-success";
+        if (device.Recommendation == "OK TO START") return "border-warning";
+        return "border-secondary";
+    }
+
+    private string GetRecommendationBadgeClass(string recommendation)
+    {
+        return recommendation switch
+        {
+            "START NOW" => "bg-success",
+            "OK TO START" => "bg-warning text-dark",
+            "WAIT" => "bg-secondary",
+            _ => "bg-info"
+        };
+    }
+
+    private string GetProgressBarClass(int score)
+    {
+        if (score >= 80) return "bg-success";
+        if (score >= 50) return "bg-warning";
+        return "bg-danger";
+    }
+
+    // Data Models
+    private class DeviceRecommendation
+    {
+        public string Name { get; set; } = "";
+        public string Icon { get; set; } = "";
+        public string Recommendation { get; set; } = "";
+        public string BestTimeSlot { get; set; } = "";
+        public double PowerKw { get; set; }
+        public double DurationHours { get; set; }
+        public double EnergyUsed { get; set; }
+        public double EstimatedCostNow { get; set; }
+        public double EstimatedSavings { get; set; }
+        public int Score { get; set; }
+        public string Reason { get; set; } = "";
+    }
+
+    private class HourlyPattern
+    {
+        public int Hour { get; set; }
+        public double AvgSolarProduction { get; set; }
+        public double AvgImportPrice { get; set; }
+        public double AvgExportPrice { get; set; }
+        public int DataPointCount { get; set; }
+        public bool IsOptimal { get; set; }
+        public bool IsFair { get; set; }
+    }
+
+    private class TimeSlotScore
+    {
+        public int Hour { get; set; }
+        public double Score { get; set; }
+        public double SolarProduction { get; set; }
+        public double ImportPrice { get; set; }
+        public double ExportPrice { get; set; }
+    }
+}

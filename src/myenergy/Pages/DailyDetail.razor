@@ -3,6 +3,7 @@
 @using myenergy.Services
 @using Microsoft.AspNetCore.Components
 @inject EnergyDataService DataService
+@inject OdsPricingService OdsService
 
 <PageTitle>Daily Detail - SolarViz</PageTitle>
 
@@ -50,6 +51,73 @@
         </div>
     </div>
 
+    <!-- Dynamic Pricing Settings -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" @bind="ShowDynamicPricing" @bind:after="OnDynamicPricingToggled" id="showDynamicPricing">
+                                <label class="form-check-label fw-bold" for="showDynamicPricing">
+                                    <i class="bi bi-graph-up"></i> Show ODS Pricing
+                                </label>
+                            </div>
+                        </div>
+                        @if (ShowDynamicPricing)
+                        {
+                            <div class="col-md-3">
+                                <small class="text-muted">
+                                    @if (!string.IsNullOrEmpty(odsPricingDateRange))
+                                    {
+                                        <span>@odsPricingDateRange</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-warning">No ODS data available</span>
+                                    }
+                                </small>
+                            </div>
+                            <div class="col-md-2">
+                                <small class="text-muted">Import: €0.30/kWh (fixed)</small><br/>
+                                <small class="text-muted">Export: €0.05/kWh (fixed)</small>
+                            </div>
+                            <div class="col-md-3">
+                                @if (OdsService.IsDataLoaded)
+                                {
+                                    <small class="text-success"><i class="bi bi-check-circle"></i> ODS data loaded</small>
+                                    @if (OdsService.LastLoadTime.HasValue)
+                                    {
+                                        <br/><small class="text-muted">Updated: @OdsService.LastLoadTime.Value.ToString("yyyy-MM-dd HH:mm")</small>
+                                    }
+                                }
+                                else
+                                {
+                                    <small class="text-danger"><i class="bi bi-x-circle"></i> ODS data not loaded</small>
+                                }
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-sm btn-outline-primary" @onclick="RefreshOdsData" disabled="@isRefreshingOds">
+                                    @if (isRefreshingOds)
+                                    {
+                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        <span> Refreshing...</span>
+                                    }
+                                    else
+                                    {
+                                        <i class="bi bi-arrow-repeat"></i>
+                                        <span> Refresh ODS</span>
+                                    }
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @if (Loading)
     {
         <div class="text-center py-5">
@@ -62,7 +130,9 @@
     else if (DetailData != null)
     {
         <!-- Detailed Day Chart Component -->
-        <DetailedDayChart DetailData="@DetailData" />
+        <DetailedDayChart DetailData="@DetailData" 
+                         ShowDynamicPricing="@ShowDynamicPricing"
+                         OdsPricingData="@DailyOdsPricing" />
     }
     else
     {
@@ -84,9 +154,19 @@
     private DailyDetailData? DetailData;
     private bool Loading = false;
     private List<DateTime> AvailableDates = new();
+    
+    // Dynamic pricing support
+    private bool ShowDynamicPricing = false;
+    private bool isRefreshingOds = false;
+    private string odsPricingDateRange = "";
+    private List<OdsPricing> DailyOdsPricing = new();
 
     protected override async Task OnInitializedAsync()
     {
+        // Load ODS pricing data
+        await OdsService.LoadDataAsync();
+        UpdateOdsPricingInfo();
+        
         // Get available dates
         AvailableDates = DataService.GetAvailableDates();
         
@@ -101,6 +181,56 @@
         }
         
         await LoadDayData();
+    }
+    
+    private void UpdateOdsPricingInfo()
+    {
+        var odsRange = OdsService.GetDataRange();
+        if (odsRange.HasValue)
+        {
+            odsPricingDateRange = $"Available: {odsRange.Value.start:dd/MM/yyyy} - {odsRange.Value.end:dd/MM/yyyy}";
+        }
+        else
+        {
+            odsPricingDateRange = "";
+        }
+    }
+    
+    private async Task OnDynamicPricingToggled()
+    {
+        if (ShowDynamicPricing && DetailData != null)
+        {
+            // Load ODS pricing for the selected day
+            DailyOdsPricing = OdsService.GetPricingForDay(SelectedDate);
+        }
+        StateHasChanged();
+    }
+    
+    private async Task RefreshOdsData()
+    {
+        isRefreshingOds = true;
+        StateHasChanged();
+        
+        try
+        {
+            await OdsService.RefreshFromEliaAsync();
+            UpdateOdsPricingInfo();
+            
+            // Reload pricing data for current day
+            if (ShowDynamicPricing && DetailData != null)
+            {
+                DailyOdsPricing = OdsService.GetPricingForDay(SelectedDate);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error refreshing ODS data: {ex.Message}");
+        }
+        finally
+        {
+            isRefreshingOds = false;
+            StateHasChanged();
+        }
     }
 
     private async Task OnDateChanged(ChangeEventArgs e)
@@ -161,6 +291,12 @@
         await Task.Delay(50); // Small delay for UI feedback
         
         DetailData = DataService.GetDailyDetailData(SelectedDate);
+        
+        // Load ODS pricing for this day if enabled
+        if (ShowDynamicPricing && DetailData != null)
+        {
+            DailyOdsPricing = OdsService.GetPricingForDay(SelectedDate);
+        }
         
         Loading = false;
         StateHasChanged();

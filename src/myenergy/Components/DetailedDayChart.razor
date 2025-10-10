@@ -117,13 +117,76 @@
                 </div>
             </div>
         }
+
+        <!-- Dynamic Pricing Chart -->
+        @if (ShowDynamicPricing && OdsPricingData != null && OdsPricingData.Any())
+        {
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="card-title mb-0">💶 ODS Dynamic Pricing - 15-Minute Intervals</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="@PriceChartCanvasId" style="max-height: 300px;"></canvas>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <div class="card bg-light">
+                                        <div class="card-body">
+                                            <h6 class="card-title">Pricing Summary</h6>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <strong>Import Price:</strong><br/>
+                                                    <span class="text-danger">Avg: €@(OdsPricingData.Average(p => p.ImportPricePerKwh).ToString("F4"))/kWh</span><br/>
+                                                    <small class="text-muted">€@((OdsPricingData.Average(p => p.ImportPricePerKwh) * 1000).ToString("F2"))/MWh</small>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <strong>Export Price:</strong><br/>
+                                                    <span class="text-success">Avg: €@(OdsPricingData.Average(p => p.InjectionPricePerKwh).ToString("F4"))/kWh</span><br/>
+                                                    <small class="text-muted">€@((OdsPricingData.Average(p => p.InjectionPricePerKwh) * 1000).ToString("F2"))/MWh</small>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <strong>Import Range:</strong><br/>
+                                                    <span>€@(OdsPricingData.Min(p => p.ImportPricePerKwh).ToString("F4")) - €@(OdsPricingData.Max(p => p.ImportPricePerKwh).ToString("F4"))/kWh</span>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <strong>Export Range:</strong><br/>
+                                                    <span>€@(OdsPricingData.Min(p => p.InjectionPricePerKwh).ToString("F4")) - €@(OdsPricingData.Max(p => p.InjectionPricePerKwh).ToString("F4"))/kWh</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (ShowDynamicPricing && (OdsPricingData == null || !OdsPricingData.Any()))
+        {
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle"></i> 
+                        No ODS pricing data available for @DetailData.Date.ToString("yyyy-MM-dd"). 
+                        This date may be outside the available ODS data range.
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 </div>
 
 @code {
     [Parameter] public DailyDetailData DetailData { get; set; } = default!;
+    [Parameter] public bool ShowDynamicPricing { get; set; } = false;
+    [Parameter] public List<OdsPricing> OdsPricingData { get; set; } = new();
     
     private string ChartCanvasId = Guid.NewGuid().ToString();
+    private string PriceChartCanvasId = Guid.NewGuid().ToString(); // NEW
     private ChartView SelectedView = ChartView.All;
     private string ChartStyle = "line";
     private bool ShowSunriseSunset = true;
@@ -138,17 +201,107 @@
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await CreateChart();
-        }
-    }
-
-    protected override async Task OnParametersSetAsync()
+{
+    if (firstRender)
     {
         await CreateChart();
+        if (ShowDynamicPricing && OdsPricingData != null && OdsPricingData.Any())
+        {
+            await CreatePriceChart();
+        }
     }
+}
+
+protected override async Task OnParametersSetAsync()
+{
+    await CreateChart();
+    if (ShowDynamicPricing && OdsPricingData != null && OdsPricingData.Any())
+    {
+        await CreatePriceChart();
+    }
+}
+
+private async Task CreatePriceChart()
+{
+    if (OdsPricingData == null || !OdsPricingData.Any())
+        return;
+
+    try
+    {
+        var chartConfig = GeneratePriceChartConfig();
+        await JSRuntime.InvokeVoidAsync("createChart", PriceChartCanvasId, chartConfig);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error creating price chart: {ex.Message}");
+    }
+}
+
+private object GeneratePriceChartConfig()
+{
+    var labels = OdsPricingData.Select(p => p.DateTime.ToString("HH:mm")).ToArray();
+
+    // Create anonymous list to avoid Razor parsing issues
+    var importData = new {
+        label = "Import Price (€/kWh)",
+        data = OdsPricingData.Select(p => p.ImportPricePerKwh).ToArray(),
+        borderColor = "rgb(220, 53, 69)",
+        backgroundColor = "rgba(220, 53, 69, 0.1)",
+        borderWidth = 2,
+        fill = true,
+        tension = 0.4,
+        yAxisID = "y"
+    };
+
+    var exportData = new {
+        label = "Export Price (€/kWh)",
+        data = OdsPricingData.Select(p => p.InjectionPricePerKwh).ToArray(),
+        borderColor = "rgb(40, 167, 69)",
+        backgroundColor = "rgba(40, 167, 69, 0.1)",
+        borderWidth = 2,
+        fill = true,
+        tension = 0.4,
+        yAxisID = "y"
+    };
+
+    return new {
+        type = "line",
+        data = new {
+            labels = labels,
+            datasets = new[] { importData, exportData }
+        },
+        options = new {
+            responsive = true,
+            maintainAspectRatio = false,
+            interaction = new {
+                mode = "index",
+                intersect = false
+            },
+            plugins = new {
+                title = new {
+                    display = true,
+                    text = $"ODS Dynamic Pricing - {DetailData.Date:yyyy-MM-dd}"
+                },
+                legend = new {
+                    display = true,
+                    position = "top"
+                },
+                tooltip = new {
+                    callbacks = new { }
+                }
+            },
+            scales = new {
+                y = new {
+                    beginAtZero = false,
+                    title = new {
+                        display = true,
+                        text = "Price (€/kWh)"
+                    }
+                }
+            }
+        }
+    };
+}
 
     private async Task UpdateChart()
     {
