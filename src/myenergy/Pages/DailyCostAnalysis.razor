@@ -310,6 +310,7 @@
 
 @code {
     private bool isLoading = true;
+    private bool shouldRenderCharts = false;
     private int selectedYear = 2024;
     private double batteryCapacity; // Initialized from config
     private double fixedImportPrice; // Initialized from config
@@ -339,9 +340,20 @@
         await RunAnalysisAsync();
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (shouldRenderCharts)
+        {
+            shouldRenderCharts = false;
+            await Task.Delay(200); // Give DOM time to settle
+            await RenderCharts();
+        }
+    }
+
     private async Task RunAnalysisAsync()
     {
         isLoading = true;
+        shouldRenderCharts = false; // Reset flag
         StateHasChanged();
 
         try
@@ -351,11 +363,14 @@
             simNoBatteryFixed = await SimulationService.RunSimulation(selectedYear, 0, fixedImportPrice, fixedExportPrice);
 
             FilterDaysByPeriod();
-            await RenderCharts();
+            
+            // Flag to render charts after next render
+            shouldRenderCharts = true;
         }
         finally
         {
             isLoading = false;
+            StateHasChanged(); // Trigger re-render which will call OnAfterRenderAsync
         }
     }
 
