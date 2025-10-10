@@ -291,6 +291,7 @@
 @code {
     private bool isLoading = true;
     private bool isRefreshingOds = false;
+    private bool shouldRenderCharts = false;
     
     // Solar investment
     private bool includeSolar = true;
@@ -342,6 +343,17 @@
         }
 
         await RecalculateRoi();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (shouldRenderCharts)
+        {
+            shouldRenderCharts = false;
+            Console.WriteLine("OnAfterRenderAsync: About to render ROI charts");
+            await Task.Delay(200); // Give DOM time to settle
+            await RenderCharts();
+        }
     }
 
     private void UpdateOdsPricingInfo()
@@ -407,6 +419,7 @@
     private async Task RecalculateRoi()
     {
         isLoading = true;
+        shouldRenderCharts = false; // Reset flag
         StateHasChanged();
 
         try
@@ -440,17 +453,18 @@
                 useDynamicPricing,
                 useDynamicPricing ? dynamicPricingStartDate : null);
 
-            // Set loading to false FIRST to render the canvas elements
-            isLoading = false;
-            StateHasChanged();
-            
-            // Now render the charts after DOM is ready
-            await RenderCharts();
+            // Flag to render charts after next render
+            shouldRenderCharts = true;
+            Console.WriteLine("RecalculateRoi: Set shouldRenderCharts = true");
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error calculating ROI: {ex.Message}");
+        }
+        finally
+        {
             isLoading = false;
+            StateHasChanged(); // Trigger re-render which will call OnAfterRenderAsync
         }
     }
 
