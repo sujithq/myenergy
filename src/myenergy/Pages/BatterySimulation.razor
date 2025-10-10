@@ -362,23 +362,7 @@
     {
         try
         {
-            // Check if JavaScript functions are available
-            var isAvailable = await JS.InvokeAsync<bool>("eval", "typeof renderCostComparisonChart === 'function'");
-            Console.WriteLine($"RenderCharts: JavaScript functions available: {isAvailable}");
-            
-            if (!isAvailable)
-            {
-                Console.WriteLine("RenderCharts: Chart functions not loaded yet, waiting...");
-                await Task.Delay(500);
-                isAvailable = await JS.InvokeAsync<bool>("eval", "typeof renderCostComparisonChart === 'function'");
-                Console.WriteLine($"RenderCharts: After retry, functions available: {isAvailable}");
-                
-                if (!isAvailable)
-                {
-                    Console.WriteLine("RenderCharts: Chart functions still not available, aborting");
-                    return;
-                }
-            }
+            Console.WriteLine("RenderCharts: Starting");
             
             // Validate data exists
             if (simulationResults == null || simNoBatteryFixed == null || simWithBatteryFixed == null)
