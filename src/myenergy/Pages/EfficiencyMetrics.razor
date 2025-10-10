@@ -2,6 +2,7 @@
 @using myenergy.Services
 @using myenergy.Models
 @inject EnergyDataService DataService
+@inject PricingConfigService PricingConfig
 @inject IJSRuntime JS
 
 <PageTitle>Efficiency Metrics - myenergy</PageTitle>
@@ -353,7 +354,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await DataService.LoadDataAsync();
+        // Data already loaded at app startup
+        // Initialize solar system defaults from config
+        systemCapacityKwp = PricingConfig.DefaultSolarSystemCapacityKwp;
+        
         availableYears = DataService.GetAvailableYears();
         CalculateMetrics();
         isLoading = false;

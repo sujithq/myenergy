@@ -1,0 +1,21 @@
+{
+  "pricing": {
+    "fixedImportPrice": 0.30,
+    "fixedExportPrice": 0.05,
+    "description": "Default Belgian electricity pricing (€/kWh)"
+  },
+  "battery": {
+    "defaultCapacityKwh": 5.0,
+    "efficiency": 0.95,
+    "chargeRateFactor": 0.5,
+    "dischargeRateFactor": 0.5,
+    "description": "Battery system defaults - capacity in kWh, efficiency as decimal (0.95 = 95%), charge/discharge rate as fraction of capacity"
+  },
+  "solar": {
+    "defaultSystemCapacityKwp": 5.0,
+    "averagePeakSunHours": 4.0,
+    "defaultSystemCostEur": 10000,
+    "description": "Solar system defaults - capacity in kWp, peak sun hours for Belgian climate, typical installation cost"
+  },
+  "lastUpdated": "2025-10-10"
+}

@@ -2,6 +2,7 @@
 @using myenergy.Services
 @using myenergy.Models
 @inject RoiAnalysisService RoiService
+@inject PricingConfigService PricingConfig
 @inject EnergyDataService EnergyService
 @inject OdsPricingService OdsService
 @inject IJSRuntime JS
@@ -301,13 +302,13 @@
     private bool includeBattery = false;
     private DateTime batteryInstallDate = DateTime.Today.AddMonths(-6);
     private double batteryCost = 5000;
-    private double batteryCapacity = 5;
+    private double batteryCapacity; // Initialized from config
     
     // Analysis parameters
     private DateTime analysisStartDate = DateTime.Today.AddYears(-2);
     private DateTime analysisEndDate = DateTime.Today;
-    private double fixedImportPrice = 0.30;
-    private double fixedExportPrice = 0.05;
+    private double fixedImportPrice; // Initialized from config
+    private double fixedExportPrice; // Initialized from config
     private bool useDynamicPricing = false;
     private DateTime dynamicPricingStartDate = DateTime.Today.AddYears(-2);
     
@@ -321,8 +322,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await EnergyService.LoadDataAsync();
-        await OdsService.LoadDataAsync();
+        // Data already loaded at app startup
+        // Initialize defaults from config
+        batteryCapacity = PricingConfig.DefaultBatteryCapacityKwh;
+        fixedImportPrice = PricingConfig.FixedImportPrice;
+        fixedExportPrice = PricingConfig.FixedExportPrice;
         
         // Get ODS pricing date range and last load time
         UpdateOdsPricingInfo();

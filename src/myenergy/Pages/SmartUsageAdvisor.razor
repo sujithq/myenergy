@@ -4,6 +4,7 @@
 @using Microsoft.JSInterop
 @inject EnergyDataService DataService
 @inject OdsPricingService OdsService
+@inject PricingConfigService PricingConfig
 @inject IJSRuntime JSRuntime
 
 <div class="container-fluid">
@@ -234,10 +235,10 @@
                                         <tr class="@(pattern.IsOptimal ? "table-success" : "")">
                                             <td>@pattern.Hour:00 - @((pattern.Hour + 1) % 24):00</td>
                                             <td>@pattern.AvgSolarProduction.ToString("F2")</td>
-                                            <td class="@(pattern.AvgExportPrice < 0.05 ? "text-success" : "")">
+                                            <td class="@(pattern.AvgExportPrice < PricingConfig.FixedExportPrice ? "text-success" : "")">
                                                 €@pattern.AvgExportPrice.ToString("F4")
                                             </td>
-                                            <td class="@(pattern.AvgImportPrice < 0.10 ? "text-success" : "text-danger")">
+                                            <td class="@(pattern.AvgImportPrice < (PricingConfig.FixedImportPrice / 3) ? "text-success" : "text-danger")">
                                                 €@pattern.AvgImportPrice.ToString("F4")
                                             </td>
                                             <td>
@@ -306,9 +307,7 @@
 </div>
 
 @code {
-    // Pricing constants
-    private const double FIXED_IMPORT_PRICE = 0.30; // €0.30/kWh - typical Belgian residential rate
-    private const double FIXED_EXPORT_PRICE = 0.05; // €0.05/kWh - typical feed-in tariff
+    // Pricing configuration now comes from PricingConfigService
     
     private bool UseDynamicPricing = true;
     private bool PrioritizeSolar = true;
@@ -337,7 +336,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await OdsService.LoadDataAsync();
+        // Data already loaded at app startup
         await RefreshRecommendations();
     }
 
@@ -466,7 +465,7 @@
         if (currentPattern.IsOptimal)
         {
             CurrentStatusMessage = "EXCELLENT TIME TO USE ENERGY!";
-            var priceInfo = UseDynamicPricing ? $"Import price: €{currentPattern.AvgImportPrice:F4}/kWh" : $"Fixed rate: €{FIXED_IMPORT_PRICE:F2}/kWh";
+            var priceInfo = UseDynamicPricing ? $"Import price: €{currentPattern.AvgImportPrice:F4}/kWh" : $"Fixed rate: €{PricingConfig.FixedImportPrice:F2}/kWh";
             CurrentStatusDetails = $"High solar production ({currentPattern.AvgSolarProduction:F2} kWh avg) and favorable conditions. Perfect for running dishwasher, washing machine, or charging EV. {priceInfo}";
             CurrentStatusIcon = "✅";
             CurrentRecommendationIcon = "🎉";
@@ -474,7 +473,7 @@
         else if (currentPattern.IsFair)
         {
             CurrentStatusMessage = "Fair time for energy usage";
-            var priceInfo = UseDynamicPricing ? $"Import price: €{currentPattern.AvgImportPrice:F4}/kWh" : $"Fixed rate: €{FIXED_IMPORT_PRICE:F2}/kWh";
+            var priceInfo = UseDynamicPricing ? $"Import price: €{currentPattern.AvgImportPrice:F4}/kWh" : $"Fixed rate: €{PricingConfig.FixedImportPrice:F2}/kWh";
             CurrentStatusDetails = $"Moderate conditions. Consider delaying high-power devices if possible. {priceInfo}";
             CurrentStatusIcon = "⚠️";
             CurrentRecommendationIcon = "🤷";
@@ -482,7 +481,7 @@
         else
         {
             CurrentStatusMessage = "NOT RECOMMENDED - Wait for better timing";
-            var priceInfo = UseDynamicPricing ? $"Import price: €{currentPattern.AvgImportPrice:F4}/kWh" : $"Fixed rate: €{FIXED_IMPORT_PRICE:F2}/kWh";
+            var priceInfo = UseDynamicPricing ? $"Import price: €{currentPattern.AvgImportPrice:F4}/kWh" : $"Fixed rate: €{PricingConfig.FixedImportPrice:F2}/kWh";
             CurrentStatusDetails = $"Low solar production. Best to delay non-essential energy usage. {priceInfo}";
             CurrentStatusIcon = "❌";
             CurrentRecommendationIcon = "⛔";
@@ -543,14 +542,14 @@
         double currentPrice, bestPrice;
         if (UseDynamicPricing)
         {
-            currentPrice = HistoricalPatterns.FirstOrDefault(p => p.Hour == currentHour)?.AvgImportPrice ?? FIXED_IMPORT_PRICE;
-            bestPrice = HistoricalPatterns.FirstOrDefault(p => p.Hour == bestHour)?.AvgImportPrice ?? FIXED_IMPORT_PRICE;
+            currentPrice = HistoricalPatterns.FirstOrDefault(p => p.Hour == currentHour)?.AvgImportPrice ?? PricingConfig.FixedImportPrice;
+            bestPrice = HistoricalPatterns.FirstOrDefault(p => p.Hour == bestHour)?.AvgImportPrice ?? PricingConfig.FixedImportPrice;
         }
         else
         {
             // Fixed tariff - cost is same regardless of time
-            currentPrice = FIXED_IMPORT_PRICE;
-            bestPrice = FIXED_IMPORT_PRICE;
+            currentPrice = PricingConfig.FixedImportPrice;
+            bestPrice = PricingConfig.FixedImportPrice;
         }
         
         var currentCost = energyUsed * currentPrice;
@@ -634,7 +633,7 @@
         }
 
         // Factor 3: Export price consideration (20%)
-        if (UseDynamicPricing && pattern.AvgExportPrice < 0.05)
+        if (UseDynamicPricing && pattern.AvgExportPrice < PricingConfig.FixedExportPrice)
         {
             score += 20; // Bonus for very low/negative export prices (grid needs consumption)
         }

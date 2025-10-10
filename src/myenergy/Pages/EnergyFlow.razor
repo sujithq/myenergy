@@ -358,7 +358,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await DataService.LoadDataAsync();
+        // Data already loaded at app startup
         availableYears = DataService.GetAvailableYears();
         CalculateFlowData();
         isLoading = false;

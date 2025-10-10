@@ -157,7 +157,7 @@
     {
         try
         {
-            await DataService.LoadDataAsync();
+            // Data already loaded at app startup
             _dailyData = DataService.GetDailyData();
             _monthlyData = DataService.GetMonthlyData();
             _topDays = DataService.GetTopProductionDays(10);

@@ -1,0 +1,10 @@
+{
+  "fixedImportPrice": 0.30,
+  "fixedExportPrice": 0.05,
+  "description": "Default Belgian electricity pricing (€/kWh)",
+  "lastUpdated": "2025-10-10",
+  "notes": {
+    "importPrice": "Typical Belgian residential fixed tariff",
+    "exportPrice": "Typical feed-in tariff for solar export"
+  }
+}

@@ -315,7 +315,7 @@
             SelectedWeatherFactor = _availableWeatherFactors.First().value;
         }
 
-        await DataService.LoadDataAsync();
+        // Data already loaded at app startup
         _availableYears = DataService.GetAvailableYears();
         
         if (ConfigService.IsWeatherDataEnabled)

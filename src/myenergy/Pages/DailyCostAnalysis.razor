@@ -3,6 +3,7 @@
 @using myenergy.Models
 @inject BatterySimulationService SimulationService
 @inject OdsPricingService PricingService
+@inject PricingConfigService PricingConfig
 @inject EnergyDataService EnergyService
 @inject IJSRuntime JS
 
@@ -310,9 +311,9 @@
 @code {
     private bool isLoading = true;
     private int selectedYear = 2024;
-    private double batteryCapacity = 5;
-    private double fixedImportPrice = 0.30;
-    private double fixedExportPrice = 0.05;
+    private double batteryCapacity; // Initialized from config
+    private double fixedImportPrice; // Initialized from config
+    private double fixedExportPrice; // Initialized from config
     private string chartView = "daily";
     private string timePeriod = "all";
 
@@ -323,8 +324,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await EnergyService.LoadDataAsync();
-        await PricingService.LoadDataAsync();
+        // Data already loaded at app startup
+        // Initialize defaults from config
+        batteryCapacity = PricingConfig.DefaultBatteryCapacityKwh;
+        fixedImportPrice = PricingConfig.FixedImportPrice;
+        fixedExportPrice = PricingConfig.FixedExportPrice;
         
         availableYears = EnergyService.GetAvailableYears();
         if (availableYears.Any())

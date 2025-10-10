@@ -237,7 +237,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await DataService.LoadDataAsync();
+        // Data already loaded at app startup
         GenerateForecasts();
         isLoading = false;
     }

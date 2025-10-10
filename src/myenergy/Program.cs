@@ -12,6 +12,14 @@ builder.Services.AddScoped<EnergyDataService>();
 builder.Services.AddScoped<OdsPricingService>();
 builder.Services.AddScoped<BatterySimulationService>();
 builder.Services.AddScoped<RoiAnalysisService>();
+builder.Services.AddScoped<PricingConfigService>();
+builder.Services.AddScoped<DataInitializationService>();
 builder.Services.AddSingleton<AppConfigurationService>();
 
-await builder.Build().RunAsync();
+var host = builder.Build();
+
+// Initialize all data at startup
+var initService = host.Services.GetRequiredService<DataInitializationService>();
+await initService.InitializeAsync();
+
+await host.RunAsync();

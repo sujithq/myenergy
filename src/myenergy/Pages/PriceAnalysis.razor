@@ -4,6 +4,7 @@
 @using Microsoft.JSInterop
 @inject EnergyDataService DataService
 @inject OdsPricingService OdsService
+@inject PricingConfigService PricingConfig
 @inject IJSRuntime JSRuntime
 
 <div class="container-fluid">
@@ -273,7 +274,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await OdsService.LoadDataAsync();
+        // Data already loaded at app startup
         
         var odsRange = OdsService.GetDataRange();
         if (odsRange.HasValue)
@@ -685,8 +686,8 @@
     private string GetPriceTrendIcon(double price)
     {
         if (price < 0) return "⚠️ Negative (paying to inject)";
-        if (price < 0.05) return "📉 Very low";
-        if (price < 0.10) return "↘️ Low";
+        if (price < PricingConfig.FixedExportPrice) return "📉 Very low";
+        if (price < (PricingConfig.FixedImportPrice / 3)) return "↘️ Low";
         return "→ Normal";
     }
 

@@ -4,6 +4,7 @@
 @using Microsoft.AspNetCore.Components
 @inject EnergyDataService DataService
 @inject OdsPricingService OdsService
+@inject PricingConfigService PricingConfig
 
 <PageTitle>Daily Detail - SolarViz</PageTitle>
 
@@ -80,8 +81,8 @@
                                 </small>
                             </div>
                             <div class="col-md-2">
-                                <small class="text-muted">Import: €0.30/kWh (fixed)</small><br/>
-                                <small class="text-muted">Export: €0.05/kWh (fixed)</small>
+                                <small class="text-muted">Import: €@PricingConfig.FixedImportPrice.ToString("F2")/kWh (fixed)</small><br/>
+                                <small class="text-muted">Export: €@PricingConfig.FixedExportPrice.ToString("F2")/kWh (fixed)</small>
                             </div>
                             <div class="col-md-3">
                                 @if (OdsService.IsDataLoaded)
@@ -163,8 +164,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // Load ODS pricing data
-        await OdsService.LoadDataAsync();
+        // Data already loaded at app startup
         UpdateOdsPricingInfo();
         
         // Get available dates

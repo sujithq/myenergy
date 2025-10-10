@@ -2,6 +2,7 @@
 @using myenergy.Services
 @using myenergy.Models
 @inject EnergyDataService DataService
+@inject PricingConfigService PricingConfig
 @inject IJSRuntime JS
 
 <PageTitle>Cost & Savings - myenergy</PageTitle>
@@ -226,10 +227,10 @@
 @code {
     private bool isLoading = true;
     
-    // Configuration
-    private double importCostPerKwh = 0.30; // €/kWh
+    // Configuration (initialized from config)
+    private double importCostPerKwh; // €/kWh - from PricingConfig
     private double exportCompensationPerKwh = 0.08; // €/kWh
-    private double systemCost = 10000; // €
+    private double systemCost; // € - from PricingConfig
     private DateTime installationDate = new DateTime(2022, 1, 1);
     
     // Calculated metrics
@@ -247,7 +248,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await DataService.LoadDataAsync();
+        // Data already loaded at app startup
+        // Initialize defaults from config
+        importCostPerKwh = PricingConfig.FixedImportPrice;
+        systemCost = PricingConfig.DefaultSolarSystemCostEur;
         
         var availableDates = DataService.GetAvailableDates();
         if (availableDates.Any())
