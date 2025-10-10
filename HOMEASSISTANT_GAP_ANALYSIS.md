@@ -39,6 +39,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 ### Core Features (Built-in)
 
 #### 1. **Real-Time Monitoring**
+
 - ✅ Live energy flow visualization
 - ✅ Current power consumption (W/kW)
 - ✅ Instantaneous production tracking
@@ -49,35 +50,42 @@ This document provides a comprehensive comparison between **Home Assistant's def
 #### 2. **Energy Cards (14 Built-in Types)**
 
 **Date & Period Selection:**
+
 - `energy-date-selection` - Date picker with compare mode
 - Period comparison (compare to previous period)
 
 **Consumption & Production:**
+
 - `energy-usage-graph` - Energy consumption timeline
 - `energy-solar-graph` - Solar production with forecast
 - `energy-gas-graph` - Gas consumption tracking
 - `energy-water-graph` - Water usage monitoring
 
 **Flow & Distribution:**
+
 - `energy-distribution` - Flow diagram (Grid → Home → Solar)
 - `energy-sankey` - Advanced Sankey flow chart with grouping
 - Shows fossil fuel vs renewable source breakdown
 
 **Data Tables:**
+
 - `energy-sources-table` - All sources with costs
 
 **Gauges & Metrics:**
+
 - `energy-grid-neutrality-gauge` - Grid dependency indicator
 - `energy-solar-consumed-gauge` - Self-consumption %
 - `energy-carbon-consumed-gauge` - Renewable energy %
 - `energy-self-sufficiency-gauge` - Energy independence %
 
 **Device Monitoring:**
+
 - `energy-devices-graph` - Per-device consumption ranking
 - `energy-devices-detail-graph` - Device usage timeline
 - Supports device grouping by area/floor
 
 #### 3. **Data Sources Supported**
+
 - ✅ Electricity Grid (import/export)
 - ✅ Solar Panels (multiple inverters)
 - ✅ Home Batteries (charge/discharge)
@@ -88,6 +96,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - ✅ Heat Pumps
 
 #### 4. **Cost Tracking**
+
 - ⚠️ Basic cost configuration per source
 - ⚠️ Fixed import/export tariffs
 - ⚠️ Simple cost summaries
@@ -95,6 +104,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - ⚠️ Limited dynamic pricing support
 
 #### 5. **Automation Integration**
+
 - ✅ Energy-based automations
 - ✅ Device control based on solar production
 - ✅ Load shifting automations
@@ -102,6 +112,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - ✅ Notifications for anomalies
 
 #### 6. **Hardware Integration**
+
 - ✅ 2000+ integrations available
 - ✅ Most solar inverters (Solax, SolarEdge, Enphase, etc.)
 - ✅ Smart meters (P1, DSMR, etc.)
@@ -115,6 +126,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 ### Core Features (12 Pages)
 
 #### 1. **Home Dashboard** (`/`)
+
 - ✅ Overview statistics and metrics
 - ✅ Top production days table (rankings)
 - ✅ Surplus days table
@@ -122,6 +134,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - ✅ Period-based visualization component
 
 #### 2. **Daily Detail** (`/daily-detail`)
+
 - ✅ 15-minute interval energy data
 - ✅ Date selection and navigation
 - ✅ Detailed day chart with weather information
@@ -131,6 +144,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - ✅ **Hourly cost breakdown**
 
 #### 3. **Energy Independence** (`/autarky-trends`)
+
 - ✅ Autarky & self-consumption trends
 - ✅ Period selection (Daily/Weekly/Monthly/Quarterly/Yearly)
 - ✅ Correlation analysis between metrics
@@ -138,6 +152,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - ✅ Historical comparison
 
 #### 4. **Peak Power Analysis** (`/peak-analysis`)
+
 - ✅ **24x7 hourly heatmap** (advanced visualization)
 - ✅ Hourly distribution charts
 - ✅ Day of week analysis
@@ -145,6 +160,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - ✅ Pattern identification
 
 #### 5. **Weather Correlation** (`/weather-correlation`)
+
 - ✅ **Scatter plots** with Pearson correlation
 - ✅ Multi-factor correlation comparison
 - ✅ Weather impact breakdowns
@@ -152,6 +168,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - ✅ Configuration-based feature hiding
 
 #### 6. **Seasonal Comparison** (`/seasonal-comparison`)
+
 - ✅ **Radar chart** - Monthly averages
 - ✅ Seasonal patterns (Winter/Spring/Summer/Autumn)
 - ✅ **Year-over-Year** monthly comparison
@@ -159,6 +176,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - ✅ Monthly details tables
 
 #### 7. **Cost & Savings Dashboard** (`/cost-savings`)
+
 - ✅ **Configurable energy cost settings**
 - ✅ Total savings and payback calculations
 - ✅ Cumulative savings over time chart
@@ -169,6 +187,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - ✅ Yearly savings details table
 
 #### 8. **Energy Flow Analysis** (`/energy-flow`)
+
 - ✅ **Sankey-style flow diagram**
 - ✅ Import/Export balance charts
 - ✅ Monthly balance details
@@ -177,6 +196,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - ✅ Autarky, self-consumption, grid dependency metrics
 
 #### 9. **Day Type Analysis** (`/day-type-analysis`)
+
 - ✅ **Weekday vs Weekend** consumption patterns
 - ✅ **Sunny vs Cloudy** days comparison
 - ✅ **Seasonal day patterns** analysis
@@ -184,6 +204,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - ✅ Statistical comparisons
 
 #### 10. **Efficiency Metrics** (`/efficiency-metrics`)
+
 - ✅ **Capacity Factor** (actual vs theoretical)
 - ✅ **Performance Ratio** (industry standard)
 - ✅ **Specific Yield** (kWh/kWp/year)
@@ -194,6 +215,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - ✅ Health indicators and recommendations
 
 #### 11. **Predictive Analytics** (`/predictive-analytics`)
+
 - ✅ **7-Day Forecast** with confidence intervals
 - ✅ **12-Month Projection** with seasonal adjustments
 - ✅ **Yearly Projection** with growth analysis
@@ -203,6 +225,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - ✅ Predictive insights and recommendations
 
 #### 12. **Rankings & Achievements** (`/rankings`)
+
 - ✅ **14 unlockable achievements** (gamification)
 - ✅ Top 10 production days
 - ✅ Best autarky days
@@ -212,6 +235,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - ✅ Trophy rankings (Gold/Silver/Bronze)
 
 #### 13. **Battery Simulation** (`/battery-simulation`)
+
 - ✅ **Advanced battery ROI simulation**
 - ✅ Configurable battery capacity (5-20 kWh)
 - ✅ Smart charge/discharge optimization
@@ -222,6 +246,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - ✅ **Optimal battery size recommendations**
 
 #### 14. **ROI Analysis** (`/roi-analysis`)
+
 - ✅ **Comprehensive battery investment analysis**
 - ✅ Multiple battery configurations comparison
 - ✅ **ODS dynamic pricing integration**
@@ -231,6 +256,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - ✅ **Battery benefit breakdown**
 
 #### 15. **Daily Cost Analysis** (`/daily-cost-analysis`)
+
 - ✅ **Day-by-day cost breakdown**
 - ✅ **5 metrics per day** (Fixed/Dynamic/Battery scenarios)
 - ✅ **Multiple chart views** (daily, cumulative, savings)
@@ -240,6 +266,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - ✅ **Battery performance correlation**
 
 #### 16. **Price Analysis** (`/price-analysis`)
+
 - ✅ **ODS dynamic pricing correlation**
 - ✅ **Solar production vs price analysis**
 - ✅ **Negative price tracking** (Belgium specific)
@@ -248,6 +275,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - ✅ **Import price statistics**
 
 #### 17. **Smart Usage Advisor** (`/smart-usage-advisor`)
+
 - ✅ **Device usage recommendations**
 - ✅ **Real-time price-based advice**
 - ✅ **Optimal time slots identification**
@@ -258,6 +286,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 ### Advanced Technical Features
 
 #### **Dynamic Pricing Integration**
+
 - ✅ **Elia ODS API integration** (Belgium)
 - ✅ 15-minute interval pricing
 - ✅ Automatic fallback to local data
@@ -266,6 +295,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - ✅ Historical price statistics
 
 #### **Configuration System**
+
 - ✅ Centralized app-config.json
 - ✅ Pricing configuration
 - ✅ Battery settings
@@ -274,6 +304,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - ✅ Weather data toggles
 
 #### **Data Management**
+
 - ✅ **Centralized data loading at startup**
 - ✅ Parallel data loading (37% faster)
 - ✅ Caching strategy
@@ -282,6 +313,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - ✅ Detailed console logging
 
 #### **Chart Library (20+ Functions)**
+
 - ✅ Line charts with confidence intervals
 - ✅ Bar charts (grouped, stacked)
 - ✅ Radar charts (multi-metric)
@@ -292,6 +324,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - ✅ Mixed charts (dual Y-axes)
 
 #### **Statistical Analysis**
+
 - ✅ Pearson correlation coefficients
 - ✅ Trend detection
 - ✅ Percentile calculations
@@ -307,6 +340,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 ### Critical Missing Features
 
 #### 1. **Real-Time Data** ⚠️⚠️⚠️
+
 - ❌ No live monitoring (static data only)
 - ❌ No current power readings
 - ❌ No instantaneous updates
@@ -314,6 +348,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - **Impact:** Cannot monitor current state or react to live conditions
 
 #### 2. **Home Automation** ⚠️⚠️⚠️
+
 - ❌ No device control
 - ❌ No automations
 - ❌ No load shifting capabilities
@@ -321,6 +356,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - **Impact:** Passive monitoring only, no active optimization
 
 #### 3. **Hardware Integration** ⚠️⚠️
+
 - ❌ No direct inverter connection
 - ❌ No smart meter integration
 - ❌ No battery management system
@@ -328,6 +364,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - **Impact:** Data must be manually loaded
 
 #### 4. **Mobile Applications** ⚠️
+
 - ❌ No native mobile app
 - ⚠️ Web-only access
 - ❌ No push notifications
@@ -335,6 +372,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - **Impact:** Less convenient mobile experience
 
 #### 5. **Device-Level Monitoring** ⚠️
+
 - ❌ No individual device tracking
 - ❌ No appliance consumption data
 - ❌ No device rankings
@@ -342,6 +380,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - **Impact:** Cannot identify energy waste at device level
 
 #### 6. **Multiple Energy Types** ⚠️
+
 - ❌ No gas tracking
 - ❌ No water consumption
 - ❌ No heating monitoring
@@ -349,6 +388,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - **Impact:** Limited to solar/electricity only
 
 #### 7. **Multi-User/Location** ⚠️
+
 - ❌ No user accounts
 - ❌ No multi-location support
 - ❌ No access control
@@ -356,6 +396,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - **Impact:** Cannot manage multiple properties
 
 #### 8. **Data Export** ⚠️
+
 - ❌ No CSV export
 - ❌ No PDF reports
 - ❌ No API for data access
@@ -369,6 +410,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 ### Major Missing Features
 
 #### 1. **Advanced Cost Analysis** ⚠️⚠️⚠️
+
 - ❌ No battery ROI simulation
 - ❌ No break-even analysis
 - ❌ No optimal sizing recommendations
@@ -377,6 +419,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - **Impact:** Cannot make informed battery investment decisions
 
 #### 2. **Predictive Analytics** ⚠️⚠️⚠️
+
 - ❌ No production forecasting
 - ❌ No ML-based predictions
 - ❌ No confidence intervals
@@ -385,6 +428,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - **Impact:** Cannot plan future capacity or investments
 
 #### 3. **Statistical Analysis** ⚠️⚠️
+
 - ❌ No correlation analysis
 - ❌ No weather impact analysis
 - ❌ No performance ratio calculations
@@ -393,6 +437,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - **Impact:** Cannot identify performance issues or optimization opportunities
 
 #### 4. **Advanced Visualizations** ⚠️⚠️
+
 - ❌ No 24x7 heatmaps
 - ❌ No radar charts
 - ❌ No scatter plots with correlations
@@ -402,6 +447,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - **Impact:** Limited insight into complex patterns
 
 #### 5. **Dynamic Pricing Intelligence** ⚠️⚠️
+
 - ❌ No ODS/spot market integration
 - ❌ No negative price tracking
 - ❌ No optimal usage recommendations
@@ -410,6 +456,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - **Impact:** Cannot optimize for dynamic tariffs
 
 #### 6. **Battery Optimization** ⚠️⚠️
+
 - ❌ No battery sizing recommendations
 - ❌ No charge/discharge optimization algorithm
 - ❌ No efficiency modeling
@@ -418,6 +465,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - **Impact:** Cannot maximize battery ROI
 
 #### 7. **Gamification** ⚠️
+
 - ❌ No achievements system
 - ❌ No rankings
 - ❌ No milestones
@@ -425,6 +473,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - **Impact:** Less engaging for long-term monitoring
 
 #### 8. **Efficiency Metrics** ⚠️
+
 - ❌ No capacity factor calculations
 - ❌ No performance ratio (PR)
 - ❌ No specific yield tracking
@@ -432,12 +481,14 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - **Impact:** Cannot benchmark against industry standards
 
 #### 9. **Day Type Analysis** ⚠️
+
 - ❌ No weekday/weekend comparison
 - ❌ No sunny/cloudy analysis
 - ❌ No seasonal pattern detection
 - **Impact:** Cannot identify behavioral patterns
 
 #### 10. **Smart Advisor** ⚠️
+
 - ❌ No usage recommendations
 - ❌ No optimal timing suggestions
 - ❌ No device scheduling advice
@@ -451,6 +502,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 ### Hybrid Approach: Best of Both Worlds
 
 #### **Scenario 1: HA for Live Data → Custom for Analysis**
+
 ```
 ┌─────────────────────────┐
 │   Home Assistant        │
@@ -478,17 +530,20 @@ This document provides a comprehensive comparison between **Home Assistant's def
 ```
 
 **Implementation:**
+
 - Export HA data daily/weekly
 - Import into custom system
 - Get best of both systems
 
 #### **Scenario 2: Custom as HA Integration**
+
 - Build custom dashboard as HA integration
 - Access HA's live data
 - Add advanced analytics on top
 - Maintain HA automation capabilities
 
 #### **Scenario 3: API Bridge**
+
 - Create REST API for custom system
 - Expose analytics to HA
 - Display custom charts in HA dashboard
@@ -501,6 +556,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 ### For Current Custom System
 
 #### **Quick Wins (High Value, Low Effort)**
+
 1. ✅ **Add Data Export** - CSV/JSON export buttons
 2. ✅ **Mobile Responsiveness** - Optimize for mobile viewing
 3. ✅ **Bookmark/Favorites** - Save favorite dates/configurations
@@ -508,6 +564,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 5. ✅ **Print Styles** - Optimize for printing reports
 
 #### **Medium-Term Enhancements**
+
 1. ⚠️ **Real-time Data** - Connect to inverter API (Solax, SolarEdge)
 2. ⚠️ **Notifications** - Email alerts for records/anomalies
 3. ⚠️ **Weather API** - Live weather data integration
@@ -515,6 +572,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 5. ⚠️ **User Accounts** - Authentication and personalization
 
 #### **Long-Term Strategic**
+
 1. ⚠️⚠️ **Home Assistant Integration** - Build as HA custom component
 2. ⚠️⚠️ **Mobile App** - Native iOS/Android apps
 3. ⚠️⚠️ **Device Monitoring** - Individual appliance tracking
@@ -524,6 +582,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 ### For Home Assistant Users
 
 #### **Add Custom Analytics**
+
 1. ✅ Install **ApexCharts** card for better visualizations
 2. ✅ Use **SQL Sensor** for custom calculations
 3. ✅ Create **Template Sensors** for efficiency metrics
@@ -531,12 +590,14 @@ This document provides a comprehensive comparison between **Home Assistant's def
 5. ✅ Explore **HACS** (Home Assistant Community Store) for add-ons
 
 #### **Improve Cost Tracking**
+
 1. ⚠️ Use **Nordpool** integration for dynamic pricing
 2. ⚠️ Create **utility_meter** helpers for cost calculations
 3. ⚠️ Build custom **input_number** helpers for ROI tracking
 4. ⚠️ Use **InfluxDB** + **Grafana** for advanced analytics
 
 #### **Enhanced Battery Management**
+
 1. ⚠️ Use **Battery Notes** integration
 2. ⚠️ Create **automations** for optimal charge/discharge
 3. ⚠️ Use **Forecast.Solar** for production forecasting
@@ -547,6 +608,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 ## 📊 Feature Score Summary
 
 ### Home Assistant Strengths
+
 | Feature | Score | Notes |
 |---------|-------|-------|
 | Real-time Monitoring | ⭐⭐⭐⭐⭐ | Excellent live data |
@@ -562,6 +624,7 @@ This document provides a comprehensive comparison between **Home Assistant's def
 | **Overall** | **⭐⭐⭐⭐** | **Best for live monitoring & control** |
 
 ### Custom myenergy Strengths
+
 | Feature | Score | Notes |
 |---------|-------|-------|
 | Historical Analysis | ⭐⭐⭐⭐⭐ | Deep historical insights |
@@ -581,7 +644,8 @@ This document provides a comprehensive comparison between **Home Assistant's def
 
 ## 🏆 Use Case Recommendations
 
-### Choose Home Assistant If:
+### Choose Home Assistant If
+
 - ✅ You need **real-time monitoring**
 - ✅ You want **home automation** integration
 - ✅ You need **device control** capabilities
@@ -590,7 +654,8 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - ✅ You need **hardware integration** (inverters, smart plugs)
 - ✅ You want **community support** and extensions
 
-### Choose Custom myenergy If:
+### Choose Custom myenergy If
+
 - ✅ You need **deep historical analysis**
 - ✅ You want **advanced cost optimization**
 - ✅ You need **battery ROI simulation**
@@ -600,7 +665,8 @@ This document provides a comprehensive comparison between **Home Assistant's def
 - ✅ You need **detailed reporting** and insights
 - ✅ You prefer **simple setup** without hardware complexity
 
-### Use Both (Hybrid) If:
+### Use Both (Hybrid) If
+
 - ✅ You want **real-time** data AND **advanced analytics**
 - ✅ You need **automation** AND **optimization insights**
 - ✅ You have **technical skills** to integrate systems
@@ -611,18 +677,21 @@ This document provides a comprehensive comparison between **Home Assistant's def
 ## 📈 Market Positioning
 
 ### Home Assistant
+
 **Position:** **All-in-one smart home platform**  
 **Strength:** Live monitoring, automation, integration  
 **Target:** DIY smart home enthusiasts, automation lovers  
 **Price:** Free (open source)
 
 ### Custom myenergy
+
 **Position:** **Advanced solar energy analytics platform**  
 **Strength:** Deep analysis, forecasting, optimization  
 **Target:** Solar system owners wanting ROI insights  
 **Price:** Free (custom deployment)
 
 ### Opportunity Gap
+
 **Untapped Market:** Users wanting both capabilities  
 **Solution:** Integrated hybrid system or HA custom component
 
@@ -630,7 +699,8 @@ This document provides a comprehensive comparison between **Home Assistant's def
 
 ## 🔮 Future Vision
 
-### Ideal System Would Have:
+### Ideal System Would Have
+
 1. ✅ **Real-time monitoring** (from HA)
 2. ✅ **Advanced analytics** (from custom)
 3. ✅ **Predictive insights** (from custom)
@@ -642,7 +712,8 @@ This document provides a comprehensive comparison between **Home Assistant's def
 9. ✅ **Statistical analysis** (from custom)
 10. ✅ **Community ecosystem** (from HA)
 
-### Implementation Path:
+### Implementation Path
+
 ```
 Phase 1: Connect HA → Export data → Custom analytics
 Phase 2: Build API bridge for bidirectional data
@@ -656,24 +727,28 @@ Phase 5: Community platform for sharing insights
 ## 📋 Action Items
 
 ### Immediate (Week 1)
+
 - [ ] Document API requirements for HA integration
 - [ ] Research HA custom component development
 - [ ] Prototype data export from HA
 - [ ] Design hybrid architecture
 
 ### Short-term (Month 1-3)
+
 - [ ] Build REST API for custom system
 - [ ] Create HA custom component skeleton
 - [ ] Implement data synchronization
 - [ ] Test hybrid dashboard
 
 ### Medium-term (Month 3-6)
+
 - [ ] Develop mobile-optimized UI
 - [ ] Add real-time data support
 - [ ] Implement notifications
 - [ ] Publish HA integration to HACS
 
 ### Long-term (Month 6-12)
+
 - [ ] Native mobile apps
 - [ ] Advanced automation engine
 - [ ] Community features
@@ -684,6 +759,7 @@ Phase 5: Community platform for sharing insights
 ## 📚 Resources
 
 ### Home Assistant
+
 - [Energy Dashboard Documentation](https://www.home-assistant.io/docs/energy/)
 - [Energy Cards Reference](https://www.home-assistant.io/dashboards/energy/)
 - [Integration Catalog](https://www.home-assistant.io/integrations/)
@@ -691,17 +767,20 @@ Phase 5: Community platform for sharing insights
 - [HA Community Forum](https://community.home-assistant.io/)
 
 ### Custom Development
+
 - [HA Custom Component Tutorial](https://developers.home-assistant.io/docs/creating_component_index/)
 - [HA REST API](https://developers.home-assistant.io/docs/api/rest/)
 - [WebSocket API](https://developers.home-assistant.io/docs/api/websocket/)
 - [Frontend Development](https://developers.home-assistant.io/docs/frontend/)
 
 ### Dynamic Pricing
+
 - [Elia ODS API](https://opendata.elia.be/)
 - [Nordpool Integration](https://www.home-assistant.io/integrations/nordpool/)
 - [ENTSO-E Integration](https://www.home-assistant.io/integrations/entsoe/)
 
 ### Solar Analytics
+
 - [Forecast.Solar](https://forecast.solar/)
 - [Solcast](https://solcast.com/)
 - [PVOutput](https://pvoutput.org/)
@@ -713,12 +792,14 @@ Phase 5: Community platform for sharing insights
 Both systems have significant strengths:
 
 **Home Assistant** excels at:
+
 - 🏠 Real-time monitoring and control
 - 🔌 Hardware integration
 - 🤖 Home automation
 - 📱 Mobile experience
 
 **Custom myenergy** excels at:
+
 - 📊 Advanced analytics and insights
 - 💰 Cost optimization and ROI
 - 🔮 Predictive modeling

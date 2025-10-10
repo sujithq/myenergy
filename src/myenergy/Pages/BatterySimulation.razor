@@ -67,44 +67,47 @@
         </div>
 
         <!-- Key Metrics -->
-        <div class="row mb-4">
-            <div class="col-md-3">
-                <div class="card text-white bg-danger">
-                    <div class="card-body">
-                        <h6 class="card-title">Fixed Tariff (No Battery)</h6>
-                        <h3 class="mb-0">€@simNoBatteryFixed.TotalCostNoBatteryFixed.ToString("N2")</h3>
-                        <small>Annual cost</small>
+        @if (simulationResults != null && simNoBatteryFixed != null && simWithBatteryFixed != null)
+        {
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card text-white bg-danger">
+                        <div class="card-body">
+                            <h6 class="card-title">Fixed Tariff (No Battery)</h6>
+                            <h3 class="mb-0">€@simNoBatteryFixed.TotalCostNoBatteryFixed.ToString("N2")</h3>
+                            <small>Annual cost</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-warning">
+                        <div class="card-body">
+                            <h6 class="card-title">Dynamic Tariff (No Battery)</h6>
+                            <h3 class="mb-0">€@simulationResults.TotalCostNoBatteryDynamic.ToString("N2")</h3>
+                            <small>Saves €@((simNoBatteryFixed.TotalCostNoBatteryFixed - simulationResults.TotalCostNoBatteryDynamic).ToString("N2"))</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-info">
+                        <div class="card-body">
+                            <h6 class="card-title">Fixed + Battery (@(batteryCapacity)kWh)</h6>
+                            <h3 class="mb-0">€@simWithBatteryFixed.TotalCostWithBatteryFixed.ToString("N2")</h3>
+                            <small>Saves €@((simNoBatteryFixed.TotalCostNoBatteryFixed - simWithBatteryFixed.TotalCostWithBatteryFixed).ToString("N2"))</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-success">
+                        <div class="card-body">
+                            <h6 class="card-title">Dynamic + Battery (@(batteryCapacity)kWh)</h6>
+                            <h3 class="mb-0">€@simulationResults.TotalCostWithBatteryDynamic.ToString("N2")</h3>
+                            <small>Saves €@((simNoBatteryFixed.TotalCostNoBatteryFixed - simulationResults.TotalCostWithBatteryDynamic).ToString("N2"))</small>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card text-white bg-warning">
-                    <div class="card-body">
-                        <h6 class="card-title">Dynamic Tariff (No Battery)</h6>
-                        <h3 class="mb-0">€@simulationResults.TotalCostNoBatteryDynamic.ToString("N2")</h3>
-                        <small>Saves €@((simNoBatteryFixed.TotalCostNoBatteryFixed - simulationResults.TotalCostNoBatteryDynamic).ToString("N2"))</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card text-white bg-info">
-                    <div class="card-body">
-                        <h6 class="card-title">Fixed + Battery (@(batteryCapacity)kWh)</h6>
-                        <h3 class="mb-0">€@simWithBatteryFixed.TotalCostWithBatteryFixed.ToString("N2")</h3>
-                        <small>Saves €@((simNoBatteryFixed.TotalCostNoBatteryFixed - simWithBatteryFixed.TotalCostWithBatteryFixed).ToString("N2"))</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card text-white bg-success">
-                    <div class="card-body">
-                        <h6 class="card-title">Dynamic + Battery (@(batteryCapacity)kWh)</h6>
-                        <h3 class="mb-0">€@simulationResults.TotalCostWithBatteryDynamic.ToString("N2")</h3>
-                        <small>Saves €@((simNoBatteryFixed.TotalCostNoBatteryFixed - simulationResults.TotalCostWithBatteryDynamic).ToString("N2"))</small>
-                    </div>
-                </div>
-            </div>
-        </div>
+        }
 
         <!-- Comparison Charts -->
         <div class="row mb-4">
@@ -271,6 +274,7 @@
 
 @code {
     private bool isLoading = true;
+    private bool shouldRenderCharts = false;
     private int selectedYear = 2024;
     private double batteryCapacity; // Initialized from config
     
@@ -302,17 +306,33 @@
         await RunSimulationAsync();
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (shouldRenderCharts)
+        {
+            shouldRenderCharts = false;
+            Console.WriteLine("OnAfterRenderAsync: About to render charts");
+            await Task.Delay(200); // Give DOM time to settle
+            await RenderCharts();
+        }
+    }
+
     private async Task RunSimulationAsync()
     {
         isLoading = true;
+        shouldRenderCharts = false; // Reset flag
         StateHasChanged();
 
         try
         {
+            Console.WriteLine("RunSimulationAsync: Starting simulations");
+            
             // Run simulations
             simulationResults = await SimulationService.RunSimulation(selectedYear, batteryCapacity, fixedImportPrice, fixedExportPrice);
             simNoBatteryFixed = await SimulationService.RunSimulation(selectedYear, 0, fixedImportPrice, fixedExportPrice);
             simWithBatteryFixed = await SimulationService.RunSimulation(selectedYear, batteryCapacity, fixedImportPrice, fixedExportPrice);
+
+            Console.WriteLine($"RunSimulationAsync: Simulations complete. Results count: {simulationResults?.DailyResults.Count ?? 0}");
 
             // Get price statistics
             priceStats = PricingService.GetPriceStatistics(selectedYear);
@@ -323,61 +343,121 @@
                 .Take(10)
                 .ToList();
 
-            await RenderCharts();
+            // Flag to render charts after next render
+            shouldRenderCharts = true;
+            Console.WriteLine("RunSimulationAsync: Set shouldRenderCharts = true");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"RunSimulationAsync error: {ex.Message}");
         }
         finally
         {
             isLoading = false;
+            StateHasChanged(); // Trigger re-render which will call OnAfterRenderAsync
         }
     }
 
     private async Task RenderCharts()
     {
-        await Task.Delay(100); // Allow DOM to update
-
-        // Cost comparison bar chart
-        await JS.InvokeVoidAsync("renderCostComparisonChart",
-            new[] { simNoBatteryFixed!.TotalCostNoBatteryFixed, simulationResults!.TotalCostNoBatteryDynamic, 
-                    simWithBatteryFixed!.TotalCostWithBatteryFixed, simulationResults.TotalCostWithBatteryDynamic });
-
-        // Savings breakdown
-        var dynamicSaving = simNoBatteryFixed.TotalCostNoBatteryFixed - simulationResults.TotalCostNoBatteryDynamic;
-        var batterySavingFixed = simNoBatteryFixed.TotalCostNoBatteryFixed - simWithBatteryFixed.TotalCostWithBatteryFixed;
-        var batterySavingDynamic = simulationResults.TotalCostNoBatteryDynamic - simulationResults.TotalCostWithBatteryDynamic;
-        var totalSaving = simNoBatteryFixed.TotalCostNoBatteryFixed - simulationResults.TotalCostWithBatteryDynamic;
-        
-        await JS.InvokeVoidAsync("renderSavingsBreakdownChart",
-            new[] { dynamicSaving, batterySavingFixed, batterySavingDynamic, totalSaving });
-
-        // Cumulative cost over time
-        var dates = simulationResults.DailyResults.Select(d => d.Date.ToString("MMM dd")).ToArray();
-        var cumFixed = new List<double>();
-        var cumDynNoBat = new List<double>();
-        var cumDynWithBat = new List<double>();
-        
-        double totalFixed = 0, totalDynNoBat = 0, totalDynWithBat = 0;
-        foreach (var day in simulationResults.DailyResults)
+        try
         {
-            var fixedDay = GetDailySimulation(simNoBatteryFixed, day.Date);
-            totalFixed += fixedDay?.CostNoBatteryFixed ?? 0;
-            totalDynNoBat += day.CostNoBatteryDynamic;
-            totalDynWithBat += day.CostWithBatteryDynamic;
+            // Check if JavaScript functions are available
+            var isAvailable = await JS.InvokeAsync<bool>("eval", "typeof renderCostComparisonChart === 'function'");
+            Console.WriteLine($"RenderCharts: JavaScript functions available: {isAvailable}");
             
-            cumFixed.Add(totalFixed);
-            cumDynNoBat.Add(totalDynNoBat);
-            cumDynWithBat.Add(totalDynWithBat);
+            if (!isAvailable)
+            {
+                Console.WriteLine("RenderCharts: Chart functions not loaded yet, waiting...");
+                await Task.Delay(500);
+                isAvailable = await JS.InvokeAsync<bool>("eval", "typeof renderCostComparisonChart === 'function'");
+                Console.WriteLine($"RenderCharts: After retry, functions available: {isAvailable}");
+                
+                if (!isAvailable)
+                {
+                    Console.WriteLine("RenderCharts: Chart functions still not available, aborting");
+                    return;
+                }
+            }
+            
+            // Validate data exists
+            if (simulationResults == null || simNoBatteryFixed == null || simWithBatteryFixed == null)
+            {
+                Console.WriteLine("RenderCharts: Simulation results are null");
+                return;
+            }
+
+            if (!simulationResults.DailyResults.Any())
+            {
+                Console.WriteLine("RenderCharts: No daily results available");
+                return;
+            }
+
+            Console.WriteLine($"RenderCharts: Starting with {simulationResults.DailyResults.Count} daily results");
+
+            // Cost comparison bar chart
+            var costs = new[] { 
+                simNoBatteryFixed.TotalCostNoBatteryFixed, 
+                simulationResults.TotalCostNoBatteryDynamic, 
+                simWithBatteryFixed.TotalCostWithBatteryFixed, 
+                simulationResults.TotalCostWithBatteryDynamic 
+            };
+            Console.WriteLine($"Cost comparison data: {string.Join(", ", costs.Select(c => c.ToString("F2")))}");
+            await JS.InvokeVoidAsync("renderCostComparisonChart", costs);
+            Console.WriteLine("Cost comparison chart rendered");
+
+            // Savings breakdown
+            var dynamicSaving = simNoBatteryFixed.TotalCostNoBatteryFixed - simulationResults.TotalCostNoBatteryDynamic;
+            var batterySavingFixed = simNoBatteryFixed.TotalCostNoBatteryFixed - simWithBatteryFixed.TotalCostWithBatteryFixed;
+            var batterySavingDynamic = simulationResults.TotalCostNoBatteryDynamic - simulationResults.TotalCostWithBatteryDynamic;
+            var totalSaving = simNoBatteryFixed.TotalCostNoBatteryFixed - simulationResults.TotalCostWithBatteryDynamic;
+            
+            var savings = new[] { dynamicSaving, batterySavingFixed, batterySavingDynamic, totalSaving };
+            Console.WriteLine($"Savings breakdown data: {string.Join(", ", savings.Select(s => s.ToString("F2")))}");
+            await JS.InvokeVoidAsync("renderSavingsBreakdownChart", savings);
+            Console.WriteLine("Savings breakdown chart rendered");
+
+            // Cumulative cost over time
+            var dates = simulationResults.DailyResults.Select(d => d.Date.ToString("MMM dd")).ToArray();
+            var cumFixed = new List<double>();
+            var cumDynNoBat = new List<double>();
+            var cumDynWithBat = new List<double>();
+            
+            double totalFixed = 0, totalDynNoBat = 0, totalDynWithBat = 0;
+            foreach (var day in simulationResults.DailyResults)
+            {
+                var fixedDay = GetDailySimulation(simNoBatteryFixed, day.Date);
+                totalFixed += fixedDay?.CostNoBatteryFixed ?? 0;
+                totalDynNoBat += day.CostNoBatteryDynamic;
+                totalDynWithBat += day.CostWithBatteryDynamic;
+                
+                cumFixed.Add(totalFixed);
+                cumDynNoBat.Add(totalDynNoBat);
+                cumDynWithBat.Add(totalDynWithBat);
+            }
+            
+            Console.WriteLine($"Cumulative cost chart: {dates.Length} dates, {cumFixed.Count} fixed, {cumDynNoBat.Count} no battery, {cumDynWithBat.Count} with battery");
+            await JS.InvokeVoidAsync("renderCumulativeCostChart", dates, cumFixed.ToArray(), cumDynNoBat.ToArray(), cumDynWithBat.ToArray());
+            Console.WriteLine("Cumulative cost chart rendered");
+
+            // Battery SoC (first week)
+            if (batteryCapacity > 0)
+            {
+                var firstWeek = simulationResults.DailyResults.Take(7).SelectMany(d => d.Intervals).ToList();
+                var socTimes = firstWeek.Select(i => i.Time.ToString("ddd HH:mm")).ToArray();
+                var socLevels = firstWeek.Select(i => i.BatterySoC).ToArray();
+                
+                Console.WriteLine($"Battery SoC chart: {socTimes.Length} time points, capacity: {batteryCapacity} kWh");
+                await JS.InvokeVoidAsync("renderBatterySocChart", socTimes, socLevels, batteryCapacity);
+                Console.WriteLine("Battery SoC chart rendered");
+            }
+            
+            Console.WriteLine("RenderCharts: All charts rendered successfully");
         }
-        
-        await JS.InvokeVoidAsync("renderCumulativeCostChart", dates, cumFixed.ToArray(), cumDynNoBat.ToArray(), cumDynWithBat.ToArray());
-
-        // Battery SoC (first week)
-        if (batteryCapacity > 0)
+        catch (Exception ex)
         {
-            var firstWeek = simulationResults.DailyResults.Take(7).SelectMany(d => d.Intervals).ToList();
-            var socTimes = firstWeek.Select(i => i.Time.ToString("ddd HH:mm")).ToArray();
-            var socLevels = firstWeek.Select(i => i.BatterySoC).ToArray();
-            
-            await JS.InvokeVoidAsync("renderBatterySocChart", socTimes, socLevels, batteryCapacity);
+            Console.WriteLine($"RenderCharts error: {ex.Message}");
+            Console.WriteLine($"Stack trace: {ex.StackTrace}");
         }
     }
 
