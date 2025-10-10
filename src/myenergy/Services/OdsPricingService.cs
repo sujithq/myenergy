@@ -40,25 +40,34 @@ public class OdsPricingService
             if (forceRefresh)
             {
                 // Force download from Elia API
-                Console.WriteLine("Downloading ODS pricing data from Elia API...");
+                Console.WriteLine("Downloading ODS pricing data from Elia API (forced refresh)...");
                 json = await DownloadFromEliaAsync();
                 source = "Elia API (forced refresh)";
             }
             else
             {
-                // Try local file first
+                // Try Elia API first
                 try
                 {
-                    Console.WriteLine("Loading ODS pricing data from local file...");
-                    json = await _http.GetStringAsync(LOCAL_FILE_PATH);
-                    source = "local file";
-                }
-                catch (Exception localEx)
-                {
-                    Console.WriteLine($"Local file not found or error: {localEx.Message}");
-                    Console.WriteLine("Downloading from Elia API...");
+                    Console.WriteLine("Downloading ODS pricing data from Elia API...");
                     json = await DownloadFromEliaAsync();
-                    source = "Elia API (fallback)";
+                    source = "Elia API";
+                }
+                catch (Exception eliaEx)
+                {
+                    Console.WriteLine($"Elia API failed: {eliaEx.Message}");
+                    Console.WriteLine("Falling back to local file...");
+                    
+                    try
+                    {
+                        json = await _http.GetStringAsync(LOCAL_FILE_PATH);
+                        source = "local file (fallback)";
+                    }
+                    catch (Exception localEx)
+                    {
+                        Console.WriteLine($"Local file also failed: {localEx.Message}");
+                        throw new Exception($"Unable to load ODS pricing data from either Elia API or local file. Elia: {eliaEx.Message}, Local: {localEx.Message}");
+                    }
                 }
             }
 
