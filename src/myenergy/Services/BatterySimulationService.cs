@@ -88,6 +88,14 @@ public class BatterySimulationService
             var pricing = shouldUseDynamicPricing ? _pricingService.GetPricingForInterval(quarter.Time) : null;
             var optimizationImportPrice = pricing?.ImportPricePerKwh ?? fixedImportPrice;
             var optimizationExportPrice = pricing?.InjectionPricePerKwh ?? fixedExportPrice;
+            
+            // IMPORTANT: Clamp negative export prices to zero
+            // During grid oversupply, export has negative value (you'd pay to inject)
+            // For customer economics: treat as zero earnings (no payment either way)
+            if (optimizationExportPrice < 0)
+            {
+                optimizationExportPrice = 0;
+            }
 
             // Scenario 1: No battery
             var gridImportNoBattery = Math.Max(0, netDemand);

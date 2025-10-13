@@ -344,14 +344,34 @@ public class RoiAnalysisService
         // Baseline with dynamic pricing: No solar, must import all consumption
         // Calculate cost using 15-minute interval dynamic pricing
         double totalCost = 0;
+        int nullPricingCount = 0;
+        int zeroPricingCount = 0;
         
         foreach (var quarter in dailyDetail.QuarterHours)
         {
             var pricing = _pricingService.GetPricingForInterval(quarter.Time);
             var quarterImportPrice = pricing?.ImportPricePerKwh ?? fallbackImportPrice;
             
+            // Diagnostic logging
+            if (pricing == null)
+            {
+                nullPricingCount++;
+            }
+            else if (pricing.ImportPricePerKwh == 0)
+            {
+                zeroPricingCount++;
+            }
+            
             // All consumption must be imported from grid (no solar)
             totalCost += quarter.TotalConsumption * quarterImportPrice;
+        }
+        
+        // Log if we have issues
+        if (nullPricingCount > 0 || zeroPricingCount > 0)
+        {
+            Console.WriteLine($"⚠️ Baseline Dynamic Pricing Issues on {dailyDetail.Date:yyyy-MM-dd}:");
+            Console.WriteLine($"   Null pricing: {nullPricingCount}/{dailyDetail.QuarterHours.Count} intervals");
+            Console.WriteLine($"   Zero pricing: {zeroPricingCount}/{dailyDetail.QuarterHours.Count} intervals");
         }
         
         return totalCost;
@@ -381,18 +401,59 @@ public class RoiAnalysisService
         {
             // Calculate cost using 15-minute interval dynamic pricing
             double totalCost = 0;
+            int nullPricingCount = 0;
+            int zeroPricingCount = 0;
+            int negativePricingCount = 0;
+            double totalImportPrice = 0;
+            double totalExportPrice = 0;
+            int pricingCount = 0;
             
             foreach (var quarter in dailyDetail.QuarterHours)
             {
                 var pricing = _pricingService.GetPricingForInterval(quarter.Time);
                 
                 var quarterImportPrice = pricing?.ImportPricePerKwh ?? fixedImportPrice;
+                // IMPORTANT: Negative export prices mean you PAY to export (grid oversupply)
+                // For ROI calculations, treat negative as zero (you don't earn, but don't pay)
                 var quarterExportPrice = pricing?.InjectionPricePerKwh ?? fixedExportPrice;
+                if (quarterExportPrice < 0)
+                {
+                    negativePricingCount++;
+                    quarterExportPrice = 0; // Don't pay to export, just get nothing
+                }
+                
+                // Diagnostic tracking
+                if (pricing == null)
+                {
+                    nullPricingCount++;
+                }
+                else
+                {
+                    if (pricing.ImportPricePerKwh == 0) zeroPricingCount++;
+                    totalImportPrice += pricing.ImportPricePerKwh;
+                    // Use clamped export price for accurate diagnostic average
+                    totalExportPrice += quarterExportPrice; // After clamping, not the original
+                    pricingCount++;
+                }
                 
                 var quarterGridImport = Math.Max(0, quarter.TotalConsumption - quarter.ActualProduction);
                 var quarterGridExport = Math.Max(0, quarter.ActualProduction - quarter.TotalConsumption);
                 
                 totalCost += (quarterGridImport * quarterImportPrice) - (quarterGridExport * quarterExportPrice);
+            }
+            
+            // Log first 3 days with pricing issues
+            if ((nullPricingCount > 0 || zeroPricingCount > 0 || negativePricingCount > 0) && date.Day <= 3)
+            {
+                Console.WriteLine($"⚠️ Solar Dynamic Pricing Issues on {date:yyyy-MM-dd}:");
+                Console.WriteLine($"   Null pricing: {nullPricingCount}/{dailyDetail.QuarterHours.Count} intervals");
+                Console.WriteLine($"   Zero pricing: {zeroPricingCount}/{dailyDetail.QuarterHours.Count} intervals");
+                Console.WriteLine($"   Negative export pricing: {negativePricingCount}/{dailyDetail.QuarterHours.Count} intervals");
+                if (pricingCount > 0)
+                {
+                    Console.WriteLine($"   Avg import: €{(totalImportPrice/pricingCount):F4}/kWh");
+                    Console.WriteLine($"   Avg export: €{(totalExportPrice/pricingCount):F4}/kWh");
+                }
             }
             
             return totalCost;
