@@ -155,7 +155,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h6 class="card-title">Battery Throughput</h6>
-                            <h3 class="text-primary">@simulationResults.TotalBatteryThroughput.ToString("N1") kWh</h3>
+                            <h3 class="text-primary">@(simulationResults?.TotalBatteryThroughput.ToString("N1") ?? "0") kWh</h3>
                             <small class="text-muted">Total energy cycled through battery</small>
                         </div>
                     </div>
@@ -164,8 +164,8 @@
                     <div class="card">
                         <div class="card-body">
                             <h6 class="card-title">Battery Efficiency Loss</h6>
-                            <h3 class="text-warning">@simulationResults.TotalBatteryLoss.ToString("N1") kWh</h3>
-                            <small class="text-muted">@((simulationResults.TotalBatteryLoss / simulationResults.TotalBatteryThroughput * 100).ToString("N1"))% loss</small>
+                            <h3 class="text-warning">@(simulationResults?.TotalBatteryLoss.ToString("N1") ?? "0") kWh</h3>
+                            <small class="text-muted">@((simulationResults != null && simulationResults.TotalBatteryThroughput > 0 ? (simulationResults.TotalBatteryLoss / simulationResults.TotalBatteryThroughput * 100).ToString("N1") : "0"))% loss</small>
                         </div>
                     </div>
                 </div>
@@ -173,7 +173,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h6 class="card-title">Daily Average Cycles</h6>
-                            <h3 class="text-info">@((simulationResults.TotalBatteryThroughput / batteryCapacity / simulationResults.DailyResults.Count).ToString("N2"))</h3>
+                            <h3 class="text-info">@((simulationResults?.TotalBatteryThroughput / batteryCapacity / (simulationResults?.DailyResults.Count ?? 1) ?? 0).ToString("N2"))</h3>
                             <small class="text-muted">Full charge/discharge cycles per day</small>
                         </div>
                     </div>
@@ -218,8 +218,8 @@
                                 <tbody>
                                     @foreach (var day in topSavingsDays)
                                     {
-                                        var noBatFixed = GetDailySimulation(simNoBatteryFixed, day.Date);
-                                        var noBatDyn = GetDailySimulation(simulationResults, day.Date);
+                                        var noBatFixed = simNoBatteryFixed != null ? GetDailySimulation(simNoBatteryFixed, day.Date) : null;
+                                        var noBatDyn = simulationResults != null ? GetDailySimulation(simulationResults, day.Date) : null;
                                         var withBat = day;
                                         
                                         <tr>
@@ -338,10 +338,10 @@
             priceStats = PricingService.GetPriceStatistics(selectedYear);
 
             // Find top savings days
-            topSavingsDays = simulationResults.DailyResults
+            topSavingsDays = simulationResults?.DailyResults
                 .OrderByDescending(d => d.CostNoBatteryDynamic - d.CostWithBatteryDynamic)
                 .Take(10)
-                .ToList();
+                .ToList() ?? new List<DailySimulation>();
 
             // Flag to render charts after next render
             shouldRenderCharts = true;

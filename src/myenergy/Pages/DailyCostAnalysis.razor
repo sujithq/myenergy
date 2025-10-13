@@ -104,7 +104,7 @@
                 <div class="card text-white bg-danger">
                     <div class="card-body">
                         <h6 class="card-title">Fixed (No Battery)</h6>
-                        <h3 class="mb-0">€@simNoBatteryFixed.TotalCostNoBatteryFixed.ToString("N2")</h3>
+                        <h3 class="mb-0">€@(simNoBatteryFixed?.TotalCostNoBatteryFixed.ToString("N2") ?? "0.00")</h3>
                         <small>Baseline annual cost</small>
                     </div>
                 </div>
@@ -114,7 +114,7 @@
                     <div class="card-body">
                         <h6 class="card-title">Dynamic (No Battery)</h6>
                         <h3 class="mb-0">€@simulationResults.TotalCostNoBatteryDynamic.ToString("N2")</h3>
-                        <small>-€@((simNoBatteryFixed.TotalCostNoBatteryFixed - simulationResults.TotalCostNoBatteryDynamic).ToString("N2"))</small>
+                        <small>-€@(((simNoBatteryFixed?.TotalCostNoBatteryFixed ?? 0) - simulationResults.TotalCostNoBatteryDynamic).ToString("N2"))</small>
                     </div>
                 </div>
             </div>
@@ -123,7 +123,7 @@
                     <div class="card-body">
                         <h6 class="card-title">Dynamic + Battery</h6>
                         <h3 class="mb-0">€@simulationResults.TotalCostWithBatteryDynamic.ToString("N2")</h3>
-                        <small>-€@((simNoBatteryFixed.TotalCostNoBatteryFixed - simulationResults.TotalCostWithBatteryDynamic).ToString("N2"))</small>
+                        <small>-€@(((simNoBatteryFixed?.TotalCostNoBatteryFixed ?? 0) - simulationResults.TotalCostWithBatteryDynamic).ToString("N2"))</small>
                     </div>
                 </div>
             </div>
@@ -196,7 +196,7 @@
                                 <tbody>
                                     @foreach (var day in filteredDays)
                                     {
-                                        var noBatFixed = GetDailySimulation(simNoBatteryFixed, day.Date);
+                                        var noBatFixed = simNoBatteryFixed != null ? GetDailySimulation(simNoBatteryFixed, day.Date) : null;
                                         var noBatDyn = GetDailySimulation(simulationResults, day.Date);
                                         var withBat = day;
                                         
@@ -237,12 +237,12 @@
                                 <tfoot class="sticky-bottom bg-light">
                                     <tr class="fw-bold">
                                         <td>TOTAL / AVERAGE</td>
-                                        <td class="text-end text-danger">€@filteredDays.Sum(d => GetDailySimulation(simNoBatteryFixed, d.Date)?.CostNoBatteryFixed ?? 0).ToString("N2")</td>
+                                        <td class="text-end text-danger">€@(simNoBatteryFixed != null ? filteredDays.Sum(d => GetDailySimulation(simNoBatteryFixed, d.Date)?.CostNoBatteryFixed ?? 0).ToString("N2") : "0.00")</td>
                                         <td class="text-end text-warning">€@filteredDays.Sum(d => d.CostNoBatteryDynamic).ToString("N2")</td>
                                         <td class="text-end text-success">€@filteredDays.Sum(d => d.CostWithBatteryDynamic).ToString("N2")</td>
                                         <td class="text-end">
                                             €@filteredDays.Sum(d => {
-                                                var fixedCost = GetDailySimulation(simNoBatteryFixed, d.Date)?.CostNoBatteryFixed ?? 0;
+                                                var fixedCost = simNoBatteryFixed != null ? GetDailySimulation(simNoBatteryFixed, d.Date)?.CostNoBatteryFixed ?? 0 : 0;
                                                 return fixedCost - d.CostWithBatteryDynamic;
                                             }).ToString("N2")
                                         </td>
@@ -251,7 +251,7 @@
                                         </td>
                                         <td class="text-center">
                                             @{
-                                                var totalFixed = filteredDays.Sum(d => GetDailySimulation(simNoBatteryFixed, d.Date)?.CostNoBatteryFixed ?? 0);
+                                                var totalFixed = simNoBatteryFixed != null ? filteredDays.Sum(d => GetDailySimulation(simNoBatteryFixed, d.Date)?.CostNoBatteryFixed ?? 0) : 0;
                                                 var totalWithBat = filteredDays.Sum(d => d.CostWithBatteryDynamic);
                                                 var avgSavingsPercent = totalFixed > 0 ? ((totalFixed - totalWithBat) / totalFixed * 100) : 0;
                                             }
@@ -438,7 +438,9 @@
 
     private async Task RenderDailyCostsChart(string[] dates)
     {
-        var fixedCosts = filteredDays.Select(d => GetDailySimulation(simNoBatteryFixed, d.Date)?.CostNoBatteryFixed ?? 0).ToArray();
+        var fixedCosts = simNoBatteryFixed != null 
+            ? filteredDays.Select(d => GetDailySimulation(simNoBatteryFixed, d.Date)?.CostNoBatteryFixed ?? 0).ToArray()
+            : filteredDays.Select(d => 0.0).ToArray();
         var dynamicNoBatCosts = filteredDays.Select(d => d.CostNoBatteryDynamic).ToArray();
         var dynamicWithBatCosts = filteredDays.Select(d => d.CostWithBatteryDynamic).ToArray();
 
@@ -454,7 +456,7 @@
         double totalFixed = 0, totalDynNoBat = 0, totalDynWithBat = 0;
         foreach (var day in filteredDays)
         {
-            var fixedDay = GetDailySimulation(simNoBatteryFixed, day.Date);
+            var fixedDay = simNoBatteryFixed != null ? GetDailySimulation(simNoBatteryFixed, day.Date) : null;
             totalFixed += fixedDay?.CostNoBatteryFixed ?? 0;
             totalDynNoBat += day.CostNoBatteryDynamic;
             totalDynWithBat += day.CostWithBatteryDynamic;
@@ -470,7 +472,9 @@
     private async Task RenderDailySavingsChart(string[] dates)
     {
         var totalSavings = filteredDays.Select(d => {
-            var fixedCost = GetDailySimulation(simNoBatteryFixed, d.Date)?.CostNoBatteryFixed ?? 0;
+            var fixedCost = simNoBatteryFixed != null 
+                ? GetDailySimulation(simNoBatteryFixed, d.Date)?.CostNoBatteryFixed ?? 0 
+                : 0;
             return fixedCost - d.CostWithBatteryDynamic;
         }).ToArray();
         
@@ -481,11 +485,15 @@
 
     private async Task RenderAllMetricsChart(string[] dates)
     {
-        var fixedCosts = filteredDays.Select(d => GetDailySimulation(simNoBatteryFixed, d.Date)?.CostNoBatteryFixed ?? 0).ToArray();
+        var fixedCosts = simNoBatteryFixed != null
+            ? filteredDays.Select(d => GetDailySimulation(simNoBatteryFixed, d.Date)?.CostNoBatteryFixed ?? 0).ToArray()
+            : filteredDays.Select(d => 0.0).ToArray();
         var dynamicNoBatCosts = filteredDays.Select(d => d.CostNoBatteryDynamic).ToArray();
         var dynamicWithBatCosts = filteredDays.Select(d => d.CostWithBatteryDynamic).ToArray();
         var totalSavings = filteredDays.Select(d => {
-            var fixedCost = GetDailySimulation(simNoBatteryFixed, d.Date)?.CostNoBatteryFixed ?? 0;
+            var fixedCost = simNoBatteryFixed != null
+                ? GetDailySimulation(simNoBatteryFixed, d.Date)?.CostNoBatteryFixed ?? 0
+                : 0;
             return fixedCost - d.CostWithBatteryDynamic;
         }).ToArray();
         var batterySavings = filteredDays.Select(d => d.CostNoBatteryDynamic - d.CostWithBatteryDynamic).ToArray();
@@ -500,7 +508,9 @@
             .OrderBy(g => g.Key)
             .Select(g => new {
                 Month = g.Key,
-                FixedCost = g.Sum(d => GetDailySimulation(simNoBatteryFixed, d.Date)?.CostNoBatteryFixed ?? 0),
+                FixedCost = simNoBatteryFixed != null 
+                    ? g.Sum(d => GetDailySimulation(simNoBatteryFixed, d.Date)?.CostNoBatteryFixed ?? 0)
+                    : 0,
                 DynamicNoBat = g.Sum(d => d.CostNoBatteryDynamic),
                 DynamicWithBat = g.Sum(d => d.CostWithBatteryDynamic)
             })

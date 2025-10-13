@@ -196,7 +196,7 @@
         }
     }
     
-    private async Task OnDynamicPricingToggled()
+    private Task OnDynamicPricingToggled()
     {
         if (ShowDynamicPricing && DetailData != null)
         {
@@ -204,6 +204,7 @@
             DailyOdsPricing = OdsService.GetPricingForDay(SelectedDate);
         }
         StateHasChanged();
+        return Task.CompletedTask;
     }
     
     private async Task RefreshOdsData()

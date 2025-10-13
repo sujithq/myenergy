@@ -352,7 +352,7 @@
     private List<MonthlyMetric> monthlyMetrics = new();
     private List<YearlyMetric> yearlyMetrics = new();
 
-    protected override async Task OnInitializedAsync()
+    protected override Task OnInitializedAsync()
     {
         // Data already loaded at app startup
         // Initialize solar system defaults from config
@@ -361,6 +361,7 @@
         availableYears = DataService.GetAvailableYears();
         CalculateMetrics();
         isLoading = false;
+        return Task.CompletedTask;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

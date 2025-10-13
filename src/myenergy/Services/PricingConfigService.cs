@@ -76,7 +76,7 @@ public class PricingConfigService
         }
     }
 
-    public async Task UpdateConfigAsync(double importPrice, double exportPrice)
+    public Task UpdateConfigAsync(double importPrice, double exportPrice)
     {
         if (_config == null)
         {
@@ -94,6 +94,8 @@ public class PricingConfigService
         // Note: In a real application, you would save this to a backend
         // For now, it only updates the in-memory config
         Console.WriteLine($"Pricing config updated: Import=€{importPrice:F2}/kWh, Export=€{exportPrice:F2}/kWh");
+        
+        return Task.CompletedTask;
     }
 }
 

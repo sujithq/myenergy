@@ -341,7 +341,9 @@
         await LoadAnalysisData();
     }
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators - intentional for caller compatibility
     private async Task LoadDayData(DateTime date)
+#pragma warning restore CS1998
     {
         var dayData = DataService.GetDailyDetailData(date);
         if (dayData == null || !dayData.QuarterHours.Any())

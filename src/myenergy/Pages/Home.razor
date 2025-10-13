@@ -153,7 +153,7 @@
     private List<PeriodDataPoint> _topDaysChartData = new();
     private List<PeriodDataPoint> _monthlyChartData = new();
 
-    protected override async Task OnInitializedAsync()
+    protected override Task OnInitializedAsync()
     {
         try
         {
@@ -203,6 +203,7 @@
         {
             _loading = false;
         }
+        return Task.CompletedTask;
     }
 }
 
