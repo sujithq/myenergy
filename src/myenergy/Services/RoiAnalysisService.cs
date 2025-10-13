@@ -36,12 +36,61 @@ public class RoiAnalysisService
             .OrderBy(d => d)
             .ToList();
 
+        // Find first and last dates with actual quarter-hour data
+        var firstValidDate = availableDates.FirstOrDefault(d => 
+        {
+            var detail = _energyService.GetDailyDetailData(d);
+            return detail != null && detail.QuarterHours.Any();
+        });
+        
+        var lastValidDate = availableDates.LastOrDefault(d => 
+        {
+            var detail = _energyService.GetDailyDetailData(d);
+            return detail != null && detail.QuarterHours.Any();
+        });
+
+        // Adjust date range to available data
+        if (firstValidDate != default && lastValidDate != default)
+        {
+            if (firstValidDate > analysisStartDate)
+            {
+                Console.WriteLine($"⚠️ Adjusted start date from {analysisStartDate:yyyy-MM-dd} to {firstValidDate:yyyy-MM-dd} (first date with quarter-hour data)");
+                analysisStartDate = firstValidDate;
+            }
+            
+            if (lastValidDate < analysisEndDate)
+            {
+                Console.WriteLine($"⚠️ Adjusted end date from {analysisEndDate:yyyy-MM-dd} to {lastValidDate:yyyy-MM-dd} (last date with quarter-hour data)");
+                analysisEndDate = lastValidDate;
+            }
+            
+            // Update available dates list with adjusted range
+            availableDates = availableDates
+                .Where(d => d >= analysisStartDate && d <= analysisEndDate)
+                .ToList();
+        }
+
+        Console.WriteLine($"=== ROI Analysis Date Range ===");
+        Console.WriteLine($"Analysis Start: {analysisStartDate:yyyy-MM-dd}");
+        Console.WriteLine($"Analysis End: {analysisEndDate:yyyy-MM-dd}");
+        Console.WriteLine($"Available dates in range: {availableDates.Count}");
+        if (availableDates.Any())
+        {
+            Console.WriteLine($"First date: {availableDates.First():yyyy-MM-dd}");
+            Console.WriteLine($"Last date: {availableDates.Last():yyyy-MM-dd}");
+        }
+        Console.WriteLine($"Dynamic Pricing: {useDynamicPricing}");
+        Console.WriteLine($"Dynamic Start: {dynamicPricingStartDate:yyyy-MM-dd}");
+        Console.WriteLine("==============================");
+
         double solarCumulativeSavings = 0;
         double batteryCumulativeSavings = 0;
         
         DateTime? solarBreakEven = null;
         DateTime? batteryBreakEven = null;
         DateTime? combinedBreakEven = null;
+        
+        int skippedDays = 0;
 
         // Pre-run battery simulations for all years (MUCH faster than per-day)
         var batterySimulations = new Dictionary<int, SimulationResults>();
@@ -65,7 +114,14 @@ public class RoiAnalysisService
         {
             var dailyDetail = _energyService.GetDailyDetailData(date);
             if (dailyDetail == null || !dailyDetail.QuarterHours.Any())
+            {
+                skippedDays++;
+                if (skippedDays <= 5) // Log first 5 skipped days
+                {
+                    Console.WriteLine($"⚠️ Skipping {date:yyyy-MM-dd}: No quarter-hour data available");
+                }
                 continue;
+            }
 
             // Determine which investments are active on this date
             var solarActive = solarInvestment != null && date >= solarInvestment.InstallationDate;
@@ -172,6 +228,19 @@ public class RoiAnalysisService
                 CombinedNetPosition = combinedNetPosition
             });
         }
+
+        Console.WriteLine($"=== ROI Processing Complete ===");
+        Console.WriteLine($"Days processed: {dailyData.Count} out of {availableDates.Count} available");
+        if (skippedDays > 0)
+        {
+            Console.WriteLine($"⚠️ Skipped {skippedDays} days with no quarter-hour data");
+        }
+        if (dailyData.Any())
+        {
+            Console.WriteLine($"First day in results: {dailyData.First().Date:yyyy-MM-dd}");
+            Console.WriteLine($"Last day in results: {dailyData.Last().Date:yyyy-MM-dd}");
+        }
+        Console.WriteLine("==============================");
 
         // Battery savings summary
         if (batteryInvestment != null)

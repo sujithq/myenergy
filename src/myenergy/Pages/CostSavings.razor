@@ -253,11 +253,26 @@
         importCostPerKwh = PricingConfig.FixedImportPrice;
         systemCost = PricingConfig.DefaultSolarSystemCostEur;
         
-        var availableDates = DataService.GetAvailableDates();
+        // Find first date with actual quarter-hour data (solar panel installation)
+        var availableDates = DataService.GetAvailableDates().OrderBy(d => d).ToList();
         if (availableDates.Any())
         {
-            // Set installation date to first available data date
-            installationDate = availableDates.OrderBy(d => d).First();
+            var firstDataDate = availableDates.FirstOrDefault(d => 
+            {
+                var detail = DataService.GetDailyDetailData(d);
+                return detail != null && detail.QuarterHours.Any();
+            });
+            
+            if (firstDataDate != default)
+            {
+                installationDate = firstDataDate;
+                Console.WriteLine($"✅ CostSavings: Set installation date to {firstDataDate:yyyy-MM-dd} (first date with quarter-hour data)");
+            }
+            else
+            {
+                // Fallback to first date if no quarter-hour data found (shouldn't happen)
+                installationDate = availableDates.First();
+            }
         }
         
         CalculateSavings();

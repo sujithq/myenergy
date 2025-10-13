@@ -332,14 +332,34 @@
         // Get ODS pricing date range and last load time
         UpdateOdsPricingInfo();
         
-        // Set default dates based on available data
+        // Set default dates based on available data WITH quarter-hour details
+        // Find first and last dates that actually have quarter-hour data
         var availableDates = EnergyService.GetAvailableDates().OrderBy(d => d).ToList();
         if (availableDates.Any())
         {
-            analysisStartDate = availableDates.First();
-            analysisEndDate = availableDates.Last();
-            solarInstallDate = availableDates.First();
-            batteryInstallDate = availableDates.First(); // Same as solar install date
+            // Find first date with quarter-hour data (solar panel installation)
+            var firstDataDate = availableDates.FirstOrDefault(d => 
+            {
+                var detail = EnergyService.GetDailyDetailData(d);
+                return detail != null && detail.QuarterHours.Any();
+            });
+            
+            // Find last date with quarter-hour data
+            var lastDataDate = availableDates.LastOrDefault(d => 
+            {
+                var detail = EnergyService.GetDailyDetailData(d);
+                return detail != null && detail.QuarterHours.Any();
+            });
+            
+            if (firstDataDate != default && lastDataDate != default)
+            {
+                analysisStartDate = firstDataDate;
+                analysisEndDate = lastDataDate;
+                solarInstallDate = firstDataDate; // Solar panels installed when data starts
+                batteryInstallDate = firstDataDate; // Default to same date
+                
+                Console.WriteLine($"✅ Set default dates: {firstDataDate:yyyy-MM-dd} to {lastDataDate:yyyy-MM-dd}");
+            }
         }
 
         await RecalculateRoi();
