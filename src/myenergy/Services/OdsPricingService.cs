@@ -3,7 +3,11 @@ using System.Text.Json;
 
 namespace myenergy.Services;
 
-public class OdsPricingService
+/// <summary>
+/// ODS Pricing Service using JSON format from Elia API.
+/// Provides access to dynamic electricity pricing data.
+/// </summary>
+public class OdsPricingService : IOdsPricingService
 {
     private const string ELIA_API_URL = "https://opendata.elia.be/api/explore/v2.1/catalog/datasets/ods134/exports/json?lang=nl&timezone=Europe%2FBrussels";
     private const string LOCAL_FILE_PATH = "Data/ods134.json";

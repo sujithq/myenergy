@@ -3,8 +3,9 @@
 @using myenergy.Services
 @using Microsoft.JSInterop
 @inject EnergyDataService DataService
-@inject OdsPricingService OdsService
+@inject IOdsPricingService OdsService
 @inject PricingConfigService PricingConfig
+@inject DeviceProfileService DeviceService
 @inject IJSRuntime JSRuntime
 
 <div class="container-fluid">
@@ -79,6 +80,194 @@
                 </div>
             </div>
         </div>
+
+        <!-- Device Management Section -->
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-gear"></i> Manage Devices
+                                <span class="badge bg-light text-dark ms-2">@DeviceService.GetEnabledDevices().Count enabled</span>
+                            </h5>
+                            <div>
+                                <button class="btn btn-sm btn-light me-2" @onclick="ToggleDeviceManagement">
+                                    <i class="bi @(showDeviceManagement ? "bi-chevron-up" : "bi-chevron-down")"></i>
+                                    @(showDeviceManagement ? "Hide" : "Show")
+                                </button>
+                                <button class="btn btn-sm btn-primary" @onclick="ShowAddDeviceModal">
+                                    <i class="bi bi-plus-circle"></i> Add Device
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    @if (showDeviceManagement)
+                    {
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-sm table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Enabled</th>
+                                            <th>Device</th>
+                                            <th>Category</th>
+                                            <th>Power</th>
+                                            <th>Duration</th>
+                                            <th>Energy</th>
+                                            <th>Can Delay</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var device in DeviceService.GetAllDevices().OrderBy(d => d.Category).ThenBy(d => d.Name))
+                                        {
+                                            <tr class="@(!device.IsEnabled ? "text-muted" : "")">
+                                                <td>
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox" 
+                                                               checked="@device.IsEnabled"
+                                                               @onchange="async () => await ToggleDevice(device.Id)">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span style="font-size: 1.2rem;">@device.Icon</span>
+                                                    <strong class="ms-2">@device.Name</strong>
+                                                    @if (device.IsCustom)
+                                                    {
+                                                        <span class="badge bg-info text-white ms-1">Custom</span>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-light text-dark">@device.Category</span>
+                                                </td>
+                                                <td>@device.PowerKw.ToString("F1") kW</td>
+                                                <td>@device.DurationHours.ToString("F1") h</td>
+                                                <td>
+                                                    <strong>@device.EnergyUsedKwh.ToString("F2")</strong> kWh
+                                                </td>
+                                                <td>
+                                                    @if (device.CanBeDelayed)
+                                                    {
+                                                        <span class="text-success">✓ (@device.MaxDelayHours h)</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="text-muted">✗</span>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-primary me-1" 
+                                                            @onclick="() => ShowEditDeviceModal(device)">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </button>
+                                                    @if (device.IsCustom)
+                                                    {
+                                                        <button class="btn btn-sm btn-outline-danger" 
+                                                                @onclick="async () => await DeleteDevice(device.Id)">
+                                                            <i class="bi bi-trash"></i>
+                                                        </button>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="mt-2">
+                                <button class="btn btn-sm btn-warning" @onclick="ResetToDefaults">
+                                    <i class="bi bi-arrow-counterclockwise"></i> Reset to Defaults
+                                </button>
+                                <small class="text-muted ms-2">This will remove custom devices and restore default settings</small>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Device Add/Edit Modal -->
+        @if (showDeviceModal)
+        {
+            <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                @(editingDevice?.Id == null ? "Add New Device" : $"Edit {editingDevice.Name}")
+                            </h5>
+                            <button type="button" class="btn-close" @onclick="CloseDeviceModal"></button>
+                        </div>
+                        <div class="modal-body">
+                            @if (editingDevice != null)
+                            {
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Device Name</label>
+                                        <input type="text" class="form-control" @bind="editingDevice.Name" />
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Icon (Emoji)</label>
+                                        <input type="text" class="form-control" @bind="editingDevice.Icon" 
+                                               placeholder="🔌" maxlength="4" />
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Category</label>
+                                        <select class="form-select" @bind="editingDevice.Category">
+                                            @foreach (var cat in DeviceCategories.All)
+                                            {
+                                                <option value="@cat">@cat</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Enabled</label>
+                                        <div class="form-check form-switch mt-2">
+                                            <input class="form-check-input" type="checkbox" @bind="editingDevice.IsEnabled">
+                                            <label class="form-check-label">Include in recommendations</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Power (kW)</label>
+                                        <input type="number" step="0.1" class="form-control" @bind="editingDevice.PowerKw" />
+                                        <small class="text-muted">Typical power consumption when running</small>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Duration (hours)</label>
+                                        <input type="number" step="0.1" class="form-control" @bind="editingDevice.DurationHours" />
+                                        <small class="text-muted">How long it typically runs</small>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <div class="alert alert-info">
+                                            <strong>Energy Usage:</strong> @editingDevice.EnergyUsedKwh.ToString("F2") kWh per cycle
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Can be delayed?</label>
+                                        <div class="form-check form-switch mt-2">
+                                            <input class="form-check-input" type="checkbox" @bind="editingDevice.CanBeDelayed">
+                                            <label class="form-check-label">Usage can be postponed</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Max Delay (hours)</label>
+                                        <input type="number" class="form-control" @bind="editingDevice.MaxDelayHours" 
+                                               disabled="@(!editingDevice.CanBeDelayed)" />
+                                        <small class="text-muted">Maximum hours to postpone usage</small>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" @onclick="CloseDeviceModal">Cancel</button>
+                            <button type="button" class="btn btn-primary" @onclick="SaveDevice">
+                                <i class="bi bi-check-circle"></i> Save Device
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
 
         <!-- Current Status Banner -->
         <div class="row mb-3">
@@ -314,6 +503,11 @@
     private int ForecastHours = 24;
     private bool isLoading = false;
 
+    // Device management UI state
+    private bool showDeviceManagement = false;
+    private bool showDeviceModal = false;
+    private DeviceProfile? editingDevice = null;
+
     private string TimelineChartId = Guid.NewGuid().ToString();
     private string ForecastChartId = Guid.NewGuid().ToString();
 
@@ -336,6 +530,9 @@
 
     protected override async Task OnInitializedAsync()
     {
+        // Initialize device profiles
+        await DeviceService.InitializeAsync();
+        
         // Data already loaded at app startup
         await RefreshRecommendations();
     }
@@ -490,20 +687,13 @@
 
     private void GenerateDeviceRecommendations()
     {
-        var devices = new List<(string Name, string Icon, double PowerKw, double DurationHours)>
-        {
-            ("Dishwasher", "🍽️", 1.5, 3.0),
-            ("Washing Machine", "🧺", 2.0, 1.5),
-            ("Tumble Dryer", "👕", 3.0, 1.0),
-            ("EV Charger", "🚗", 11.0, 4.0),
-            ("Induction Cooktop", "🍳", 3.5, 0.5),
-            ("Electric Oven", "🍕", 2.5, 1.0)
-        };
-
         DeviceRecommendations.Clear();
         var now = DateTime.Now;
 
-        foreach (var device in devices)
+        // Get enabled devices from the service
+        var enabledDevices = DeviceService.GetEnabledDevices();
+
+        foreach (var device in enabledDevices)
         {
             var recommendation = AnalyzeDeviceTiming(device.Name, device.PowerKw, device.DurationHours, now);
             recommendation.Icon = device.Icon;
@@ -685,6 +875,98 @@
         var avgLowPrice = cheapest.Average(p => p.AvgImportPrice);
         var dailyUsage = 5.0; // Assume 5 kWh/day of shiftable load
         EstimatedMonthlySavings = (avgHighPrice - avgLowPrice) * dailyUsage * 30;
+    }
+
+    // Device Management Methods
+    private void ToggleDeviceManagement()
+    {
+        showDeviceManagement = !showDeviceManagement;
+    }
+
+    private void ShowAddDeviceModal()
+    {
+        editingDevice = new DeviceProfile
+        {
+            Name = "",
+            Icon = "⚡",
+            PowerKw = 1.0,
+            DurationHours = 1.0,
+            Category = DeviceCategories.Other,
+            IsEnabled = true,
+            CanBeDelayed = true,
+            MaxDelayHours = 12,
+            IsCustom = true
+        };
+        showDeviceModal = true;
+    }
+
+    private void ShowEditDeviceModal(DeviceProfile device)
+    {
+        // Create a copy to edit
+        editingDevice = new DeviceProfile
+        {
+            Id = device.Id,
+            Name = device.Name,
+            Icon = device.Icon,
+            PowerKw = device.PowerKw,
+            DurationHours = device.DurationHours,
+            Category = device.Category,
+            IsEnabled = device.IsEnabled,
+            CanBeDelayed = device.CanBeDelayed,
+            MaxDelayHours = device.MaxDelayHours,
+            IsCustom = device.IsCustom
+        };
+        showDeviceModal = true;
+    }
+
+    private void CloseDeviceModal()
+    {
+        showDeviceModal = false;
+        editingDevice = null;
+    }
+
+    private async Task SaveDevice()
+    {
+        if (editingDevice == null || string.IsNullOrWhiteSpace(editingDevice.Name))
+            return;
+
+        if (string.IsNullOrEmpty(editingDevice.Id) || DeviceService.GetDevice(editingDevice.Id) == null)
+        {
+            // New device
+            await DeviceService.AddDeviceAsync(editingDevice);
+        }
+        else
+        {
+            // Update existing
+            await DeviceService.UpdateDeviceAsync(editingDevice);
+        }
+
+        CloseDeviceModal();
+        await RefreshRecommendations();
+    }
+
+    private async Task ToggleDevice(string deviceId)
+    {
+        await DeviceService.ToggleDeviceAsync(deviceId);
+        await RefreshRecommendations();
+    }
+
+    private async Task DeleteDevice(string deviceId)
+    {
+        if (await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this device?"))
+        {
+            await DeviceService.DeleteDeviceAsync(deviceId);
+            await RefreshRecommendations();
+        }
+    }
+
+    private async Task ResetToDefaults()
+    {
+        if (await JSRuntime.InvokeAsync<bool>("confirm", "This will remove all custom devices and restore defaults. Continue?"))
+        {
+            await DeviceService.ResetToDefaultsAsync();
+            await RefreshRecommendations();
+        }
     }
 
     private async Task CreateCharts()

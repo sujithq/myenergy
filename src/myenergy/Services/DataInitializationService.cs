@@ -9,14 +9,14 @@ namespace myenergy.Services;
 public class DataInitializationService
 {
     private readonly EnergyDataService _energyService;
-    private readonly OdsPricingService _odsService;
+    private readonly IOdsPricingService _odsService;
     private readonly PricingConfigService _pricingConfig;
     private bool _isInitialized;
     private readonly SemaphoreSlim _initLock = new(1, 1);
 
     public DataInitializationService(
         EnergyDataService energyService,
-        OdsPricingService odsService,
+        IOdsPricingService odsService,
         PricingConfigService pricingConfig)
     {
         _energyService = energyService;
