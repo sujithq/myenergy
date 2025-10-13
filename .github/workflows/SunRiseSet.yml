@@ -48,7 +48,7 @@ jobs:
         NETCORE_ENVIRONMENT: Production
 
     - name: After Run Actions
-      uses: sujithq/myenergy/.github/actions/after-run-actions@main
+      uses: sujithq/myenergy/.github/actions/after-run@main
       with:
         COMMAND: ${{ env.GLOBAL_COMMAND }}
         APP_ID: ${{ secrets.APP_ID }}

@@ -53,7 +53,7 @@ jobs:
         SUNGROW_PS_ID: ${{ secrets.SUNGROW_PS_ID }}
 
     - name: After Run Actions
-      uses: sujithq/myenergy/.github/actions/after-run-actions@main
+      uses: sujithq/myenergy/.github/actions/after-run@main
       with:
         COMMAND: ${{ env.GLOBAL_COMMAND }}
         APP_ID: ${{ secrets.APP_ID }}
