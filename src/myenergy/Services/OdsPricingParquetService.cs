@@ -30,7 +30,7 @@ public class OdsPricingParquetService : IOdsPricingService
     public DateTime? LastLoadTime => _lastLoadTime;
 
     /// <summary>
-    /// Load ODS pricing data from Parquet file. Tries local file first, falls back to Elia API if needed.
+    /// Load ODS pricing data from Parquet file. Tries local file first (updated by CI/CD), falls back to Elia API if needed.
     /// </summary>
     /// <param name="forceRefresh">Force download from Elia API even if local data exists</param>
     public async Task LoadDataAsync(bool forceRefresh = false)
@@ -47,33 +47,34 @@ public class OdsPricingParquetService : IOdsPricingService
             if (forceRefresh)
             {
                 // Force download from Elia API
-                Console.WriteLine("Downloading ODS pricing data (Parquet) from Elia API (forced refresh)...");
+                Console.WriteLine("🔄 Downloading ODS pricing data (Parquet) from Elia API (forced refresh)...");
                 parquetData = await DownloadFromEliaAsync();
                 source = "Elia API (forced refresh)";
             }
             else
             {
-                // Try Elia API first
+                // Try local file first (kept up-to-date by CI/CD pipeline)
                 try
                 {
-                    Console.WriteLine("Downloading ODS pricing data (Parquet) from Elia API...");
-                    parquetData = await DownloadFromEliaAsync();
-                    source = "Elia API";
+                    Console.WriteLine("📂 Loading ODS pricing data from local Parquet file...");
+                    parquetData = await _http.GetByteArrayAsync(LOCAL_FILE_PATH);
+                    source = "local file (CI/CD updated)";
+                    Console.WriteLine($"✅ Loaded {parquetData.Length} bytes from local file");
                 }
-                catch (Exception eliaEx)
+                catch (Exception localEx)
                 {
-                    Console.WriteLine($"Elia API failed: {eliaEx.Message}");
-                    Console.WriteLine("Falling back to local Parquet file...");
+                    Console.WriteLine($"⚠️ Local file not found or failed: {localEx.Message}");
+                    Console.WriteLine("📥 Falling back to downloading from Elia API...");
                     
                     try
                     {
-                        parquetData = await _http.GetByteArrayAsync(LOCAL_FILE_PATH);
-                        source = "local file (fallback)";
+                        parquetData = await DownloadFromEliaAsync();
+                        source = "Elia API (fallback)";
                     }
-                    catch (Exception localEx)
+                    catch (Exception eliaEx)
                     {
-                        Console.WriteLine($"Local file also failed: {localEx.Message}");
-                        throw new Exception($"Unable to load ODS pricing data from either Elia API or local file. Elia: {eliaEx.Message}, Local: {localEx.Message}");
+                        Console.WriteLine($"❌ Elia API also failed: {eliaEx.Message}");
+                        throw new Exception($"Unable to load ODS pricing data from either local file or Elia API. Local: {localEx.Message}, Elia: {eliaEx.Message}");
                     }
                 }
             }
