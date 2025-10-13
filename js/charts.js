@@ -2618,7 +2618,9 @@ window.renderMonthlySavingsChart = (labels, solarSavings, batterySavings, includ
                         text: 'Month'
                     },
                     ticks: {
-                        maxTicksLimit: 24
+                        maxTicksLimit: 36,  // Allow up to 36 months (3 years)
+                        maxRotation: 45,    // Rotate labels if needed
+                        minRotation: 45
                     }
                 }
             }
