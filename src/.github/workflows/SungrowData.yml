@@ -1,0 +1,13 @@
+name: Sungrow Data
+
+// ...existing code...
+
+permissions:
+  contents: write
+
+env:
+  GLOBAL_DOTNET_VERSION: '10.0.x'
+  GLOBAL_COMMAND: 'Sungrow'
+
+jobs:
+  // ...existing code...
