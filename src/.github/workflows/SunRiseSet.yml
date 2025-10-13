@@ -1,0 +1,13 @@
+name: Sun Rise Set Data
+
+// ...existing code...
+
+permissions:
+  contents: write
+
+env:
+  GLOBAL_DOTNET_VERSION: '10.0.x'
+  GLOBAL_COMMAND: 'SunRiseSet'
+
+jobs:
+  // ...existing code...

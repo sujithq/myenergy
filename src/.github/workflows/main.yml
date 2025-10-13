@@ -1,0 +1,36 @@
+name: Deploy to GitHub Pages
+
+# Run workflow on every push to the main branch
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'src/myenergy/wwwroot/Data/**'
+      - 'src/June.Data/**'
+      - '.github/workflows/**'
+      - '.github/actions/**'
+  workflow_dispatch:
+permissions:
+  contents: write
+
+jobs:
+  // ...existing code...
+  deploy-to-github-pages:
+    # needs: scan
+    # use ubuntu-latest image to run steps on
+    runs-on: ubuntu-24.04-arm # ubuntu-latest
+    steps:
+    # uses GitHub's checkout action to checkout code form the master branch
+    - uses: actions/checkout@v5
+    
+    # sets up .NET Core SDK 7.0
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: 10.0.x
+
+    # publishes Blazor project to the release-folder
+    - name: Publish .NET Core Project
+      run: dotnet publish src/myenergy/myenergy.csproj -c Release -o release --nologo
+    
+    # ...existing code...
