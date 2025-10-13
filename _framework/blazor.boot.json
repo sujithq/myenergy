@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "myenergy",
   "resources": {
-    "hash": "sha256-6DHxYQ8JKhbogFc6JpWxvjwVONJeKLJAmuTwMc59eaw=",
+    "hash": "sha256-urutI4aTr9WTpVh4b5cVDMu04i5EtAegO7NOrrF0Hd4=",
     "fingerprinting": {
       "IronCompress.44e6s6ebz4.wasm": "IronCompress.wasm",
       "Microsoft.AspNetCore.Components.mc50y03ot7.wasm": "Microsoft.AspNetCore.Components.wasm",
@@ -57,7 +57,7 @@
       "System.Threading.c5k4nonmzh.wasm": "System.Threading.wasm",
       "System.m0fu6d0eya.wasm": "System.wasm",
       "System.Private.CoreLib.sjcx6gaamb.wasm": "System.Private.CoreLib.wasm",
-      "myenergy.41uz7f2fm7.wasm": "myenergy.wasm",
+      "myenergy.ubp0xc0aw5.wasm": "myenergy.wasm",
       "dotnet.js": "dotnet.js",
       "dotnet.native.9ih887ebfz.js": "dotnet.native.js",
       "dotnet.native.21mns4qp4i.wasm": "dotnet.native.wasm",
@@ -137,7 +137,7 @@
       "System.Threading.Thread.voe30v76h3.wasm": "sha256-HzkIphwqk28IhqdVCklCgCyR+T+yXiP6yat0TdLC1C8=",
       "System.Threading.c5k4nonmzh.wasm": "sha256-AAabryTMfINaexA//w2m6i6wumLvm4cVgdfXSPugNis=",
       "System.m0fu6d0eya.wasm": "sha256-hkGLo/MuT/FJ0Xf4XUL0D2VA4dZV532GHNB1JicxLko=",
-      "myenergy.41uz7f2fm7.wasm": "sha256-OJqNOplvtMiNJtLnPN39kJlI+dertQ+oMjM0DSyjdik="
+      "myenergy.ubp0xc0aw5.wasm": "sha256-OnHwObloejkY6rSqfRD8Ls2lqUPdbvJb3Mhgk6qTbhM="
     }
   },
   "cacheBootResources": true,
