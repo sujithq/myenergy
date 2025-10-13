@@ -182,13 +182,14 @@ public class OdsPricingParquetService : IOdsPricingService
                 }
                 
                 // Map column names (Elia dataset uses specific names)
-                // Expected columns: datetime, mostactivatedbalancingenergypriceofferdown, mostactivatedbalancingenergypriceofferup
+                // Expected columns: datetime, marginalincrementalprice (import), marginaldecrementalprice (export)
+                // Also supports legacy: mostactivatedbalancingenergypriceofferdown, mostactivatedbalancingenergypriceofferup
                 var datetimeCol = columnData.FirstOrDefault(c => 
                     c.Key.Contains("datetime") || c.Key.Contains("date") || c.Key.Contains("time")).Value;
                 var importCol = columnData.FirstOrDefault(c => 
-                    c.Key.Contains("priceofferup") || c.Key.Contains("import") || c.Key.Contains("purchase")).Value;
+                    c.Key.Contains("marginalincremental") || c.Key.Contains("priceofferup") || c.Key.Contains("import") || c.Key.Contains("purchase")).Value;
                 var exportCol = columnData.FirstOrDefault(c => 
-                    c.Key.Contains("priceofferdown") || c.Key.Contains("export") || c.Key.Contains("injection")).Value;
+                    c.Key.Contains("marginaldecremental") || c.Key.Contains("priceofferdown") || c.Key.Contains("export") || c.Key.Contains("injection")).Value;
                 
                 if (datetimeCol == null)
                 {
