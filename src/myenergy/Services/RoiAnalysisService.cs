@@ -145,13 +145,16 @@ public class RoiAnalysisService
 
             // Calculate cost with solar + battery (if both active)
             var solarAndBatteryCost = solarCost; // Default to solar-only cost
+            var simSolarCost = solarCost; // Track simulation's solar cost separately
+            
             if (batteryActive && solarActive && batterySimulations.TryGetValue(date.Year, out var yearSim))
             {
                 var dayResult = yearSim.DailyResults.FirstOrDefault(d => d.Date.Date == date.Date);
                 if (dayResult != null)
                 {
-                    // Use consistent pricing model from simulation
-                    solarCost = shouldUseDynamicPricing 
+                    // Get simulation results for consistent comparison
+                    // The simulation calculates both "no battery" and "with battery" using the same methodology
+                    simSolarCost = shouldUseDynamicPricing 
                         ? dayResult.CostNoBatteryDynamic
                         : dayResult.CostNoBatteryFixed;
                     
@@ -162,9 +165,14 @@ public class RoiAnalysisService
             }
 
             // Daily savings
+            // Solar savings: baseline vs solar (no battery involved)
             var solarDailySavings = solarActive ? (baselineCost - solarCost) : 0;
-            // Battery savings only when both solar AND battery are active (battery needs solar to work)
-            var batteryDailySavings = (batteryActive && solarActive) ? (solarCost - solarAndBatteryCost) : 0;
+            
+            // Battery savings: solar-only vs solar+battery (using simulation for apples-to-apples comparison)
+            // Use simSolarCost (from simulation) for consistency with solarAndBatteryCost
+            var batteryDailySavings = (batteryActive && solarActive) ? (simSolarCost - solarAndBatteryCost) : 0;
+            
+            // Total savings: baseline vs solar+battery
             var totalDailySavings = baselineCost - solarAndBatteryCost;
 
             // DEBUG: Track battery savings statistics
