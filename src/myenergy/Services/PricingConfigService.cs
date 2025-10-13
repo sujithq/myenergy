@@ -19,8 +19,8 @@ public class PricingConfigService
     }
 
     // Pricing Configuration
-    public double FixedImportPrice => _config?.Pricing?.FixedImportPrice ?? 0.30;
-    public double FixedExportPrice => _config?.Pricing?.FixedExportPrice ?? 0.05;
+    public double FixedImportPrice => _config?.Pricing?.FixedImportPrice ?? 0.34;
+    public double FixedExportPrice => _config?.Pricing?.FixedExportPrice ?? 0.02;
 
     // Battery Configuration
     public double DefaultBatteryCapacityKwh => _config?.Battery?.DefaultCapacityKwh ?? 5.0;
@@ -55,8 +55,8 @@ public class PricingConfigService
             {
                 Pricing = new AppPricingConfig
                 {
-                    FixedImportPrice = 0.30,
-                    FixedExportPrice = 0.05
+                    FixedImportPrice = 0.34,
+                    FixedExportPrice = 0.02
                 },
                 Battery = new AppBatteryConfig
                 {
@@ -109,8 +109,8 @@ public class AppConfig
 
 public class AppPricingConfig
 {
-    public double FixedImportPrice { get; set; } = 0.30;
-    public double FixedExportPrice { get; set; } = 0.05;
+    public double FixedImportPrice { get; set; } = 0.34;
+    public double FixedExportPrice { get; set; } = 0.02;
     public string Description { get; set; } = "";
 }
 
