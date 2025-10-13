@@ -6,12 +6,12 @@ public class RoiAnalysisService
 {
     private readonly EnergyDataService _energyService;
     private readonly BatterySimulationService _simulationService;
-    private readonly OdsPricingService _pricingService;
+    private readonly IOdsPricingService _pricingService;
 
     public RoiAnalysisService(
         EnergyDataService energyService, 
         BatterySimulationService simulationService,
-        OdsPricingService pricingService)
+        IOdsPricingService pricingService)
     {
         _energyService = energyService;
         _simulationService = simulationService;

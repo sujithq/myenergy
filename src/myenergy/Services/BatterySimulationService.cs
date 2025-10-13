@@ -5,9 +5,9 @@ namespace myenergy.Services;
 public class BatterySimulationService
 {
     private readonly EnergyDataService _energyService;
-    private readonly OdsPricingService _pricingService;
+    private readonly IOdsPricingService _pricingService;
 
-    public BatterySimulationService(EnergyDataService energyService, OdsPricingService pricingService)
+    public BatterySimulationService(EnergyDataService energyService, IOdsPricingService pricingService)
     {
         _energyService = energyService;
         _pricingService = pricingService;
