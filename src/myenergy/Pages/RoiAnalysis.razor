@@ -546,8 +546,14 @@
         var monthlySolar = monthlySavings.Select(m => m.SolarSavings).ToArray();
         var monthlyBattery = monthlySavings.Select(m => m.BatterySavings).ToArray();
 
-        Console.WriteLine($"Monthly Savings Chart: {monthLabels.Length} months");
-        Console.WriteLine($"Sample solar savings: [{string.Join(", ", monthlySolar.Take(3).Select(v => v.ToString("F2")))}...]");
+        Console.WriteLine($"=== Monthly Savings Chart Data ===");
+        Console.WriteLine($"Total months: {monthLabels.Length}");
+        Console.WriteLine($"First month: {(monthLabels.Length > 0 ? monthLabels[0] : "N/A")}");
+        Console.WriteLine($"Last month: {(monthLabels.Length > 0 ? monthLabels[^1] : "N/A")}");
+        Console.WriteLine($"Sample solar savings (first 3): [{string.Join(", ", monthlySolar.Take(3).Select(v => v.ToString("F2")))}]");
+        Console.WriteLine($"Sample solar savings (last 3): [{string.Join(", ", monthlySolar.TakeLast(3).Select(v => v.ToString("F2")))}]");
+        Console.WriteLine($"All month labels: {string.Join(", ", monthLabels)}");
+        Console.WriteLine("==================================");
         
         try
         {
