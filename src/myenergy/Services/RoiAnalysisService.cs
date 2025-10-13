@@ -70,9 +70,17 @@ public class RoiAnalysisService
             // Determine which investments are active on this date
             var solarActive = solarInvestment != null && date >= solarInvestment.InstallationDate;
             var batteryActive = batteryInvestment != null && date >= batteryInvestment.InstallationDate;
+            
+            // Determine if we should use dynamic pricing for this date
+            var shouldUseDynamicPricing = useDynamicPricing 
+                && dynamicPricingStartDate.HasValue 
+                && date >= dynamicPricingStartDate.Value;
 
             // Calculate baseline cost (no solar, no battery - pure grid consumption)
-            var baselineCost = CalculateBaselineCost(dailyDetail, fixedImportPrice);
+            // IMPORTANT: Must use same pricing model (fixed or dynamic) for fair comparison
+            var baselineCost = shouldUseDynamicPricing
+                ? CalculateBaselineCostDynamic(dailyDetail, fixedImportPrice)
+                : CalculateBaselineCost(dailyDetail, fixedImportPrice);
 
             // Calculate cost with solar only (if active)
             var solarCost = solarActive 
@@ -86,13 +94,12 @@ public class RoiAnalysisService
                 var dayResult = yearSim.DailyResults.FirstOrDefault(d => d.Date.Date == date.Date);
                 if (dayResult != null)
                 {
-                    // IMPORTANT: Use the simulation's "no battery" cost as the solar cost
-                    // because the simulation calculates at 15-minute intervals, not daily totals
-                    solarCost = useDynamicPricing 
+                    // Use consistent pricing model from simulation
+                    solarCost = shouldUseDynamicPricing 
                         ? dayResult.CostNoBatteryDynamic
                         : dayResult.CostNoBatteryFixed;
                     
-                    solarAndBatteryCost = useDynamicPricing 
+                    solarAndBatteryCost = shouldUseDynamicPricing 
                         ? dayResult.CostWithBatteryDynamic
                         : dayResult.CostWithBatteryFixed;
                 }
@@ -250,9 +257,27 @@ public class RoiAnalysisService
 
     private double CalculateBaselineCost(DailyDetailData dailyDetail, double importPrice)
     {
-        // Baseline: No solar, must import all consumption
+        // Baseline: No solar, must import all consumption (fixed pricing)
         var totalConsumption = dailyDetail.TotalConsumption;
         return totalConsumption * importPrice;
+    }
+
+    private double CalculateBaselineCostDynamic(DailyDetailData dailyDetail, double fallbackImportPrice)
+    {
+        // Baseline with dynamic pricing: No solar, must import all consumption
+        // Calculate cost using 15-minute interval dynamic pricing
+        double totalCost = 0;
+        
+        foreach (var quarter in dailyDetail.QuarterHours)
+        {
+            var pricing = _pricingService.GetPricingForInterval(quarter.Time);
+            var quarterImportPrice = pricing?.ImportPricePerKwh ?? fallbackImportPrice;
+            
+            // All consumption must be imported from grid (no solar)
+            totalCost += quarter.TotalConsumption * quarterImportPrice;
+        }
+        
+        return totalCost;
     }
 
     private double CalculateCostWithSolar(
