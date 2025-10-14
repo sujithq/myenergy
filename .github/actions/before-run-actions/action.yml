@@ -4,7 +4,7 @@ inputs:
     DOTNET-VERSION:
         description: 'The version of the .NET Core SDK to use. Supported values are 9.0.x. The latest patch version of each minor version is used if the patch version is omitted.'
         required: true
-        default: '9.0.x'
+        default: '10.0.x'
 runs:
     using: composite
     steps:

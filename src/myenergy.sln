@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.8.34309.116
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11109.219 d18.0-oob
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "myenergy", "myenergy\myenergy.csproj", "{16D64B2F-9903-42A9-830C-9F89FA02A777}"
 EndProject
@@ -37,6 +37,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other", "Other", "{12454FA7
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "after-run", "after-run", "{F86B821D-95A3-4767-B525-F361B8F7CFD4}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\actions\after-run\action.yml = ..\.github\actions\after-run\action.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +67,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{1E8CCC3C-900F-4CDF-9352-B501BDC357B4} = {E53883D5-D09A-4AAF-AF1F-0A0196C869B3}
 		{D60C82AA-BE52-49BC-8950-521C2DE12DC0} = {E53883D5-D09A-4AAF-AF1F-0A0196C869B3}
+		{F86B821D-95A3-4767-B525-F361B8F7CFD4} = {E53883D5-D09A-4AAF-AF1F-0A0196C869B3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F71AA69A-AC73-4FEF-851F-35A16A2FDB9C}

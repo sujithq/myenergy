@@ -58,3 +58,4 @@ jobs:
         COMMAND: ${{ env.GLOBAL_COMMAND }}
         APP_ID: ${{ secrets.APP_ID }}
         PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+        DOTNET-VERSION: ${{ env.GLOBAL_DOTNET_VERSION }}
