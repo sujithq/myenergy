@@ -37,7 +37,7 @@ jobs:
         fetch-depth: 0
         
     - name: Before Run Actions
-      uses: sujithq/myenergy/.github/actions/before-run-actions@75c6467ae12823cefa79f805bca976dd2ccf95c4
+      uses: sujithq/myenergy/.github/actions/before-run-actions@e83cba642a0603e3605a247d100b74bdd9c3f6e4
       with:
         DOTNET-VERSION: ${{ env.GLOBAL_DOTNET_VERSION }}
 
