@@ -33,8 +33,8 @@ jobs:
     steps:
 
     - uses: actions/checkout@v5
-      with:
-        fetch-depth: 0
+      # with:
+      #   fetch-depth: 0
         
     - name: Before Run Actions
       uses: sujithq/myenergy/.github/actions/before-run-actions@e83cba642a0603e3605a247d100b74bdd9c3f6e4
