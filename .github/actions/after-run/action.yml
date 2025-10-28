@@ -87,18 +87,40 @@ runs:
         git config --global user.name 'Sujith Quintelier'
         git config --global user.email 'sujith.quintelier@gmail.com'
 
+        # Ensure we're actually on main (not a detached HEAD from checkout)
+        git fetch origin main
+        git checkout main
+        git pull origin main
+
         commit_if_changed() {
           local FILE_PATH="$1"
           local FILE_DESC="$2"
 
-          if git diff --quiet HEAD -- "$FILE_PATH" ; then
+          # 1. file must exist
+          if [[ ! -f "$FILE_PATH" ]]; then
+            echo "⚠ Skipping $FILE_DESC ($FILE_PATH not found)"
+            return
+          fi
+
+          # 2. is it tracked?
+          if ! git ls-files --error-unmatch "$FILE_PATH" >/dev/null 2>&1; then
+            echo "🆕 New file detected for $FILE_DESC, committing..."
+            git add -f "$FILE_PATH"
+            git commit -m "📊 Add $FILE_DESC for ${{ inputs.COMMAND }}"
+            git push origin main
+            echo "  ✅ Pushed new $FILE_DESC"
+            return
+          fi
+
+          # 3. it's tracked: did it change?
+          if git diff --quiet HEAD -- "$FILE_PATH"; then
             echo "✓ No changes to $FILE_DESC"
           else
             echo "📝 Committing changes to $FILE_DESC..."
-            git add "$FILE_PATH"
+            git add -f "$FILE_PATH"
             git commit -m "📊 Update $FILE_DESC for ${{ inputs.COMMAND }}"
             git push origin main
-            echo "  ✅ Pushed $FILE_DESC"
+            echo "  ✅ Pushed updated $FILE_DESC"
           fi
         }
 
