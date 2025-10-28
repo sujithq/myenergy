@@ -87,10 +87,10 @@ runs:
         git config --global user.name 'Sujith Quintelier'
         git config --global user.email 'sujith.quintelier@gmail.com'
 
-        # Ensure we're actually on main (not a detached HEAD from checkout)
-        git fetch origin main
-        git checkout main
-        git pull origin main
+        # # Ensure we're actually on main (not a detached HEAD from checkout)
+        # git fetch origin main
+        # git checkout main
+        # git pull origin main
 
         commit_if_changed() {
           local FILE_PATH="$1"
