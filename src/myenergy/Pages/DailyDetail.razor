@@ -287,24 +287,32 @@
 
     private async Task LoadDayData()
     {
-        // Make sure we have the latest data if the user jumps to a date newer than what was loaded at startup
-        await DataService.EnsureLatestDataAsync(SelectedDate);
-
         Loading = true;
         StateHasChanged();
-
-        await Task.Delay(50); // Small delay for UI feedback
-        
-        DetailData = DataService.GetDailyDetailData(SelectedDate);
-        
-        // Load ODS pricing for this day if enabled
-        if (ShowDynamicPricing && DetailData != null)
+        try
         {
-            DailyOdsPricing = OdsService.GetPricingForDay(SelectedDate);
+            // Make sure we have the latest data if the user jumps to a date newer than what was loaded at startup
+            await DataService.EnsureLatestDataAsync(SelectedDate);
+
+            await Task.Delay(50); // Small delay for UI feedback
+
+            DetailData = DataService.GetDailyDetailData(SelectedDate);
+
+            // Load ODS pricing for this day if enabled
+            if (ShowDynamicPricing && DetailData != null)
+            {
+                DailyOdsPricing = OdsService.GetPricingForDay(SelectedDate);
+            }
         }
-        
-        Loading = false;
-        StateHasChanged();
+        catch (Exception ex)
+        {
+            Console.WriteLine($"DailyDetail: failed to load data for {SelectedDate:yyyy-MM-dd}: {ex.Message}");
+        }
+        finally
+        {
+            Loading = false;
+            StateHasChanged();
+        }
     }
 
     private bool HasPreviousDay()

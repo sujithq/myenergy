@@ -17,13 +17,27 @@ public class EnergyDataService
         _http = http;
     }
 
-    public async Task LoadDataAsync()
+    public async Task LoadDataAsync(bool bypassCache = false)
     {
         if (_rawData != null) return; // Already loaded
 
         try
         {
-            var json = await _http.GetStringAsync("Data/data.json");
+            var url = "Data/data.json";
+            if (bypassCache)
+            {
+                // Add a cache-busting query string to force CDN / browser to fetch the latest file
+                url += (url.Contains('?') ? '&' : '?') + "v=" + DateTime.UtcNow.Ticks;
+            }
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            if (bypassCache)
+            {
+                request.Headers.Add("Cache-Control", "no-cache");
+                request.Headers.Add("Pragma", "no-cache");
+            }
+            var response = await _http.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            var json = await response.Content.ReadAsStringAsync();
             _rawData = JsonSerializer.Deserialize<Dictionary<int, List<BarChartData>>>(json);
             
             if (_rawData != null)
@@ -48,7 +62,7 @@ public class EnergyDataService
         // Fast path: data not loaded yet – normal load will pick everything up
         if (_rawData == null)
         {
-            await LoadDataAsync();
+            await LoadDataAsync(bypassCache: true);
             return;
         }
 
@@ -73,7 +87,7 @@ public class EnergyDataService
             _rawData = null;
             _dailyData = null;
             _monthlyData = null;
-            await LoadDataAsync();
+            await LoadDataAsync(bypassCache: true); // Force fresh fetch when reloading newer date
         }
         finally
         {
