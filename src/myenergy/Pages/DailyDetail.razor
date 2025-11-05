@@ -3,6 +3,7 @@
 @using myenergy.Services
 @using Microsoft.AspNetCore.Components
 @inject EnergyDataService DataService
+@inject DataInitializationService InitService
 @inject IOdsPricingService OdsService
 @inject PricingConfigService PricingConfig
 
@@ -286,6 +287,9 @@
 
     private async Task LoadDayData()
     {
+        // Make sure we have the latest data if the user jumps to a date newer than what was loaded at startup
+        await DataService.EnsureLatestDataAsync(SelectedDate);
+
         Loading = true;
         StateHasChanged();
 

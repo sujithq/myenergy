@@ -10,6 +10,7 @@ public class EnergyDataService
     private Dictionary<int, List<BarChartData>>? _rawData;
     private List<DailySummary>? _dailyData;
     private List<MonthlySummary>? _monthlyData;
+    private readonly SemaphoreSlim _reloadLock = new(1, 1);
 
     public EnergyDataService(HttpClient http)
     {
@@ -34,6 +35,49 @@ public class EnergyDataService
         {
             Console.WriteLine($"Error loading data: {ex.Message}");
             throw;
+        }
+    }
+
+    /// <summary>
+    /// Ensures the in-memory data contains (at least) the requested date. If the date is newer than
+    /// the currently loaded max date we force a reload of the underlying JSON file. This helps when
+    /// the large raw data file is updated on the server after the WASM app was already running.
+    /// </summary>
+    public async Task EnsureLatestDataAsync(DateTime requiredDate)
+    {
+        // Fast path: data not loaded yet – normal load will pick everything up
+        if (_rawData == null)
+        {
+            await LoadDataAsync();
+            return;
+        }
+
+        var currentMax = _dailyData?.Max(d => d.Date);
+        if (currentMax.HasValue && requiredDate.Date <= currentMax.Value.Date)
+        {
+            // Already have the date or something newer
+            return;
+        }
+
+        await _reloadLock.WaitAsync();
+        try
+        {
+            // Re-evaluate inside lock in case another thread already refreshed
+            currentMax = _dailyData?.Max(d => d.Date);
+            if (currentMax.HasValue && requiredDate.Date <= currentMax.Value.Date)
+            {
+                return; // Another thread refreshed while we waited
+            }
+
+            // Clear caches and force reload
+            _rawData = null;
+            _dailyData = null;
+            _monthlyData = null;
+            await LoadDataAsync();
+        }
+        finally
+        {
+            _reloadLock.Release();
         }
     }
 
