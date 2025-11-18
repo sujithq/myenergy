@@ -28,7 +28,7 @@ namespace June.Data.Commands
         {
         }
 
-        public override int Execute(CommandContext context, WemRunSettings settings)
+        public override int Execute(CommandContext context, WemRunSettings settings, CancellationToken ct)
         {
             var dataPath = Path.Combine(AppContext.BaseDirectory, "Data/data.json");
             Alert($"Reading from {dataPath}", "Info", ConsoleColor.Green);

@@ -66,7 +66,7 @@ namespace Sungrow.Data.Commands
         }
 
         public IScraper Scraper { get; }
-        public override int Execute(CommandContext context, SungrowRunSettings settings)
+        public override int Execute(CommandContext context, SungrowRunSettings settings, CancellationToken ct)
         {
             var failed = false;
 

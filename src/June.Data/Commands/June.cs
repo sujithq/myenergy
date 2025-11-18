@@ -60,7 +60,7 @@ namespace June.Data.Commands
 
         public IJuneScraper Scraper { get; }
 
-        public override int Execute(CommandContext context, JuneRunSettings settings)
+        public override int Execute(CommandContext context, JuneRunSettings settings, CancellationToken ct)
         {
             var dataPath = Path.Combine(AppContext.BaseDirectory, "Data/data.json");
 
