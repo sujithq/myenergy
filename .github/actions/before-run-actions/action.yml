@@ -9,7 +9,7 @@ runs:
     using: composite
     steps:
     # uses GitHub's checkout action to checkout code form the master branch
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       # with:
       #   fetch-depth: 0
     
