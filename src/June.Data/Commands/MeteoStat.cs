@@ -50,7 +50,7 @@ namespace MeteoStat.Data.Commands
         }
 
         public IScraper Scraper { get; }
-        public override int Execute(CommandContext context, MeteoStatRunSettings settings, CancellationToken ct)
+        protected override int Execute(CommandContext context, MeteoStatRunSettings settings, CancellationToken ct)
         {
             var dataPath = Path.Combine(AppContext.BaseDirectory, "Data/data.json");
 
