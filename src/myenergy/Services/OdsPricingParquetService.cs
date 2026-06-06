@@ -157,7 +157,7 @@ public class OdsPricingParquetService : IOdsPricingService
             Console.WriteLine("Parsing Parquet data...");
             
             using var memoryStream = new MemoryStream(parquetData);
-            using var parquetReader = await ParquetReader.CreateAsync(memoryStream);
+            await using var parquetReader = await ParquetReader.CreateAsync(memoryStream);
             
             Console.WriteLine($"Parquet file has {parquetReader.RowGroupCount} row group(s)");
             
@@ -173,11 +173,10 @@ public class OdsPricingParquetService : IOdsPricingService
                 Console.WriteLine($"Schema has {dataFields.Length} data fields");
                 
                 // Read all columns
-                var columnData = new Dictionary<string, DataColumn>();
+                var columnData = new Dictionary<string, object?[]>();
                 foreach (var dataField in dataFields)
                 {
-                    var column = await groupReader.ReadColumnAsync(dataField);
-                    columnData[dataField.Name.ToLower()] = column;
+                    columnData[dataField.Name.ToLower()] = await ReadColumnValuesAsync(groupReader, dataField, rowCount);
                     Console.WriteLine($"  - {dataField.Name} ({dataField.ClrType})");
                 }
                 
@@ -206,7 +205,7 @@ public class OdsPricingParquetService : IOdsPricingService
                 {
                     try
                     {
-                        var datetimeValue = datetimeCol.Data.GetValue(row);
+                        var datetimeValue = datetimeCol.Length > row ? datetimeCol[row] : null;
                         DateTime dateTime;
                         
                         // Handle different datetime formats
@@ -235,7 +234,7 @@ public class OdsPricingParquetService : IOdsPricingService
                         
                         if (importCol != null)
                         {
-                            var importValue = importCol.Data.GetValue(row);
+                            var importValue = importCol.Length > row ? importCol[row] : null;
                             if (importValue != null && double.TryParse(importValue.ToString(), out var impVal))
                             {
                                 importPriceMwh = impVal; // Keep in €/MWh
@@ -244,11 +243,12 @@ public class OdsPricingParquetService : IOdsPricingService
                         
                         if (exportCol != null)
                         {
-                            var exportValue = exportCol.Data.GetValue(row);
+                            var exportValue = exportCol.Length > row ? exportCol[row] : null;
                             if (exportValue != null && double.TryParse(exportValue.ToString(), out var expVal))
                             {
                                 exportPriceMwh = expVal; // Keep in €/MWh
                             }
+
                         }
                         
                         result.Add(new OdsPricing
@@ -275,6 +275,27 @@ public class OdsPricingParquetService : IOdsPricingService
             throw new Exception($"Failed to parse Parquet data: {ex.Message}", ex);
         }
         
+        return result;
+    }
+
+    private static async Task<object?[]> ReadColumnValuesAsync(ParquetRowGroupReader groupReader, DataField dataField, int rowCount)
+    {
+        using var rawColumn = await groupReader.ReadRawColumnDataBaseAsync(dataField);
+        var valuesProperty = rawColumn.GetType().GetProperty("NullableValues")
+            ?? rawColumn.GetType().GetProperty("Values");
+
+        if (valuesProperty?.GetValue(rawColumn) is not Array values)
+        {
+            return new object?[rowCount];
+        }
+
+        var result = new object?[rowCount];
+        var copyLength = Math.Min(rowCount, values.Length);
+        for (int index = 0; index < copyLength; index++)
+        {
+            result[index] = values.GetValue(index);
+        }
+
         return result;
     }
 
