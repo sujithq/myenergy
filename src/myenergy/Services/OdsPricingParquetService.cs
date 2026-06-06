@@ -248,7 +248,6 @@ public class OdsPricingParquetService : IOdsPricingService
                             {
                                 exportPriceMwh = expVal; // Keep in €/MWh
                             }
-
                         }
                         
                         result.Add(new OdsPricing
@@ -280,23 +279,35 @@ public class OdsPricingParquetService : IOdsPricingService
 
     private static async Task<object?[]> ReadColumnValuesAsync(ParquetRowGroupReader groupReader, DataField dataField, int rowCount)
     {
-        using var rawColumn = await groupReader.ReadRawColumnDataBaseAsync(dataField);
-        var valuesProperty = rawColumn.GetType().GetProperty("NullableValues")
-            ?? rawColumn.GetType().GetProperty("Values");
-
-        if (valuesProperty?.GetValue(rawColumn) is not Array values)
+        return dataField.ClrType switch
         {
-            return new object?[rowCount];
-        }
+            Type t when t == typeof(DateTime) => await ReadNullableStructColumnAsync<DateTime>(groupReader, dataField, rowCount),
+            Type t when t == typeof(DateTimeOffset) => await ReadNullableStructColumnAsync<DateTimeOffset>(groupReader, dataField, rowCount),
+            Type t when t == typeof(double) => await ReadNullableStructColumnAsync<double>(groupReader, dataField, rowCount),
+            Type t when t == typeof(float) => await ReadNullableStructColumnAsync<float>(groupReader, dataField, rowCount),
+            Type t when t == typeof(decimal) => await ReadNullableStructColumnAsync<decimal>(groupReader, dataField, rowCount),
+            Type t when t == typeof(long) => await ReadNullableStructColumnAsync<long>(groupReader, dataField, rowCount),
+            Type t when t == typeof(int) => await ReadNullableStructColumnAsync<int>(groupReader, dataField, rowCount),
+            Type t when t == typeof(short) => await ReadNullableStructColumnAsync<short>(groupReader, dataField, rowCount),
+            Type t when t == typeof(bool) => await ReadNullableStructColumnAsync<bool>(groupReader, dataField, rowCount),
+            Type t when t == typeof(string) => await ReadStringColumnAsync(groupReader, dataField, rowCount),
+            _ => throw new NotSupportedException($"Unsupported Parquet column type: {dataField.ClrType.Name} ({dataField.Name})")
+        };
+    }
 
-        var result = new object?[rowCount];
-        var copyLength = Math.Min(rowCount, values.Length);
-        for (int index = 0; index < copyLength; index++)
-        {
-            result[index] = values.GetValue(index);
-        }
+    private static async Task<object?[]> ReadNullableStructColumnAsync<T>(ParquetRowGroupReader groupReader, DataField dataField, int rowCount)
+        where T : struct
+    {
+        var values = new T?[rowCount];
+        await groupReader.ReadAsync(dataField, values.AsMemory(), null, CancellationToken.None);
+        return values.Cast<object?>().ToArray();
+    }
 
-        return result;
+    private static async Task<object?[]> ReadStringColumnAsync(ParquetRowGroupReader groupReader, DataField dataField, int rowCount)
+    {
+        var values = new string?[rowCount];
+        await groupReader.ReadAsync(dataField, values.AsMemory(), null, CancellationToken.None);
+        return values.Cast<object?>().ToArray();
     }
 
     public OdsPricing? GetPricingForInterval(DateTime time)
