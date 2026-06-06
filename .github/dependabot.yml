@@ -6,30 +6,25 @@
 version: 2
 updates:
   - package-ecosystem: "nuget" # See documentation for possible values
-    directory: "src/Common" # Location of package manifests
+    directories: # Locations of package manifests
+      - "src/Common"
+      - "src/myenergy"
+      - "src/myenergy.Test"
+      - "src/June.Data"
     schedule:
       interval: "weekly"
-  - package-ecosystem: "nuget" # See documentation for possible values
-    directory: "src/myenergy" # Location of package manifests
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "nuget" # See documentation for possible values
-    directory: "src/myenergy.Test" # Location of package manifests
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "nuget" # See documentation for possible values
-    directory: "src/June.Data" # Location of package manifests
-    schedule:
-      interval: "weekly"
+    groups:
+      nuget-dependencies:
+        patterns:
+          - "*"
   - package-ecosystem: "github-actions" # See documentation for possible values
-    directory: ".github/workflows" # Location of package manifests
+    directories: # Locations of package manifests
+      - ".github/workflows"
+      - ".github/actions/after-run-actions"
+      - ".github/actions/before-run-actions"
     schedule:
       interval: "weekly"
-  - package-ecosystem: "github-actions" # See documentation for possible values
-    directory: ".github/actions/after-run-actions" # Location of package manifests
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "github-actions" # See documentation for possible values
-    directory: ".github/actions/before-run-actions" # Location of package manifests
-    schedule:
-      interval: "weekly"
+    groups:
+      github-actions-dependencies:
+        patterns:
+          - "*"
